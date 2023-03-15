@@ -84,10 +84,10 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".activity.bottomnavigation.BottomNavigationBasic"
@@ -803,9 +803,16 @@
         <activity
             android:name=".activity.chat.ChatFacebook"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.chat.ChatTelegram"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activity.shopping.ShoppingTrackingOrder"
             android:screenOrientation="portrait" />
