@@ -1,9 +1,8 @@
-package com.material.components.activity.chat;
+package com.material.components.chatgpt.activity;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,7 +28,7 @@ import com.material.components.chatgpt.MultiRoundChatAiApi;
 import com.material.components.model.Message;
 import com.material.components.utils.Tools;
 
-public class ChatChatGpt extends AppCompatActivity {
+public class ChatGptChatActivity extends AppCompatActivity {
 
     private ImageView btn_send;
     private EditText et_content;

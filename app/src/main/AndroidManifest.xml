@@ -810,8 +810,15 @@
         </activity>
 
         <activity
-            android:name=".activity.chat.ChatChatGpt"
+            android:name=".chatgpt.activity.ChatGptChatActivity"
             android:screenOrientation="portrait" >
+
+        </activity>
+
+        <activity
+            android:name=".chatgpt.activity.ChatgptBottomNavigationLight"
+            android:screenOrientation="portrait" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
