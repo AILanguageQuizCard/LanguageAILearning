@@ -13,17 +13,17 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MultiRoundChatAiApi {
-    private final List<ChatMessage> oldMessages = new ArrayList<>();;
+    private List<ChatMessage> oldMessages = new ArrayList<>();
+    private ChatMessage systemMessage ;
 
-    public MultiRoundChatAiApi() {
-        init();
+    public MultiRoundChatAiApi(String systemCommand) {
+        init(systemCommand);
     }
 
-    private void init() {
-        final ChatMessage systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), "do as what the user ask you to do");
+    private void init(String systemCommand) {
+        systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), systemCommand);
         oldMessages.add(systemMessage);
     }
-
 
     public void sendMessageInThread(String message, ReceiveOpenAiReply onReceiveOpenAiReply) {
         ThreadUtils.Task<String> tTask = new ThreadUtils.SimpleTask<String>() {
@@ -74,6 +74,10 @@ public class MultiRoundChatAiApi {
     }
 
 
+    public void clearOldMessage() {
+        oldMessages = new ArrayList<>();
+        oldMessages.add(systemMessage);
+    }
 
     public void addChatGptReplyToMessage(ChatMessage message) {
         oldMessages.add(message);

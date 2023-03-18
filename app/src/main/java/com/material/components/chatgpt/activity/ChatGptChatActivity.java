@@ -1,5 +1,8 @@
 package com.material.components.chatgpt.activity;
 
+import static com.material.components.chatgpt.activity.ActivityIntentKeys.START_WORDS;
+import static com.material.components.chatgpt.activity.ActivityIntentKeys.SYSTEM_COMMAND;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -28,6 +31,9 @@ import com.material.components.chatgpt.MultiRoundChatAiApi;
 import com.material.components.model.Message;
 import com.material.components.utils.Tools;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChatGptChatActivity extends AppCompatActivity {
 
     private ImageView btn_send;
@@ -43,13 +49,13 @@ public class ChatGptChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_chatgpt);
-        initMultiRoundChatAiApi();
         initToolbar();
-        iniComponent();
+        initMultiRoundChatAiApi(getIntent().getStringExtra(SYSTEM_COMMAND));
+        iniComponent(getIntent().getStringExtra(START_WORDS));
     }
 
-    public void initMultiRoundChatAiApi() {
-        multiRoundChatAiApi = new MultiRoundChatAiApi();
+    private void initMultiRoundChatAiApi(String systemCommand) {
+        multiRoundChatAiApi = new MultiRoundChatAiApi(systemCommand);
     }
 
     public void initToolbar() {
@@ -62,7 +68,7 @@ public class ChatGptChatActivity extends AppCompatActivity {
         Tools.setSystemBarColorInt(this, Color.parseColor("#426482"));
     }
 
-    public void iniComponent() {
+    public void iniComponent(String startWords) {
         recycler_view = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recycler_view.setLayoutManager(layoutManager);
@@ -70,8 +76,9 @@ public class ChatGptChatActivity extends AppCompatActivity {
 
         adapter = new AdapterChatTelegram(this);
         recycler_view.setAdapter(adapter);
-        adapter.insertItem(new Message(adapter.getItemCount(), "Say anything to me!", false, adapter.getItemCount() % 5 == 0, Tools.getFormattedTimeEvent(System.currentTimeMillis())));
-        adapter.insertItem(new Message(adapter.getItemCount(), "Hello!", true, adapter.getItemCount() % 5 == 0, Tools.getFormattedTimeEvent(System.currentTimeMillis())));
+        Message initialMessage = new Message(adapter.getItemCount(), startWords, false,
+                adapter.getItemCount() % 5 == 0, Tools.getFormattedTimeEvent(System.currentTimeMillis()));
+        adapter.insertItem(initialMessage);
 
         btn_send = findViewById(R.id.btn_send);
         et_content = findViewById(R.id.text_content);
@@ -83,10 +90,19 @@ public class ChatGptChatActivity extends AppCompatActivity {
         });
         et_content.addTextChangedListener(contentWatcher);
 
-        (findViewById(R.id.lyt_back)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.lyt_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        findViewById(R.id.refresh_chat_imageview).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Message> items = new ArrayList<>();
+                items.add(initialMessage);
+                adapter.setItems(items);
             }
         });
     }

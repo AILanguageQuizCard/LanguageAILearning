@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chatgpt_navigation"
+    app:startDestination="@+id/navigation_chatgpt_tasks">
+
+    <fragment
+        android:id="@+id/navigation_chatgpt_tasks"
+        android:name="com.material.components.chatgpt.fragment.ChatGptTasksFragment"
+        android:label="Tasks"
+        tools:layout="@layout/fragment_chat_chatgpt" />
+
+    <fragment
+        android:id="@+id/navigation_chatgpt_me"
+        android:name="com.material.components.chatgpt.fragment.ChatGptMeFragment"
+        android:label="Me"
+        tools:layout="@layout/fragment_chat_chatgpt" />
+</navigation>

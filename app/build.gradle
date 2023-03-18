@@ -26,6 +26,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    viewBinding {
+        enabled true
+    }
 }
 
 /* IMPORTANT :
@@ -66,5 +69,9 @@ dependencies {
     implementation 'com.theokanning.openai-gpt3-java:client:0.11.0'
     implementation 'com.theokanning.openai-gpt3-java:service:0.11.0'
     implementation 'com.blankj:utilcodex:1.31.1'
+    implementation 'androidx.navigation:navigation-fragment:2.0.0'
+    implementation 'androidx.navigation:navigation-ui:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
 
 }

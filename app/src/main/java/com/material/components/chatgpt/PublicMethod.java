@@ -12,7 +12,7 @@ public class PublicMethod {
     public static OpenAiService getOpenAiService(){
         if (service == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                service = new OpenAiService(token, Duration.ofSeconds(30));
+                service = new OpenAiService(token, Duration.ofSeconds(60));
             }
         }
         return service;

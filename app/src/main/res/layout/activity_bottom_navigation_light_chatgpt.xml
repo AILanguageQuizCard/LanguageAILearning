@@ -6,33 +6,23 @@
     android:layout_height="match_parent"
     android:background="@color/grey_5">
 
-    <LinearLayout
+    <fragment
+        android:id="@+id/fragment_chatgpt_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nested_scroll_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:scrollingCache="true">
-
-            <FrameLayout
-                android:id="@+id/fragment_chatgpt_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </androidx.core.widget.NestedScrollView>
-
-    </LinearLayout>
+        android:layout_above="@id/navigation"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/chatgpt_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:background="@android:color/white"
         app:itemIconTint="@color/color_state_primary"
         app:itemTextColor="@color/color_state_primary"

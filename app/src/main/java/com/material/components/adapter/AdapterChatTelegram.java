@@ -100,5 +100,7 @@ public class AdapterChatTelegram extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void setItems(List<Message> items) {
         this.items = items;
+        notifyDataSetChanged();
     }
+
 }

@@ -1,17 +1,15 @@
 package com.material.components.chatgpt.activity;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
-import com.blankj.utilcode.util.FragmentUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.material.components.R;
-import com.material.components.chatgpt.fragment.ChatGptChatFragment;
 import com.material.components.utils.Tools;
 
 public class ChatgptBottomNavigationLight extends AppCompatActivity {
@@ -22,44 +20,19 @@ public class ChatgptBottomNavigationLight extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation_light_chatgpt);
-
+        initNavigation();
 
         initComponent();
     }
 
-    private void initComponent() {
-
+    private void initNavigation() {
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.getMenu().findItem(R.id.navigation_chatgpt_chat).setChecked(true);
-        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_chatgpt_chat:
-                        FragmentUtils.add(ChatgptBottomNavigationLight.this.getSupportFragmentManager(),
-                                new ChatGptChatFragment(),
-                                R.id.fragment_chatgpt_container);
-                    case R.id.navigation_chatgpt_tasks:
-                    case R.id.navigation_chatgpt_me:
-                        return true;
-                }
-                return false;
-            }
-        });
+        NavController navController = Navigation.findNavController(this, R.id.fragment_chatgpt_container);
+        NavigationUI.setupWithNavController(navigation, navController);
+    }
 
-        NestedScrollView nested_content = (NestedScrollView) findViewById(R.id.nested_scroll_view);
-        nested_content.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY < oldScrollY) { // up
-                    animateNavigation(false);
-                }
-                if (scrollY > oldScrollY) { // down
-                    animateNavigation(true);
-                }
-            }
-        });
 
+    private void initComponent() {
 
         Tools.setSystemBarColor(this, R.color.grey_5);
         Tools.setSystemBarLight(this);
