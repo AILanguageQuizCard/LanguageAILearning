@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId "com.material.components"
-        minSdkVersion 16
-        targetSdkVersion 29
+        minSdkVersion 24
+        targetSdkVersion 28
         versionCode 271
         versionName "2.7"
         multiDexEnabled true
@@ -18,8 +18,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug {
+        debug{
+            buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
         }
+
     }
 
     compileOptions {
@@ -93,5 +95,11 @@ dependencies {
         exclude group: 'META-INF', module: 'DEPENDENCIES'
         exclude group: 'META-INF', module: 'INDEX.LIST'
     }
+
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+
+    implementation project(path: ':googlecloudtts')
+
 
 }

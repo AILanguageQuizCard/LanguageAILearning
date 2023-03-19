@@ -27,25 +27,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.material.components.R;
-import com.material.components.adapter.AdapterChatTelegram;
 import com.material.components.chatgpt.MultiRoundChatAiApi;
+import com.material.components.chatgpt.adapter.AdapterChatGptChat;
 import com.material.components.model.Message;
+import com.material.components.texttovoice.main.MainViewModel;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import darren.googlecloudtts.BuildConfig;
+import darren.googlecloudtts.GoogleCloudTTS;
+import darren.googlecloudtts.GoogleCloudTTSFactory;
 
 public class ChatGptChatActivity extends AppCompatActivity {
 
     private static String TAG = "ChatGptChatActivity";
     private ImageView btn_send;
     private EditText et_content;
-    private AdapterChatTelegram adapter;
+    private AdapterChatGptChat adapter;
     private RecyclerView recycler_view;
 
     private ActionBar actionBar;
 
     private MultiRoundChatAiApi multiRoundChatAiApi;
+    private MainViewModel mMainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,11 @@ public class ChatGptChatActivity extends AppCompatActivity {
         initToolbar();
         initMultiRoundChatAiApi(getIntent().getStringExtra(SYSTEM_COMMAND));
         iniComponent(getIntent().getStringExtra(START_WORDS));
+    }
+
+    private void initTest2Voice() {
+        GoogleCloudTTS googleCloudTTS = GoogleCloudTTSFactory.create(BuildConfig.API_KEY);
+        mMainViewModel = new MainViewModel(getApplication(), googleCloudTTS);
     }
 
     private void initMultiRoundChatAiApi(String systemCommand) {
@@ -76,7 +87,8 @@ public class ChatGptChatActivity extends AppCompatActivity {
         recycler_view.setLayoutManager(layoutManager);
         recycler_view.setHasFixedSize(true);
 
-        adapter = new AdapterChatTelegram(this);
+        initTest2Voice();
+        adapter = new AdapterChatGptChat(this, mMainViewModel);
         recycler_view.setAdapter(adapter);
         Message initialMessage = new Message(adapter.getItemCount(), startWords, false,
                 adapter.getItemCount() % 5 == 0, Tools.getFormattedTimeEvent(System.currentTimeMillis()));
