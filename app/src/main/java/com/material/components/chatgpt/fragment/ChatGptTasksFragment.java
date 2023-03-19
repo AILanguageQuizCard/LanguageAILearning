@@ -82,6 +82,7 @@ public class ChatGptTasksFragment extends Fragment {
         root.findViewById(R.id.button_english_expression_chat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getActivity(), ChatGptChatActivity.class);
                 newIntentWithString(intent, START_WORDS, "请对我说你想用英文说的任何表达，我会告诉您该怎么说");
                 newIntentWithString(intent, SYSTEM_COMMAND, "Translate anything user say to you into English, and explain the translation");

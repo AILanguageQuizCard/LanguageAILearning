@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,7 @@ import java.util.List;
 
 public class ChatGptChatActivity extends AppCompatActivity {
 
+    private static String TAG = "ChatGptChatActivity";
     private ImageView btn_send;
     private EditText et_content;
     private AdapterChatTelegram adapter;
@@ -122,10 +124,18 @@ public class ChatGptChatActivity extends AppCompatActivity {
                         adapter.insertItem(new Message(adapter.getItemCount(), reply,
                                 false, adapter.getItemCount() % 5 == 0,
                                 Tools.getFormattedTimeEvent(System.currentTimeMillis())));
+
                         recycler_view.scrollToPosition(adapter.getItemCount() - 1);
                     }
                 })
         );
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        multiRoundChatAiApi.cancelAllCurrentThread();
     }
 
     @Override

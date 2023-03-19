@@ -1,6 +1,7 @@
 package com.material.components.chatgpt;
 
 import android.os.Build;
+import android.util.Log;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.theokanning.openai.completion.chat.ChatCompletionChoice;
@@ -13,8 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MultiRoundChatAiApi {
+
+    private static String TAG = "MultiRoundChatAiApi";
     private List<ChatMessage> oldMessages = new ArrayList<>();
-    private ChatMessage systemMessage ;
+    private ChatMessage systemMessage;
+    private final List<ThreadUtils.Task<String>> threadTasks = new ArrayList<>();
 
     public MultiRoundChatAiApi(String systemCommand) {
         init(systemCommand);
@@ -34,10 +38,19 @@ public class MultiRoundChatAiApi {
 
             @Override
             public void onSuccess(String result) {
+                Log.i(TAG, "receive reply from chatgpt");
                 onReceiveOpenAiReply.onSuccess(result);
             }
         };
+        threadTasks.add(tTask);
         ThreadUtils.executeBySingle(tTask);
+    }
+
+    public void cancelAllCurrentThread() {
+        // todo 只取消当前正在执行的
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            threadTasks.forEach(ThreadUtils::cancel);
+        }
     }
 
 
