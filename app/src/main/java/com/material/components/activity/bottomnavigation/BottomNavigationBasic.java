@@ -36,16 +36,16 @@ public class BottomNavigationBasic extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_recent:
-                        mTextMessage.setText(item.getTitle());
-                        return true;
-                    case R.id.navigation_favorites:
-                        mTextMessage.setText(item.getTitle());
-                        return true;
-                    case R.id.navigation_nearby:
-                        mTextMessage.setText(item.getTitle());
-                        return true;
+                int itemId = item.getItemId();
+                if (itemId == R.id.navigation_recent) {
+                    mTextMessage.setText(item.getTitle());
+                    return true;
+                } else if (itemId == R.id.navigation_favorites) {
+                    mTextMessage.setText(item.getTitle());
+                    return true;
+                } else if (itemId == R.id.navigation_nearby) {
+                    mTextMessage.setText(item.getTitle());
+                    return true;
                 }
                 return false;
             }

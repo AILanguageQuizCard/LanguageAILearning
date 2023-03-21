@@ -115,17 +115,12 @@ public class PlayerMusicAlbumSimple extends AppCompatActivity {
 
     public void controlClick(View v) {
         int id = v.getId();
-        switch (id) {
-            case R.id.bt_prev: {
-                toggleButtonColor((ImageButton) v);
-                Snackbar.make(parent_view, "Previous", Snackbar.LENGTH_SHORT).show();
-                break;
-            }
-            case R.id.bt_next: {
-                toggleButtonColor((ImageButton) v);
-                Snackbar.make(parent_view, "Next", Snackbar.LENGTH_SHORT).show();
-                break;
-            }
+        if (id == R.id.bt_prev) {
+            toggleButtonColor((ImageButton) v);
+            Snackbar.make(parent_view, "Previous", Snackbar.LENGTH_SHORT).show();
+        } else if (id == R.id.bt_next) {
+            toggleButtonColor((ImageButton) v);
+            Snackbar.make(parent_view, "Next", Snackbar.LENGTH_SHORT).show();
         }
     }
 

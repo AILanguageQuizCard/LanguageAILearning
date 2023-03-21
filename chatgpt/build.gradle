@@ -1,0 +1,105 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdkVersion 31
+
+    defaultConfig {
+        applicationId "com.example.chatgpt"
+        minSdkVersion 24
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/INDEX.LIST'
+    }
+
+    viewBinding {
+        enabled true
+    }
+
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    // google support library ---------------------------------------------------------------------
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v13:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+
+    // google maps library ------------------------------------------------------------------------
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation('com.google.android.libraries.places:places:1.0.0') {
+        exclude module: 'glide'
+    }
+
+    // google gson --------------------------------------------------------------------------------
+    implementation 'com.google.code.gson:gson:2.8.4'
+
+    // third party dependencies -------------------------------------------------------------------
+    implementation 'com.balysv:material-ripple:1.0.2'                  // ripple effect
+    implementation 'com.github.bumptech.glide:glide:3.7.0'             // image loader
+    implementation 'com.wdullaer:materialdatetimepicker:3.2.0'         // date & time picker
+    implementation 'com.mikhaellopez:circularimageview:3.2.0'          // circle image view
+    implementation 'com.github.pchmn:MaterialChipsInput:1.0.5'         // material chip
+    implementation 'com.hootsuite.android:nachos:1.1.1'                // material chips
+    implementation 'com.google.android:flexbox:0.3.2'                  // google flexible box
+    implementation 'com.crystal:crystalrangeseekbar:1.1.3'             // range seek bar
+
+    implementation project(path: ':app')
+
+    // openai api java version
+    implementation 'com.theokanning.openai-gpt3-java:api:0.11.0'
+    implementation 'com.theokanning.openai-gpt3-java:client:0.11.0'
+    implementation 'com.theokanning.openai-gpt3-java:service:0.11.0'
+
+    // android util library
+    implementation 'com.blankj:utilcodex:1.31.1'
+
+    // android navigation library
+    implementation 'androidx.navigation:navigation-fragment:2.0.0'
+    implementation 'androidx.navigation:navigation-ui:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+
+    // google text to voice platform
+    implementation platform('com.google.cloud:libraries-bom:26.1.4')
+
+    implementation('com.google.cloud:google-cloud-texttospeech') {
+        // exclude the META-INF/DEPENDENCIES file from the library
+        exclude group: 'META-INF', module: 'DEPENDENCIES'
+        exclude group: 'META-INF', module: 'INDEX.LIST'
+    }
+
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+
+    implementation project(path: ':googlecloudtts')
+}

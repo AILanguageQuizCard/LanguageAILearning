@@ -149,11 +149,8 @@ public class PlayerMusicSongList extends AppCompatActivity {
 
     public void controlClick(View v) {
         int id = v.getId();
-        switch (id) {
-            case R.id.bt_expand: {
-                Snackbar.make(parent_view, "Expand", Snackbar.LENGTH_SHORT).show();
-                break;
-            }
+        if (id == R.id.bt_expand) {
+            Snackbar.make(parent_view, "Expand", Snackbar.LENGTH_SHORT).show();
         }
     }
 

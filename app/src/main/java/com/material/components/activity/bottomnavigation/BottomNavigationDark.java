@@ -48,16 +48,16 @@ public class BottomNavigationDark extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_recent:
-                        actionBar.setTitle(item.getTitle());
-                        return true;
-                    case R.id.navigation_favorites:
-                        actionBar.setTitle(item.getTitle());
-                        return true;
-                    case R.id.navigation_nearby:
-                        actionBar.setTitle(item.getTitle());
-                        return true;
+                int itemId = item.getItemId();
+                if (itemId == R.id.navigation_recent) {
+                    actionBar.setTitle(item.getTitle());
+                    return true;
+                } else if (itemId == R.id.navigation_favorites) {
+                    actionBar.setTitle(item.getTitle());
+                    return true;
+                } else if (itemId == R.id.navigation_nearby) {
+                    actionBar.setTitle(item.getTitle());
+                    return true;
                 }
                 return false;
             }

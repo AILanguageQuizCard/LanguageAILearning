@@ -55,26 +55,17 @@ public class TabsRound extends AppCompatActivity {
     public void onButtonTabClick(View v) {
         String title = ((Button) v).getText().toString();
         title = Tools.toCamelCase(title);
-        switch (v.getId()) {
-            case R.id.tab_home:
-                Snackbar.make(parent_view, title, Snackbar.LENGTH_SHORT).show();
-                break;
-
-            case R.id.tab_top_artists:
-                Snackbar.make(parent_view, title, Snackbar.LENGTH_SHORT).show();
-                break;
-
-            case R.id.tab_top_albums:
-                Snackbar.make(parent_view, title, Snackbar.LENGTH_SHORT).show();
-                break;
-
-            case R.id.tab_new_releases:
-                Snackbar.make(parent_view, title, Snackbar.LENGTH_SHORT).show();
-                break;
-
-            case R.id.tab_top_songs:
-                Snackbar.make(parent_view, title, Snackbar.LENGTH_SHORT).show();
-                break;
+        int id = v.getId();
+        if (id == R.id.tab_home) {
+            Snackbar.make(parent_view, title, Snackbar.LENGTH_SHORT).show();
+        } else if (id == R.id.tab_top_artists) {
+            Snackbar.make(parent_view, title, Snackbar.LENGTH_SHORT).show();
+        } else if (id == R.id.tab_top_albums) {
+            Snackbar.make(parent_view, title, Snackbar.LENGTH_SHORT).show();
+        } else if (id == R.id.tab_new_releases) {
+            Snackbar.make(parent_view, title, Snackbar.LENGTH_SHORT).show();
+        } else if (id == R.id.tab_top_songs) {
+            Snackbar.make(parent_view, title, Snackbar.LENGTH_SHORT).show();
         }
         getSupportActionBar().setTitle(title);
         ViewAnimation.fadeOutIn(((NestedScrollView) findViewById(R.id.nested_content)));

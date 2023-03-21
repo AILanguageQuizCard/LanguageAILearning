@@ -16,7 +16,6 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".activity.bottomsheet.BottomSheetMenu"
@@ -805,26 +804,6 @@
         <activity
             android:name=".activity.chat.ChatTelegram"
             android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".chatgpt.activity.ChatGptChatActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".chatgpt.activity.ChatgptBottomNavigationLight"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".texttovoice.main.textToVoiceActivity"
-            android:screenOrientation="portrait">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
 
         <activity
             android:name=".activity.shopping.ShoppingTrackingOrder"

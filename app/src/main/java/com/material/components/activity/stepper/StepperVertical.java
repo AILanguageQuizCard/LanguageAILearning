@@ -95,87 +95,70 @@ public class StepperVertical extends AppCompatActivity {
 
     public void clickAction(View view) {
         int id = view.getId();
-        switch (id) {
-            case R.id.bt_continue_title:
-                // validate input user here
-                if (((EditText) findViewById(R.id.et_title)).getText().toString().trim().equals("")) {
-                    Snackbar.make(parent_view, "Title cannot empty", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
+        if (id == R.id.bt_continue_title) {// validate input user here
+            if (((EditText) findViewById(R.id.et_title)).getText().toString().trim().equals("")) {
+                Snackbar.make(parent_view, "Title cannot empty", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
 
-                collapseAndContinue(0);
-                break;
-            case R.id.bt_continue_description:
-                // validate input user here
-                if (((EditText) findViewById(R.id.et_description)).getText().toString().trim().equals("")) {
-                    Snackbar.make(parent_view, "Description cannot empty", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
+            collapseAndContinue(0);
+        } else if (id == R.id.bt_continue_description) {// validate input user here
+            if (((EditText) findViewById(R.id.et_description)).getText().toString().trim().equals("")) {
+                Snackbar.make(parent_view, "Description cannot empty", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
 
-                collapseAndContinue(1);
-                break;
-            case R.id.bt_continue_time:
-                // validate input user here
-                if (time == null) {
-                    Snackbar.make(parent_view, "Please set event time", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-                collapseAndContinue(2);
-                break;
-            case R.id.bt_continue_date:
-                // validate input user here
-                if (date == null) {
-                    Snackbar.make(parent_view, "Please set event date", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
+            collapseAndContinue(1);
+        } else if (id == R.id.bt_continue_time) {// validate input user here
+            if (time == null) {
+                Snackbar.make(parent_view, "Please set event time", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
+            collapseAndContinue(2);
+        } else if (id == R.id.bt_continue_date) {// validate input user here
+            if (date == null) {
+                Snackbar.make(parent_view, "Please set event date", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
 
-                collapseAndContinue(3);
-                break;
-            case R.id.bt_add_event:
-                // validate input user here
-                finish();
-                break;
+            collapseAndContinue(3);
+        } else if (id == R.id.bt_add_event) {// validate input user here
+            finish();
         }
     }
 
     public void clickLabel(View view) {
         int id = view.getId();
-        switch (id) {
-            case R.id.tv_label_title:
-                if (success_step >= 0 && current_step != 0) {
-                    current_step = 0;
-                    collapseAll();
-                    ViewAnimation.expand(view_list.get(0));
-                }
-                break;
-            case R.id.tv_label_description:
-                if (success_step >= 1 && current_step != 1) {
-                    current_step = 1;
-                    collapseAll();
-                    ViewAnimation.expand(view_list.get(1));
-                }
-                break;
-            case R.id.tv_label_time:
-                if (success_step >= 2 && current_step != 2) {
-                    current_step = 2;
-                    collapseAll();
-                    ViewAnimation.expand(view_list.get(2));
-                }
-                break;
-            case R.id.tv_label_date:
-                if (success_step >= 3 && current_step != 3) {
-                    current_step = 3;
-                    collapseAll();
-                    ViewAnimation.expand(view_list.get(3));
-                }
-                break;
-            case R.id.tv_label_confirmation:
-                if (success_step >= 4 && current_step != 4) {
-                    current_step = 4;
-                    collapseAll();
-                    ViewAnimation.expand(view_list.get(4));
-                }
-                break;
+        if (id == R.id.tv_label_title) {
+            if (success_step >= 0 && current_step != 0) {
+                current_step = 0;
+                collapseAll();
+                ViewAnimation.expand(view_list.get(0));
+            }
+        } else if (id == R.id.tv_label_description) {
+            if (success_step >= 1 && current_step != 1) {
+                current_step = 1;
+                collapseAll();
+                ViewAnimation.expand(view_list.get(1));
+            }
+        } else if (id == R.id.tv_label_time) {
+            if (success_step >= 2 && current_step != 2) {
+                current_step = 2;
+                collapseAll();
+                ViewAnimation.expand(view_list.get(2));
+            }
+        } else if (id == R.id.tv_label_date) {
+            if (success_step >= 3 && current_step != 3) {
+                current_step = 3;
+                collapseAll();
+                ViewAnimation.expand(view_list.get(3));
+            }
+        } else if (id == R.id.tv_label_confirmation) {
+            if (success_step >= 4 && current_step != 4) {
+                current_step = 4;
+                collapseAll();
+                ViewAnimation.expand(view_list.get(4));
+            }
         }
     }
 

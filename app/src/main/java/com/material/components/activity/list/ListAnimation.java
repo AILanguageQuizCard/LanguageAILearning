@@ -86,16 +86,12 @@ public class ListAnimation extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id) {
-            case android.R.id.home:
-                finish();
-                break;
-            case R.id.action_refresh:
-                setAdapter();
-                break;
-            case R.id.action_mode:
-                showSingleChoiceDialog();
-                break;
+        if (id == android.R.id.home) {
+            finish();
+        } else if (id == R.id.action_refresh) {
+            setAdapter();
+        } else if (id == R.id.action_mode) {
+            showSingleChoiceDialog();
         }
         return super.onOptionsItemSelected(item);
     }

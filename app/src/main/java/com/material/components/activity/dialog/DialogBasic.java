@@ -64,19 +64,14 @@ public class DialogBasic extends AppCompatActivity {
 
     public void clickAction(View view) {
         int id = view.getId();
-        switch (id) {
-            case R.id.confirm_dialog:
-                showConfirmDialog();
-                break;
-            case R.id.alert_dialog:
-                showAlertDialog();
-                break;
-            case R.id.single_choice_dialog:
-                showSingleChoiceDialog();
-                break;
-            case R.id.multi_choice_dialog:
-                showMultiChoiceDialog();
-                break;
+        if (id == R.id.confirm_dialog) {
+            showConfirmDialog();
+        } else if (id == R.id.alert_dialog) {
+            showAlertDialog();
+        } else if (id == R.id.single_choice_dialog) {
+            showSingleChoiceDialog();
+        } else if (id == R.id.multi_choice_dialog) {
+            showMultiChoiceDialog();
         }
     }
 

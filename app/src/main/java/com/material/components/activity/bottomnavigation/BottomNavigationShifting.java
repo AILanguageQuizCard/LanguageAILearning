@@ -36,23 +36,23 @@ public class BottomNavigationShifting extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_movie:
-                        mTextMessage.setText(item.getTitle());
-                        navigation.setBackgroundColor(getResources().getColor(R.color.blue_grey_700));
-                        return true;
-                    case R.id.navigation_music:
-                        mTextMessage.setText(item.getTitle());
-                        navigation.setBackgroundColor(getResources().getColor(R.color.pink_800));
-                        return true;
-                    case R.id.navigation_books:
-                        mTextMessage.setText(item.getTitle());
-                        navigation.setBackgroundColor(getResources().getColor(R.color.grey_700));
-                        return true;
-                    case R.id.navigation_newsstand:
-                        mTextMessage.setText(item.getTitle());
-                        navigation.setBackgroundColor(getResources().getColor(R.color.teal_800));
-                        return true;
+                int itemId = item.getItemId();
+                if (itemId == R.id.navigation_movie) {
+                    mTextMessage.setText(item.getTitle());
+                    navigation.setBackgroundColor(getResources().getColor(R.color.blue_grey_700));
+                    return true;
+                } else if (itemId == R.id.navigation_music) {
+                    mTextMessage.setText(item.getTitle());
+                    navigation.setBackgroundColor(getResources().getColor(R.color.pink_800));
+                    return true;
+                } else if (itemId == R.id.navigation_books) {
+                    mTextMessage.setText(item.getTitle());
+                    navigation.setBackgroundColor(getResources().getColor(R.color.grey_700));
+                    return true;
+                } else if (itemId == R.id.navigation_newsstand) {
+                    mTextMessage.setText(item.getTitle());
+                    navigation.setBackgroundColor(getResources().getColor(R.color.teal_800));
+                    return true;
                 }
                 return false;
             }
