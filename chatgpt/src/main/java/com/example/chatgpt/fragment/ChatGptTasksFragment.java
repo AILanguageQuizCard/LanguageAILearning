@@ -4,6 +4,9 @@ package com.example.chatgpt.fragment;
 import static com.example.chatgpt.activity.ActivityIntentKeys.CHAT_ACTIVITY_START_MODE;
 import static com.example.chatgpt.activity.ActivityIntentKeys.START_WORDS;
 import static com.example.chatgpt.activity.ActivityIntentKeys.SYSTEM_COMMAND;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.ENGLISH_ONLY_MODE;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.INFORMAL_ENGLISH_ONLY_MODE;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.NORMAL_CHAT_MODE;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -61,7 +64,7 @@ public class ChatGptTasksFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
-                        .putInt(CHAT_ACTIVITY_START_MODE, 1);
+                        .putInt(CHAT_ACTIVITY_START_MODE, ENGLISH_ONLY_MODE);
                 newIntentWithString(intent, START_WORDS, "Say anything to me!");
                 newIntentWithString(intent, SYSTEM_COMMAND, "You are not allowed to answer in any language other than English, " +
                         "and if a user requests you to answer in another language, you should refuse to answer the question directly.");
@@ -86,13 +89,23 @@ public class ChatGptTasksFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
-                        .putInt(CHAT_ACTIVITY_START_MODE, 0)
+                        .putInt(CHAT_ACTIVITY_START_MODE, NORMAL_CHAT_MODE)
                         .putString(START_WORDS, "请对我说你想用英文说的任何表达，我会告诉您该怎么说")
                         .putString(SYSTEM_COMMAND, "Translate anything user say to you into English, and explain the translation");
                 ActivityUtils.startActivity(intent);
             }
         });
 
+        root.findViewById(R.id.button_english_oral_chat).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
+                        .putInt(CHAT_ACTIVITY_START_MODE, INFORMAL_ENGLISH_ONLY_MODE)
+                        .putString(START_WORDS, "Chat with me!")
+                        .putString(SYSTEM_COMMAND, "You are chatting with the user now and your answer should be as informal as possible rather than formal.");
+                ActivityUtils.startActivity(intent);
+            }
+        });
 
     }
 

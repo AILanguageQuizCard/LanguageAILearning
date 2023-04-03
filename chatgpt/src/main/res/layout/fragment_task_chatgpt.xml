@@ -32,7 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-
     <Button
         android:id="@+id/button_english_expression_chat"
         android:layout_margin="10dp"
@@ -41,5 +40,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:id="@+id/button_english_oral_chat"
+        android:layout_margin="10dp"
+        android:text="口语对话"
+        android:textSize="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

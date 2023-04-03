@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.example.chatgpt.R;
 import com.example.chatgpt.texttovoice.main.MainViewModel;
-import com.example.chatgpt.MultiRoundChatAiApi;
+import com.example.chatgpt.chatapi.MultiRoundChatAiApi;
 import com.example.chatgpt.adapter.AdapterChatGptChat;
 import com.material.components.model.Message;
 import com.material.components.utils.Tools;

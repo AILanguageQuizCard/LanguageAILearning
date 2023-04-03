@@ -100,7 +100,9 @@ public class AdapterChatGptChat extends RecyclerView.Adapter<RecyclerView.ViewHo
                 vItem.playVoiceButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        onSpeak(m.getContent());
+                        // google cloud 的文字转语音模型，读中文的时候，会把最后的句号读出来，所以，直接把句号替换成逗号
+                        String realS = m.getContent().replace("。",",");
+                        onSpeak(realS);
                     }
                 });
             }

@@ -1,4 +1,10 @@
-package com.example.chatgpt;
+package com.example.chatgpt.chatapi;
+
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.ENGLISH_ONLY_COMMAND;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.ENGLISH_ONLY_MODE;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.INFORMAL_ENGLISH_ONLY_COMMAND;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.INFORMAL_ENGLISH_ONLY_MODE;
+
 
 import android.os.Build;
 import android.util.Log;
@@ -65,18 +71,28 @@ public class MultiRoundChatAiApi {
         return chatMessage.getRole() != ChatMessageRole.SYSTEM.value();
     }
 
+    private void insertStrongCommand() {
+
+        if (this.mode == ENGLISH_ONLY_MODE) {
+            // 只允许gpt说英文
+            oldMessages = oldMessages.stream().filter(this::isNotSystemMessage).collect(Collectors.toList());
+            final ChatMessage systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), ENGLISH_ONLY_COMMAND);
+            oldMessages.add(systemMessage);
+        } else if (this.mode == INFORMAL_ENGLISH_ONLY_MODE) {
+            // 只允许gpt说英文 + 口语对话
+            oldMessages = oldMessages.stream().filter(this::isNotSystemMessage).collect(Collectors.toList());
+            final ChatMessage systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), INFORMAL_ENGLISH_ONLY_COMMAND);
+            oldMessages.add(systemMessage);
+        }
+
+    }
+
     public String sendToChatAi(String message) {
         System.out.println("User: " + message);
         final ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), message);
         oldMessages.add(userMessage);
 
-        // 只允许gpt说英文
-        if (this.mode == 1) {
-            oldMessages = oldMessages.stream().filter(this::isNotSystemMessage).collect(Collectors.toList());
-            final ChatMessage systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), "You are not allowed to answer in " +
-                    "any language other than English, and if a user requests you to answer in another language, you should refuse to answer the question directly." );
-            oldMessages.add(systemMessage);
-        }
+        insertStrongCommand();
         ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest
                 .builder()
                 .model("gpt-3.5-turbo")

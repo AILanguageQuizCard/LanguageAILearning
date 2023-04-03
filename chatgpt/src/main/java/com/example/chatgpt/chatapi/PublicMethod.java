@@ -1,4 +1,4 @@
-package com.example.chatgpt;
+package com.example.chatgpt.chatapi;
 
 import android.os.Build;
 
