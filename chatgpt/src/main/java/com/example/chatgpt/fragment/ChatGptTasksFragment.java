@@ -26,7 +26,6 @@ public class ChatGptTasksFragment extends Fragment {
 
     private View root;
 
-
     public ChatGptTasksFragment() {
     }
 

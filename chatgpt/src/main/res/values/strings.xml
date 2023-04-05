@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">Chatgpt</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+
+    <string name="topic_title_1">Start Simple Chat</string>
+    <string name="topic_title_2">Start English Only Chat</string>
+    <string name="topic_title_3">English Grammar Correction Chat</string>
+    <string name="topic_title_4">How do you say it in English?</string>
+    <string name="topic_title_5">Informal chat</string>
+    <string name="topic_description_1">开始一个和Chatgpt的简单对话，你可以问它任何问题</string>
+
+
 </resources>
