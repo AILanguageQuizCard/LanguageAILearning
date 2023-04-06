@@ -1,5 +1,7 @@
 package com.example.chatgpt.adapter;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,8 +12,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
+import com.example.chatgpt.R;
 import com.example.chatgpt.texttovoice.main.MainViewModel;
-import com.material.components.R;
 import com.material.components.model.Message;
 
 import java.util.ArrayList;
@@ -56,13 +59,23 @@ public class AdapterChatGptChat extends RecyclerView.Adapter<RecyclerView.ViewHo
         public TextView textTimeView;
         public View lytParentView;
         public ImageView playVoiceButton;
+        public ImageView copyContentButton;
+        public int viewType;
 
-        public ItemViewHolder(View v) {
+        public ItemViewHolder(View v, int viewType) {
             super(v);
             textContentView = v.findViewById(R.id.text_content);
-            textTimeView = v.findViewById(R.id.text_time);
             lytParentView = v.findViewById(R.id.lyt_parent);
-            playVoiceButton = v.findViewById(R.id.whatsapp_telegram_you_play_imageview);
+
+            if (viewType == CHAT_ME) {
+                textTimeView = v.findViewById(R.id.text_time);
+            }
+
+            if (viewType == CHAT_YOU) {
+                playVoiceButton = v.findViewById(R.id.whatsapp_telegram_you_play_imageview);
+                copyContentButton = v.findViewById(R.id.whatsapp_telegram_you_copy_imageview);
+            }
+            this.viewType = viewType;
         }
     }
 
@@ -70,11 +83,11 @@ public class AdapterChatGptChat extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
         if (viewType == CHAT_ME) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_telegram_me, parent, false);
-            vh = new ItemViewHolder(v);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_chatgpt_me, parent, false);
+            vh = new ItemViewHolder(v, viewType);
         } else {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_chaggpt_you, parent, false);
-            vh = new ItemViewHolder(v);
+            vh = new ItemViewHolder(v, viewType);
         }
         return vh;
     }
@@ -86,7 +99,10 @@ public class AdapterChatGptChat extends RecyclerView.Adapter<RecyclerView.ViewHo
             final Message m = items.get(position);
             ItemViewHolder vItem = (ItemViewHolder) holder;
             vItem.textContentView.setText(m.getContent());
-            vItem.textTimeView.setText(m.getDate());
+            if (vItem.viewType == CHAT_ME) {
+                vItem.textTimeView.setText(m.getDate());
+            }
+
             vItem.lytParentView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -95,19 +111,40 @@ public class AdapterChatGptChat extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 }
             });
-
-            if (vItem.playVoiceButton != null) {
-                vItem.playVoiceButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // google cloud 的文字转语音模型，读中文的时候，会把最后的句号读出来，所以，直接把句号替换成逗号
-                        String realS = m.getContent().replace("。",",");
-                        onSpeak(realS);
-                    }
-                });
-            }
+            setOnClickPlayVoiceButton(vItem, m);
+            setOnClickCopyContentButton(vItem);
         }
     }
+
+    void setOnClickCopyContentButton(ItemViewHolder vItem) {
+        if (vItem.copyContentButton != null) {
+            vItem.copyContentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ClipboardManager cm = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
+                    String text = String.valueOf(vItem.textContentView.getText());
+                    ClipData mClipData = ClipData.newPlainText("Label", text);
+                    cm.setPrimaryClip(mClipData);
+                    ToastUtils.make().setDurationIsLong(false).show(R.string.chat_copy_successfully);
+                }
+            });
+        }
+    }
+
+
+    void setOnClickPlayVoiceButton(ItemViewHolder vItem, Message m) {
+        if (vItem.playVoiceButton != null) {
+            vItem.playVoiceButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // google cloud 的文字转语音模型，读中文的时候，会把最后的句号读出来，所以，直接把句号替换成逗号
+                    String realS = m.getContent().replace("。",",");
+                    onSpeak(realS);
+                }
+            });
+        }
+    }
+
 
     void onSpeak(String text) {
         mMainViewModel.speak(text)
