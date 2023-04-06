@@ -2,11 +2,17 @@
 <resources>
     <string name="app_name">Chatgpt</string>
 
-    <string name="topic_title_1">开启简单对话</string>
-    <string name="topic_title_2">开始英文对话</string>
+    <string name="topic_title_1">简单对话</string>
+    <string name="topic_title_2">英文对话</string>
     <string name="topic_title_3">英语语法改错</string>
     <string name="topic_title_4">英文表达怎么说？</string>
     <string name="topic_title_5">口语聊天</string>
-    <string name="topic_description_1">开始一个和Chatgpt的简单对话，你可以问它任何问题</string>
+    <string name="chat_task_top_view_title">ChatGPT</string>
+
+    <string name="topic_description_1">开始一个和Chatgpt的简单对话，你可以问它任何问题。</string>
+    <string name="topic_description_2">开始一个只用英文和ChatGPT聊天的对话，您可以利用这个功能来练习您的英语。</string>
+    <string name="topic_description_3">ChatGPT会纠正您发送给它的任何英语句子。</string>
+    <string name="topic_description_4">如果你有任何表达不知道改怎么用英文说，你可以在这个选项中询问Chatgpt。</string>
+    <string name="topic_description_5"> ChatGPT会尽量用口语化的语言来跟你聊天。</string>
 
 </resources>

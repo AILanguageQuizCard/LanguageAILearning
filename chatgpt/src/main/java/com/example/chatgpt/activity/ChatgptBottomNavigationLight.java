@@ -1,8 +1,11 @@
 package com.example.chatgpt.activity;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -22,6 +25,18 @@ public class ChatgptBottomNavigationLight extends AppCompatActivity {
         initNavigation();
 
         initComponent();
+        initStatusBar();
+    }
+
+    private void initStatusBar() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.white));
+
+        WindowInsetsControllerCompat wic = ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+        if (wic != null) {
+            // true表示Light Mode，状态栏字体呈黑色，反之呈白色
+            wic.setAppearanceLightStatusBars(true);
+        }
     }
 
     private void initNavigation() {

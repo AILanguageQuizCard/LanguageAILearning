@@ -2,55 +2,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/fragment_task_chatgpt_container"
+    android:background="@color/white"
     android:orientation="vertical">
 
+    <include
+        layout="@layout/chat_task_top_view_layout"/>
+
     <com.example.chatgpt.ui.TopicView
-        android:background="@drawable/topic_view"
+        android:background="@drawable/topic_view_blue"
         android:id="@+id/button_start_normal_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         app:title="@string/topic_title_1"
         app:description="@string/topic_description_1"
         />
 
     <com.example.chatgpt.ui.TopicView
+        android:background="@drawable/topic_view_green"
         android:id="@+id/button_start_translate_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:backgroundColor="@color/pink_300"
-        app:description="@string/topic_description_1"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:description="@string/topic_description_2"
         app:title="@string/topic_title_2"/>
 
     <com.example.chatgpt.ui.TopicView
+        android:background="@drawable/topic_view_blue"
         android:id="@+id/button_correct_english_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:backgroundColor="@color/pink_300"
-        app:description="@string/topic_description_1"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:description="@string/topic_description_3"
         app:title="@string/topic_title_3"/>
 
     <com.example.chatgpt.ui.TopicView
+        android:background="@drawable/topic_view_green"
         android:id="@+id/button_english_expression_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:backgroundColor="@color/pink_200"
-        app:description="@string/topic_description_1"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:description="@string/topic_description_4"
         app:title="@string/topic_title_4"/>
 
     <com.example.chatgpt.ui.TopicView
+        android:background="@drawable/topic_view_blue"
         android:id="@+id/button_english_oral_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:backgroundColor="@color/pink_100"
-        app:description="@string/topic_description_1"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:description="@string/topic_description_5"
         app:title="@string/topic_title_5"/>
 
 </LinearLayout>

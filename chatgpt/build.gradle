@@ -52,6 +52,9 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
+    // 用于设置状态栏
+    implementation "androidx.core:core:1.5.0"
+
     implementation 'com.mikhaellopez:circularimageview:3.2.0'          // circle image view
     implementation project(path: ':app')
 
