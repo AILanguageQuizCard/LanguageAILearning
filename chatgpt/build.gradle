@@ -54,6 +54,8 @@ dependencies {
 
     // 用于设置状态栏
     implementation "androidx.core:core:1.5.0"
+    // 数据持久化方案，使用微信出的mmkv
+    implementation 'com.tencent:mmkv:1.2.15'
 
     implementation 'com.mikhaellopez:circularimageview:3.2.0'          // circle image view
     implementation project(path: ':app')
@@ -85,4 +87,5 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
 
     implementation project(path: ':googlecloudtts')
+
 }

@@ -38,6 +38,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="14dp"
-        android:src="@drawable/ic_bookmark_liked" />
+        android:src="@drawable/ic_bookmark" />
 
 </RelativeLayout>

@@ -27,7 +27,7 @@ import androidx.fragment.app.Fragment;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.example.chatgpt.R;
 import com.example.chatgpt.activity.ChatGptChatActivity;
-import com.example.chatgpt.common.XYIntent;
+import com.example.chatgpt.common.XLIntent;
 
 
 public class ChatGptTasksFragment extends Fragment {
@@ -60,7 +60,7 @@ public class ChatGptTasksFragment extends Fragment {
         root.findViewById(R.id.button_start_normal_chat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
+                Intent intent = new XLIntent(getActivity(), ChatGptChatActivity.class)
                         .putInt(CHAT_ACTIVITY_START_MODE, NORMAL_CHAT_MODE);
                 newIntentWithString(intent, START_WORDS, "Say anything to me!");
                 newIntentWithString(intent, SYSTEM_COMMAND, "Answer user's questions");
@@ -71,7 +71,7 @@ public class ChatGptTasksFragment extends Fragment {
         root.findViewById(R.id.button_start_translate_chat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
+                Intent intent = new XLIntent(getActivity(), ChatGptChatActivity.class)
                         .putInt(CHAT_ACTIVITY_START_MODE, STRONG_COMMAND_MODE)
                         .putString(START_WORDS, "Say anything to me!")
                         .putString(SYSTEM_COMMAND, ENGLISH_ONLY_COMMAND)
@@ -83,7 +83,7 @@ public class ChatGptTasksFragment extends Fragment {
         root.findViewById(R.id.button_correct_english_chat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
+                Intent intent = new XLIntent(getActivity(), ChatGptChatActivity.class)
                         .putInt(CHAT_ACTIVITY_START_MODE, STRONG_COMMAND_MODE)
                         .putString(START_WORDS, "Say any English to me, and I will correct it for you.")
                         .putString( SYSTEM_COMMAND, CORRECT_ENGLISH_EXPRESSION_COMMAND)
@@ -95,7 +95,7 @@ public class ChatGptTasksFragment extends Fragment {
         root.findViewById(R.id.button_english_expression_chat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
+                Intent intent = new XLIntent(getActivity(), ChatGptChatActivity.class)
                         .putInt(CHAT_ACTIVITY_START_MODE, STRONG_COMMAND_MODE)
                         .putString(START_WORDS, "If you have any expressions that you don't know how to say in English, just ask me.")
                         .putString(SYSTEM_COMMAND, TRANSLATION_TO_ENGLISH_COMMAND)
@@ -107,7 +107,7 @@ public class ChatGptTasksFragment extends Fragment {
         root.findViewById(R.id.button_english_oral_chat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
+                Intent intent = new XLIntent(getActivity(), ChatGptChatActivity.class)
                         .putInt(CHAT_ACTIVITY_START_MODE, STRONG_COMMAND_MODE)
                         .putString(START_WORDS, "Chat with me!")
                         .putString(SYSTEM_COMMAND, INFORMAL_ENGLISH_ONLY_COMMAND)
