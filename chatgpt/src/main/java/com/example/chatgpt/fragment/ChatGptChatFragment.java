@@ -48,7 +48,7 @@ public class ChatGptChatFragment extends Fragment {
 
 
     private void initMultiRoundChatAiApi(String command, int mode ) {
-        multiRoundChatAiApi = new MultiRoundChatAiApi(command, mode);
+//        multiRoundChatAiApi = new MultiRoundChatAiApi(command, mode);
     }
 
     public void initComponent(View root) {

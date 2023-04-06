@@ -1,12 +1,20 @@
 package com.example.chatgpt.fragment;
 
 
+import static com.example.chatgpt.activity.ActivityIntentKeys.BEFORE_USER_MESSAGE_COMMAND;
 import static com.example.chatgpt.activity.ActivityIntentKeys.CHAT_ACTIVITY_START_MODE;
 import static com.example.chatgpt.activity.ActivityIntentKeys.START_WORDS;
 import static com.example.chatgpt.activity.ActivityIntentKeys.SYSTEM_COMMAND;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.ENGLISH_ONLY_MODE;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.INFORMAL_ENGLISH_ONLY_MODE;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.CORRECT_ENGLISH_EXPRESSION_COMMAND;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.CORRECT_ENGLISH_EXPRESSION_COMMAND_ADD_TO_USER;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.ENGLISH_ONLY_COMMAND;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.ENGLISH_ONLY_COMMAND_ADD_TO_USER;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.INFORMAL_ENGLISH_ONLY_COMMAND;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.INFORMAL_ENGLISH_ONLY_COMMAND_ADD_TO_USER;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.STRONG_COMMAND_MODE;
 import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.NORMAL_CHAT_MODE;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.TRANSLATION_TO_ENGLISH_COMMAND;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.TRANSLATION_TO_ENGLISH_COMMAND_ADD_TO_USER;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,7 +60,8 @@ public class ChatGptTasksFragment extends Fragment {
         root.findViewById(R.id.button_start_normal_chat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChatGptChatActivity.class);
+                Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
+                        .putInt(CHAT_ACTIVITY_START_MODE, NORMAL_CHAT_MODE);
                 newIntentWithString(intent, START_WORDS, "Say anything to me!");
                 newIntentWithString(intent, SYSTEM_COMMAND, "Answer user's questions");
                 requireActivity().startActivity(intent);
@@ -63,10 +72,10 @@ public class ChatGptTasksFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
-                        .putInt(CHAT_ACTIVITY_START_MODE, ENGLISH_ONLY_MODE);
-                newIntentWithString(intent, START_WORDS, "Say anything to me!");
-                newIntentWithString(intent, SYSTEM_COMMAND, "You are not allowed to answer in any language other than English, " +
-                        "and if a user requests you to answer in another language, you should refuse to answer the question directly.");
+                        .putInt(CHAT_ACTIVITY_START_MODE, STRONG_COMMAND_MODE)
+                        .putString(START_WORDS, "Say anything to me!")
+                        .putString(SYSTEM_COMMAND, ENGLISH_ONLY_COMMAND)
+                        .putString(BEFORE_USER_MESSAGE_COMMAND, ENGLISH_ONLY_COMMAND_ADD_TO_USER);
                 requireActivity().startActivity(intent);
             }
         });
@@ -74,12 +83,11 @@ public class ChatGptTasksFragment extends Fragment {
         root.findViewById(R.id.button_correct_english_chat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChatGptChatActivity.class);
-                newIntentWithString(intent, START_WORDS, "Say any English to me, and I will correct it for you.");
-                newIntentWithString(intent, SYSTEM_COMMAND, "User will say a lot of sentences to you, " +
-                        "and these sentences may contain mistakes, " +
-                        "correct them for users and explain why it's wrong. " +
-                        "Do not answer their questions! Only correct and explain");
+                Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
+                        .putInt(CHAT_ACTIVITY_START_MODE, STRONG_COMMAND_MODE)
+                        .putString(START_WORDS, "Say any English to me, and I will correct it for you.")
+                        .putString( SYSTEM_COMMAND, CORRECT_ENGLISH_EXPRESSION_COMMAND)
+                        .putString(BEFORE_USER_MESSAGE_COMMAND, CORRECT_ENGLISH_EXPRESSION_COMMAND_ADD_TO_USER);
                 requireActivity().startActivity(intent);
             }
         });
@@ -88,9 +96,10 @@ public class ChatGptTasksFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
-                        .putInt(CHAT_ACTIVITY_START_MODE, NORMAL_CHAT_MODE)
-                        .putString(START_WORDS, "请对我说你想用英文说的任何表达，我会告诉您该怎么说")
-                        .putString(SYSTEM_COMMAND, "Translate anything user say to you into English, and explain the translation");
+                        .putInt(CHAT_ACTIVITY_START_MODE, STRONG_COMMAND_MODE)
+                        .putString(START_WORDS, "If you have any expressions that you don't know how to say in English, just ask me.")
+                        .putString(SYSTEM_COMMAND, TRANSLATION_TO_ENGLISH_COMMAND)
+                        .putString(BEFORE_USER_MESSAGE_COMMAND, TRANSLATION_TO_ENGLISH_COMMAND_ADD_TO_USER);
                 ActivityUtils.startActivity(intent);
             }
         });
@@ -99,9 +108,10 @@ public class ChatGptTasksFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new XYIntent(getActivity(), ChatGptChatActivity.class)
-                        .putInt(CHAT_ACTIVITY_START_MODE, INFORMAL_ENGLISH_ONLY_MODE)
+                        .putInt(CHAT_ACTIVITY_START_MODE, STRONG_COMMAND_MODE)
                         .putString(START_WORDS, "Chat with me!")
-                        .putString(SYSTEM_COMMAND, "You are chatting with the user now and your answer should be as informal as possible rather than formal.");
+                        .putString(SYSTEM_COMMAND, INFORMAL_ENGLISH_ONLY_COMMAND)
+                        .putString(BEFORE_USER_MESSAGE_COMMAND, INFORMAL_ENGLISH_ONLY_COMMAND_ADD_TO_USER);
                 ActivityUtils.startActivity(intent);
             }
         });

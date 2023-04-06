@@ -1,5 +1,6 @@
 package com.example.chatgpt.activity;
 
+import static com.example.chatgpt.activity.ActivityIntentKeys.BEFORE_USER_MESSAGE_COMMAND;
 import static com.example.chatgpt.activity.ActivityIntentKeys.CHAT_ACTIVITY_START_MODE;
 import static com.example.chatgpt.activity.ActivityIntentKeys.START_WORDS;
 import static com.example.chatgpt.activity.ActivityIntentKeys.SYSTEM_COMMAND;
@@ -13,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +24,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,8 +61,9 @@ public class ChatGptChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_chatgpt);
-        initToolbar();
+        initStatusBar();
         initMultiRoundChatAiApi(getIntent().getStringExtra(SYSTEM_COMMAND),
+                getIntent().getStringExtra(BEFORE_USER_MESSAGE_COMMAND),
                 getIntent().getIntExtra(CHAT_ACTIVITY_START_MODE, 0));
         iniComponent(getIntent().getStringExtra(START_WORDS));
     }
@@ -68,8 +73,19 @@ public class ChatGptChatActivity extends AppCompatActivity {
         mMainViewModel = new MainViewModel(getApplication(), googleCloudTTS);
     }
 
-    private void initMultiRoundChatAiApi(String systemCommand, int mode) {
-        multiRoundChatAiApi = new MultiRoundChatAiApi(systemCommand, mode);
+    private void initMultiRoundChatAiApi(String systemCommand, String beforeUserMessageCommand, int mode) {
+        multiRoundChatAiApi = new MultiRoundChatAiApi(systemCommand, beforeUserMessageCommand, mode);
+    }
+
+    private void initStatusBar() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.white));
+
+        WindowInsetsControllerCompat wic = ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+        if (wic != null) {
+            // true表示Light Mode，状态栏字体呈黑色，反之呈白色
+            wic.setAppearanceLightStatusBars(true);
+        }
     }
 
     public void initToolbar() {

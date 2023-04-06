@@ -1,9 +1,6 @@
 package com.example.chatgpt.chatapi;
 
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.ENGLISH_ONLY_COMMAND;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.ENGLISH_ONLY_MODE;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.INFORMAL_ENGLISH_ONLY_COMMAND;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.INFORMAL_ENGLISH_ONLY_MODE;
+import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.STRONG_COMMAND_MODE;
 
 
 import android.os.Build;
@@ -18,24 +15,30 @@ import com.theokanning.openai.completion.chat.ChatMessageRole;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MultiRoundChatAiApi {
 
-    private static String TAG = "MultiRoundChatAiApi";
+    private static final String TAG = "MultiRoundChatAiApi";
     private List<ChatMessage> oldMessages = new ArrayList<>();
+    private final List<ChatMessage> backupMessages = new ArrayList<>();
+
     private ChatMessage systemMessage;
+    private String systemCommand;
+    private String beforeUserMessageCommand;
     private final List<ThreadUtils.Task<String>> threadTasks = new ArrayList<>();
     private int mode = 0;
 
-    public MultiRoundChatAiApi(String systemCommand, int mode) {
-        init(systemCommand, mode);
+    public MultiRoundChatAiApi(String systemCommand, String beforeUserMessageCommand, int mode) {
+        init(systemCommand, beforeUserMessageCommand, mode);
     }
 
-    private void init(String systemCommand, int mode) {
+    private void init(String systemCommand, String beforeUserMessageCommand, int mode) {
         this.mode = mode;
-        systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), systemCommand);
+        this.systemCommand = systemCommand;
+        this.beforeUserMessageCommand = beforeUserMessageCommand;
+        systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), this.systemCommand);
         oldMessages.add(systemMessage);
+        backupMessages.add(systemMessage);
     }
 
     public void sendMessageInThread(String message, ReceiveOpenAiReply onReceiveOpenAiReply) {
@@ -57,42 +60,38 @@ public class MultiRoundChatAiApi {
 
     public void cancelAllCurrentThread() {
         // todo 只取消当前正在执行的
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            threadTasks.forEach(ThreadUtils::cancel);
+        threadTasks.forEach(ThreadUtils::cancel);
+    }
+
+
+    public interface ReceiveOpenAiReply{
+        void onSuccess(String reply);
+    }
+
+
+    private void insertUserMessage(String message) {
+        if (this.mode == STRONG_COMMAND_MODE) {
+            oldMessages = backupMessages;
+            String newMessage = beforeUserMessageCommand + " " + message;
+            final ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), newMessage);
+            backupMessages(message);
+            oldMessages.add(userMessage);
         }
     }
 
-
-    public static interface ReceiveOpenAiReply{
-        public void onSuccess(String reply);
-    }
-
-    private boolean isNotSystemMessage(ChatMessage chatMessage) {
-        return chatMessage.getRole() != ChatMessageRole.SYSTEM.value();
-    }
-
-    private void insertStrongCommand() {
-
-        if (this.mode == ENGLISH_ONLY_MODE) {
-            // 只允许gpt说英文
-            oldMessages = oldMessages.stream().filter(this::isNotSystemMessage).collect(Collectors.toList());
-            final ChatMessage systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), ENGLISH_ONLY_COMMAND);
-            oldMessages.add(systemMessage);
-        } else if (this.mode == INFORMAL_ENGLISH_ONLY_MODE) {
-            // 只允许gpt说英文 + 口语对话
-            oldMessages = oldMessages.stream().filter(this::isNotSystemMessage).collect(Collectors.toList());
-            final ChatMessage systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), INFORMAL_ENGLISH_ONLY_COMMAND);
-            oldMessages.add(systemMessage);
-        }
+    private void backupMessages(String message) {
+        backupMessages.clear();
+        backupMessages.addAll(oldMessages);
+        final ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), message);
+        backupMessages.add(userMessage);
 
     }
+
 
     public String sendToChatAi(String message) {
         System.out.println("User: " + message);
-        final ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), message);
-        oldMessages.add(userMessage);
+        insertUserMessage(message);
 
-        insertStrongCommand();
         ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest
                 .builder()
                 .model("gpt-3.5-turbo")
@@ -106,11 +105,9 @@ public class MultiRoundChatAiApi {
                 .createChatCompletion(chatCompletionRequest).getChoices();
         if (choices.size() > 0) {
             addChatGptReplyToMessage(choices.get(0).getMessage());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                choices.forEach(chatChoice -> {
-                    System.out.println("ChatGpt: " + chatChoice.getMessage().getContent());
-                });
-            }
+            choices.forEach(chatChoice -> {
+                System.out.println("ChatGpt: " + chatChoice.getMessage().getContent());
+            });
             return choices.get(0).getMessage().getContent();
         }
 
@@ -125,6 +122,7 @@ public class MultiRoundChatAiApi {
 
     public void addChatGptReplyToMessage(ChatMessage message) {
         oldMessages.add(message);
+        backupMessages.add(message);
     }
 
 
