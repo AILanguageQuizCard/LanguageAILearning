@@ -1,9 +1,8 @@
 package com.example.chatgpt.chatapi;
 
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.STRONG_COMMAND_MODE;
+import static com.example.chatgpt.chatapi.StrongCommandToChatGPT.STRONG_COMMAND_MODE;
 
 
-import android.os.Build;
 import android.util.Log;
 
 import com.blankj.utilcode.util.ThreadUtils;
@@ -71,7 +70,7 @@ public class MultiRoundChatAiApi {
 
     private void insertUserMessage(String message) {
         if (this.mode == STRONG_COMMAND_MODE) {
-            oldMessages = backupMessages;
+            oldMessages = new ArrayList<>(backupMessages);
             String newMessage = beforeUserMessageCommand + " " + message;
             final ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), newMessage);
             backupMessages(message);
@@ -80,13 +79,9 @@ public class MultiRoundChatAiApi {
     }
 
     private void backupMessages(String message) {
-        backupMessages.clear();
-        backupMessages.addAll(oldMessages);
         final ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), message);
         backupMessages.add(userMessage);
-
     }
-
 
     public String sendToChatAi(String message) {
         System.out.println("User: " + message);

@@ -17,7 +17,7 @@ public class GoogleCloudTTSAdapter implements Speech {
 
     @Override
     public void start(String text) {
-        mGoogleCloudTTS.start(text);
+//        mGoogleCloudTTS.start(text);
     }
 
     @Override

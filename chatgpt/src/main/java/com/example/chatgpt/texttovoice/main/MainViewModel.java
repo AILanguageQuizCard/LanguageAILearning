@@ -1,6 +1,8 @@
 package com.example.chatgpt.texttovoice.main;
 
 import android.app.Application;
+import android.media.MediaPlayer;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
@@ -35,8 +37,8 @@ public class MainViewModel extends AndroidViewModel {
                 });
     }
 
-    public Completable speak(String text) {
-        return fromCallable(() -> mGoogleCloudTTS.start(text));
+    public Completable speak(String text, MediaPlayer.OnCompletionListener comletionCallback) {
+        return fromCallable(() -> mGoogleCloudTTS.start(text, comletionCallback));
     }
 
     public void pause() {
@@ -46,6 +48,7 @@ public class MainViewModel extends AndroidViewModel {
     public void resume() {
         mGoogleCloudTTS.resume();
     }
+
 
     public void dispose() {
         mGoogleCloudTTS.close();

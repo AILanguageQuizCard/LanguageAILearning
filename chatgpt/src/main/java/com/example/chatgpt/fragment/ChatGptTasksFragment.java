@@ -5,16 +5,16 @@ import static com.example.chatgpt.activity.ActivityIntentKeys.BEFORE_USER_MESSAG
 import static com.example.chatgpt.activity.ActivityIntentKeys.CHAT_ACTIVITY_START_MODE;
 import static com.example.chatgpt.activity.ActivityIntentKeys.START_WORDS;
 import static com.example.chatgpt.activity.ActivityIntentKeys.SYSTEM_COMMAND;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.CORRECT_ENGLISH_EXPRESSION_COMMAND;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.CORRECT_ENGLISH_EXPRESSION_COMMAND_ADD_TO_USER;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.ENGLISH_ONLY_COMMAND;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.ENGLISH_ONLY_COMMAND_ADD_TO_USER;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.INFORMAL_ENGLISH_ONLY_COMMAND;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.INFORMAL_ENGLISH_ONLY_COMMAND_ADD_TO_USER;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.STRONG_COMMAND_MODE;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.NORMAL_CHAT_MODE;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.TRANSLATION_TO_ENGLISH_COMMAND;
-import static com.example.chatgpt.chatapi.StrongCommandToChatgpt.TRANSLATION_TO_ENGLISH_COMMAND_ADD_TO_USER;
+import static com.example.chatgpt.chatapi.StrongCommandToChatGPT.CORRECT_ENGLISH_EXPRESSION_COMMAND;
+import static com.example.chatgpt.chatapi.StrongCommandToChatGPT.CORRECT_ENGLISH_EXPRESSION_COMMAND_ADD_TO_USER;
+import static com.example.chatgpt.chatapi.StrongCommandToChatGPT.ENGLISH_ONLY_COMMAND;
+import static com.example.chatgpt.chatapi.StrongCommandToChatGPT.ENGLISH_ONLY_COMMAND_ADD_TO_USER;
+import static com.example.chatgpt.chatapi.StrongCommandToChatGPT.INFORMAL_ENGLISH_ONLY_COMMAND;
+import static com.example.chatgpt.chatapi.StrongCommandToChatGPT.INFORMAL_ENGLISH_ONLY_COMMAND_ADD_TO_USER;
+import static com.example.chatgpt.chatapi.StrongCommandToChatGPT.STRONG_COMMAND_MODE;
+import static com.example.chatgpt.chatapi.StrongCommandToChatGPT.NORMAL_CHAT_MODE;
+import static com.example.chatgpt.chatapi.StrongCommandToChatGPT.TRANSLATION_TO_ENGLISH_COMMAND;
+import static com.example.chatgpt.chatapi.StrongCommandToChatGPT.TRANSLATION_TO_ENGLISH_COMMAND_ADD_TO_USER;
 
 import android.content.Intent;
 import android.os.Bundle;

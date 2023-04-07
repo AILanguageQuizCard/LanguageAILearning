@@ -62,7 +62,7 @@ public class GoogleCloudTTS implements AutoCloseable {
         return voicesList;
     }
 
-    public void start(String text) {
+    public void start(String text, MediaPlayer.OnCompletionListener completionListener) {
         if (mVoiceSelectionParams == null) {
             throw new NullPointerException("You forget to setVoiceSelectionParams()");
         }
@@ -75,7 +75,7 @@ public class GoogleCloudTTS implements AutoCloseable {
 
         try {
             SynthesizeResponse response = mSynthesizeApi.get(request);
-            playAudio(response.getAudioContent());
+            playAudio(response.getAudioContent(), completionListener);
         } catch (Exception e) {
             throw new ApiException(e);
         }
@@ -103,11 +103,12 @@ public class GoogleCloudTTS implements AutoCloseable {
         }
     }
 
-    private void playAudio(String base64EncodedString) throws IOException {
+    private void playAudio(String base64EncodedString, MediaPlayer.OnCompletionListener completionListener) throws IOException {
         stop();
 
         String url = "data:audio/mp3;base64," + base64EncodedString;
         mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setOnCompletionListener(completionListener);
         mMediaPlayer.setDataSource(url);
         mMediaPlayer.prepare();
         mMediaPlayer.start();
