@@ -15,10 +15,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,21 +44,8 @@ public class ChatGptTasksFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_task_chatgpt, container, false);
         this.root = root;
         initRecyclerView();
-        initStatusBar(R.color.white);
         return root;
     }
-
-    private void initStatusBar(int colorId) {
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getActivity().getWindow().setStatusBarColor(getResources().getColor(colorId));
-
-        WindowInsetsControllerCompat wic = ViewCompat.getWindowInsetsController(getActivity().getWindow().getDecorView());
-        if (wic != null) {
-            // true表示Light Mode，状态栏字体呈黑色，反之呈白色
-            wic.setAppearanceLightStatusBars(true);
-        }
-    }
-
 
     private List<TopicInfo> getDatas() {
         List<TopicInfo> mylist = new ArrayList<>();

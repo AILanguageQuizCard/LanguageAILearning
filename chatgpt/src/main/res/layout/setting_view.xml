@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/custom_view"
     android:layout_height="50dp"
@@ -11,30 +11,29 @@
     <ImageView
         android:id="@+id/setting_view_icon"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:srcCompat="@drawable/ic_arrow_right" />
 
     <TextView
         android:id="@+id/title_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/setting_view_icon"
         android:text="setting"
         android:maxLines="1"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <ImageView
         android:id="@+id/setting_view_go"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="4dp"
         android:src="@drawable/ic_arrow_right" />
 
-</merge>
+</RelativeLayout>
