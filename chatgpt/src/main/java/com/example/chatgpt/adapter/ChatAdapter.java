@@ -28,7 +28,7 @@ import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class AdapterChatGptChat extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "AdapterChatGptChat";
     private final int CHAT_ME = 100;
@@ -41,20 +41,9 @@ public class AdapterChatGptChat extends RecyclerView.Adapter<RecyclerView.ViewHo
     private List<Message> items = new ArrayList<>();
 
     private final Context ctx;
-    private OnItemClickListener mOnItemClickListener;
     private final MainViewModel mMainViewModel;
 
-    public interface OnItemClickListener {
-
-        void onItemClick(View view, Message obj, int position);
-    }
-
-    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
-        this.mOnItemClickListener = mItemClickListener;
-    }
-
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public AdapterChatGptChat(Context context, MainViewModel mainViewModel) {
+    public ChatAdapter(Context context, MainViewModel mainViewModel) {
         mMainViewModel = mainViewModel;
         ctx = context;
     }
@@ -111,15 +100,6 @@ public class AdapterChatGptChat extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (vItem.viewType == CHAT_ME) {
                 vItem.textTimeView.setText(m.getDate());
             }
-
-            vItem.lytParentView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, m,  holder.getAdapterPosition());
-                    }
-                }
-            });
             setOnClickPlayVoiceButton(vItem, m);
             setOnClickCopyContentButton(vItem);
         }

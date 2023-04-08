@@ -32,8 +32,8 @@
 
     <ImageView
         android:id="@+id/favorite_button"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginTop="-5dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"

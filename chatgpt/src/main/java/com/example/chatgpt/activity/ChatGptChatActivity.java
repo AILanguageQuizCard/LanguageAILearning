@@ -33,7 +33,7 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.example.chatgpt.R;
 import com.example.chatgpt.texttovoice.main.MainViewModel;
 import com.example.chatgpt.chatapi.MultiRoundChatAiApi;
-import com.example.chatgpt.adapter.AdapterChatGptChat;
+import com.example.chatgpt.adapter.ChatAdapter;
 import com.material.components.model.Message;
 import com.material.components.utils.Tools;
 
@@ -49,8 +49,8 @@ public class ChatGptChatActivity extends AppCompatActivity {
     private static String TAG = "ChatGptChatActivity";
     private ImageView btn_send;
     private EditText et_content;
-    private AdapterChatGptChat adapter;
-    private RecyclerView recycler_view;
+    private ChatAdapter adapter;
+    private RecyclerView recyclerView;
 
     private ActionBar actionBar;
 
@@ -99,14 +99,15 @@ public class ChatGptChatActivity extends AppCompatActivity {
     }
 
     public void iniComponent(String startWords) {
-        recycler_view = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recycler_view.setLayoutManager(layoutManager);
-        recycler_view.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
 
         initTest2Voice();
-        adapter = new AdapterChatGptChat(this, mMainViewModel);
-        recycler_view.setAdapter(adapter);
+        adapter = new ChatAdapter(this, mMainViewModel);
+        recyclerView.setAdapter(adapter);
+        // todo 将初始message换成选择要输入的话
         Message initialMessage = new Message(adapter.getItemCount(), startWords, false,
                 adapter.getItemCount() % 5 == 0, Tools.getFormattedTimeEvent(System.currentTimeMillis()));
         adapter.insertItem(initialMessage);
@@ -145,7 +146,7 @@ public class ChatGptChatActivity extends AppCompatActivity {
                 true, adapter.getItemCount() % 5 == 0,
                 Tools.getFormattedTimeEvent(System.currentTimeMillis())));
         et_content.setText("");
-        recycler_view.scrollToPosition(adapter.getItemCount() - 1);
+        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
         multiRoundChatAiApi.sendMessageInThread(msg,
                 reply -> ThreadUtils.runOnUiThread(new Runnable() {
                     @Override
@@ -154,7 +155,7 @@ public class ChatGptChatActivity extends AppCompatActivity {
                                 false, adapter.getItemCount() % 5 == 0,
                                 Tools.getFormattedTimeEvent(System.currentTimeMillis())));
 
-                        recycler_view.scrollToPosition(adapter.getItemCount() - 1);
+                        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
                     }
                 })
         );
