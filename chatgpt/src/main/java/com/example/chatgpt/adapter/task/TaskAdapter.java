@@ -20,8 +20,6 @@ import com.example.chatgpt.common.XLIntent;
 import com.example.chatgpt.ui.TopicView2;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 

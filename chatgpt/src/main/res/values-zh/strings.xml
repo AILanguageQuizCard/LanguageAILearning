@@ -8,6 +8,7 @@
     <string name="topic_title_4">英文表达怎么说？</string>
     <string name="topic_title_5">口语聊天</string>
     <string name="chat_task_top_view_title">ChatGPT</string>
+    <string name="chat_setting_top_view_title">设置</string>
 
     <string name="topic_description_1">开始一个和Chatgpt的简单对话，你可以问它任何问题。</string>
     <string name="topic_description_2">开始一个只用英文和ChatGPT聊天的对话，您可以利用这个功能来练习您的英语。</string>

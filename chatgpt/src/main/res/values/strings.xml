@@ -7,6 +7,7 @@
     <string name="topic_title_4">How Do You Say It In English?</string>
     <string name="topic_title_5">Informal Chat</string>
     <string name="chat_task_top_view_title">ChatGPT</string>
+    <string name="chat_setting_top_view_title">Settings</string>
 
     <string name="topic_description_1">Start a simple conversation with ChatGPT and ask it any question.</string>
     <string name="topic_description_2">Start a English only conversation with ChatGPT, you can use this function to practice your English.</string>

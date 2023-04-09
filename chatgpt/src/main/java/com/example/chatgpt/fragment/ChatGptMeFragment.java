@@ -18,7 +18,7 @@ public class ChatGptMeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_setting_profile, container, false);
+        View root = inflater.inflate(R.layout.fragment_setting, container, false);
 
         return root;
     }
