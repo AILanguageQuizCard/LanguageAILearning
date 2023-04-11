@@ -1,3 +1,4 @@
 include ':app'
 include ':googlecloudtts'
 include ':chatgpt'
+include ':pay'
