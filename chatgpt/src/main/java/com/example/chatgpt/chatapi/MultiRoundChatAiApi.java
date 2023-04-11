@@ -69,13 +69,11 @@ public class MultiRoundChatAiApi {
 
 
     private void insertUserMessage(String message) {
-        if (this.mode == STRONG_COMMAND_MODE) {
-            oldMessages = new ArrayList<>(backupMessages);
-            String newMessage = beforeUserMessageCommand + " " + message;
-            final ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), newMessage);
-            backupMessages(message);
-            oldMessages.add(userMessage);
-        }
+        oldMessages = new ArrayList<>(backupMessages);
+        String newMessage = beforeUserMessageCommand + " " + message;
+        final ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), newMessage);
+        backupMessages(message);
+        oldMessages.add(userMessage);
     }
 
     private void backupMessages(String message) {
