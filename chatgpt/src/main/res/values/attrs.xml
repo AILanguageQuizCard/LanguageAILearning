@@ -7,4 +7,10 @@
         <attr name="backgroundColor" format="color"/>
     </declare-styleable>
 
+`    <declare-styleable name="SettingItemView">
+        <attr name="text" format="string"/>
+        <attr name="icon" format="reference"/>
+    </declare-styleable>
+
+
 </resources>

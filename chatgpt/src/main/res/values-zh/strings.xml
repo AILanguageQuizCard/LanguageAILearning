@@ -17,4 +17,11 @@
     <string name="topic_description_5"> ChatGPT会尽量用口语化的语言来跟你聊天。</string>
 
     <string name="chat_copy_successfully">成功复制</string>
+    <string name="setting_item_1">语音</string>
+    <string name="setting_item_2">语音</string>
+    <string name="setting_item_3">语音</string>
+    <string name="setting_item_4">语音</string>
+    <string name="setting_item_5">语音</string>
+    <string name="setting_item_6">语音</string>
+
 </resources>

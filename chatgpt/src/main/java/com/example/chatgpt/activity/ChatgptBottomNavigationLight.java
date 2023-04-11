@@ -1,8 +1,10 @@
 package com.example.chatgpt.activity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -25,12 +27,12 @@ public class ChatgptBottomNavigationLight extends AppCompatActivity {
         initNavigation();
 
         initComponent();
-        initStatusBar();
+        initStatusBar(R.color.white);
     }
 
-    private void initStatusBar() {
+    private void initStatusBar(int colorId) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.white));
+        getWindow().setStatusBarColor(getResources().getColor(colorId));
 
         WindowInsetsControllerCompat wic = ViewCompat.getWindowInsetsController(getWindow().getDecorView());
         if (wic != null) {
@@ -43,6 +45,7 @@ public class ChatgptBottomNavigationLight extends AppCompatActivity {
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         NavController navController = Navigation.findNavController(this, R.id.fragment_chatgpt_container);
         NavigationUI.setupWithNavController(navigation, navController);
+
     }
 
 

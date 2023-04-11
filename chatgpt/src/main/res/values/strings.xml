@@ -16,4 +16,11 @@
     <string name="topic_description_5">ChatGPT will try to chat with you in a colloquial language as much as possible.</string>
 
     <string name="chat_copy_successfully"> copy successfully! </string>
+    <string name="setting_item_1">Voice</string>
+    <string name="setting_item_2">Voice</string>
+    <string name="setting_item_3">Voice</string>
+    <string name="setting_item_4">Voice</string>
+    <string name="setting_item_5">Voice</string>
+    <string name="setting_item_6">Voice</string>
+
 </resources>
