@@ -31,7 +31,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.example.chatgpt.R;
-import com.example.chatgpt.texttovoice.main.MainViewModel;
 import com.example.chatgpt.chatapi.MultiRoundChatAiApi;
 import com.example.chatgpt.adapter.ChatAdapter;
 import com.material.components.model.Message;
@@ -40,9 +39,6 @@ import com.material.components.utils.Tools;
 import java.util.ArrayList;
 import java.util.List;
 
-import darren.googlecloudtts.BuildConfig;
-import darren.googlecloudtts.GoogleCloudTTS;
-import darren.googlecloudtts.GoogleCloudTTSFactory;
 
 public class ChatGptChatActivity extends AppCompatActivity {
 
@@ -55,7 +51,6 @@ public class ChatGptChatActivity extends AppCompatActivity {
     private ActionBar actionBar;
 
     private MultiRoundChatAiApi multiRoundChatAiApi;
-    private MainViewModel mMainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +58,13 @@ public class ChatGptChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_chatgpt);
         initStatusBar();
         initMultiRoundChatAiApi(getIntent().getStringExtra(SYSTEM_COMMAND),
-                getIntent().getStringExtra(BEFORE_USER_MESSAGE_COMMAND),
                 getIntent().getIntExtra(CHAT_ACTIVITY_START_MODE, 0));
         iniComponent(getIntent().getStringExtra(START_WORDS));
     }
 
-    private void initTest2Voice() {
-        GoogleCloudTTS googleCloudTTS = GoogleCloudTTSFactory.create(BuildConfig.API_KEY);
-        mMainViewModel = new MainViewModel(getApplication(), googleCloudTTS);
-    }
 
-    private void initMultiRoundChatAiApi(String systemCommand, String beforeUserMessageCommand, int mode) {
-        multiRoundChatAiApi = new MultiRoundChatAiApi(systemCommand, beforeUserMessageCommand, mode);
+    private void initMultiRoundChatAiApi(String systemCommand, int mode) {
+        multiRoundChatAiApi = new MultiRoundChatAiApi(systemCommand, mode);
     }
 
     private void initStatusBar() {
@@ -104,8 +94,7 @@ public class ChatGptChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        initTest2Voice();
-        adapter = new ChatAdapter(this, mMainViewModel);
+        adapter = new ChatAdapter(getApplication());
         recyclerView.setAdapter(adapter);
         // todo 将初始message换成选择要输入的话
         Message initialMessage = new Message(adapter.getItemCount(), startWords, false,

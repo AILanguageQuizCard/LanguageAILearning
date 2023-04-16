@@ -12,13 +12,22 @@ import darren.googlecloudtts.api.VoicesApiImpl;
  * Reference:
  */
 public class GoogleCloudTTSFactory {
+    private volatile static GoogleCloudTTS googleCloudTTS;
 
     public static GoogleCloudTTS create(String apiKey) {
+//        if (googleCloudTTS == null) {
+//            synchronized (GoogleCloudTTSFactory.class) {
+//                if (googleCloudTTS == null) {
+//                    GoogleCloudAPIConfig config = new GoogleCloudAPIConfig(apiKey);
+//                    googleCloudTTS = create(config);
+//                }
+//            }
+//        }
         GoogleCloudAPIConfig config = new GoogleCloudAPIConfig(apiKey);
         return create(config);
     }
 
-    public static GoogleCloudTTS create(GoogleCloudAPIConfig config) {
+    private static GoogleCloudTTS create(GoogleCloudAPIConfig config) {
         SynthesizeApi synthesizeApi = new SynthesizeApiImpl(config);
         VoicesApi voicesApi = new VoicesApiImpl(config);
         return new GoogleCloudTTS(synthesizeApi, voicesApi);

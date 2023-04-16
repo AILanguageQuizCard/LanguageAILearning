@@ -20,11 +20,11 @@ import io.reactivex.rxjava3.core.Single;
  * Description:
  * Reference:
  */
-public class MainViewModel extends AndroidViewModel {
+public class Text2VoiceModel extends AndroidViewModel {
     private GoogleCloudTTS mGoogleCloudTTS;
     private final VoicesList mVoicesList = new VoicesList();
 
-    public MainViewModel(@NonNull Application application, GoogleCloudTTS googleCloudTTS) {
+    public Text2VoiceModel(@NonNull Application application, GoogleCloudTTS googleCloudTTS) {
         super(application);
         mGoogleCloudTTS = googleCloudTTS;
     }
