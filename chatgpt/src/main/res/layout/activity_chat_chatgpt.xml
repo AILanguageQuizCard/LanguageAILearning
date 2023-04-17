@@ -86,46 +86,52 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/spacing_xxlarge"
         android:background="@android:color/white"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/refresh_chat_imageview"
+            android:layout_width="@dimen/spacing_xxlarge"
             android:layout_height="@dimen/spacing_xxlarge"
-            android:orientation="horizontal">
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="13dp"
+            app:srcCompat="@drawable/ic_refresh"
+            app:tint="@color/grey_40" />
 
-            <ImageView
-                android:id="@+id/refresh_chat_imageview"
-                android:layout_width="@dimen/spacing_xxlarge"
-                android:layout_height="@dimen/spacing_xxlarge"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:padding="13dp"
-                app:srcCompat="@drawable/ic_refresh"
-                app:tint="@color/grey_40" />
+        <EditText
+            android:id="@+id/input_message_edittext"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="Message"
+            android:imeOptions="actionSearch" />
 
-            <EditText
-                android:id="@+id/text_content"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:hint="Message"
-                android:imeOptions="actionSearch" />
+        <ImageView
+            android:id="@+id/voice_message_button"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_mic"
+            app:tint="#0382FE" />
 
-            <ImageView
-                android:id="@+id/btn_send"
-                android:layout_width="@dimen/spacing_xxlarge"
-                android:layout_height="@dimen/spacing_xxlarge"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:padding="12dp"
-                app:srcCompat="@drawable/ic_mic"
-                app:tint="#0382FE" />
-
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/send_button"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_send"
+            app:tint="#0382FE" />
 
     </LinearLayout>
+
 
 </LinearLayout>

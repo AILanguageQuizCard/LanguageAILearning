@@ -1,11 +1,11 @@
 package com.example.chatgpt.activity;
 
-import static com.example.chatgpt.activity.ActivityIntentKeys.BEFORE_USER_MESSAGE_COMMAND;
 import static com.example.chatgpt.activity.ActivityIntentKeys.CHAT_ACTIVITY_START_MODE;
 import static com.example.chatgpt.activity.ActivityIntentKeys.START_WORDS;
 import static com.example.chatgpt.activity.ActivityIntentKeys.SYSTEM_COMMAND;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -29,12 +29,16 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.example.chatgpt.R;
 import com.example.chatgpt.chatapi.MultiRoundChatAiApi;
 import com.example.chatgpt.adapter.ChatAdapter;
+import com.example.chatgpt.common.XLIntent;
+import com.google.android.gms.samples.wallet.activity.CheckoutActivity;
 import com.material.components.model.Message;
 import com.material.components.utils.Tools;
+import com.simplemobiletools.voicerecorder.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +48,11 @@ public class ChatGptChatActivity extends AppCompatActivity {
 
     private static String TAG = "ChatGptChatActivity";
     private ImageView btn_send;
-    private EditText et_content;
+    private ImageView voiceMessageButton;
+    private EditText inputMessageEditText;
     private ChatAdapter adapter;
     private RecyclerView recyclerView;
+
 
     private ActionBar actionBar;
 
@@ -59,7 +65,8 @@ public class ChatGptChatActivity extends AppCompatActivity {
         initStatusBar();
         initMultiRoundChatAiApi(getIntent().getStringExtra(SYSTEM_COMMAND),
                 getIntent().getIntExtra(CHAT_ACTIVITY_START_MODE, 0));
-        iniComponent(getIntent().getStringExtra(START_WORDS));
+        initComponent(getIntent().getStringExtra(START_WORDS));
+        initVoiceMessageButton();
     }
 
 
@@ -88,7 +95,18 @@ public class ChatGptChatActivity extends AppCompatActivity {
         Tools.setSystemBarColorInt(this, Color.parseColor("#426482"));
     }
 
-    public void iniComponent(String startWords) {
+    public void initVoiceMessageButton() {
+        voiceMessageButton = findViewById(R.id.voice_message_button);
+        voiceMessageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), MainActivity.class);
+                ActivityUtils.getTopActivity().startActivity(intent);
+            }
+        });
+    }
+
+    public void initComponent(String startWords) {
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -101,15 +119,16 @@ public class ChatGptChatActivity extends AppCompatActivity {
                 adapter.getItemCount() % 5 == 0, Tools.getFormattedTimeEvent(System.currentTimeMillis()));
         adapter.insertItem(initialMessage);
 
-        btn_send = findViewById(R.id.btn_send);
-        et_content = findViewById(R.id.text_content);
+        btn_send = findViewById(R.id.send_button);
+        inputMessageEditText = findViewById(R.id.input_message_edittext);
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendChat();
             }
         });
-        et_content.addTextChangedListener(contentWatcher);
+
+//        inputMessageEditText.addTextChangedListener(contentWatcher);
 
         findViewById(R.id.lyt_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,12 +148,12 @@ public class ChatGptChatActivity extends AppCompatActivity {
     }
 
     private void sendChat() {
-        final String msg = et_content.getText().toString();
+        final String msg = inputMessageEditText.getText().toString();
         if (msg.isEmpty()) return;
         adapter.insertItem(new Message(adapter.getItemCount(), msg,
                 true, adapter.getItemCount() % 5 == 0,
                 Tools.getFormattedTimeEvent(System.currentTimeMillis())));
-        et_content.setText("");
+        inputMessageEditText.setText("");
         recyclerView.scrollToPosition(adapter.getItemCount() - 1);
         multiRoundChatAiApi.sendMessageInThread(msg,
                 reply -> ThreadUtils.runOnUiThread(new Runnable() {

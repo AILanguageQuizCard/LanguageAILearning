@@ -1,10 +1,8 @@
 package com.example.chatgpt.activity;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.WindowManager;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -16,7 +14,7 @@ import com.example.chatgpt.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
-public class ChatgptBottomNavigationLight extends AppCompatActivity {
+public class BottomNavigationLightActivity extends AppCompatActivity {
 
     private BottomNavigationView navigation;
 
