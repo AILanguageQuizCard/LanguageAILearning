@@ -35,11 +35,12 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.pay.PayClient;
+import com.google.android.gms.samples.wallet.R;
+import com.google.android.gms.samples.wallet.databinding.ActivityCheckoutBinding;
 import com.google.android.gms.samples.wallet.viewmodel.CheckoutViewModel;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.wallet.PaymentData;
-import com.xiaoli.pay.R;
-import com.xiaoli.pay.databinding.ActivityCheckoutBinding;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,0 +1,210 @@
+package com.example.chatgpt.adapter.chat;
+
+import static com.example.chatgpt.adapter.chat.Constant.CHAT_ME;
+import static com.example.chatgpt.adapter.chat.Constant.CHAT_ME_VOICE;
+import static com.example.chatgpt.adapter.chat.Constant.CHAT_YOU;
+
+import android.app.Application;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.media.MediaPlayer;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.blankj.utilcode.util.ToastUtils;
+import com.example.chatgpt.R;
+import com.example.chatgpt.model.Message;
+import com.example.chatgpt.model.TextMessage;
+import com.example.chatgpt.texttovoice.main.Text2VoiceModel;
+import com.example.chatgpt.texttovoice.main.TextToVoiceSetting;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import darren.googlecloudtts.BuildConfig;
+import darren.googlecloudtts.GoogleCloudTTS;
+import darren.googlecloudtts.GoogleCloudTTSFactory;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.CompletableObserver;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
+public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final String TAG = "AdapterChatGptChat";
+
+    private final int VOICE_INITIAL = 0;
+    private final int VOICE_PLAYING = 1;
+    private final int VOICE_PAUSED = 2;
+
+    private List<Message> items = new ArrayList<>();
+
+    private final Application application;
+
+    public ChatAdapter(Application app) {
+        application = app;
+    }
+
+
+    @androidx.annotation.NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@androidx.annotation.NonNull ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder vh = null;
+        if (viewType == CHAT_ME) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_chatgpt_me, parent, false);
+            vh = new ChatItemViewHolder(v, viewType);
+        } else if ( viewType == CHAT_YOU){
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_chaggpt_you, parent, false);
+            vh = new ChatItemViewHolder(v, viewType);
+        } else if (viewType == CHAT_ME_VOICE) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_voice_message, parent, false);
+            vh = new VoiceMessageItemViewHolder(v);
+        }
+        return vh;
+    }
+
+
+    // Replace the contents of a view (invoked by the layout manager)
+    @Override
+    public void onBindViewHolder(@androidx.annotation.NonNull RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof ChatItemViewHolder) {
+            int realPosition = holder.getAdapterPosition();
+
+            if (items.get(realPosition) instanceof TextMessage) {
+                final TextMessage m = (TextMessage) items.get(realPosition);
+                ChatItemViewHolder vItem = (ChatItemViewHolder) holder;
+                vItem.textContentView.setText(m.getContent());
+                if (vItem.viewType == CHAT_ME) {
+                    vItem.textTimeView.setText(m.getDate());
+                }
+                GoogleCloudTTS googleCloudTTS = GoogleCloudTTSFactory.create(BuildConfig.API_KEY);
+                ((ChatItemViewHolder) holder).setText2VoiceModel(new Text2VoiceModel(application, googleCloudTTS));
+                setOnClickPlayVoiceButton(vItem, m);
+                setOnClickCopyContentButton(vItem);
+            }
+
+        } else if (holder instanceof VoiceMessageItemViewHolder) {
+            VoiceMessageItemViewHolder vItem = (VoiceMessageItemViewHolder) holder;
+            vItem.recordingPlayerView.setAudio("/storage/emulated/0/song.mp3");
+        }
+    }
+
+    void setOnClickCopyContentButton(ChatItemViewHolder vItem) {
+        if (vItem.copyContentButton != null) {
+            vItem.copyContentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ClipboardManager cm = (ClipboardManager) application.getSystemService(Context.CLIPBOARD_SERVICE);
+                    String text = String.valueOf(vItem.textContentView.getText());
+                    ClipData mClipData = ClipData.newPlainText("Label", text);
+                    cm.setPrimaryClip(mClipData);
+                    ToastUtils.make().setDurationIsLong(false).show(R.string.chat_copy_successfully);
+                }
+            });
+        }
+    }
+
+
+    void setOnClickPlayVoiceButton(ChatItemViewHolder vItem, Message m) {
+        if (vItem.playVoiceButton != null) {
+            vItem.playVoiceButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!(m instanceof TextMessage)) {
+                        return;
+                    }
+
+                    if(vItem.voiceStatus == VOICE_INITIAL) {
+
+                        // google cloud 的文字转语音模型，读中文的时候，会把最后的句号读出来，所以，直接把句号替换成逗号
+                        String realS =((TextMessage) m).getContent().replace("。", ",");
+                        MediaPlayer.OnCompletionListener comletionCallback = new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                vItem.playVoiceButton.setImageResource(R.drawable.ic_play_arrow);
+                                vItem.voiceStatus = VOICE_INITIAL;
+                            }
+                        };
+                        onSpeak(vItem.getText2VoiceModel(), realS, comletionCallback);
+                        vItem.playVoiceButton.setImageResource(R.drawable.ic_pause_black);
+                        vItem.voiceStatus = VOICE_PLAYING;
+
+                    } else if ( vItem.voiceStatus == VOICE_PLAYING) {
+                        vItem.playVoiceButton.setImageResource(R.drawable.ic_play_arrow);
+                        vItem.voiceStatus = VOICE_PAUSED;
+                        vItem.getText2VoiceModel().pause();
+
+                    } else if (vItem.voiceStatus == VOICE_PAUSED) {
+                        vItem.playVoiceButton.setImageResource(R.drawable.ic_pause_black);
+                        vItem.voiceStatus = VOICE_PLAYING;
+                        vItem.getText2VoiceModel().resume();
+                    }
+
+                }
+            });
+        }
+    }
+
+    void onSpeak(Text2VoiceModel text2VoiceModel, String text, MediaPlayer.OnCompletionListener comletionCallback) {
+        text2VoiceModel.speak(text, comletionCallback)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(t -> initTTSVoice(text2VoiceModel))
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {;
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i(TAG, "speak success");
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e(TAG, "Speak failed", e);
+                    }
+                });
+    }
+
+    private void initTTSVoice(Text2VoiceModel text2VoiceModel) {
+        String languageCode = TextToVoiceSetting.getLanguageCode();
+        String voiceName = TextToVoiceSetting.getVoiceName();
+        float pitch = TextToVoiceSetting.getPitch();
+        float speakRate = TextToVoiceSetting.getSpeakRate();
+        text2VoiceModel.initTTSVoice(languageCode, voiceName, pitch, speakRate);
+    }
+
+
+    // Return the size of your data set (invoked by the layout manager)
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (!this.items.get(position).isVoice()) {
+            return this.items.get(position).isFromMe() ? CHAT_ME : CHAT_YOU;
+        } else {
+            return CHAT_ME_VOICE;
+        }
+    }
+
+    public void insertItem(Message item) {
+        this.items.add(item);
+        notifyItemInserted(getItemCount());
+    }
+
+    public void setItems(List<Message> items) {
+        this.items = items;
+        notifyDataSetChanged();
+    }
+
+}

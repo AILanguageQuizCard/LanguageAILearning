@@ -6,7 +6,7 @@ plugins {
 
 android {
     compileSdkVersion 33
-
+    namespace 'com.example.chatgpt'
     defaultConfig {
         applicationId "com.example.chatgpt"
         minSdkVersion 24
@@ -19,10 +19,16 @@ android {
 
     buildTypes {
         release {
+            buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug{
+            buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+
             buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
         }
     }
@@ -34,10 +40,6 @@ android {
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/INDEX.LIST'
-    }
-
-    viewBinding {
-        enabled true
     }
 
 }
@@ -92,6 +94,11 @@ dependencies {
     implementation project(path: ':app')
     implementation project(path: ':googlecloudtts')
     implementation project(path: ':pay')
-    implementation project(path: ':voice_record')
+
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:8bcb4d3851'
+    implementation 'org.greenrobot:eventbus:3.3.1'
+    implementation 'com.github.Armen101:AudioRecordView:1.0.4'
+    implementation 'com.github.naman14:TAndroidLame:1.1'
+    implementation 'me.grantland:autofittextview:0.2.1'
 
 }

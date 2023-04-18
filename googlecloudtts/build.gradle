@@ -1,10 +1,10 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
+
 group='tw.changemyminds'
 
 android {
     compileSdkVersion 33
-
+    namespace 'darren.googlecloudtts'
     defaultConfig {
         minSdkVersion 24
         targetSdkVersion 33
@@ -17,10 +17,16 @@ android {
 
     buildTypes {
         debug{
+            buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+
             buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
         }
         release {
             minifyEnabled false
+            buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

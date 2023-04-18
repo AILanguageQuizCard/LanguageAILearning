@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="timingBGColorWhite">#21FFFFFF</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
@@ -32,6 +34,7 @@
     <color name="overlay_light_80">#CCFFFFFF</color>
     <color name="overlay_light_90">#E6FFFFFF</color>
 
+    <color name="gray">#797878</color>
     <color name="grey_3">#f7f7f7</color>
     <color name="grey_5">#f2f2f2</color>
     <color name="grey_10">#e6e6e6</color>

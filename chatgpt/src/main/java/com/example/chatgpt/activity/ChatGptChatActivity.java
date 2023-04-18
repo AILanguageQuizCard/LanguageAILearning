@@ -33,13 +33,14 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.example.chatgpt.R;
 import com.example.chatgpt.chatapi.MultiRoundChatAiApi;
-import com.example.chatgpt.adapter.ChatAdapter;
+import com.example.chatgpt.adapter.chat.ChatAdapter;
 import com.example.chatgpt.common.XLIntent;
-import com.google.android.gms.samples.wallet.activity.CheckoutActivity;
-import com.material.components.model.Message;
-import com.material.components.utils.Tools;
-import com.simplemobiletools.voicerecorder.activities.MainActivity;
+import com.example.chatgpt.model.Message;
+import com.example.chatgpt.model.TextMessage;
+import com.example.chatgpt.model.VoiceMessage;
+import com.example.chatgpt.voicerecord.VoiceRecordActivity;
 
+import com.material.components.utils.Tools;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,8 +101,8 @@ public class ChatGptChatActivity extends AppCompatActivity {
         voiceMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), MainActivity.class);
-                ActivityUtils.getTopActivity().startActivity(intent);
+                adapter.insertItem(new VoiceMessage(adapter.getItemCount(), true,
+                        true, Tools.getFormattedTimeEvent(System.currentTimeMillis())));
             }
         });
     }
@@ -115,7 +116,7 @@ public class ChatGptChatActivity extends AppCompatActivity {
         adapter = new ChatAdapter(getApplication());
         recyclerView.setAdapter(adapter);
         // todo 将初始message换成选择要输入的话
-        Message initialMessage = new Message(adapter.getItemCount(), startWords, false,
+        Message initialMessage = new TextMessage(adapter.getItemCount(), startWords, false,
                 adapter.getItemCount() % 5 == 0, Tools.getFormattedTimeEvent(System.currentTimeMillis()));
         adapter.insertItem(initialMessage);
 
@@ -150,7 +151,7 @@ public class ChatGptChatActivity extends AppCompatActivity {
     private void sendChat() {
         final String msg = inputMessageEditText.getText().toString();
         if (msg.isEmpty()) return;
-        adapter.insertItem(new Message(adapter.getItemCount(), msg,
+        adapter.insertItem(new TextMessage(adapter.getItemCount(), msg,
                 true, adapter.getItemCount() % 5 == 0,
                 Tools.getFormattedTimeEvent(System.currentTimeMillis())));
         inputMessageEditText.setText("");
@@ -159,7 +160,7 @@ public class ChatGptChatActivity extends AppCompatActivity {
                 reply -> ThreadUtils.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.insertItem(new Message(adapter.getItemCount(), reply,
+                        adapter.insertItem(new TextMessage(adapter.getItemCount(), reply,
                                 false, adapter.getItemCount() % 5 == 0,
                                 Tools.getFormattedTimeEvent(System.currentTimeMillis())));
 
