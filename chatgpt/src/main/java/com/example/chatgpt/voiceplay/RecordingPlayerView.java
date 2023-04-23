@@ -54,7 +54,6 @@ public class RecordingPlayerView extends LinearLayout {
     private ImageView imgPlay;
     private ImageView imgPause;
     private ImageView imgShare;
-    private ImageView imgDownload;
     private SeekBar seekBar;
     private ProgressBar progressBar;
     private TextView txtProcess;
@@ -130,10 +129,8 @@ public class RecordingPlayerView extends LinearLayout {
         txtProcess = this.findViewById(R.id.txtTime);
         seekbarV = this.findViewById(R.id.seekBarV);
         pb_play = this.findViewById(R.id.pb_play);
-        imgDownload = this.findViewById(R.id.imgDownload);
 
         pb_play.setVisibility(GONE);
-        imgDownload.setVisibility(GONE);
 
         viewShape.setColor(viewBackgroundColor);
         viewShape.setCornerRadius(viewCornerRadius);
@@ -146,8 +143,6 @@ public class RecordingPlayerView extends LinearLayout {
         imgPlay.setColorFilter(playPauseIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
         imgPause.setBackground(playPauseShape);
         imgPause.setColorFilter(playPauseIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
-        imgDownload.setBackground(playPauseShape);
-        imgDownload.setColorFilter(playPauseIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
 
         imgShare.setBackground(shareShape);
         main_layout.setBackground(viewShape);
@@ -218,7 +213,6 @@ public class RecordingPlayerView extends LinearLayout {
                     public void onCompletion(MediaPlayer mp) {
                         imgPause.setVisibility(View.GONE);
                         imgPlay.setVisibility(View.VISIBLE);
-                        imgDownload.setVisibility(GONE);
                         pb_play.setVisibility(GONE);
                     }
                 });
@@ -248,7 +242,6 @@ public class RecordingPlayerView extends LinearLayout {
         public void onClick(View v) {
             imgPause.setVisibility(View.VISIBLE);
             imgPlay.setVisibility(View.GONE);
-            imgDownload.setVisibility(GONE);
             pb_play.setVisibility(GONE);
             mediaPlayer.start();
             try {
@@ -307,7 +300,6 @@ public class RecordingPlayerView extends LinearLayout {
         public void onClick(View v) {
             imgPause.setVisibility(View.GONE);
             imgPlay.setVisibility(View.VISIBLE);
-            imgDownload.setVisibility(GONE);
             pb_play.setVisibility(GONE);
             mediaPlayer.pause();
         }
@@ -434,7 +426,6 @@ public class RecordingPlayerView extends LinearLayout {
         }
         imgPause.setVisibility(View.GONE);
         imgPlay.setVisibility(View.VISIBLE);
-        imgDownload.setVisibility(GONE);
         pb_play.setVisibility(GONE);
     }
 
@@ -491,26 +482,22 @@ public class RecordingPlayerView extends LinearLayout {
     public void showDownloadButton() {
         imgPlay.setVisibility(GONE);
         imgPause.setVisibility(GONE);
-        imgDownload.setVisibility(VISIBLE);
         pb_play.setVisibility(GONE);
     }
 
     public void showPlayProgressbar() {
         imgPlay.setVisibility(GONE);
         imgPause.setVisibility(GONE);
-        imgDownload.setVisibility(GONE);
         pb_play.setVisibility(VISIBLE);
     }
 
     public void hidePlayProgressbar() {
-        imgDownload.setVisibility(GONE);
         pb_play.setVisibility(GONE);
         imgPlay.setVisibility(VISIBLE);
 
     }
 
     public void hidePlayProgressAndPlay() {
-        imgDownload.setVisibility(GONE);
         pb_play.setVisibility(GONE);
         imgPlay.setVisibility(VISIBLE);
         imgPlay.callOnClick();
@@ -781,14 +768,6 @@ public class RecordingPlayerView extends LinearLayout {
 
     public void setImgPause(ImageView imgPause) {
         this.imgPause = imgPause;
-    }
-
-    public ImageView getImgDownload() {
-        return imgDownload;
-    }
-
-    public void setImgDownload(ImageView imgDownload) {
-        this.imgDownload = imgDownload;
     }
 
     public ImageView getImgShare() {

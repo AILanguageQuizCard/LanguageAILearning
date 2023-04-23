@@ -18,39 +18,27 @@
         android:padding="@dimen/padding5">
 
         <ImageView
-            android:layout_marginLeft="10dp"
             android:id="@+id/imgPlay"
-            android:layout_width="@dimen/padding45"
-            android:layout_height="@dimen/padding45"
+            android:layout_width="@dimen/padding32"
+            android:layout_height="@dimen/padding32"
             android:background="@drawable/vp_play_pause_bg"
             android:clickable="true"
             android:contentDescription="@string/cDescription"
             android:focusable="true"
             app:srcCompat="@drawable/vp_ic_play_arrow_white" />
 
-        <ImageView
-            android:id="@+id/imgDownload"
-            android:layout_width="@dimen/padding45"
-            android:layout_height="@dimen/padding45"
-            android:background="@drawable/vp_play_pause_bg"
-            android:clickable="true"
-            android:contentDescription="@string/cDescription"
-            android:focusable="true"
-            android:visibility="gone"
-            app:srcCompat="@drawable/vp_vertical_align_bottom" />
-
         <ProgressBar
             android:id="@+id/pb_play"
-            android:layout_width="@dimen/padding45"
-            android:layout_height="@dimen/padding45"
+            android:layout_width="@dimen/padding32"
+            android:layout_height="@dimen/padding32"
             android:clickable="true"
             android:focusable="true"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/imgPause"
-            android:layout_width="@dimen/padding45"
-            android:layout_height="@dimen/padding45"
+            android:layout_width="@dimen/padding32"
+            android:layout_height="@dimen/padding32"
             android:background="@drawable/vp_play_pause_bg"
             android:clickable="true"
             android:contentDescription="@string/cDescription"
@@ -74,7 +62,7 @@
                 android:id="@+id/seekBar"
                 android:layout_width="@dimen/paddingAudioSeek"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_marginTop="3dp"
                 android:paddingStart="@dimen/padding12"
                 android:paddingEnd="@dimen/padding7" />
 
@@ -82,8 +70,8 @@
                 android:id="@+id/seekBarV"
                 android:layout_width="@dimen/padding135"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="@dimen/padding8"
                 android:layout_marginRight="@dimen/padding8"
                 android:visibility="gone" />
@@ -104,8 +92,8 @@
 
         <ImageView
             android:id="@+id/imgShare"
-            android:layout_width="@dimen/padding45"
-            android:layout_height="@dimen/padding45"
+            android:layout_width="@dimen/padding32"
+            android:layout_height="@dimen/padding32"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/vp_play_pause_bg"
             android:clickable="true"

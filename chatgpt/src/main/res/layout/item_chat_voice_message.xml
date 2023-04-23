@@ -7,8 +7,6 @@
     android:layout_height="wrap_content"
     android:gravity="end|right"
     android:orientation="horizontal"
-    android:layout_marginLeft="@dimen/spacing_xlarge"
-    android:layout_marginStart="@dimen/spacing_xlarge"
     android:paddingBottom="1dp"
     android:paddingLeft="@dimen/spacing_middle"
     android:paddingRight="@dimen/spacing_middle"
@@ -19,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_small"
         android:minHeight="32dp"
+        android:minWidth="180dp"
         app:cardBackgroundColor="#EFFFDE"
         app:cardCornerRadius="5dp"
         app:cardElevation="1dp"
@@ -28,6 +27,10 @@
             android:id="@+id/record_player_view"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
             app:headsetDirection="left"
             app:playPauseBackgroundColor="@color/grey_800"
             app:playPauseCornerRadius="100"
@@ -45,6 +48,3 @@
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>
-
-
-
