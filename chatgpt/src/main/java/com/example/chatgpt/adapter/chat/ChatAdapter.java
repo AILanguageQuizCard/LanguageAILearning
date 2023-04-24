@@ -20,6 +20,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.example.chatgpt.R;
 import com.example.chatgpt.model.Message;
 import com.example.chatgpt.model.TextMessage;
+import com.example.chatgpt.model.VoiceMessage;
 import com.example.chatgpt.texttovoice.main.Text2VoiceModel;
 import com.example.chatgpt.texttovoice.main.TextToVoiceSetting;
 
@@ -91,7 +92,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         } else if (holder instanceof VoiceMessageItemViewHolder) {
             VoiceMessageItemViewHolder vItem = (VoiceMessageItemViewHolder) holder;
-            vItem.recordingPlayerView.setAudio("/storage/emulated/0/song.mp3");
+            int realPosition = holder.getAdapterPosition();
+            if (items.get(realPosition) instanceof VoiceMessage) {
+                final VoiceMessage m = (VoiceMessage) items.get(realPosition);
+                vItem.recordingPlayerView.setAudio(m.getPath());
+            }
         }
     }
 

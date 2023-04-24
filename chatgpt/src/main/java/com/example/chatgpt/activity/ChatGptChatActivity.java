@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,7 +42,14 @@ import com.example.chatgpt.model.TextMessage;
 import com.example.chatgpt.model.VoiceMessage;
 import com.example.chatgpt.voicerecord.VoiceRecordActivity;
 
+import com.example.chatgpt.voicerecord.models.Events;
+import com.example.chatgpt.voicetotext.VoiceToTextModel;
 import com.material.components.utils.Tools;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,15 +68,25 @@ public class ChatGptChatActivity extends AppCompatActivity {
 
     private MultiRoundChatAiApi multiRoundChatAiApi;
 
+    private EventBus bus = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_chatgpt);
+
+        initEventBus();
         initStatusBar();
+
         initMultiRoundChatAiApi(getIntent().getStringExtra(SYSTEM_COMMAND),
                 getIntent().getIntExtra(CHAT_ACTIVITY_START_MODE, 0));
         initComponent(getIntent().getStringExtra(START_WORDS));
         initVoiceMessageButton();
+    }
+
+    private void initEventBus(){
+        bus = EventBus.getDefault();
+        bus.register(this);
     }
 
 
@@ -101,10 +120,19 @@ public class ChatGptChatActivity extends AppCompatActivity {
         voiceMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                adapter.insertItem(new VoiceMessage(adapter.getItemCount(), true,
-                        true, Tools.getFormattedTimeEvent(System.currentTimeMillis())));
+                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), VoiceRecordActivity.class);
+                ActivityUtils.getTopActivity().startActivity(intent);
+
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void gotRecordEndEvent(Events.RecordingCompleted event){
+        String path = event.getPath();
+        Log.i("RecorderFragment", path);
+        adapter.insertItem(new VoiceMessage(adapter.getItemCount(), true,
+                        true, Tools.getFormattedTimeEvent(System.currentTimeMillis()), path ));
     }
 
     public void initComponent(String startWords) {
@@ -173,6 +201,7 @@ public class ChatGptChatActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        bus.unregister(this);
         multiRoundChatAiApi.cancelAllCurrentThread();
     }
 

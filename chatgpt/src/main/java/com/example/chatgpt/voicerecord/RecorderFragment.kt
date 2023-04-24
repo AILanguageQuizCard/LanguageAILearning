@@ -154,4 +154,5 @@ class RecorderFragment(context: Context, attributeSet: AttributeSet) : Constrain
             recorderVisualizer.update(amplitude)
         }
     }
+
 }

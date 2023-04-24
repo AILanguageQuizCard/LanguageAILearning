@@ -5,27 +5,28 @@ import android.content.Context
 import android.media.AudioFormat
 import android.media.AudioRecord
 import com.example.chatgpt.voicerecord.extensions.config
+import com.example.chatgpt.voicerecord.helpers.SAMPLE_RATE
+import com.example.chatgpt.voicerecord.helpers.WAV_SAMPLE_RATE
 import com.naman14.androidlame.AndroidLame
 import com.naman14.androidlame.LameBuilder
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.example.chatgpt.voicerecord.helpers.SAMPLE_RATE
 import java.io.*
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.abs
 
-class Mp3Recorder(val context: Context) : Recorder {
-    private var mp3buffer: ByteArray = ByteArray(0)
+class WavRecorder(val context: Context) : Recorder {
     private var isPaused = AtomicBoolean(false)
     private var isStopped = AtomicBoolean(false)
     private var amplitude = AtomicInteger(0)
     private var outputPath: String? = null
-    private var androidLame: AndroidLame? = null
     private var fileDescriptor: FileDescriptor? = null
     private var outputStream: FileOutputStream? = null
     private val minBufferSize = AudioRecord.getMinBufferSize(
-        SAMPLE_RATE,
+        WAV_SAMPLE_RATE,
         AudioFormat.CHANNEL_IN_MONO,
         AudioFormat.ENCODING_PCM_16BIT
     )
@@ -33,7 +34,7 @@ class Mp3Recorder(val context: Context) : Recorder {
     @SuppressLint("MissingPermission")
     private val audioRecord = AudioRecord(
         context.config.audioSource,
-        SAMPLE_RATE,
+        WAV_SAMPLE_RATE,
         AudioFormat.CHANNEL_IN_MONO,
         AudioFormat.ENCODING_PCM_16BIT,
         minBufferSize * 2
@@ -47,7 +48,6 @@ class Mp3Recorder(val context: Context) : Recorder {
 
     override fun start() {
         val rawData = ShortArray(minBufferSize)
-        mp3buffer = ByteArray((7200 + rawData.size * 2 * 1.25).toInt())
 
         outputStream = try {
             if (fileDescriptor != null) {
@@ -59,13 +59,6 @@ class Mp3Recorder(val context: Context) : Recorder {
             e.printStackTrace()
             return
         }
-
-        val androidLame = LameBuilder()
-            .setInSampleRate(SAMPLE_RATE)
-            .setOutBitrate(context.config.bitrate / 1000)
-            .setOutSampleRate(SAMPLE_RATE)
-            .setOutChannels(1)
-            .build()
 
         ensureBackgroundThread {
             try {
@@ -79,20 +72,25 @@ class Mp3Recorder(val context: Context) : Recorder {
                 if (!isPaused.get()) {
                     val count = audioRecord.read(rawData, 0, minBufferSize)
                     if (count > 0) {
-                        val encoded = androidLame.encode(rawData, rawData, count, mp3buffer)
-                        if (encoded > 0) {
-                            try {
-                                updateAmplitude(rawData)
-                                outputStream!!.write(mp3buffer, 0, encoded)
-                            } catch (e: IOException) {
-                                e.printStackTrace()
-                            }
+                        try {
+                            updateAmplitude(rawData)
+                            outputStream!!.write(shortArrayToByteArray(rawData))
+                        } catch (e: IOException) {
+                            e.printStackTrace()
                         }
+
                     }
                 }
             }
         }
     }
+
+    private fun shortArrayToByteArray(shortArray: ShortArray): ByteArray {
+        val byteArray = ByteArray(shortArray.size * 2)
+        ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(shortArray)
+        return byteArray
+    }
+
 
     override fun stop() {
         isPaused.set(true)
@@ -108,7 +106,6 @@ class Mp3Recorder(val context: Context) : Recorder {
     }
 
     override fun release() {
-        androidLame?.flush(mp3buffer)
         outputStream?.close()
     }
 
@@ -127,4 +124,5 @@ class Mp3Recorder(val context: Context) : Recorder {
         }
         amplitude.set((sum / (minBufferSize / 8)).toInt())
     }
+
 }

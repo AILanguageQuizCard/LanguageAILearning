@@ -28,7 +28,7 @@ fun Context.getDefaultRecordingsFolder(): String {
 
 fun Context.getDefaultRecordingsRelativePath(): String {
     return if (isQPlus()) {
-        "${Environment.DIRECTORY_MUSIC}/Recordings"
+        "${Environment.DIRECTORY_MUSIC}/LanguageAILearning"
     } else {
         getString(R.string.app_name)
     }

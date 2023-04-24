@@ -6,6 +6,7 @@ import android.app.*
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.media.AudioFormat
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
@@ -16,22 +17,21 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.chatgpt.R
 import com.example.chatgpt.activity.BottomNavigationLightActivity
+import com.example.chatgpt.voicerecord.extensions.config
+import com.example.chatgpt.voicerecord.extensions.getDefaultRecordingsRelativePath
+import com.example.chatgpt.voicerecord.helpers.*
 import com.example.chatgpt.voicerecord.models.Events
+import com.example.chatgpt.voicerecord.recorder.PcmToWavUtil
+import com.example.chatgpt.voicerecord.recorder.Recorder
+import com.example.chatgpt.voicerecord.recorder.WavRecorder
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.helpers.isOreoPlus
 import com.simplemobiletools.commons.helpers.isRPlus
-
-import com.example.chatgpt.voicerecord.extensions.config
-import com.example.chatgpt.voicerecord.extensions.getDefaultRecordingsRelativePath
-import com.example.chatgpt.voicerecord.helpers.*
-
-import com.example.chatgpt.voicerecord.recorder.MediaRecorderWrapper
-import com.example.chatgpt.voicerecord.recorder.Mp3Recorder
-import com.example.chatgpt.voicerecord.recorder.Recorder
 import org.greenrobot.eventbus.EventBus
 import java.io.File
 import java.util.*
+
 
 class RecorderService : Service() {
     companion object {
@@ -41,6 +41,8 @@ class RecorderService : Service() {
     private val AMPLITUDE_UPDATE_MS = 75L
 
     private var currFilePath = ""
+    private var wavFilePath = ""
+
     private var duration = 0
     private var status = RECORDING_STOPPED
     private var durationTimer = Timer()
@@ -87,14 +89,12 @@ class RecorderService : Service() {
             defaultFolder.absolutePath
         }
 
-        currFilePath = "$baseFolder/${getCurrentFormattedDateTime()}.${config.getExtensionText()}"
+        currFilePath = "$baseFolder/${getCurrentFormattedDateTime()}.pcm"
+
+        wavFilePath = "$baseFolder/${getCurrentFormattedDateTime()}.wav"
 
         try {
-            recorder = if (recordMp3()) {
-                Mp3Recorder(this)
-            } else {
-                MediaRecorderWrapper(this)
-            }
+            recorder = WavRecorder(this)
 
             if (isRPlus() && hasProperStoredFirstParentUri(currFilePath)) {
                 val fileUri = createDocumentUriUsingFirstParentTreeUri(currFilePath)
@@ -139,12 +139,14 @@ class RecorderService : Service() {
                 release()
 
                 ensureBackgroundThread {
-                    if (isRPlus() && !hasProperStoredFirstParentUri(currFilePath)) {
+                    PcmToWavUtil(WAV_SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, 1, AudioFormat.ENCODING_PCM_16BIT)
+                        .pcmToWav(currFilePath, wavFilePath)
+                    if (isRPlus() && !hasProperStoredFirstParentUri(wavFilePath)) {
                         addFileInNewMediaStore()
                     } else {
                         addFileInLegacyMediaStore()
                     }
-                    EventBus.getDefault().post(Events.RecordingCompleted())
+                    EventBus.getDefault().post(Events.RecordingCompleted(wavFilePath))
                 }
             } catch (e: Exception) {
                 showErrorToast(e)
@@ -185,7 +187,7 @@ class RecorderService : Service() {
     @SuppressLint("InlinedApi")
     private fun addFileInNewMediaStore() {
         val audioCollection = Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-        val storeFilename = currFilePath.getFilenameFromPath()
+        val storeFilename = wavFilePath.getFilenameFromPath()
 
         val newSongDetails = ContentValues().apply {
             put(Media.DISPLAY_NAME, storeFilename)
@@ -202,7 +204,7 @@ class RecorderService : Service() {
 
         try {
             val outputStream = contentResolver.openOutputStream(newUri)
-            val inputStream = getFileInputStreamSync(currFilePath)
+            val inputStream = getFileInputStreamSync(wavFilePath)
             inputStream!!.copyTo(outputStream!!, DEFAULT_BUFFER_SIZE)
             recordingSavedSuccessfully(newUri)
         } catch (e: Exception) {
@@ -213,8 +215,8 @@ class RecorderService : Service() {
     private fun addFileInLegacyMediaStore() {
         MediaScannerConnection.scanFile(
             this,
-            arrayOf(currFilePath),
-            arrayOf(currFilePath.getMimeType())
+            arrayOf(wavFilePath),
+            arrayOf(wavFilePath.getMimeType())
         ) { _, uri -> recordingSavedSuccessfully(uri) }
     }
 
