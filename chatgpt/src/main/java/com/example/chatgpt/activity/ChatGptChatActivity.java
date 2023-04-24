@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -133,6 +132,18 @@ public class ChatGptChatActivity extends AppCompatActivity {
         Log.i("RecorderFragment", path);
         adapter.insertItem(new VoiceMessage(adapter.getItemCount(), true,
                         true, Tools.getFormattedTimeEvent(System.currentTimeMillis()), path ));
+        ThreadUtils.getSinglePool().execute(new Runnable() {
+            @Override
+            public void run() {
+                String v2tResult = VoiceToTextModel.transcribeAudioFile(path, getApplication());
+                ThreadUtils.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        sendChat(v2tResult);
+                    }
+                });
+            }
+        });
     }
 
     public void initComponent(String startWords) {
@@ -176,8 +187,7 @@ public class ChatGptChatActivity extends AppCompatActivity {
         });
     }
 
-    private void sendChat() {
-        final String msg = inputMessageEditText.getText().toString();
+    private void sendChat(String msg) {
         if (msg.isEmpty()) return;
         adapter.insertItem(new TextMessage(adapter.getItemCount(), msg,
                 true, adapter.getItemCount() % 5 == 0,
@@ -196,6 +206,11 @@ public class ChatGptChatActivity extends AppCompatActivity {
                     }
                 })
         );
+    }
+
+    private void sendChat() {
+        final String msg = inputMessageEditText.getText().toString();
+        sendChat(msg);
     }
 
     @Override
