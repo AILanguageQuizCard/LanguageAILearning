@@ -115,7 +115,7 @@ public class ChatGptChatActivity extends AppCompatActivity {
         voiceMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo j
+                // todo 添加隐私政策 以满足google play上架要求
 //                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), VoiceRecordActivity.class);
 //                ActivityUtils.getTopActivity().startActivity(intent);
 
