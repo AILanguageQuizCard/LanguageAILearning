@@ -26,20 +26,17 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.chat.ChatAdapter;
 import com.chunxia.chatgpt.chatapi.MultiRoundChatAiApi;
-import com.chunxia.chatgpt.common.XLIntent;
-import com.chunxia.chatgpt.voicerecord.VoiceRecordActivity;
+import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.voicetotext.VoiceToTextModel;
 import com.chunxia.chatgpt.model.Message;
 import com.chunxia.chatgpt.model.TextMessage;
 import com.chunxia.chatgpt.model.VoiceMessage;
 
 import com.chunxia.chatgpt.voicerecord.models.Events;
-import com.material.components.utils.Tools;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

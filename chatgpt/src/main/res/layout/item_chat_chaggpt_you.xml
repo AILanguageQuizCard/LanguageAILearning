@@ -59,8 +59,8 @@
                     android:layout_marginRight="5dp"
                     android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:tint="@color/grey_80"
-                    app:srcCompat="@drawable/ic_play_arrow" />
+                    app:srcCompat="@drawable/ic_play_arrow"
+                    app:tint="@color/grey_80" />
 
 
                 <ImageButton
@@ -70,8 +70,8 @@
                     android:layout_marginRight="5dp"
                     android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:tint="@color/grey_80"
-                    app:srcCompat="@drawable/ic_content_copy" />
+                    app:srcCompat="@drawable/ic_content_copy"
+                    app:tint="@color/grey_80" />
 
                 <TextView
                     android:visibility="gone"
