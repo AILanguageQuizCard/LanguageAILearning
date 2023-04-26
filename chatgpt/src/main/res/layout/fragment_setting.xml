@@ -60,7 +60,7 @@
 
         </RelativeLayout>
 
-        <com.example.chatgpt.ui.SettingItemView
+        <com.chunxia.chatgpt.ui.SettingItemView
             app:text="@string/setting_item_1"
             app:icon="@drawable/ic_volume_up"
             android:layout_marginLeft="10dp"
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"/>
 
-        <com.example.chatgpt.ui.SettingItemView
+        <com.chunxia.chatgpt.ui.SettingItemView
             app:text="@string/setting_item_2"
             app:icon="@drawable/ic_volume_up"
             android:layout_marginLeft="10dp"
@@ -80,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"/>
 
-        <com.example.chatgpt.ui.SettingItemView
+        <com.chunxia.chatgpt.ui.SettingItemView
             app:text="@string/setting_item_3"
             app:icon="@drawable/ic_volume_up"
             android:layout_marginLeft="10dp"
@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"/>
 
-        <com.example.chatgpt.ui.SettingItemView
+        <com.chunxia.chatgpt.ui.SettingItemView
             app:text="@string/setting_item_4"
             app:icon="@drawable/ic_volume_up"
             android:layout_marginLeft="10dp"
@@ -100,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"/>
 
-        <com.example.chatgpt.ui.SettingItemView
+        <com.chunxia.chatgpt.ui.SettingItemView
             app:text="@string/setting_item_5"
             app:icon="@drawable/ic_volume_up"
             android:layout_marginLeft="10dp"
@@ -111,7 +111,7 @@
             android:layout_height="50dp"/>
 
 
-        <com.example.chatgpt.ui.SettingItemView
+        <com.chunxia.chatgpt.ui.SettingItemView
             app:text="@string/setting_item_6"
             app:icon="@drawable/ic_volume_up"
             android:layout_marginLeft="10dp"

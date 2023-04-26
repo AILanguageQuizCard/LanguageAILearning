@@ -23,7 +23,7 @@
         app:cardElevation="1dp"
         app:cardUseCompatPadding="false">
 
-        <com.example.chatgpt.voiceplay.RecordingPlayerView
+        <com.chunxia.chatgpt.voiceplay.RecordingPlayerView
             android:id="@+id/record_player_view"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

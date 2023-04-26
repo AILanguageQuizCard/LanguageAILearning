@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_chatgpt_tasks"
-        android:name="com.example.chatgpt.fragment.ChatGptTasksFragment"
+        android:name="com.chunxia.chatgpt.fragment.ChatGptTasksFragment"
         android:label="Tasks"
         tools:layout="@layout/fragment_chat_chatgpt" />
 
     <fragment
         android:id="@+id/navigation_chatgpt_me"
-        android:name="com.example.chatgpt.fragment.ChatGptMeFragment"
+        android:name="com.chunxia.chatgpt.fragment.ChatGptMeFragment"
         android:label="Me"
         tools:layout="@layout/fragment_chat_chatgpt" />
 </navigation>

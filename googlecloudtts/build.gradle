@@ -27,6 +27,8 @@ android {
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
 
+            buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
+
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

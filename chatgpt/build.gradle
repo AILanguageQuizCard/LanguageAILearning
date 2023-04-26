@@ -6,9 +6,9 @@ plugins {
 
 android {
     compileSdkVersion 33
-    namespace 'com.example.chatgpt'
+    namespace 'com.chunxia.chatgpt'
     defaultConfig {
-        applicationId "com.example.chatgpt"
+        applicationId "com.chunxia.chatgpt"
         minSdkVersion 24
         targetSdkVersion 33
         versionCode 1
@@ -21,7 +21,7 @@ android {
         release {
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
-
+            buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -104,4 +104,7 @@ dependencies {
     // google voice to text
     implementation 'com.google.cloud:google-cloud-speech:4.9.0'
     implementation "io.grpc:grpc-okhttp:1.38.1"
+
+    // google billing
+    implementation 'com.android.billingclient:billing:5.2.0'
 }

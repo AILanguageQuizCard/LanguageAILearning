@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".voicerecord.VoiceRecordActivity">
 
-    <com.example.chatgpt.voicerecord.RecorderFragment
+    <com.chunxia.chatgpt.voicerecord.RecorderFragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

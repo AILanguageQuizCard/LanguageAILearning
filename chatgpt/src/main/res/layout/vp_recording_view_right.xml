@@ -66,7 +66,7 @@
                 android:paddingStart="@dimen/padding12"
                 android:paddingEnd="@dimen/padding7" />
 
-            <com.example.chatgpt.voiceplay.PlayerVisualizerSeekbar
+            <com.chunxia.chatgpt.voiceplay.PlayerVisualizerSeekbar
                 android:id="@+id/seekBarV"
                 android:layout_width="@dimen/padding135"
                 android:layout_height="wrap_content"
