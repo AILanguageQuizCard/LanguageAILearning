@@ -30,6 +30,8 @@ class BillingService(
         mBillingClient = BillingClient.newBuilder(context).setListener(this).enablePendingPurchases().build()
         mBillingClient.startConnection(object : BillingClientStateListener{
             override fun onBillingServiceDisconnected() {
+                // todo 连接断开 https://developer.android.com/google/play/billing/errors?hl=zh-cn
+                //  加上google推荐的断开重连算法
                 log("onBillingServiceDisconnected")
             }
 
@@ -39,16 +41,16 @@ class BillingService(
                 when {
                     billingResult.isOk() -> {
                         isBillingClientConnected(true, billingResult.responseCode)
-                        nonConsumableKeys.queryProductDetails(BillingClient.ProductType.INAPP) {
-                            GlobalScope.launch {
-                                queryPurchases()
-                            }
-                        }
-                        consumableKeys.queryProductDetails(BillingClient.ProductType.INAPP) {
-                            GlobalScope.launch {
-                                queryPurchases()
-                            }
-                        }
+//                        nonConsumableKeys.queryProductDetails(BillingClient.ProductType.INAPP) {
+//                            GlobalScope.launch {
+//                                queryPurchases()
+//                            }
+//                        }
+//                        consumableKeys.queryProductDetails(BillingClient.ProductType.INAPP) {
+//                            GlobalScope.launch {
+//                                queryPurchases()
+//                            }
+//                        }
                         subscriptionSkuKeys.queryProductDetails(BillingClient.ProductType.SUBS) {
                             GlobalScope.launch {
                                 queryPurchases()
@@ -271,6 +273,8 @@ class BillingService(
             return
         }
 
+        log("queryProductDetails. start to handle query product details.")
+
         val productList = mutableListOf<QueryProductDetailsParams.Product>()
         this.forEach {
             productList.add(QueryProductDetailsParams.Product.newBuilder()
@@ -281,13 +285,16 @@ class BillingService(
         
         val params = QueryProductDetailsParams.newBuilder().setProductList(productList)
 
+        log("queryProductDetails. productList:$productList")
+
         mBillingClient.queryProductDetailsAsync(params.build()) { billingResult, productDetailsList ->
             if (billingResult.isOk()) {
+                log("queryProductDetails. billing result ok!")
                 isBillingClientConnected(true, billingResult.responseCode)
                 productDetailsList.forEach {
                     productDetails[it.productId] = it
                 }
-
+                log("queryProductDetails. productDetails:$productDetails")
                 productDetails.mapNotNull { entry ->
                     entry.value?.let {
                         when(it.productType){
@@ -382,7 +389,7 @@ class BillingService(
     private fun log(message: String) {
         when {
             enableDebug -> {
-                Log.d(TAG, message)
+                Log.i(TAG, message)
             }
         }
     }

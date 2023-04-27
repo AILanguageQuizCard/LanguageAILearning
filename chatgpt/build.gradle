@@ -11,8 +11,8 @@ android {
         applicationId "com.chunxia.chatgpt"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 10001
-        versionName "1.0.1"
+        versionCode 10002
+        versionName "1.0.2"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
@@ -95,6 +95,7 @@ dependencies {
     implementation project(path: ':pay')
     implementation project(path: ':iap')
 
+    // 录音功能
     implementation 'com.github.SimpleMobileTools:Simple-Commons:8bcb4d3851'
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.github.Armen101:AudioRecordView:1.0.4'
@@ -107,6 +108,7 @@ dependencies {
 
     // google billing
     implementation 'com.android.billingclient:billing:5.2.0'
+    // 引入:iap包会有冲突，通过下面的replaceBy可以解决
     modules {
         module("org.jetbrains.kotlin:kotlin-stdlib-jdk7") {
             replacedBy("org.jetbrains.kotlin:kotlin-stdlib", "kotlin-stdlib-jdk7 is now part of kotlin-stdlib")
@@ -115,4 +117,6 @@ dependencies {
             replacedBy("org.jetbrains.kotlin:kotlin-stdlib", "kotlin-stdlib-jdk8 is now part of kotlin-stdlib")
         }
     }
+    // :iap包
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
 }

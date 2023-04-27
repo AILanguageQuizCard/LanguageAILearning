@@ -63,4 +63,18 @@
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
     -->
     <string name="version_unknown">Unknown</string>
+
+    <string name="subscribe">Subscribe</string>
+    <string name="basic">Basic</string>
+    <string name="moderate">Moderate</string>
+    <string name="quite">Quite</string>
+    <string name="ultimate">Ultimate</string>
+    <string name="github">Github</string>
+    <string name="home">Home</string>
+    <string name="achievements">Achievements</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
+
+
 </resources>
