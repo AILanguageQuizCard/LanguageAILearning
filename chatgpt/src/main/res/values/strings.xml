@@ -15,6 +15,9 @@
     <string name="topic_description_4"> If you have any expressions that you don\'t know how to say in English, you can ask ChatGPT in this option. </string>
     <string name="topic_description_5">ChatGPT will try to chat with you in a colloquial language as much as possible.</string>
 
+    <string name="topic_training_1">Topic training</string>
+    <string name="topic_training_description_1">You need to provide a topic first, and AI will generate authentic phrase and sentence expressions related to the topic, which will be presented to you in the form of cards. You can play the audio and also save this training session.</string>
+
     <string name="chat_copy_successfully"> copy successfully! </string>
     <string name="setting_item_1">Voice</string>
     <string name="setting_item_2">Voice</string>

@@ -16,6 +16,9 @@
     <string name="topic_description_4">如果你有任何表达不知道改怎么用英文说，你可以在这个选项中询问Chatgpt。</string>
     <string name="topic_description_5"> ChatGPT会尽量用口语化的语言来跟你聊天。</string>
 
+    <string name="topic_training_1">话题训练</string>
+    <string name="topic_training_description_1"> 您需要首先提供一个话题，AI会为您生成围绕该话题的地道的短语表达和句子表达，并以卡片的形式一一呈现给您，您可以播放语音，最后也可以收藏这次训练。</string>
+
     <string name="chat_copy_successfully">成功复制</string>
     <string name="setting_item_1">语音</string>
     <string name="setting_item_2">语音</string>
