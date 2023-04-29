@@ -5,11 +5,15 @@
     <item
         android:id="@+id/navigation_chatgpt_tasks"
         android:icon="@drawable/ic_recent"
-        android:title="Tasks" />
+        android:title="Chat" />
 
     <item
-        android:id="@+id/navigation_chatgpt_me"
-        android:icon="@drawable/ic_settings"
-        android:title="Me" />
+        android:id="@+id/navigation_chatgpt_training"
+        android:icon="@drawable/icons8_coach"
+        android:title="Training" />
 
+    <item
+        android:id="@+id/navigation_chatgpt_setting"
+        android:icon="@drawable/ic_settings"
+        android:title="Setting" />
 </menu>

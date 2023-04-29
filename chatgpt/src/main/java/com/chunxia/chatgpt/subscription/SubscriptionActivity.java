@@ -1,4 +1,4 @@
-package com.chunxia.chatgpt.activity;
+package com.chunxia.chatgpt.subscription;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +38,7 @@ public class SubscriptionActivity extends AppCompatActivity {
                 Collections.emptyList(),
                 Collections.emptyList(),
                 subsList,
-                "LICENSE KEY",
+                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoDzmho/JeA63fyUxZXR9ZyCp+UpQnceEpQO6aEFbN9fJjZZNR0+PjYOuPjg1MA6yB43lH1FUOvYgwt1ED71SQaqE1a3VEOxtR4BSl5IEFh5EjeTFXkIY20xx23Fftk5ia21p3St5BD3VA+kKF/5wfJffx9zcD0dPj8fsdTc9RR/0Gf8d+h7BZUmsJy+odkVHNjXcaEwvoPUPKGkXksNvImQrGaiBpA7j4K3L/mygkOb77hJ6q7pQgiFApw4zafoQvoT9fFg8cRm7Ny+8n8KweQnYYP0y8CFeJ+BHow3AgeWYP3h4+JpfP7N2M1UKXZBtBt23XHyp5r0iQBH3RQoGpwIDAQAB",
                 true
         );
 
