@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Chatgpt</string>
+    <string name="app_name">AILingoMaster</string>
 
     <string name="topic_title_1">简单对话</string>
     <string name="topic_title_2">英文对话</string>
@@ -18,6 +18,10 @@
 
     <string name="topic_training_1">话题训练</string>
     <string name="topic_training_description_1"> 您需要首先提供一个话题，AI会为您生成围绕该话题的地道的短语表达和句子表达，并以卡片的形式一一呈现给您，您可以播放语音，最后也可以收藏这次训练。</string>
+
+    <string name="topic_training_2"> 观点训练 </string>
+    <string name="topic_training_description_2">您首先提供一个观点，比如“我认为高等教育应该是免费的”，我们将为您生成论证的例子和相关表达，以供您学习。</string>
+
 
     <string name="chat_copy_successfully">成功复制</string>
     <string name="setting_item_1">语音</string>

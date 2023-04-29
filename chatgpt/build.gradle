@@ -94,6 +94,7 @@ dependencies {
     implementation project(path: ':googlecloudtts')
     implementation project(path: ':pay')
     implementation project(path: ':iap')
+    implementation project(path: ':app')
 
     // 录音功能
     implementation 'com.github.SimpleMobileTools:Simple-Commons:8bcb4d3851'

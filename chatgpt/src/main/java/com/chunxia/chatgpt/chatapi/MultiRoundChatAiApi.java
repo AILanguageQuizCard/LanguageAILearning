@@ -67,7 +67,7 @@ public class MultiRoundChatAiApi {
     }
 
 
-    public String sendToChatAi(String message) {
+    private String sendToChatAi(String message) {
         System.out.println("User: " + message);
         insertUserMessage(message);
 

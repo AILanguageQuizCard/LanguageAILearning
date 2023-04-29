@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chatgpt</string>
+    <string name="app_name">AILingoMaster</string>
 
     <string name="topic_title_1">Simple Chat</string>
     <string name="topic_title_2">English Only Chat</string>
@@ -17,6 +17,10 @@
 
     <string name="topic_training_1">Topic training</string>
     <string name="topic_training_description_1">You need to provide a topic first, and AI will generate authentic phrase and sentence expressions related to the topic, which will be presented to you in the form of cards. You can play the audio and also save this training session.</string>
+
+    <string name="topic_training_2">Opinion training</string>
+    <string name="topic_training_description_2">You first provide a viewpoint, such as \'I believe higher education should be free\', and we will generate examples and related expressions to support your argument for you to learn from.</string>
+
 
     <string name="chat_copy_successfully"> copy successfully! </string>
     <string name="setting_item_1">Voice</string>

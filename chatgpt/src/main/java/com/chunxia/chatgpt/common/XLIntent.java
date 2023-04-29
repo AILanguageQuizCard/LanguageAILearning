@@ -3,6 +3,9 @@ package com.chunxia.chatgpt.common;
 import android.content.Context;
 import android.content.Intent;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 
 public class XLIntent extends Intent {
 
@@ -22,6 +25,11 @@ public class XLIntent extends Intent {
 
     public XLIntent putBoolean(String key, boolean s) {
         this.putExtra(key, s);
+        return this;
+    }
+
+    public XLIntent putStringArrayList(String key, ArrayList<String> list) {
+        this.putExtra(key, (Serializable) list);
         return this;
     }
 

@@ -1,5 +1,13 @@
 package com.chunxia.chatgpt.adapter.training;
 
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_RESULT_KEY;
+import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.NORMAL_CHAT_MODE;
+import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.TOPIC_TRAINING_PROMPT1;
+import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.TOPIC_TRAINING_PROMPT2;
+import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.TOPIC_TRAINING_PROMPT3;
+import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.TOPIC_TRAINING_PROMPT4;
+
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -7,9 +15,17 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.activity.ActivityIntentKeys;
+import com.chunxia.chatgpt.activity.ChatGptChatActivity;
+import com.chunxia.chatgpt.activity.TrainingCardActivity;
+import com.chunxia.chatgpt.chatapi.MultiRoundChatAiApi;
+import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.ui.TopicView2;
+import com.material.components.activity.card.CardWizardOverlap;
 
+import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +83,41 @@ public class TrainingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return vh;
     }
 
+
+    private static ArrayList<String> extractSentences(String input) {
+        ArrayList<String> sentences = new ArrayList<String>();
+        String[] words = input.split("\\|\\|\\|"); // 按照 "|||" 进行分割
+        for (String word : words) {
+            int startIndex = word.lastIndexOf("***");
+            int startIndex2 = startIndex + 3; // 获取内容的起始位置
+            if (startIndex != - 1) {
+                String sentence = word.substring(startIndex2); // 提取内容
+                sentences.add(sentence);
+            }
+        }
+        return sentences;
+    }
+
+
+    private void initTopicChat(String topic, String language, int num) {
+        MultiRoundChatAiApi chatAgent = new MultiRoundChatAiApi("", NORMAL_CHAT_MODE);
+        String prompt = TOPIC_TRAINING_PROMPT1 + topic
+                + TOPIC_TRAINING_PROMPT2 + language
+                + TOPIC_TRAINING_PROMPT3 + num
+                + TOPIC_TRAINING_PROMPT4;
+        chatAgent.sendMessageInThread(prompt, new MultiRoundChatAiApi.ReceiveOpenAiReply() {
+            @Override
+            public void onSuccess(String reply) {
+                ArrayList<String> results = extractSentences(reply);
+
+                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TrainingCardActivity.class)
+                        .putStringArrayList(TOPIC_TRAINING_RESULT_KEY, results);
+                ActivityUtils.getTopActivity().startActivity(intent);
+            }
+        });
+    }
+
+
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(@androidx.annotation.NonNull RecyclerView.ViewHolder holder, final int position) {
@@ -79,7 +130,7 @@ public class TrainingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 public void onClick(View v) {
                     if (trainingInfo.getType().equals(TrainingType.TOPIC)) {
                         // todo 先跳转卡片,后续需要先加上话题输入界面
-
+                        initTopicChat("Travelling", "English", 10);
                     } else if (trainingInfo.getType().equals(TrainingType.OPINION)) {
 
 

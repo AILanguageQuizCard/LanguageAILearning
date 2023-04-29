@@ -8,4 +8,5 @@ public class ActivityIntentKeys {
     public static String START_WORDS = "chatgpt_chat_start_words";
     public static String CHAT_ACTIVITY_START_MODE = "chatgpt_chat_mode";
 
+    public static final String TOPIC_TRAINING_RESULT_KEY = "ai_lingo_master_topic_training_result_key";
 }
