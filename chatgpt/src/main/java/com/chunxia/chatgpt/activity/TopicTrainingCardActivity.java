@@ -23,7 +23,7 @@ import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
 
-public class TrainingCardActivity extends AppCompatActivity {
+public class TopicTrainingCardActivity extends AppCompatActivity {
 
     private static final int MAX_STEP = 10;
 

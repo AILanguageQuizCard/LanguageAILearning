@@ -8,4 +8,6 @@ class Events {
     class RecordingAmplitude internal constructor(val amplitude: Int)
     class RecordingCompleted internal constructor(val path: String)
     class RecordingSaved internal constructor(val uri: Uri?)
+    class TopicTrainingPending internal constructor()
+    class TopicTrainingPendingEnd internal constructor()
 }

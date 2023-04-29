@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_task_chatgpt_container"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/chat_task_top_view_layout"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/grey_3"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/task_fragment_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/spacing_medium"
+            android:paddingTop="@dimen/spacing_medium"
+            android:scrollbars="vertical"
+            android:scrollingCache="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/bg_gradient_soft"
+            android:rotation="180" />
+
+    </RelativeLayout>
+
+</LinearLayout>

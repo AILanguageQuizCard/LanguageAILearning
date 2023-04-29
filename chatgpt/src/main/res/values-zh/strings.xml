@@ -23,6 +23,13 @@
     <string name="topic_training_description_2">您首先提供一个观点，比如“我认为高等教育应该是免费的”，我们将为您生成论证的例子和相关表达，以供您学习。</string>
 
 
+    <string name="topic_search_greeting_hint">
+        你好！你想知道关于什么的表达呢？
+        记住，你提供的topic越具体，
+        我能够生成的句子越准确
+    </string>
+
+
     <string name="chat_copy_successfully">成功复制</string>
     <string name="setting_item_1">语音</string>
     <string name="setting_item_2">语音</string>

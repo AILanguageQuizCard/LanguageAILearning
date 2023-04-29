@@ -39,7 +39,7 @@ public class StrongCommandToChatGPT {
     public static final String TOPIC_TRAINING_PROMPT3 = ". Can you provide me with ";
     public static final String TOPIC_TRAINING_PROMPT_SENTENCE_STARTER = "'***'";
     public static final String TOPIC_TRAINING_PROMPT_SENTENCE_ENDER = "'|||'";
-    public static final String TOPIC_TRAINING_PROMPT4 = " authentic and longer sentences, each starting with "
-            + TOPIC_TRAINING_PROMPT_SENTENCE_STARTER + " and ending with "
+    public static final String TOPIC_TRAINING_PROMPT4 = " authentic and longer sentences. Each sentence should start with "
+            + TOPIC_TRAINING_PROMPT_SENTENCE_STARTER + " and end with "
             + TOPIC_TRAINING_PROMPT_SENTENCE_ENDER  + ", so that I can process them later. Please only provide the sentences, without any extra information.";
 }

@@ -1,20 +1,31 @@
 package com.chunxia.chatgpt.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.task.TaskRecyclerViewItemDecoration;
 import com.chunxia.chatgpt.adapter.training.TrainingAdapter;
 import com.chunxia.chatgpt.adapter.training.TrainingInfo;
 import com.chunxia.chatgpt.adapter.training.TrainingType;
+import com.chunxia.chatgpt.model.VoiceMessage;
+import com.chunxia.chatgpt.tools.Tools;
+import com.chunxia.chatgpt.voicerecord.models.Events;
+import com.chunxia.chatgpt.voicetotext.VoiceToTextModel;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +43,7 @@ public class ChatGptTrainingFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_task_chatgpt, container, false);
+        View root = inflater.inflate(R.layout.fragment_training_chatgpt, container, false);
         this.root = root;
         initRecyclerView();
         return root;
