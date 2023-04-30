@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +41,9 @@ import com.chunxia.chatgpt.model.TextMessage;
 import com.chunxia.chatgpt.model.VoiceMessage;
 
 import com.chunxia.chatgpt.voicerecord.models.Events;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,7 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatGptChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
 
     private static String TAG = "ChatGptChatActivity";
     private ImageView btn_send;
@@ -79,7 +83,7 @@ public class ChatGptChatActivity extends AppCompatActivity {
         initVoiceMessageButton();
     }
 
-    private void initEventBus(){
+    private void initEventBus() {
         bus = EventBus.getDefault();
         bus.register(this);
     }
@@ -116,19 +120,52 @@ public class ChatGptChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // todo 添加隐私政策 以满足google play上架要求
-                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), VoiceRecordActivity.class);
-                ActivityUtils.getTopActivity().startActivity(intent);
+                requestAudio();
 
             }
         });
     }
 
+    private void jump2AudioRecord() {
+        Intent intent = new XLIntent(ActivityUtils.getTopActivity(), VoiceRecordActivity.class);
+        ActivityUtils.getTopActivity().startActivity(intent);
+    }
+
+    private void requestAudio() {
+        if (XXPermissions.isGranted(ChatActivity.this, Permission.RECORD_AUDIO)) {
+            jump2AudioRecord();
+            return;
+        }
+
+        XXPermissions.with(this)
+                .permission(Permission.RECORD_AUDIO)
+                .request(new OnPermissionCallback() {
+
+                    @Override
+                    public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+                        Toast.makeText(ChatActivity.this, "获取录音权限成功", Toast.LENGTH_SHORT).show();
+                        jump2AudioRecord();
+                    }
+
+                    @Override
+                    public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+                        if (doNotAskAgain) {
+                            Toast.makeText(ChatActivity.this, "被永久拒绝授权，请手动授予录音权限", Toast.LENGTH_SHORT).show();
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(ChatActivity.this, permissions);
+                        } else {
+                            Toast.makeText(ChatActivity.this, "获取录音权限失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void gotRecordEndEvent(Events.RecordingCompleted event){
+    public void gotRecordEndEvent(Events.RecordingCompleted event) {
         String path = event.getPath();
         Log.i("RecorderFragment", path);
         adapter.insertItem(new VoiceMessage(adapter.getItemCount(), true,
-                        true, Tools.getFormattedTimeEvent(System.currentTimeMillis()), path ));
+                true, Tools.getFormattedTimeEvent(System.currentTimeMillis()), path));
         ThreadUtils.getSinglePool().execute(new Runnable() {
             @Override
             public void run() {

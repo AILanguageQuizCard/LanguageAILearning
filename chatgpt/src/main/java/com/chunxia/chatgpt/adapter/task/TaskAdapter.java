@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.activity.ActivityIntentKeys;
-import com.chunxia.chatgpt.activity.ChatGptChatActivity;
+import com.chunxia.chatgpt.activity.ChatActivity;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.ui.TopicView2;
 
@@ -103,7 +103,7 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             taskItemViewHolder.topicView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), ChatGptChatActivity.class)
+                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), ChatActivity.class)
                             .putInt(ActivityIntentKeys.CHAT_ACTIVITY_START_MODE, topicInfo.getStartMode())
                             .putString(ActivityIntentKeys.START_WORDS, topicInfo.getStartWords())
                             .putString(ActivityIntentKeys.SYSTEM_COMMAND, topicInfo.getSystemCommand())

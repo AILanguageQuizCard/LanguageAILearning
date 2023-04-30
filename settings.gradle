@@ -3,3 +3,9 @@ include ':googlecloudtts'
 include ':chatgpt'
 include ':pay'
 include ':iap'
+dependencyResolutionManagement {
+    repositories {
+        // JitPack 远程仓库：https://jitpack.io
+        maven { url 'https://jitpack.io' }
+    }
+}
