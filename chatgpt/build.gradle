@@ -11,8 +11,8 @@ android {
         applicationId "com.chunxia.chatgpt"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 10006
-        versionName "1.0.6.0"
+        versionCode 10008
+        versionName "1.0.8.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
@@ -43,8 +43,16 @@ android {
             buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            //混淆开关
-            minifyEnabled false
+//            //混淆开关
+//            minifyEnabled true
+//            // 是否zip对齐
+//            zipAlignEnabled true
+//            // 移除无用的resource文件
+//            shrinkResources false
+//            // 是否打开debuggable开关
+//            debuggable false
+//            // 是否打开jniDebuggable开关
+//            jniDebuggable false
 
         }
     }
@@ -62,14 +70,14 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // google support library ---------------------------------------------------------------------
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // 用于设置状态栏
-    implementation "androidx.core:core:1.5.0"
+    implementation "androidx.core:core-ktx:1.10.0"
     // 数据持久化方案，使用微信出的mmkv
     implementation 'com.tencent:mmkv:1.2.15'
 
@@ -84,10 +92,10 @@ dependencies {
     implementation 'com.blankj:utilcodex:1.31.1'
 
     // android navigation library
-    implementation 'androidx.navigation:navigation-fragment:2.0.0'
-    implementation 'androidx.navigation:navigation-ui:2.0.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
 
     // google text to voice platform
     implementation platform('com.google.cloud:libraries-bom:26.1.4')
@@ -116,7 +124,7 @@ dependencies {
 
     // google voice to text
     implementation 'com.google.cloud:google-cloud-speech:4.9.0'
-    implementation "io.grpc:grpc-okhttp:1.38.1"
+    implementation "io.grpc:grpc-okhttp:1.50.1"
 
     // google billing
     implementation 'com.android.billingclient:billing:5.2.0'
