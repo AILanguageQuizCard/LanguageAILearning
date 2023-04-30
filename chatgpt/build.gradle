@@ -18,23 +18,35 @@ android {
     }
 
     buildTypes {
+
         release {
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
             buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //混淆开关
+//            minifyEnabled true
+//            // 是否zip对齐
+//            zipAlignEnabled true
+//            // 移除无用的resource文件
+//            shrinkResources false
+//            // 是否打开debuggable开关
+//            debuggable false
+//            // 是否打开jniDebuggable开关
+//            jniDebuggable false
         }
+
         debug{
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
 
             buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //混淆开关
+            minifyEnabled false
+
         }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     packagingOptions {
@@ -92,7 +104,6 @@ dependencies {
     implementation "com.airbnb.android:lottie:6.0.0"
 
     implementation project(path: ':googlecloudtts')
-    implementation project(path: ':pay')
     implementation project(path: ':iap')
     implementation project(path: ':app')
 
