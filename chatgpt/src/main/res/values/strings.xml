@@ -31,7 +31,7 @@
     </string>
 
     <string name="chat_copy_successfully"> copy successfully! </string>
-    <string name="setting_item_1">Voice</string>
+    <string name="setting_item_language">Voice Language</string>
     <string name="setting_item_2">Voice</string>
     <string name="setting_item_3">Voice</string>
     <string name="setting_item_4">Voice</string>

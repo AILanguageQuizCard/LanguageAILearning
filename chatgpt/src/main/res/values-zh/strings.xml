@@ -33,7 +33,7 @@
 
 
     <string name="chat_copy_successfully">成功复制</string>
-    <string name="setting_item_1">语音</string>
+    <string name="setting_item_language">播放语音语言</string>
     <string name="setting_item_2">语音</string>
     <string name="setting_item_3">语音</string>
     <string name="setting_item_4">语音</string>

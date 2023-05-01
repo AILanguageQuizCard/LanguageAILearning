@@ -87,6 +87,7 @@ public class ChatGptSettingFragment extends Fragment {
 
 
         initSubscription();
+        initVoiceLanguageButton();
 
     }
 }

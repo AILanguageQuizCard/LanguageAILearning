@@ -37,6 +37,12 @@
             android:screenOrientation="portrait">
         </activity>
 
+
+        <activity
+            android:name="com.chunxia.chatgpt.activity.SettingItemActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity
             android:name="com.chunxia.chatgpt.activity.TopicTrainingCardActivity"
             android:screenOrientation="portrait">

@@ -8,23 +8,23 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chunxia.chatgpt.R;
-import com.chunxia.chatgpt.ui.TopicView2;
+import com.chunxia.chatgpt.ui.LanguageItemView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class SettingItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "TaskAdapter";
 
-    private final List<SettingInfo> items;
+    private List<SettingInfo> items;
     private List<Integer> favoriteData;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public SettingItemAdapter(List<SettingInfo> data) {
-        items = new ArrayList<>(data);
-
+    public SettingItemAdapter(ArrayList<SettingInfo> data) {
+        items = data;
     }
 
 
@@ -32,11 +32,26 @@ public class SettingItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         // each data item is just a string in this case
         public TextView languageView;
         public ImageView chooseView;
+        public LanguageItemView root;
 
         public SettingItemViewHolder(View v) {
             super(v);
-            languageView = v.findViewById(R.id.title_textview);
-            chooseView = v.findViewById(R.id.favorite_button);
+            root = (LanguageItemView) v;
+            languageView = v.findViewById(R.id.language_textview);
+            chooseView = v.findViewById(R.id.language_choose_view);
+        }
+
+        public void setOnViewClick(View.OnClickListener onViewClick) {
+            root.setOnClickListener(onViewClick);
+        }
+
+        public void setChooseViewVisible(Boolean b) {
+            if (b) chooseView.setVisibility(View.VISIBLE);
+            else chooseView.setVisibility(View.GONE);
+        }
+
+        public void setLanguage(String s) {
+            languageView.setText(s);
         }
     }
 
@@ -45,7 +60,7 @@ public class SettingItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@androidx.annotation.NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
-        View v = new TopicView2(parent.getContext());
+        View v = new LanguageItemView(parent.getContext());
         vh = new SettingItemViewHolder(v);
         return vh;
     }
@@ -54,8 +69,32 @@ public class SettingItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@androidx.annotation.NonNull RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof SettingItemViewHolder) {
-
+            SettingInfo settingInfo = items.get(position);
+            SettingItemViewHolder settingItemViewHolder = (SettingItemViewHolder) holder;
+            settingItemViewHolder.setLanguage(settingInfo.getTitle());
+            if (settingInfo.isChoosed()) {
+                settingItemViewHolder.setChooseViewVisible(true);
+            } else {
+                settingItemViewHolder.setChooseViewVisible(false);
+            }
+            settingItemViewHolder.setOnViewClick(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setDataLanguageChoosed(settingInfo.getTitle());
+                }
+            });
         }
+    }
+
+    private void setDataLanguageChoosed(String language) {
+        items = items.stream().peek(settingInfo1 -> {
+            if (settingInfo1.getTitle().equals(language)) {
+                settingInfo1.setChoosed(true);
+            } else {
+                settingInfo1.setChoosed(false);
+            }
+        }).collect(Collectors.toList());
+        notifyDataSetChanged();
     }
 
 
