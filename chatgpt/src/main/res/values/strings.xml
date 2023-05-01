@@ -21,6 +21,8 @@
     <string name="topic_training_2">Opinion training</string>
     <string name="topic_training_description_2">You first provide a viewpoint, such as \'I believe higher education should be free\', and we will generate examples and related expressions to support your argument for you to learn from.</string>
 
+    <string name="setting_item_voice_language_name"> Voice Language </string>
+
     <string name="topic_search_greeting_hint">
         Hello, What topic would you like
         to search ? Remember, the more specific
