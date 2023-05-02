@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,6 +34,7 @@ import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.chat.ChatAdapter;
 import com.chunxia.chatgpt.chatapi.MultiRoundChatAiApi;
 import com.chunxia.chatgpt.common.XLIntent;
+import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.voicerecord.VoiceRecordActivity;
 import com.chunxia.chatgpt.voicetotext.VoiceToTextModel;
@@ -51,6 +53,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class ChatActivity extends AppCompatActivity {
@@ -62,6 +65,22 @@ public class ChatActivity extends AppCompatActivity {
     private ChatAdapter adapter;
     private RecyclerView recyclerView;
 
+    private String chatMode = "";
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // todo
+//        outState.putParcelableArrayList(ActivityIntentKeys.getActivityChatModeKey(chatMode), adapter.getItems());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+//        ArrayList<Parcelable> chatList = savedInstanceState.getParcelableArrayList(ActivityIntentKeys.getActivityChatModeKey(chatMode));
+//        if(chatList == null) return;
+//        ArrayList<Message> list  = chatList.stream().map(item -> (Message) item).collect(Collectors.toCollection(ArrayList::new));
+//        adapter.setItems(list);
+    }
 
     private ActionBar actionBar;
 
@@ -79,9 +98,11 @@ public class ChatActivity extends AppCompatActivity {
 
         initMultiRoundChatAiApi(getIntent().getStringExtra(ActivityIntentKeys.SYSTEM_COMMAND),
                 getIntent().getIntExtra(ActivityIntentKeys.CHAT_ACTIVITY_START_MODE, 0));
+        chatMode = getIntent().getStringExtra(ActivityIntentKeys.ACTIVITY_CHAT_MODE);
         initComponent(getIntent().getStringExtra(ActivityIntentKeys.START_WORDS));
         initVoiceMessageButton();
     }
+
 
     private void initEventBus() {
         bus = EventBus.getDefault();
@@ -180,6 +201,19 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    private Message initialMessage;
+
+    private void setAdapterItems(String startWords) {
+        ArrayList<Message> arrayList = CXMMKV.getInstance().loadMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode));
+        initialMessage = new TextMessage(adapter.getItemCount(), startWords, false,
+                adapter.getItemCount() % 5 == 0, Tools.getFormattedTimeEvent(System.currentTimeMillis()));
+        if (arrayList == null || arrayList.size() == 0) {
+            adapter.insertItem(initialMessage);
+        } else {
+            adapter.setItems(arrayList);
+        }
+    }
+
     public void initComponent(String startWords) {
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -189,9 +223,7 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new ChatAdapter(getApplication());
         recyclerView.setAdapter(adapter);
         // todo 将初始message换成选择要输入的话
-        Message initialMessage = new TextMessage(adapter.getItemCount(), startWords, false,
-                adapter.getItemCount() % 5 == 0, Tools.getFormattedTimeEvent(System.currentTimeMillis()));
-        adapter.insertItem(initialMessage);
+        setAdapterItems(startWords);
 
         btn_send = findViewById(R.id.send_button);
         inputMessageEditText = findViewById(R.id.input_message_edittext);
@@ -214,7 +246,7 @@ public class ChatActivity extends AppCompatActivity {
         findViewById(R.id.refresh_chat_imageview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Message> items = new ArrayList<>();
+                ArrayList<Message> items = new ArrayList<>();
                 items.add(initialMessage);
                 adapter.setItems(items);
             }
@@ -252,6 +284,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onDestroy();
         bus.unregister(this);
         multiRoundChatAiApi.cancelAllCurrentThread();
+        CXMMKV.getInstance().saveMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode), adapter.getItems());
     }
 
     @Override

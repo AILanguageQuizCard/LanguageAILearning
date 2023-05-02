@@ -39,7 +39,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VOICE_PLAYING = 1;
     private final int VOICE_PAUSED = 2;
 
-    private List<Message> items = new ArrayList<>();
+    private ArrayList<Message> items = new ArrayList<>();
+
+    public ArrayList<Message> getItems() {
+        return items;
+    }
 
     private final Application application;
 
@@ -198,7 +202,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyItemInserted(getItemCount());
     }
 
-    public void setItems(List<Message> items) {
+    public void setItems(ArrayList<Message> items) {
         this.items = items;
         notifyDataSetChanged();
     }

@@ -77,7 +77,7 @@ public class VoiceLanguageSettingAdapter extends RecyclerView.Adapter<RecyclerVi
             settingItemViewHolder.setLanguage(settingInfo.getTitle());
             if (settingInfo.isChoosed()) {
                 settingItemViewHolder.setChooseViewVisible(true);
-                CXMMKV.getMMKV().putString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY, settingInfo.getTitle());
+                CXMMKV.getInstance().getMMKV().putString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY, settingInfo.getTitle());
             } else {
                 settingItemViewHolder.setChooseViewVisible(false);
             }

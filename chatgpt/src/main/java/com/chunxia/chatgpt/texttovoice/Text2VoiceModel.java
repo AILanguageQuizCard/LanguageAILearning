@@ -41,7 +41,7 @@ public class Text2VoiceModel extends AndroidViewModel {
     }
 
     public void init() {
-        String setLanguage = CXMMKV.getMMKV().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
+        String setLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
                 MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
         String languageCode = TextToVoiceSetting.getLanguageCode(getApplication(), setLanguage);

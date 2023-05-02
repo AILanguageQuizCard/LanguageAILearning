@@ -104,6 +104,7 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new XLIntent(ActivityUtils.getTopActivity(), ChatActivity.class)
+                            .putString(ActivityIntentKeys.ACTIVITY_CHAT_MODE, topicInfo.getTitle())
                             .putInt(ActivityIntentKeys.CHAT_ACTIVITY_START_MODE, topicInfo.getStartMode())
                             .putString(ActivityIntentKeys.START_WORDS, topicInfo.getStartWords())
                             .putString(ActivityIntentKeys.SYSTEM_COMMAND, topicInfo.getSystemCommand())
