@@ -1,6 +1,9 @@
-package com.chunxia.chatgpt.texttovoice.main;
+package com.chunxia.chatgpt.texttovoice;
 
 
+import android.content.Context;
+
+import com.chunxia.chatgpt.tools.GoogleTextToVoiceLanguageTools;
 
 public class TextToVoiceSetting {
 
@@ -13,11 +16,21 @@ public class TextToVoiceSetting {
         return languageCode;
     }
 
+    public static String getLanguageCode(Context context, String languageName) {
+        languageCode = GoogleTextToVoiceLanguageTools.getLanguageCodeByLanguageName(context, languageName);
+        return languageCode;
+    }
+
     public static void setLanguageCode(String languageCode) {
         TextToVoiceSetting.languageCode = languageCode;
     }
 
     public static String getVoiceName() {
+        return voiceName;
+    }
+
+    public static String getVoiceName(Context context, String languageName) {
+        voiceName = GoogleTextToVoiceLanguageTools.getNameByLanguageName(context, languageName);
         return voiceName;
     }
 

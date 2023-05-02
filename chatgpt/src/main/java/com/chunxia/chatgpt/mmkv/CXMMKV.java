@@ -6,13 +6,13 @@ import android.app.Application;
 import com.tencent.mmkv.MMKV;
 
 
-public class XLMMKV {
+public class CXMMKV {
 
     private static volatile MMKV mmkv;
 
     public static MMKV getMMKV() {
         if (mmkv == null) {
-            synchronized (XLMMKV.class) {
+            synchronized (CXMMKV.class) {
                 if (mmkv == null) {
                     mmkv = MMKV.defaultMMKV();
                 }

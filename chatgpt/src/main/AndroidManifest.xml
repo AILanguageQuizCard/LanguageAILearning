@@ -39,7 +39,7 @@
 
 
         <activity
-            android:name="com.chunxia.chatgpt.activity.SettingItemActivity"
+            android:name="com.chunxia.chatgpt.activity.VoiceLanguageSettingActivity"
             android:screenOrientation="portrait">
         </activity>
 

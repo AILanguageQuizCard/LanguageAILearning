@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chunxia.chatgpt.R;
-import com.chunxia.chatgpt.texttovoice.main.Text2VoiceModel;
+import com.chunxia.chatgpt.texttovoice.Text2VoiceModel;
 
 public class ChatItemViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case

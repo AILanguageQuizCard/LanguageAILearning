@@ -1,5 +1,6 @@
 package com.chunxia.chatgpt.adapter.settingItem;
 
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.mmkv.CXMMKV;
+import com.chunxia.chatgpt.mmkv.MMKVConstant;
 import com.chunxia.chatgpt.ui.LanguageItemView;
 
 import java.util.ArrayList;
@@ -15,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class SettingItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class VoiceLanguageSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "TaskAdapter";
 
@@ -23,7 +26,7 @@ public class SettingItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private List<Integer> favoriteData;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public SettingItemAdapter(ArrayList<SettingInfo> data) {
+    public VoiceLanguageSettingAdapter(ArrayList<SettingInfo> data) {
         items = data;
     }
 
@@ -74,6 +77,7 @@ public class SettingItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             settingItemViewHolder.setLanguage(settingInfo.getTitle());
             if (settingInfo.isChoosed()) {
                 settingItemViewHolder.setChooseViewVisible(true);
+                CXMMKV.getMMKV().putString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY, settingInfo.getTitle());
             } else {
                 settingItemViewHolder.setChooseViewVisible(false);
             }

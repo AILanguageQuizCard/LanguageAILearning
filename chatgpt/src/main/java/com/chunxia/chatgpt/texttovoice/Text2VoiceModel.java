@@ -1,10 +1,13 @@
-package com.chunxia.chatgpt.texttovoice.main;
+package com.chunxia.chatgpt.texttovoice;
 
 import android.app.Application;
 import android.media.MediaPlayer;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+
+import com.chunxia.chatgpt.mmkv.CXMMKV;
+import com.chunxia.chatgpt.mmkv.MMKVConstant;
 
 import darren.googlecloudtts.GoogleCloudTTS;
 import darren.googlecloudtts.model.VoicesList;
@@ -37,6 +40,17 @@ public class Text2VoiceModel extends AndroidViewModel {
                 });
     }
 
+    public void init() {
+        String setLanguage = CXMMKV.getMMKV().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
+                MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
+
+        String languageCode = TextToVoiceSetting.getLanguageCode(getApplication(), setLanguage);
+        String voiceName = TextToVoiceSetting.getVoiceName(getApplication(), setLanguage);
+        float pitch = TextToVoiceSetting.getPitch();
+        float speakRate = TextToVoiceSetting.getSpeakRate();
+        initTTSVoice(languageCode, voiceName, pitch, speakRate);
+    }
+
     public Completable speak(String text, MediaPlayer.OnCompletionListener comletionCallback) {
         return fromCallable(() -> mGoogleCloudTTS.start(text, comletionCallback));
     }
@@ -54,7 +68,7 @@ public class Text2VoiceModel extends AndroidViewModel {
         mGoogleCloudTTS.close();
     }
 
-    public void initTTSVoice(String languageCode, String voiceName, float pitch, float speakRate) {
+    private void initTTSVoice(String languageCode, String voiceName, float pitch, float speakRate) {
         mGoogleCloudTTS.setVoiceSelectionParams(new VoiceSelectionParams(languageCode, voiceName))
                 .setAudioConfig(new AudioConfig(
                         AudioEncoding.MP3,

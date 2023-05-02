@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
-import com.chunxia.chatgpt.activity.SettingItemActivity;
+import com.chunxia.chatgpt.activity.VoiceLanguageSettingActivity;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionUtils;
 import com.chunxia.chatgpt.ui.SettingItemView;
@@ -72,7 +72,7 @@ public class ChatGptSettingFragment extends Fragment {
         outputVoiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new XLIntent(getActivity(), SettingItemActivity.class);
+                Intent intent = new XLIntent(getActivity(), VoiceLanguageSettingActivity.class);
                 ActivityUtils.startActivity(intent);
 
             }

@@ -5,7 +5,7 @@ import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
-import com.chunxia.chatgpt.mmkv.XLMMKV;
+import com.chunxia.chatgpt.mmkv.CXMMKV;
 
 
 public class XLApplication extends Application {
@@ -20,6 +20,6 @@ public class XLApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        XLMMKV.init(this);
+        CXMMKV.init(this);
     }
 }

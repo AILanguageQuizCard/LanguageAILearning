@@ -1,5 +1,6 @@
 package com.chunxia.chatgpt.activity;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.WindowManager;
 
@@ -12,13 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.settingItem.SettingInfo;
-import com.chunxia.chatgpt.adapter.settingItem.SettingItemAdapter;
+import com.chunxia.chatgpt.adapter.settingItem.VoiceLanguageSettingAdapter;
+import com.chunxia.chatgpt.mmkv.CXMMKV;
+import com.chunxia.chatgpt.mmkv.MMKVConstant;
+import com.chunxia.chatgpt.tools.GoogleTextToVoiceLanguageTools;
 
 import java.util.ArrayList;
 
-public class SettingItemActivity  extends AppCompatActivity {
+public class VoiceLanguageSettingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private SettingItemAdapter adapter;
+    private VoiceLanguageSettingAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,7 +45,7 @@ public class SettingItemActivity  extends AppCompatActivity {
 
     private void initView() {
         recyclerView = findViewById(R.id.language_setting_recyclerView);
-        adapter = new SettingItemAdapter(getLanguageData());
+        adapter = new VoiceLanguageSettingAdapter(getLanguageData());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -49,11 +53,14 @@ public class SettingItemActivity  extends AppCompatActivity {
 
     private ArrayList<SettingInfo> getLanguageData() {
         ArrayList<SettingInfo> arrayList = new ArrayList<>();
-        arrayList.add(new SettingInfo("中文", true));
-        arrayList.add(new SettingInfo("English", false));
-        arrayList.add(new SettingInfo("Spanish", false));
-        arrayList.add(new SettingInfo("Danish", false));
-        arrayList.add(new SettingInfo("Japanese", false));
+        String setLanguage = CXMMKV.getMMKV().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
+                MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
+
+        ArrayList<GoogleTextToVoiceLanguageTools.GoogleTextToVoiceLanguage> googleLanguages =
+                GoogleTextToVoiceLanguageTools.getLanguages(this);
+        for (GoogleTextToVoiceLanguageTools.GoogleTextToVoiceLanguage lang: googleLanguages) {
+            arrayList.add(new SettingInfo(lang.getLanguageName(), lang.getLanguageName().equals(setLanguage)));
+        }
 
         return arrayList;
     }

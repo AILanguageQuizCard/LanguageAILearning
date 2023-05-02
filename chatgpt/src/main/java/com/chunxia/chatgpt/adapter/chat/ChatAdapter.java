@@ -17,8 +17,7 @@ import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.model.Message;
 import com.chunxia.chatgpt.model.TextMessage;
 import com.chunxia.chatgpt.model.VoiceMessage;
-import com.chunxia.chatgpt.texttovoice.main.Text2VoiceModel;
-import com.chunxia.chatgpt.texttovoice.main.TextToVoiceSetting;
+import com.chunxia.chatgpt.texttovoice.Text2VoiceModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,11 +174,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void initTTSVoice(Text2VoiceModel text2VoiceModel) {
-        String languageCode = TextToVoiceSetting.getLanguageCode();
-        String voiceName = TextToVoiceSetting.getVoiceName();
-        float pitch = TextToVoiceSetting.getPitch();
-        float speakRate = TextToVoiceSetting.getSpeakRate();
-        text2VoiceModel.initTTSVoice(languageCode, voiceName, pitch, speakRate);
+        text2VoiceModel.init();
     }
 
 
