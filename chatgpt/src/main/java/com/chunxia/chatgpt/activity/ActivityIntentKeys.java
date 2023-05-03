@@ -11,6 +11,9 @@ public class ActivityIntentKeys {
 
     public static final String TOPIC_TRAINING_RESULT_KEY = "ai_lingo_master_topic_training_result_key";
 
+    public static final String TOPIC_TRAINING_RESULT_NUM_KEY = "ai_lingo_master_topic_training_result_num_key";
+
+    public static final String TOPIC_TRAINING_ACTIVITY_TOPIC_KEY = "ai_lingo_master_topic_training_activity_topic_key";
 
     public static final String ACTIVITY_CHAT_MODE = "activity_chat_mode";
 

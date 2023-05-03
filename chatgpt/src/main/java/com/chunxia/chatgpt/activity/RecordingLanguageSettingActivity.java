@@ -2,6 +2,7 @@ package com.chunxia.chatgpt.activity;
 
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +49,8 @@ public class RecordingLanguageSettingActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        ((TextView) findViewById(R.id.voice_language_title_view)).setText(R.string.setting_item_recording_language);
     }
 
     private ArrayList<SettingInfo> getLanguageData() {

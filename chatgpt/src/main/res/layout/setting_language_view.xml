@@ -30,6 +30,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="1dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_gradient_soft" />
 

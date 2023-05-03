@@ -1,8 +1,5 @@
 package com.chunxia.chatgpt.chatapi;
 
-
-import org.checkerframework.checker.index.qual.PolyUpperBound;
-
 public class StrongCommandToChatGPT {
 
     public static final String ENGLISH_ONLY_COMMAND = "You are not allowed to answer in " +
@@ -37,9 +34,9 @@ public class StrongCommandToChatGPT {
     public static final String TOPIC_TRAINING_PROMPT1 = "I am learning about the topic '";
     public static final String TOPIC_TRAINING_PROMPT2 = "' in ";
     public static final String TOPIC_TRAINING_PROMPT3 = ". Can you provide me with ";
-    public static final String TOPIC_TRAINING_PROMPT_SENTENCE_STARTER = "'***'";
-    public static final String TOPIC_TRAINING_PROMPT_SENTENCE_ENDER = "'|||'";
-    public static final String TOPIC_TRAINING_PROMPT4 = " authentic and longer sentences. Each sentence should start with "
+    public static final String TOPIC_TRAINING_PROMPT_SENTENCE_STARTER = "its count number (The counting number should start from 1)";
+    public static final String TOPIC_TRAINING_PROMPT_SENTENCE_ENDER = "line break";
+    public static final String TOPIC_TRAINING_PROMPT4 = " authentic sentences. Each sentence should start with "
             + TOPIC_TRAINING_PROMPT_SENTENCE_STARTER + " and end with "
-            + TOPIC_TRAINING_PROMPT_SENTENCE_ENDER  + ", so that I can process them later. Please only provide the sentences, without any extra information.";
+            + TOPIC_TRAINING_PROMPT_SENTENCE_ENDER  + ", so that I can process them later. Provide these sentences only!";
 }

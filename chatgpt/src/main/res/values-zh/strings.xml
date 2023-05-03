@@ -88,5 +88,7 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="monthly">Monthly</string>
     <string name="yearly">Yearly</string>
+    <string name="topic_card_voice_play_text">播放</string>
+    <string name="topic_card_favorite_text">收藏</string>
 
 </resources>

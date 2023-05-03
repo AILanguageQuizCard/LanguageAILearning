@@ -1,62 +1,45 @@
 package com.chunxia.chatgpt.activity;
 
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_TOPIC_KEY;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_RESULT_KEY;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.material.components.R;
+import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.adapter.topiccard.TopicCardViewPagerAdapter;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
 
 public class TopicTrainingCardActivity extends AppCompatActivity {
 
-    private static final int MAX_STEP = 10;
-
+    private int currentCardNum = 10;
+    private String currentTopic;
     private ViewPager viewPager;
     private Button btnNext;
-    private MyViewPagerAdapter myViewPagerAdapter;
+    private TopicCardViewPagerAdapter topicCardViewPagerAdapter;
     private ArrayList<String> titleList = new ArrayList<>();
     private ArrayList<String> sentencesList = new ArrayList<>();
     private final ArrayList<Integer> imageList = new ArrayList<>();
 
 
     private void initData(ArrayList<String> resultList) {
-        titleList.add("Ready to Travel");
-        titleList.add("Pick the Ticket");
-        titleList.add("Flight to Destination");
-        titleList.add("Enjoy Holiday");
-        titleList.add("Ready to Travel");
-        titleList.add("Pick the Ticket");
-        titleList.add("Ready to Travel");
-        titleList.add("Ready to Travel");
-        titleList.add("Ready to Travel");
-        titleList.add("Ready to Travel");
-
-        imageList.add(R.drawable.img_wizard_1);
-        imageList.add(R.drawable.img_wizard_2);
-        imageList.add(R.drawable.img_wizard_3);
-        imageList.add(R.drawable.img_wizard_4);
-        imageList.add(R.drawable.img_wizard_1);
-        imageList.add(R.drawable.img_wizard_2);
-        imageList.add(R.drawable.img_wizard_3);
-        imageList.add(R.drawable.img_wizard_4);
-        imageList.add(R.drawable.img_wizard_1);
-        imageList.add(R.drawable.img_wizard_2);
+        for(int i = 0; i < currentCardNum; i++) {
+            titleList.add(currentTopic);
+        }
+        for(int i = 0; i < currentCardNum; i++) {
+            imageList.add(R.drawable.img_wizard_1);
+        }
 
         sentencesList = resultList;
     }
@@ -67,17 +50,45 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_card_wizard_overlap);
 
         Intent intent = getIntent();
-        ArrayList<String> resultList = (ArrayList<String>) intent.getSerializableExtra(TOPIC_TRAINING_RESULT_KEY);
-        initData(resultList);
 
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        btnNext = (Button) findViewById(R.id.btn_next);
+        currentTopic = intent.getStringExtra(TOPIC_TRAINING_ACTIVITY_TOPIC_KEY);
+        ArrayList<String> resultList = (ArrayList<String>) intent.getSerializableExtra(TOPIC_TRAINING_RESULT_KEY);
+        currentCardNum = resultList.size();
+        initData(resultList);
 
         // adding bottom dots
         bottomProgressDots(0);
 
-        myViewPagerAdapter = new MyViewPagerAdapter();
-        viewPager.setAdapter(myViewPagerAdapter);
+        initNextButton();
+        initViewPager();
+        initSystemBar();
+    }
+
+    private void initSystemBar() {
+        Tools.setSystemBarColor(this, R.color.grey_10);
+        Tools.setSystemBarLight(this);
+    }
+
+    private void initNextButton() {
+        btnNext = (Button) findViewById(R.id.btn_next);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int current = viewPager.getCurrentItem() + 1;
+                if (current < currentCardNum) {
+                    // move to next screen
+                    viewPager.setCurrentItem(current);
+                } else {
+                    finish();
+                }
+            }
+        });
+    }
+
+    private void initViewPager() {
+        topicCardViewPagerAdapter = new TopicCardViewPagerAdapter(this, titleList, sentencesList);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager.setAdapter(topicCardViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
         viewPager.setClipToPadding(false);
@@ -102,29 +113,12 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int current = viewPager.getCurrentItem() + 1;
-                if (current < MAX_STEP) {
-                    // move to next screen
-                    viewPager.setCurrentItem(current);
-                } else {
-                    finish();
-                }
-            }
-        });
-
-        Tools.setSystemBarColor(this, R.color.grey_10);
-        Tools.setSystemBarLight(this);
     }
 
 
     private void bottomProgressDots(int current_index) {
         LinearLayout dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        ImageView[] dots = new ImageView[MAX_STEP];
+        ImageView[] dots = new ImageView[currentCardNum];
 
         dotsLayout.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
@@ -163,43 +157,4 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
         }
     };
 
-    /**
-     * View pager adapter
-     */
-    public class MyViewPagerAdapter extends PagerAdapter {
-        private LayoutInflater layoutInflater;
-
-        public MyViewPagerAdapter() {
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            View view = layoutInflater.inflate(R.layout.item_card_wizard, container, false);
-            ((TextView) view.findViewById(R.id.title)).setText(titleList.get(position));
-            ((TextView) view.findViewById(R.id.description)).setText(sentencesList.get(position));
-            ((ImageView) view.findViewById(R.id.image)).setImageResource(imageList.get(position));
-
-            container.addView(view);
-            return view;
-        }
-
-        @Override
-        public int getCount() {
-            return titleList.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object obj) {
-            return view == obj;
-        }
-
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            View view = (View) object;
-            container.removeView(view);
-        }
-    }
 }

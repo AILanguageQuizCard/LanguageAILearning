@@ -1,6 +1,8 @@
 package com.chunxia.chatgpt.activity;
 
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_TOPIC_KEY;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_RESULT_KEY;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_RESULT_NUM_KEY;
 import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.NORMAL_CHAT_MODE;
 import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.TOPIC_TRAINING_PROMPT1;
 import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.TOPIC_TRAINING_PROMPT2;
@@ -31,6 +33,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.chatapi.MultiRoundChatAiApi;
 import com.chunxia.chatgpt.common.XLIntent;
+import com.chunxia.chatgpt.tools.ChatGptResponseTools;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
@@ -135,33 +138,21 @@ public class TopicTrainingActivity extends AppCompatActivity {
                 + TOPIC_TRAINING_PROMPT3 + num
                 + TOPIC_TRAINING_PROMPT4;
 
+        Log.i("TopicTrainingPrompt", prompt);
         chatAgent.sendMessageInThread(prompt, new MultiRoundChatAiApi.ReceiveOpenAiReply() {
             @Override
             public void onSuccess(String reply) {
                 Log.i(TAG, "reply \n " + reply);
-                ArrayList<String> results = extractSentences(reply);
+                ArrayList<String> results = ChatGptResponseTools.extractTopicTrainingSentences(reply, num);
                 onPendingEnd();
                 Log.i(TAG, "10 sentences: \n" + results);
 
                 Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class)
-                        .putStringArrayList(TOPIC_TRAINING_RESULT_KEY, results);
+                        .putStringArrayList(TOPIC_TRAINING_RESULT_KEY, results)
+                        .putInt(TOPIC_TRAINING_RESULT_NUM_KEY, num)
+                        .putString(TOPIC_TRAINING_ACTIVITY_TOPIC_KEY, topic);
                 ActivityUtils.getTopActivity().startActivity(intent);
             }
         });
     }
-
-    private static ArrayList<String> extractSentences(String input) {
-        ArrayList<String> sentences = new ArrayList<String>();
-        String[] words = input.split("\\|\\|\\|"); // 按照 "|||" 进行分割
-        for (String word : words) {
-            int startIndex = word.lastIndexOf("***");
-            int startIndex2 = startIndex + 3; // 获取内容的起始位置
-            if (startIndex != - 1) {
-                String sentence = word.substring(startIndex2); // 提取内容
-                sentences.add(sentence);
-            }
-        }
-        return sentences;
-    }
-
 }
