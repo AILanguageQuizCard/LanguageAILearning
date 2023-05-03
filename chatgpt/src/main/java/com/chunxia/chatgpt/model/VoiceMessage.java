@@ -7,7 +7,7 @@ public class VoiceMessage extends Message{
     public VoiceMessage(long id, boolean fromMe, boolean showTime, String date, String path) {
         super(id, fromMe, showTime, date);
         this.path = path;
-        messageType = "TextMessage";
+        messageType = "VoiceMessage";
     }
 
     @Override
