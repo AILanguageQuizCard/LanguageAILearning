@@ -39,9 +39,15 @@
 
 
         <activity
+            android:name="com.chunxia.chatgpt.activity.RecordingLanguageSettingActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
             android:name="com.chunxia.chatgpt.activity.VoiceLanguageSettingActivity"
             android:screenOrientation="portrait">
         </activity>
+
 
         <activity
             android:name="com.chunxia.chatgpt.activity.TopicTrainingCardActivity"

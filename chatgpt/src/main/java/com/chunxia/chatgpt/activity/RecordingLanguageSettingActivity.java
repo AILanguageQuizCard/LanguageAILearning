@@ -11,17 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.adapter.settingItem.RecordingLanguageSettingAdapter;
 import com.chunxia.chatgpt.adapter.settingItem.SettingInfo;
-import com.chunxia.chatgpt.adapter.settingItem.VoiceLanguageSettingAdapter;
 import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.mmkv.MMKVConstant;
-import com.chunxia.chatgpt.texttovoice.GoogleTextToVoiceLanguageTools;
+import com.chunxia.chatgpt.voicetotext.GoogleVoiceToTextLanguageTools;
 
 import java.util.ArrayList;
 
-public class VoiceLanguageSettingActivity extends AppCompatActivity {
+public class RecordingLanguageSettingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private VoiceLanguageSettingAdapter adapter;
+    private RecordingLanguageSettingAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class VoiceLanguageSettingActivity extends AppCompatActivity {
 
     private void initView() {
         recyclerView = findViewById(R.id.language_setting_recyclerView);
-        adapter = new VoiceLanguageSettingAdapter(getLanguageData());
+        adapter = new RecordingLanguageSettingAdapter(getLanguageData());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -52,12 +52,12 @@ public class VoiceLanguageSettingActivity extends AppCompatActivity {
 
     private ArrayList<SettingInfo> getLanguageData() {
         ArrayList<SettingInfo> arrayList = new ArrayList<>();
-        String setLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
-                MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
+        String setLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY,
+                MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
-        ArrayList<GoogleTextToVoiceLanguageTools.GoogleTextToVoiceLanguage> googleLanguages =
-                GoogleTextToVoiceLanguageTools.getLanguages(this);
-        for (GoogleTextToVoiceLanguageTools.GoogleTextToVoiceLanguage lang: googleLanguages) {
+        ArrayList<GoogleVoiceToTextLanguageTools.GoogleVoiceToTextLanguage> googleLanguages =
+                GoogleVoiceToTextLanguageTools.getLanguages(this);
+        for (GoogleVoiceToTextLanguageTools.GoogleVoiceToTextLanguage lang: googleLanguages) {
             arrayList.add(new SettingInfo(lang.getLanguageName(), lang.getLanguageName().equals(setLanguage)));
         }
 

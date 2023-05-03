@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -183,6 +182,9 @@ public class ChatActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void gotRecordEndEvent(Events.RecordingCompleted event) {
+        // todo 如果录音文件超过1min，需要调用不同的api接口
+        // https://cloud.google.com/speech-to-text/docs/basics?hl=zh-cn#select-model
+
         String path = event.getPath();
         Log.i("RecorderFragment", path);
         adapter.insertItem(new VoiceMessage(adapter.getItemCount(), true,

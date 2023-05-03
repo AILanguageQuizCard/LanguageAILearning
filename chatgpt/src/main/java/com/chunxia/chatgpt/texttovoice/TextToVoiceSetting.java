@@ -3,8 +3,6 @@ package com.chunxia.chatgpt.texttovoice;
 
 import android.content.Context;
 
-import com.chunxia.chatgpt.tools.GoogleTextToVoiceLanguageTools;
-
 public class TextToVoiceSetting {
 
     private static String languageCode = "en-AU";

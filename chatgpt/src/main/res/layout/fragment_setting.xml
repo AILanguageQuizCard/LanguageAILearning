@@ -62,7 +62,7 @@
 
         <com.chunxia.chatgpt.ui.SettingItemView
             android:id="@+id/voice_language_setting_view"
-            app:text="@string/setting_item_language"
+            app:text="@string/setting_item_voice_language"
             app:icon="@drawable/ic_volume_up"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -73,7 +73,7 @@
 
         <com.chunxia.chatgpt.ui.SettingItemView
             android:id="@+id/record_language_setting_view"
-            app:text="@string/setting_item_2"
+            app:text="@string/setting_item_recording_language"
             app:icon="@drawable/ic_volume_up"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"

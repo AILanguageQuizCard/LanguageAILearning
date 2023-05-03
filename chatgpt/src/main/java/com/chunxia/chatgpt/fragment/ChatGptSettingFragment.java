@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.activity.RecordingLanguageSettingActivity;
 import com.chunxia.chatgpt.activity.VoiceLanguageSettingActivity;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionUtils;
@@ -54,6 +55,7 @@ public class ChatGptSettingFragment extends Fragment {
                     public void onSubscriptionPurchased(@NonNull DataWrappers.PurchaseInfo purchaseInfo) {
 //                if (purchaseInfo.getSku().equals("subscription")) { }
                         // todo 订阅成功之后，给予用于VIP权限
+                        // todo 如果在google cloud console变更了价格，客户端需要做什么变更么
                     }
 
                     public void onPricesUpdated(@NotNull Map iapKeyPrices) {
@@ -79,16 +81,26 @@ public class ChatGptSettingFragment extends Fragment {
         });
     }
 
+    private void initRecordingLanguageButton() {
+        recordVoiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new XLIntent(getActivity(), RecordingLanguageSettingActivity.class);
+                ActivityUtils.startActivity(intent);
+
+            }
+        });
+    }
+
 
     public void initView() {
         payButton = root.findViewById(R.id.setting_pay_button);
         outputVoiceButton = root.findViewById(R.id.voice_language_setting_view);
         recordVoiceButton = root.findViewById(R.id.record_language_setting_view);
 
-
         initSubscription();
         initVoiceLanguageButton();
-
+        initRecordingLanguageButton();
     }
 }
 
