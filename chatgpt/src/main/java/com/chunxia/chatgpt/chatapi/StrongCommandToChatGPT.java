@@ -39,4 +39,6 @@ public class StrongCommandToChatGPT {
     public static final String TOPIC_TRAINING_PROMPT4 = " authentic sentences. Each sentence should start with "
             + TOPIC_TRAINING_PROMPT_SENTENCE_STARTER + " and end with "
             + TOPIC_TRAINING_PROMPT_SENTENCE_ENDER  + ", so that I can process them later. Provide these sentences only!";
+
+    public static final String FINAL_TOPIC_TRAINING_PROMPT = "I am learning about the topic 'climate change' in English. Can you provide me with 10  authentic sentences. Each sentence should start with its count number (The counting number should start from 1)  and end with line break,  so that I can process them later. Provide these sentences only!";
 }
