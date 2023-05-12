@@ -22,7 +22,7 @@ android {
         release {
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
-            buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
+            buildConfigField "String", "API_KEY", "\"AIzaSyBjq-sz5NWbHW-J9Xq4HLYcu0h0hkANGvs\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             //混淆开关
 //            minifyEnabled true
@@ -43,16 +43,16 @@ android {
             buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            //混淆开关
-            minifyEnabled true
-            // 是否zip对齐
-            zipAlignEnabled true
-            // 移除无用的resource文件
-            shrinkResources false
-            // 是否打开debuggable开关
-            debuggable false
-            // 是否打开jniDebuggable开关
-            jniDebuggable false
+//            //混淆开关
+//            minifyEnabled true
+//            // 是否zip对齐
+//            zipAlignEnabled true
+//            // 移除无用的resource文件
+//            shrinkResources false
+//            // 是否打开debuggable开关
+//            debuggable false
+//            // 是否打开jniDebuggable开关
+//            jniDebuggable false
 
         }
     }
@@ -114,6 +114,7 @@ dependencies {
     implementation project(path: ':googlecloudtts')
     implementation project(path: ':iap')
     implementation project(path: ':app')
+    implementation project(path: ':deepl')
 
     // 录音功能
     implementation 'com.github.SimpleMobileTools:Simple-Commons:8bcb4d3851'

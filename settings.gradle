@@ -9,3 +9,5 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io' }
     }
 }
+include ':deepl'
+include ':openai_api'

@@ -20,11 +20,7 @@ import com.chunxia.chatgpt.model.VoiceMessage;
 import com.chunxia.chatgpt.texttovoice.Text2VoiceModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import darren.googlecloudtts.BuildConfig;
-import darren.googlecloudtts.GoogleCloudTTS;
-import darren.googlecloudtts.GoogleCloudTTSFactory;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableObserver;
@@ -83,8 +79,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (vItem.viewType == Constant.CHAT_ME) {
                     vItem.textTimeView.setText(m.getDate());
                 }
-                GoogleCloudTTS googleCloudTTS = GoogleCloudTTSFactory.create(BuildConfig.API_KEY);
-                ((ChatItemViewHolder) holder).setText2VoiceModel(new Text2VoiceModel(application, googleCloudTTS));
+
+                ((ChatItemViewHolder) holder).setText2VoiceModel(new Text2VoiceModel(application));
                 setOnClickPlayVoiceButton(vItem, m);
                 setOnClickCopyContentButton(vItem);
             }
@@ -135,7 +131,22 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 vItem.voiceStatus = VOICE_INITIAL;
                             }
                         };
-                        onSpeak(vItem.getText2VoiceModel(), realS, comletionCallback);
+                        // todo 已经从google cloud获取到语音的，不需要再次请求
+                        vItem.getText2VoiceModel().onSpeak(realS, comletionCallback, new CompletableObserver() {
+                            @Override
+                            public void onSubscribe(@NonNull Disposable d) {
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.i(TAG, "speak success");
+                            }
+
+                            @Override
+                            public void onError(@NonNull Throwable e) {
+                                Log.e(TAG, "Speak failed", e);
+                            }
+                        } );
                         vItem.playVoiceButton.setImageResource(R.drawable.ic_pause_black);
                         vItem.voiceStatus = VOICE_PLAYING;
 
@@ -154,33 +165,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
         }
     }
-
-    void onSpeak(Text2VoiceModel text2VoiceModel, String text, MediaPlayer.OnCompletionListener comletionCallback) {
-        text2VoiceModel.speak(text, comletionCallback)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(t -> initTTSVoice(text2VoiceModel))
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {;
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.i(TAG, "speak success");
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.e(TAG, "Speak failed", e);
-                    }
-                });
-    }
-
-    private void initTTSVoice(Text2VoiceModel text2VoiceModel) {
-        text2VoiceModel.init();
-    }
-
 
     // Return the size of your data set (invoked by the layout manager)
     @Override

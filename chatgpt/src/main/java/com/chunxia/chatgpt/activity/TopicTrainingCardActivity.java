@@ -86,7 +86,7 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
     }
 
     private void initViewPager() {
-        topicCardViewPagerAdapter = new TopicCardViewPagerAdapter(this, titleList, sentencesList);
+        topicCardViewPagerAdapter = new TopicCardViewPagerAdapter(this.getApplication(), titleList, sentencesList);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(topicCardViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);

@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -28,6 +29,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
@@ -58,7 +61,19 @@ public class TopicTrainingActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-        Tools.setSystemBarColor(this, R.color.amber_500);
+        Tools.setSystemBarColor(this, R.color.chat_background);
+        initStatusBar(R.color.chat_background);
+    }
+
+    private void initStatusBar(int colorId) {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(getResources().getColor(colorId));
+
+        WindowInsetsControllerCompat wic = ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+        if (wic != null) {
+            // true表示Light Mode，状态栏字体呈黑色，反之呈白色
+            wic.setAppearanceLightStatusBars(true);
+        }
     }
 
     private void initComponent() {

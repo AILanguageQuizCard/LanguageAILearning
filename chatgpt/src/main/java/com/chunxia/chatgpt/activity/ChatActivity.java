@@ -36,7 +36,7 @@ import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.voicerecord.VoiceRecordActivity;
-import com.chunxia.chatgpt.voicetotext.VoiceToTextModel;
+import com.chunxia.chatgpt.voicerecord.voicetotext.VoiceToTextModel;
 import com.chunxia.chatgpt.model.Message;
 import com.chunxia.chatgpt.model.TextMessage;
 import com.chunxia.chatgpt.model.VoiceMessage;
@@ -52,7 +52,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class ChatActivity extends AppCompatActivity {

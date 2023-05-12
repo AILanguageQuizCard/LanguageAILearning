@@ -1,5 +1,6 @@
 package darren.googlecloudtts;
 
+import darren.googlecloudtts.api.GoogleText2VoiceAPIKey;
 import darren.googlecloudtts.api.SynthesizeApi;
 import darren.googlecloudtts.api.SynthesizeApiImpl;
 import darren.googlecloudtts.api.VoicesApi;
@@ -14,7 +15,7 @@ import darren.googlecloudtts.api.VoicesApiImpl;
 public class GoogleCloudTTSFactory {
     private volatile static GoogleCloudTTS googleCloudTTS;
 
-    public static GoogleCloudTTS create(String apiKey) {
+    public static GoogleCloudTTS create() {
 //        if (googleCloudTTS == null) {
 //            synchronized (GoogleCloudTTSFactory.class) {
 //                if (googleCloudTTS == null) {
@@ -23,7 +24,7 @@ public class GoogleCloudTTSFactory {
 //                }
 //            }
 //        }
-        GoogleCloudAPIConfig config = new GoogleCloudAPIConfig(apiKey);
+        GoogleCloudAPIConfig config = new GoogleCloudAPIConfig(GoogleText2VoiceAPIKey.getApiKey());
         return create(config);
     }
 

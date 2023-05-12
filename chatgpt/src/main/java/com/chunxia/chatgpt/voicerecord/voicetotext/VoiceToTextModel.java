@@ -1,4 +1,4 @@
-package com.chunxia.chatgpt.voicetotext;
+package com.chunxia.chatgpt.voicerecord.voicetotext;
 
 import static com.chunxia.chatgpt.voicerecord.helpers.ConstantsKt.WAV_SAMPLE_RATE;
 

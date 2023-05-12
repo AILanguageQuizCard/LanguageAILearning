@@ -16,7 +16,7 @@ import com.chunxia.chatgpt.adapter.settingItem.RecordingLanguageSettingAdapter;
 import com.chunxia.chatgpt.adapter.settingItem.SettingInfo;
 import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.mmkv.MMKVConstant;
-import com.chunxia.chatgpt.voicetotext.GoogleVoiceToTextLanguageTools;
+import com.chunxia.chatgpt.voicerecord.voicetotext.GoogleVoiceToTextLanguageTools;
 
 import java.util.ArrayList;
 

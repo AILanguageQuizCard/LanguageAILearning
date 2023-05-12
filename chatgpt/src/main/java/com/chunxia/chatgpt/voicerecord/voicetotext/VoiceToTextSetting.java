@@ -1,4 +1,4 @@
-package com.chunxia.chatgpt.voicetotext;
+package com.chunxia.chatgpt.voicerecord.voicetotext;
 
 public class VoiceToTextSetting {
     private static String languageName;

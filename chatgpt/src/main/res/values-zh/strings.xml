@@ -27,8 +27,6 @@
 
     <string name="topic_search_greeting_hint">
         你好！你想知道关于什么的表达呢？
-        记住，你提供的topic越具体，
-        我能够生成的句子越准确
     </string>
 
 

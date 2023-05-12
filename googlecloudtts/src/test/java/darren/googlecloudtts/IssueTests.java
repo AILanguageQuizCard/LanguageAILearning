@@ -17,7 +17,7 @@ public class IssueTests {
     // issue#5 fr-FR-Wavenet-E
     @Test
     public void testNotFoundVoiceList() {
-        GoogleCloudTTS cloudTTS = GoogleCloudTTSFactory.create(TestAPIConfig.CONFIG);
+        GoogleCloudTTS cloudTTS = GoogleCloudTTSFactory.create();
         VoicesList voicesList = cloudTTS.load();
         VoiceSelectionParams params = voicesList.getGCPVoice("fr-FR", "fr-FR-Wavenet-E");
         Assert.assertNotNull(params);

@@ -24,10 +24,7 @@
     <string name="setting_item_voice_language_name"> Voice Language </string>
 
     <string name="topic_search_greeting_hint">
-        Hello, What topic would you like
-        to search ? Remember, the more specific
-        the topic you provide, the more accurate
-        sentences I can generate.
+        Hello, What topic would you like to search?
     </string>
 
     <string name="chat_copy_successfully"> copy successfully! </string>

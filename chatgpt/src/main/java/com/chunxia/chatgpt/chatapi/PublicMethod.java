@@ -7,7 +7,7 @@ import com.theokanning.openai.service.OpenAiService;
 import java.time.Duration;
 
 public class PublicMethod {
-    private static final String token = "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";
+    private static final String token = "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";
     public static OpenAiService service;
     public static OpenAiService getOpenAiService(){
         if (service == null) {
