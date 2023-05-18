@@ -115,6 +115,7 @@ dependencies {
     implementation project(path: ':iap')
     implementation project(path: ':app')
     implementation project(path: ':deepl')
+    implementation project(path: ':cardstackview')
 
     // 录音功能
     implementation 'com.github.SimpleMobileTools:Simple-Commons:8bcb4d3851'

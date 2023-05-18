@@ -37,6 +37,8 @@
     <string name="cDescription" />
     <string name="strZeroTimer">00:00:00 / 00:00:00</string>
 
+    <string name="review_item_start_review">Start Review</string>
+
     <string name="app_launcher_name">Voice Recorder</string>
     <string name="recording_saved_successfully">Recording saved successfully</string>
     <string name="recording">Recording</string>
@@ -89,6 +91,18 @@
     <string name="yearly">Yearly</string>
     <string name="topic_card_voice_play_text">Play</string>
     <string name="topic_card_favorite_text">Collect</string>
+
+
+    <!-- NavigationView -->
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
+    <string name="reload">Reload</string>
+    <string name="add_spot_to_first">Add spot to first</string>
+    <string name="add_spot_to_last">Add spot to last</string>
+    <string name="remove_spot_from_first">Remove spot from first</string>
+    <string name="remove_spot_from_last">Remove spot from last</string>
+    <string name="replace_first_spot">Replace first spot</string>
+    <string name="swap_first_for_last">Swap first for last</string>
 
 
 </resources>

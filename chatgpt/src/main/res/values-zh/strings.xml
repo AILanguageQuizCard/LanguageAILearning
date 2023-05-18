@@ -40,6 +40,9 @@
     <string name="cDescription" />
     <string name="strZeroTimer">00:00:00 / 00:00:00</string>
 
+    <string name="review_item_start_review">开始复习</string>
+
+
     <string name="app_launcher_name">录音机</string>
     <string name="recording_saved_successfully">已成功保存录音</string>
     <string name="recording">录音中</string>

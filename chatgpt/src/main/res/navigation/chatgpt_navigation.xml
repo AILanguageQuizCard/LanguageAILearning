@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_chat_chatgpt" />
 
     <fragment
+        android:id="@+id/navigation_chatgpt_review"
+        android:name="com.chunxia.chatgpt.fragment.ChatGptReviewFragment"
+        android:label="Review"
+        tools:layout="@layout/fragment_chat_chatgpt" />
+
+    <fragment
         android:id="@+id/navigation_chatgpt_setting"
         android:name="com.chunxia.chatgpt.fragment.ChatGptSettingFragment"
         android:label="Setting"
