@@ -31,7 +31,6 @@ public class LanguageItemView extends RelativeLayout {
 
     private void initAttrs(Context context, AttributeSet attrs) {
 
-
     }
 
 

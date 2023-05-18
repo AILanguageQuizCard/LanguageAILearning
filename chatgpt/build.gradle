@@ -40,7 +40,7 @@ android {
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
 
-            buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
+            buildConfigField "String", "API_KEY", "\"AIzaSyBjq-sz5NWbHW-J9Xq4HLYcu0h0hkANGvs\""
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            //混淆开关

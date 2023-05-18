@@ -11,3 +11,4 @@ dependencyResolutionManagement {
 }
 include ':deepl'
 include ':openai_api'
+include ':cardstackview'
