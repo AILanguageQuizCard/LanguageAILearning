@@ -9,27 +9,40 @@ import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.completion.chat.ChatMessageRole;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class MultiRoundChatAiApi {
+public class MultiRoundChatAgent {
 
     private static final String TAG = "MultiRoundChatAiApi";
-    private List<ChatMessage> oldMessages = new ArrayList<>();
+    private final List<ChatMessage> oldMessages = new ArrayList<>();
 
-    private ChatMessage systemMessage;
-    private String systemCommand;
+    private String model = "gpt-3.5-turbo";
+    private int responseN = 1;
+    private int maxTokenN = 512;
+    private final ChatMessage systemMessage;
+    private final String systemCommand;
     private final List<ThreadUtils.Task<String>> threadTasks = new ArrayList<>();
-    private int mode = 0;
 
-    public MultiRoundChatAiApi(String systemCommand, int mode) {
-        init(systemCommand, mode);
+    public MultiRoundChatAgent(String systemCommand, String model, int responseN, int maxTokenN) {
+        this.systemCommand = systemCommand;
+        this.model = model;
+        this.responseN = responseN;
+        this.maxTokenN = maxTokenN;
+        this.systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), this.systemCommand);
+        oldMessages.add(systemMessage);
     }
 
-    private void init(String systemCommand, int mode) {
-        this.mode = mode;
+
+
+    public MultiRoundChatAgent() {
+        this.systemCommand = "";
+        this.systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), this.systemCommand);
+        oldMessages.add(systemMessage);
+    }
+
+    public MultiRoundChatAgent(String systemCommand) {
         this.systemCommand = systemCommand;
-        systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), this.systemCommand);
+        this.systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), this.systemCommand);
         oldMessages.add(systemMessage);
     }
 
@@ -47,7 +60,7 @@ public class MultiRoundChatAiApi {
             }
         };
         threadTasks.add(tTask);
-        ThreadUtils.executeBySingle(tTask);
+        ThreadUtils.getIoPool().execute(tTask);
     }
 
     public void cancelAllCurrentThread() {
@@ -56,38 +69,34 @@ public class MultiRoundChatAiApi {
     }
 
 
-    public interface ReceiveOpenAiReply{
+    public interface ReceiveOpenAiReply {
         void onSuccess(String reply);
     }
-
 
     private void insertUserMessage(String message) {
         final ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), message);
         oldMessages.add(userMessage);
     }
 
-
     private String sendToChatAi(String message) {
-        System.out.println("User: " + message);
+        Log.i(TAG, "User: " + message);
         insertUserMessage(message);
 
         ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest
                 .builder()
-                .model("gpt-3.5-turbo")
+                .model(model)
                 .messages(oldMessages)
-                .n(1)
-                .maxTokens(512)
-                .logitBias(new HashMap<>())
+                .n(responseN)
+                .maxTokens(maxTokenN)
                 .build();
 
         List<ChatCompletionChoice> choices = PublicMethod.getOpenAiService()
                 .createChatCompletion(chatCompletionRequest).getChoices();
-        if (choices.size() > 0) {
+        if (!choices.isEmpty()) {
+            String content = choices.get(0).getMessage().getContent();
+            Log.i(TAG, "ChatGpt: " + content);
             addChatGptReplyToMessage(choices.get(0).getMessage());
-            choices.forEach(chatChoice -> {
-                System.out.println("ChatGpt: " + chatChoice.getMessage().getContent());
-            });
-            return choices.get(0).getMessage().getContent();
+            return content;
         }
 
         return null;
@@ -95,7 +104,7 @@ public class MultiRoundChatAiApi {
 
 
     public void clearOldMessage() {
-        oldMessages = new ArrayList<>();
+        oldMessages.clear();
         oldMessages.add(systemMessage);
     }
 
@@ -103,5 +112,11 @@ public class MultiRoundChatAiApi {
         oldMessages.add(message);
     }
 
+    public int getMaxTokenN() {
+        return maxTokenN;
+    }
 
+    public void setMaxTokenN(int maxTokenN) {
+        this.maxTokenN = maxTokenN;
+    }
 }

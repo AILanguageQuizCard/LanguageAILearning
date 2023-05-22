@@ -16,10 +16,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import com.chunxia.chatgpt.R
 import com.chunxia.chatgpt.adapter.review.CardStackAdapter
+import com.chunxia.chatgpt.model.review.LearnCard
 import com.google.android.material.navigation.NavigationView
 import com.yuyakaido.android.cardstackview.*
 import com.yuyakaido.android.cardstackview.sample.Spot
-import com.yuyakaido.android.cardstackview.sample.SpotDiffCallback
+import com.chunxia.chatgpt.adapter.review.SpotDiffCallback
+import com.chunxia.chatgpt.model.review.ReviewCardManager
 import java.util.*
 
 class ReviewCardActivity : AppCompatActivity(), CardStackListener {
@@ -27,7 +29,11 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     private val drawerLayout by lazy { findViewById<DrawerLayout>(R.id.drawer_layout) }
     private val cardStackView by lazy { findViewById<CardStackView>(R.id.card_stack_view) }
     private val manager by lazy { CardStackLayoutManager(this, this) }
-    private val adapter by lazy { CardStackAdapter(createSpots()) }
+    private val learnCards = ReviewCardManager.getAllLearnCards()
+
+    private val adapter by lazy {
+        CardStackAdapter(learnCards)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,12 +71,12 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     }
 
     override fun onCardAppeared(view: View, position: Int) {
-        val textView = view.findViewById<TextView>(R.id.item_name)
+        val textView = view.findViewById<TextView>(R.id.item_review_card_sentence)
         Log.d("CardStackView", "onCardAppeared: ($position) ${textView.text}")
     }
 
     override fun onCardDisappeared(view: View, position: Int) {
-        val textView = view.findViewById<TextView>(R.id.item_name)
+        val textView = view.findViewById<TextView>(R.id.item_review_card_sentence)
         Log.d("CardStackView", "onCardDisappeared: ($position) ${textView.text}")
     }
 
@@ -80,7 +86,13 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         setSupportActionBar(toolbar)
 
         // DrawerLayout
-        val actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer)
+        val actionBarDrawerToggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.open_drawer,
+            R.string.close_drawer
+        )
         actionBarDrawerToggle.syncState()
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
 
@@ -109,10 +121,10 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         val skip = findViewById<View>(R.id.skip_button)
         skip.setOnClickListener {
             val setting = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Left)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(AccelerateInterpolator())
-                    .build()
+                .setDirection(Direction.Left)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
             manager.setSwipeAnimationSetting(setting)
             cardStackView.swipe()
         }
@@ -120,10 +132,10 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         val rewind = findViewById<View>(R.id.rewind_button)
         rewind.setOnClickListener {
             val setting = RewindAnimationSetting.Builder()
-                    .setDirection(Direction.Bottom)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(DecelerateInterpolator())
-                    .build()
+                .setDirection(Direction.Bottom)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(DecelerateInterpolator())
+                .build()
             manager.setRewindAnimationSetting(setting)
             cardStackView.rewind()
         }
@@ -131,10 +143,10 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         val like = findViewById<View>(R.id.like_button)
         like.setOnClickListener {
             val setting = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Right)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(AccelerateInterpolator())
-                    .build()
+                .setDirection(Direction.Right)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
             manager.setSwipeAnimationSetting(setting)
             cardStackView.swipe()
         }
@@ -162,26 +174,26 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     }
 
     private fun paginate() {
-        val old = adapter.getSpots()
-        val new = old.plus(createSpots())
+        val old = adapter.getLearnCards()
+        val new = old.plus(learnCards)
         val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        adapter.setSpots(new)
+        adapter.setLearnCards(new)
         result.dispatchUpdatesTo(adapter)
     }
 
     private fun reload() {
-        val old = adapter.getSpots()
-        val new = createSpots()
+        val old = adapter.getLearnCards()
+        val new = learnCards
         val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        adapter.setSpots(new)
+        adapter.setLearnCards(new)
         result.dispatchUpdatesTo(adapter)
     }
 
     private fun addFirst(size: Int) {
-        val old = adapter.getSpots()
-        val new = mutableListOf<Spot>().apply {
+        val old = adapter.getLearnCards()
+        val new = mutableListOf<LearnCard>().apply {
             addAll(old)
             for (i in 0 until size) {
                 add(manager.topPosition, createSpot())
@@ -189,29 +201,29 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         }
         val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        adapter.setSpots(new)
+        adapter.setLearnCards(new)
         result.dispatchUpdatesTo(adapter)
     }
 
     private fun addLast(size: Int) {
-        val old = adapter.getSpots()
-        val new = mutableListOf<Spot>().apply {
+        val old = adapter.getLearnCards()
+        val new = mutableListOf<LearnCard>().apply {
             addAll(old)
             addAll(List(size) { createSpot() })
         }
         val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        adapter.setSpots(new)
+        adapter.setLearnCards(new)
         result.dispatchUpdatesTo(adapter)
     }
 
     private fun removeFirst(size: Int) {
-        if (adapter.getSpots().isEmpty()) {
+        if (adapter.getLearnCards().isEmpty()) {
             return
         }
 
-        val old = adapter.getSpots()
-        val new = mutableListOf<Spot>().apply {
+        val old = adapter.getLearnCards()
+        val new = mutableListOf<LearnCard>().apply {
             addAll(old)
             for (i in 0 until size) {
                 removeAt(manager.topPosition)
@@ -219,17 +231,17 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         }
         val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        adapter.setSpots(new)
+        adapter.setLearnCards(new)
         result.dispatchUpdatesTo(adapter)
     }
 
     private fun removeLast(size: Int) {
-        if (adapter.getSpots().isEmpty()) {
+        if (adapter.getLearnCards().isEmpty()) {
             return
         }
 
-        val old = adapter.getSpots()
-        val new = mutableListOf<Spot>().apply {
+        val old = adapter.getLearnCards()
+        val new = mutableListOf<LearnCard>().apply {
             addAll(old)
             for (i in 0 until size) {
                 removeAt(this.size - 1)
@@ -237,24 +249,24 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         }
         val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        adapter.setSpots(new)
+        adapter.setLearnCards(new)
         result.dispatchUpdatesTo(adapter)
     }
 
     private fun replace() {
-        val old = adapter.getSpots()
-        val new = mutableListOf<Spot>().apply {
+        val old = adapter.getLearnCards()
+        val new = mutableListOf<LearnCard>().apply {
             addAll(old)
             removeAt(manager.topPosition)
             add(manager.topPosition, createSpot())
         }
-        adapter.setSpots(new)
+        adapter.setLearnCards(new)
         adapter.notifyItemChanged(manager.topPosition)
     }
 
     private fun swap() {
-        val old = adapter.getSpots()
-        val new = mutableListOf<Spot>().apply {
+        val old = adapter.getLearnCards()
+        val new = mutableListOf<LearnCard>().apply {
             addAll(old)
             val first = removeAt(manager.topPosition)
             val last = removeAt(this.size - 1)
@@ -263,31 +275,18 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         }
         val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        adapter.setSpots(new)
+        adapter.setLearnCards(new)
         result.dispatchUpdatesTo(adapter)
     }
 
-    private fun createSpot(): Spot {
-        return Spot(
-                name = "Yasaka Shrine",
-                city = "Kyoto",
-                url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"
+    private fun createSpot(): LearnCard {
+        if (learnCards.size > 0) {
+            return learnCards[0]
+        }
+        return LearnCard(
+            sentence = "Danish girls possess a natural and effortless beauty that is captivating.",
+            translation = "丹麦女孩拥有一种自然而不费力的迷人美"
         )
-    }
-
-    private fun createSpots(): List<Spot> {
-        val spots = ArrayList<Spot>()
-        spots.add(Spot(name = "Yasaka Shrine", city = "Kyoto", url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"))
-        spots.add(Spot(name = "Fushimi Inari Shrine", city = "Kyoto", url = "https://source.unsplash.com/NYyCqdBOKwc/600x800"))
-        spots.add(Spot(name = "Bamboo Forest", city = "Kyoto", url = "https://source.unsplash.com/buF62ewDLcQ/600x800"))
-        spots.add(Spot(name = "Brooklyn Bridge", city = "New York", url = "https://source.unsplash.com/THozNzxEP3g/600x800"))
-        spots.add(Spot(name = "Empire State Building", city = "New York", url = "https://source.unsplash.com/USrZRcRS2Lw/600x800"))
-        spots.add(Spot(name = "The statue of Liberty", city = "New York", url = "https://source.unsplash.com/PeFk7fzxTdk/600x800"))
-        spots.add(Spot(name = "Louvre Museum", city = "Paris", url = "https://source.unsplash.com/LrMWHKqilUw/600x800"))
-        spots.add(Spot(name = "Eiffel Tower", city = "Paris", url = "https://source.unsplash.com/HN-5Z6AmxrM/600x800"))
-        spots.add(Spot(name = "Big Ben", city = "London", url = "https://source.unsplash.com/CdVAUADdqEc/600x800"))
-        spots.add(Spot(name = "Great Wall of China", city = "China", url = "https://source.unsplash.com/AWh9C-QjhE4/600x800"))
-        return spots
     }
 
 }

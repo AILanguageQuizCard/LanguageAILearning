@@ -31,7 +31,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.chat.ChatAdapter;
-import com.chunxia.chatgpt.chatapi.MultiRoundChatAiApi;
+import com.chunxia.chatgpt.chatapi.MultiRoundChatAgent;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.tools.Tools;
@@ -82,7 +82,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
 
-    private MultiRoundChatAiApi multiRoundChatAiApi;
+    private MultiRoundChatAgent multiRoundChatAgent;
 
     private EventBus bus = null;
 
@@ -94,8 +94,7 @@ public class ChatActivity extends AppCompatActivity {
         initEventBus();
         initStatusBar();
 
-        initMultiRoundChatAiApi(getIntent().getStringExtra(ActivityIntentKeys.SYSTEM_COMMAND),
-                getIntent().getIntExtra(ActivityIntentKeys.CHAT_ACTIVITY_START_MODE, 0));
+        initMultiRoundChatAiApi(getIntent().getStringExtra(ActivityIntentKeys.SYSTEM_COMMAND));
         chatMode = getIntent().getStringExtra(ActivityIntentKeys.ACTIVITY_CHAT_MODE);
         initComponent(getIntent().getStringExtra(ActivityIntentKeys.START_WORDS));
         initVoiceMessageButton();
@@ -108,8 +107,8 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-    private void initMultiRoundChatAiApi(String systemCommand, int mode) {
-        multiRoundChatAiApi = new MultiRoundChatAiApi(systemCommand, mode);
+    public void initMultiRoundChatAiApi(String systemCommand) {
+        multiRoundChatAgent = new MultiRoundChatAgent(systemCommand);
     }
 
     private void initStatusBar() {
@@ -261,18 +260,15 @@ public class ChatActivity extends AppCompatActivity {
                 Tools.getFormattedTimeEvent(System.currentTimeMillis())));
         inputMessageEditText.setText("");
         recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-        multiRoundChatAiApi.sendMessageInThread(msg,
-                reply -> ThreadUtils.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.insertItem(new TextMessage(adapter.getItemCount(), reply,
-                                false, adapter.getItemCount() % 5 == 0,
-                                Tools.getFormattedTimeEvent(System.currentTimeMillis())));
 
-                        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-                    }
-                })
-        );
+        multiRoundChatAgent.sendMessageInThread(msg,
+                reply -> ThreadUtils.runOnUiThread(() -> {
+                    adapter.insertItem(new TextMessage(adapter.getItemCount(), reply,
+                            false, adapter.getItemCount() % 5 == 0,
+                            Tools.getFormattedTimeEvent(System.currentTimeMillis())));
+
+                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                }));
     }
 
     private void sendChat() {
@@ -284,7 +280,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         bus.unregister(this);
-        multiRoundChatAiApi.cancelAllCurrentThread();
+        multiRoundChatAgent.cancelAllCurrentThread();
         CXMMKV.getInstance().saveMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode), adapter.getItems());
     }
 

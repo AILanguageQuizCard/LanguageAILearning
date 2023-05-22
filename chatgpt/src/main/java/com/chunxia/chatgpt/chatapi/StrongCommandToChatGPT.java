@@ -1,5 +1,9 @@
 package com.chunxia.chatgpt.chatapi;
 
+import android.util.Log;
+
+import java.util.Locale;
+
 public class StrongCommandToChatGPT {
 
     public static final String ENGLISH_ONLY_COMMAND = "You are not allowed to answer in " +
@@ -31,14 +35,20 @@ public class StrongCommandToChatGPT {
     public static final int NORMAL_CHAT_MODE = 0;
     public static final int STRONG_COMMAND_MODE = 1;
 
-    public static final String TOPIC_TRAINING_PROMPT1 = "I am learning about the topic '";
-    public static final String TOPIC_TRAINING_PROMPT2 = "' in ";
-    public static final String TOPIC_TRAINING_PROMPT3 = ". Can you provide me with ";
-    public static final String TOPIC_TRAINING_PROMPT_SENTENCE_STARTER = "its count number (The counting number should start from 1)";
-    public static final String TOPIC_TRAINING_PROMPT_SENTENCE_ENDER = "line break";
-    public static final String TOPIC_TRAINING_PROMPT4 = " authentic sentences. Each sentence should start with "
-            + TOPIC_TRAINING_PROMPT_SENTENCE_STARTER + " and end with "
-            + TOPIC_TRAINING_PROMPT_SENTENCE_ENDER  + ", so that I can process them later. Provide these sentences only!";
 
-    public static final String FINAL_TOPIC_TRAINING_PROMPT = "I am learning about the topic 'climate change' in English. Can you provide me with 10  authentic sentences. Each sentence should start with its count number (The counting number should start from 1)  and end with line break,  so that I can process them later. Provide these sentences only!";
+    public static final String TOPIC_TRAINING_PROMPT =
+            "I am learning about the topic '%s' in %s. Can you provide me with %d authentic sentences and its %s translation. Each sentence and its translation should start with its count number and end with line break, so that I can process them later. Please provide each sentence in the following format: \"sentence [the corresponding translation]\"";
+
+    public  static final String LEFT_KUOHAO = "[";
+    public  static final String RIGHT_KUOHAO = "]";
+
+    public static String getCompleteTopicTrainingPrompt(String topic, String language, String motherLanguage, int num) {
+        String result =  String.format(Locale.getDefault(), TOPIC_TRAINING_PROMPT, topic, language, num, motherLanguage);
+        Log.i("lyk", result);
+        return result;
+    }
+
+    public static final String TOPIC_TRAINING_PROMPT2 =
+            "I am learning about the topic 'climate change' in English. Can you provide me with 10 authentic sentences and its Chinese translation. Each sentence and its translation should start with its count number and end with line break, so that I can process them later. Please provide each sentence in the following format: \"sentence [the corresponding translation]\"";
+
 }

@@ -1,10 +1,11 @@
-package com.yuyakaido.android.cardstackview.sample
+package com.chunxia.chatgpt.adapter.review
 
 import androidx.recyclerview.widget.DiffUtil
+import com.chunxia.chatgpt.model.review.LearnCard
 
 class SpotDiffCallback(
-        private val old: List<Spot>,
-        private val new: List<Spot>
+        private val old: List<LearnCard>,
+        private val new: List<LearnCard>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {
@@ -16,7 +17,7 @@ class SpotDiffCallback(
     }
 
     override fun areItemsTheSame(oldPosition: Int, newPosition: Int): Boolean {
-        return old[oldPosition].id == new[newPosition].id
+        return old[oldPosition].sentence.equals(new[newPosition].sentence)
     }
 
     override fun areContentsTheSame(oldPosition: Int, newPosition: Int): Boolean {

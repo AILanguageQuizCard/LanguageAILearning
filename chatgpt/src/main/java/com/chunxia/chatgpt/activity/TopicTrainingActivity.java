@@ -3,11 +3,6 @@ package com.chunxia.chatgpt.activity;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_TOPIC_KEY;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_RESULT_KEY;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_RESULT_NUM_KEY;
-import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.NORMAL_CHAT_MODE;
-import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.TOPIC_TRAINING_PROMPT1;
-import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.TOPIC_TRAINING_PROMPT2;
-import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.TOPIC_TRAINING_PROMPT3;
-import static com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT.TOPIC_TRAINING_PROMPT4;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,9 +29,8 @@ import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
-import com.chunxia.chatgpt.chatapi.MultiRoundChatAiApi;
+import com.chunxia.chatgpt.chatapi.TrainingMaterial;
 import com.chunxia.chatgpt.common.XLIntent;
-import com.chunxia.chatgpt.tools.ChatGptResponseTools;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
@@ -106,7 +100,7 @@ public class TopicTrainingActivity extends AppCompatActivity {
 
     private void searchAction(String topic) {
         initPendingView();
-        initTopicChat(topic, "English", 10);
+        initTopicChat(topic);
     }
 
     @Override
@@ -145,29 +139,15 @@ public class TopicTrainingActivity extends AppCompatActivity {
         lyt_content.setVisibility(View.VISIBLE);
     }
 
-    private void initTopicChat(String topic, String language, int num) {
-
-        MultiRoundChatAiApi chatAgent = new MultiRoundChatAiApi("", NORMAL_CHAT_MODE);
-        String prompt = TOPIC_TRAINING_PROMPT1 + topic
-                + TOPIC_TRAINING_PROMPT2 + language
-                + TOPIC_TRAINING_PROMPT3 + num
-                + TOPIC_TRAINING_PROMPT4;
-
-        Log.i("TopicTrainingPrompt", prompt);
-        chatAgent.sendMessageInThread(prompt, new MultiRoundChatAiApi.ReceiveOpenAiReply() {
-            @Override
-            public void onSuccess(String reply) {
-                Log.i(TAG, "reply \n " + reply);
-                ArrayList<String> results = ChatGptResponseTools.extractTopicTrainingSentences(reply, num);
-                onPendingEnd();
-                Log.i(TAG, "10 sentences: \n" + results);
-
-                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class)
-                        .putStringArrayList(TOPIC_TRAINING_RESULT_KEY, results)
-                        .putInt(TOPIC_TRAINING_RESULT_NUM_KEY, num)
-                        .putString(TOPIC_TRAINING_ACTIVITY_TOPIC_KEY, topic);
-                ActivityUtils.getTopActivity().startActivity(intent);
-            }
+    private void initTopicChat(String topic) {
+        new TrainingMaterial().getTrainingSentences(topic, (n, learnCards) -> {
+            onPendingEnd();
+            Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class)
+                    .putStringArrayList(TOPIC_TRAINING_RESULT_KEY, learnCards)
+                    .putInt(TOPIC_TRAINING_RESULT_NUM_KEY, n)
+                    .putString(TOPIC_TRAINING_ACTIVITY_TOPIC_KEY, topic);
+            ActivityUtils.getTopActivity().startActivity(intent);
         });
+
     }
 }

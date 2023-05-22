@@ -8,43 +8,59 @@
     android:layout_height="match_parent"
     android:background="?attr/selectableItemBackground"
     android:foreground="?attr/selectableItemBackground"
+    android:layout_margin="30dp"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="false"
     app:cardCornerRadius="8dp"
     app:cardBackgroundColor="@android:color/white">
 
-    <ImageView
-        android:id="@+id/item_image"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/light_blue_100"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:padding="16dp"
-        android:background="@drawable/gradation_black">
+        android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/item_name"
+            android:id="@+id/item_review_card_sentence"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/space"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="Urgent global action is imperative to combat climate change and safeguard our planet's future."
             android:textStyle="bold"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="26sp"/>
 
         <TextView
-            android:id="@+id/item_city"
+            android:id="@+id/item_review_card_translation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/space"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="迫切需要全球行动来应对气候变化，保护我们星球的未来。"
             android:textStyle="bold"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="20sp"/>
 
-    </LinearLayout>
+        <View
+            android:id="@+id/space"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <FrameLayout
         android:id="@+id/left_overlay"

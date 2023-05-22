@@ -17,6 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.topiccard.TopicCardViewPagerAdapter;
+import com.chunxia.chatgpt.model.review.LearnCard;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
@@ -29,19 +30,13 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
     private Button btnNext;
     private TopicCardViewPagerAdapter topicCardViewPagerAdapter;
     private ArrayList<String> titleList = new ArrayList<>();
-    private ArrayList<String> sentencesList = new ArrayList<>();
-    private final ArrayList<Integer> imageList = new ArrayList<>();
+    private ArrayList<LearnCard> learnCards = new ArrayList<>();
 
-
-    private void initData(ArrayList<String> resultList) {
+    private void initData(ArrayList<LearnCard> resultList) {
         for(int i = 0; i < currentCardNum; i++) {
             titleList.add(currentTopic);
         }
-        for(int i = 0; i < currentCardNum; i++) {
-            imageList.add(R.drawable.img_wizard_1);
-        }
-
-        sentencesList = resultList;
+        learnCards = resultList;
     }
 
     @Override
@@ -52,7 +47,7 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         currentTopic = intent.getStringExtra(TOPIC_TRAINING_ACTIVITY_TOPIC_KEY);
-        ArrayList<String> resultList = (ArrayList<String>) intent.getSerializableExtra(TOPIC_TRAINING_RESULT_KEY);
+        ArrayList<LearnCard> resultList = (ArrayList<LearnCard>) intent.getSerializableExtra(TOPIC_TRAINING_RESULT_KEY);
         currentCardNum = resultList.size();
         initData(resultList);
 
@@ -63,6 +58,7 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
         initViewPager();
         initSystemBar();
     }
+
 
     private void initSystemBar() {
         Tools.setSystemBarColor(this, R.color.grey_10);
@@ -86,7 +82,7 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
     }
 
     private void initViewPager() {
-        topicCardViewPagerAdapter = new TopicCardViewPagerAdapter(this.getApplication(), titleList, sentencesList);
+        topicCardViewPagerAdapter = new TopicCardViewPagerAdapter(this.getApplication(), titleList, learnCards);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(topicCardViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
