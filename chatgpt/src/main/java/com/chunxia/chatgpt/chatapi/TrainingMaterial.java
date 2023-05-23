@@ -51,12 +51,13 @@ public class TrainingMaterial {
 
 
     public void prepareData(String topic, ReceiveTrainMaterialCallback callback) {
+        Observable<String> stringObservable = getTrainingSentencesObservable(topic).subscribeOn(Schedulers.io());
+        Observable<String> stringObservable1 = getTrainingQuestionAndAnswerObservable(topic).subscribeOn(Schedulers.io());
         Observable.zip(
-                        getTrainingSentencesObservable(topic),
-                        getTrainingQuestionAndAnswerObservable(topic),
+                        stringObservable,
+                        stringObservable1,
                         Result::new
                 )
-                .subscribeOn(Schedulers.io())  // 在IO线程中执行网络请求
                 .observeOn(AndroidSchedulers.mainThread())  // 在主线程处理请求结果
                 .subscribe(
                         new DisposableObserver<Result>() {
@@ -92,6 +93,7 @@ public class TrainingMaterial {
         return Observable.fromCallable(new Callable<String>() {
             @Override
             public String call() throws Exception {
+                Log.i(TAG, "getTrainingSentencesObservable");
                 MultiRoundChatAgent agent = new MultiRoundChatAgent();
                 agent.setMaxTokenN(maxTokenN);
                 // todo 获取母语设置
@@ -120,6 +122,7 @@ public class TrainingMaterial {
         return Observable.fromCallable(new Callable<String>() {
             @Override
             public String call() throws Exception {
+                Log.i(TAG, "getTrainingQuestionAndAnswerObservable");
                 MultiRoundChatAgent agent = new MultiRoundChatAgent();
                 agent.setMaxTokenN(maxTokenN);
                 // todo 获取母语设置

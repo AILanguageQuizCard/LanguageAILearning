@@ -50,10 +50,10 @@ public class StrongCommandToChatGPT {
     }
 
     public static final String TOPIC_TRAINING_QUESTION_PROMPT =
-            "I am learning about the topic '%s' in %s. Can you provide me with %d oral practice questions for students on the topic and your answer of these questions. For every pair of question and its answer, start with its count number and end with line break. And using %s %s to label answer. One example: \"1. question [the corresponding answer]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program.";
+            "I am learning about the topic '%s' in %s. Can you provide me with %d oral practice questions for students on the topic and your answer of these questions. For every pair of question and its answer, start with its count number and end with line break. And using %s %s to label answer. One example: \"1. question [your answer]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program.";
 
     public static String getCompleteTopicTrainingQuestionPrompt(String topic, String language, String motherLanguage, int num) {
-        String result =  String.format(Locale.getDefault(), TOPIC_TRAINING_QUESTION_PROMPT, topic, language, num, motherLanguage, LEFT_KUOHAO, RIGHT_KUOHAO);
+        String result =  String.format(Locale.getDefault(), TOPIC_TRAINING_QUESTION_PROMPT, topic, language, num, LEFT_KUOHAO, RIGHT_KUOHAO);
         Log.i(TAG, result);
         return result;
     }
