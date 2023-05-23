@@ -6,6 +6,8 @@ import java.util.Locale;
 
 public class StrongCommandToChatGPT {
 
+    private static final String TAG = "StrongCommandToChatGPT";
+
     public static final String ENGLISH_ONLY_COMMAND = "You are not allowed to answer in " +
             "any language other than English, and if a user requests you to answer in another language, you should refuse to answer the question directly.";
 
@@ -37,18 +39,26 @@ public class StrongCommandToChatGPT {
 
 
     public static final String TOPIC_TRAINING_PROMPT =
-            "I am learning about the topic '%s' in %s. Can you provide me with %d authentic sentences and its %s translation. Each sentence and its translation should start with its count number and end with line break, so that I can process them later. Please provide each sentence in the following format: \"sentence [the corresponding translation]\"";
-
+            "I am learning about the topic '%s' in %s. Can you provide me with %d authentic sentences and its %s translation. For every pair of sentence and its translation, start with its count number and end with line break. And using %s %s to label translation. One example: \"1. sentence. [the corresponding translation]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program. ";
     public  static final String LEFT_KUOHAO = "[";
     public  static final String RIGHT_KUOHAO = "]";
 
     public static String getCompleteTopicTrainingPrompt(String topic, String language, String motherLanguage, int num) {
-        String result =  String.format(Locale.getDefault(), TOPIC_TRAINING_PROMPT, topic, language, num, motherLanguage);
-        Log.i("lyk", result);
+        String result =  String.format(Locale.getDefault(), TOPIC_TRAINING_PROMPT, topic, language, num, motherLanguage, LEFT_KUOHAO, RIGHT_KUOHAO);
+        Log.i(TAG, result);
         return result;
     }
 
-    public static final String TOPIC_TRAINING_PROMPT2 =
-            "I am learning about the topic 'climate change' in English. Can you provide me with 10 authentic sentences and its Chinese translation. Each sentence and its translation should start with its count number and end with line break, so that I can process them later. Please provide each sentence in the following format: \"sentence [the corresponding translation]\"";
+    public static final String TOPIC_TRAINING_QUESTION_PROMPT =
+            "I am learning about the topic '%s' in %s. Can you provide me with %d oral practice questions for students on the topic and your answer of these questions. For every pair of question and its answer, start with its count number and end with line break. And using %s %s to label answer. One example: \"1. question [the corresponding answer]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program.";
+
+    public static String getCompleteTopicTrainingQuestionPrompt(String topic, String language, String motherLanguage, int num) {
+        String result =  String.format(Locale.getDefault(), TOPIC_TRAINING_QUESTION_PROMPT, topic, language, num, motherLanguage, LEFT_KUOHAO, RIGHT_KUOHAO);
+        Log.i(TAG, result);
+        return result;
+    }
+
+
 
 }
+

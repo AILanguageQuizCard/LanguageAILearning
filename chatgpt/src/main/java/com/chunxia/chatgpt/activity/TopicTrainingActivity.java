@@ -1,13 +1,13 @@
 package com.chunxia.chatgpt.activity;
 
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_TOPIC_KEY;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_QUESTION_RESULT_KEY;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_RESULT_KEY;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_RESULT_NUM_KEY;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +31,8 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.chatapi.TrainingMaterial;
 import com.chunxia.chatgpt.common.XLIntent;
+import com.chunxia.chatgpt.model.review.LearnCard;
+import com.chunxia.chatgpt.model.review.TopicTestCard;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
@@ -140,14 +142,21 @@ public class TopicTrainingActivity extends AppCompatActivity {
     }
 
     private void initTopicChat(String topic) {
-        new TrainingMaterial().getTrainingSentences(topic, (n, learnCards) -> {
-            onPendingEnd();
-            Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class)
-                    .putStringArrayList(TOPIC_TRAINING_RESULT_KEY, learnCards)
-                    .putInt(TOPIC_TRAINING_RESULT_NUM_KEY, n)
-                    .putString(TOPIC_TRAINING_ACTIVITY_TOPIC_KEY, topic);
-            ActivityUtils.getTopActivity().startActivity(intent);
-        });
+        TrainingMaterial trainingMaterial = new TrainingMaterial();
 
+        trainingMaterial.prepareData(topic, new TrainingMaterial.ReceiveTrainMaterialCallback() {
+            @Override
+            public void onReceiveData(ArrayList<LearnCard> learnCards, ArrayList<TopicTestCard> topicTestCards) {
+                onPendingEnd();
+                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class)
+                        .putLearnCardArrayList(TOPIC_TRAINING_RESULT_KEY, learnCards)
+                        .putLearnTestCardArrayList(TOPIC_TRAINING_QUESTION_RESULT_KEY, topicTestCards)
+                        .putString(TOPIC_TRAINING_ACTIVITY_TOPIC_KEY, topic);
+                ActivityUtils.getTopActivity().startActivity(intent);
+            }
+        });
     }
+
+
+
 }

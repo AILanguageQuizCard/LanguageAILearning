@@ -10,6 +10,7 @@ import java.util.*;
 public class ReviewCardManager {
     private static final Gson gson = new Gson();
     private static final String LEARN_CARDS_KEY = "learn_cards";
+    private static final String LEARN_TEST_CARDS_KEY = "learn_test_cards";
 
     public static void initReviewCardsList() {
         if (CXMMKV.getInstance().getMMKV().decodeString(LEARN_CARDS_KEY) == null) {
@@ -33,6 +34,12 @@ public class ReviewCardManager {
         String learnCardsJson = gson.toJson(learnCards);
         return CXMMKV.getInstance().getMMKV().encode(LEARN_CARDS_KEY, learnCardsJson);
     }
+
+    public static boolean saveLearnTestCards(List<TopicTestCard> learnCards) {
+        String learnCardsJson = gson.toJson(learnCards);
+        return CXMMKV.getInstance().getMMKV().encode(LEARN_TEST_CARDS_KEY, learnCardsJson);
+    }
+
 
     public static boolean addOneLearnCard(LearnCard learnCard) {
         List<LearnCard> learnCards = getAllLearnCards();

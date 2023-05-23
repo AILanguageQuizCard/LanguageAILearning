@@ -60,7 +60,12 @@ public class MultiRoundChatAgent {
             }
         };
         threadTasks.add(tTask);
+
         ThreadUtils.getIoPool().execute(tTask);
+    }
+
+    public String sendMessage(String message) {
+        return sendToChatAi(message);
     }
 
     public void cancelAllCurrentThread() {

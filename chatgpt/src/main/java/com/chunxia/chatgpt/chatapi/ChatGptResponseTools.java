@@ -1,6 +1,9 @@
 package com.chunxia.chatgpt.chatapi;
 
+import android.util.Pair;
+
 import com.chunxia.chatgpt.model.review.LearnCard;
+import com.chunxia.chatgpt.model.review.TopicTestCard;
 
 import java.util.ArrayList;
 
@@ -8,6 +11,41 @@ public class ChatGptResponseTools {
 
     public static ArrayList<LearnCard> extractTopicTrainingSentences(String input) {
         ArrayList<LearnCard> learnCards = new ArrayList<>();
+
+        int sentenceCount = 1;
+        String[] words = extractAllSentences(input);
+        for (String word : words) {
+            if (word.isEmpty()) continue;
+            String deleteS = (sentenceCount + ".");
+            String res = word.replace(deleteS, "").trim();
+            Pair<String, String> pair = extractOneSentence(res);
+            learnCards.add(new LearnCard(pair.first, pair.second));
+            sentenceCount++;
+        }
+
+        return learnCards;
+    }
+
+
+    public static ArrayList<TopicTestCard> extractTopicTrainingQuestions(String input) {
+        ArrayList<TopicTestCard> topicTestCards = new ArrayList<>();
+
+        int sentenceCount = 1;
+        String[] words = extractAllSentences(input);
+        for (String word : words) {
+            if (word.isEmpty()) continue;
+            String deleteS = (sentenceCount + ".");
+            String res = word.replace(deleteS, "").trim();
+            Pair<String, String> pair = extractOneSentence(res);
+            topicTestCards.add(new TopicTestCard(pair.first, pair.second));
+            sentenceCount++;
+        }
+
+        return topicTestCards;
+    }
+    
+
+    private static String[] extractAllSentences(String input) {
         int finalStartIndex = 0;
         int realSentencesStartIndex = input.indexOf("\n1. ");
         int realSentencesStartIndex2 = input.indexOf("1. ");
@@ -31,20 +69,11 @@ public class ChatGptResponseTools {
         }
         String newInput = input.substring(finalStartIndex);
 
-        String[] words = newInput.split("\n");
-        int sentenceCount = 1;
-        for (String word : words) {
-            if (word.isEmpty()) continue;
-            String deleteS = (sentenceCount + ".");
-            String res = word.replace(deleteS, "").trim();
-            learnCards.add(extractOneSentence(res));
-            sentenceCount++;
-        }
-
-        return learnCards;
+        return newInput.split("\n");
     }
 
-    private static LearnCard extractOneSentence(String res) {
+
+    private static Pair<String, String> extractOneSentence(String res) {
         String sentence = "";
         String translation = "";
         int finalKuoHaoIndex = 0;
@@ -70,7 +99,7 @@ public class ChatGptResponseTools {
                     .replace(StrongCommandToChatGPT.RIGHT_KUOHAO, "")
                     .trim();
         }
-        return new LearnCard(sentence, translation);
+        return new Pair<>(sentence,translation);
     }
 
 }

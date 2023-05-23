@@ -1,6 +1,7 @@
 package com.chunxia.chatgpt.activity;
 
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_TOPIC_KEY;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_QUESTION_RESULT_KEY;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_RESULT_KEY;
 
 import android.content.Intent;
@@ -18,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.topiccard.TopicCardViewPagerAdapter;
 import com.chunxia.chatgpt.model.review.LearnCard;
+import com.chunxia.chatgpt.model.review.TopicTestCard;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
@@ -32,11 +34,15 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
     private ArrayList<String> titleList = new ArrayList<>();
     private ArrayList<LearnCard> learnCards = new ArrayList<>();
 
-    private void initData(ArrayList<LearnCard> resultList) {
+    private void initData(ArrayList<LearnCard> resultList, ArrayList<TopicTestCard> topicTestCards) {
         for(int i = 0; i < currentCardNum; i++) {
             titleList.add(currentTopic);
         }
         learnCards = resultList;
+
+        for (TopicTestCard topicTestCard: topicTestCards) {
+            learnCards.add(new LearnCard(topicTestCard.getQuestion(), topicTestCard.getAnswer()));
+        }
     }
 
     @Override
@@ -48,8 +54,9 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
 
         currentTopic = intent.getStringExtra(TOPIC_TRAINING_ACTIVITY_TOPIC_KEY);
         ArrayList<LearnCard> resultList = (ArrayList<LearnCard>) intent.getSerializableExtra(TOPIC_TRAINING_RESULT_KEY);
-        currentCardNum = resultList.size();
-        initData(resultList);
+        ArrayList<TopicTestCard> topicTestCards = (ArrayList<TopicTestCard>) intent.getSerializableExtra(TOPIC_TRAINING_QUESTION_RESULT_KEY);
+        currentCardNum = resultList.size() + topicTestCards.size();
+        initData(resultList, topicTestCards);
 
         // adding bottom dots
         bottomProgressDots(0);
