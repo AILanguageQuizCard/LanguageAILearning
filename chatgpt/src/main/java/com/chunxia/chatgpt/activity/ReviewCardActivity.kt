@@ -15,7 +15,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import com.chunxia.chatgpt.R
-import com.chunxia.chatgpt.adapter.review.CardStackAdapter
+import com.chunxia.chatgpt.adapter.review.ReviewCardStackAdapter
+import com.chunxia.chatgpt.adapter.review.ReviewCardView
 import com.chunxia.chatgpt.adapter.review.SpotDiffCallback
 import com.chunxia.chatgpt.model.review.ReviewCardManager
 import com.chunxia.chatgpt.model.review.SentenceCard
@@ -39,7 +40,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     private val learnCards = ReviewCardManager.getAllLearnCards()
 
     private val adapter by lazy {
-        CardStackAdapter(learnCards)
+        ReviewCardStackAdapter(learnCards)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,13 +86,13 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     }
 
     override fun onCardAppeared(view: View, position: Int) {
-        val textView = view.findViewById<TextView>(R.id.item_review_card_sentence)
-        Log.d("CardStackView", "onCardAppeared: ($position) ${textView.text}")
+        val reviewCardView = view.findViewById<ReviewCardView>(R.id.review_card_view)
+        Log.d("CardStackView", "onCardAppeared: ($position) ${reviewCardView.sentence}")
     }
 
     override fun onCardDisappeared(view: View, position: Int) {
-        val textView = view.findViewById<TextView>(R.id.item_review_card_sentence)
-        Log.d("CardStackView", "onCardDisappeared: ($position) ${textView.text}")
+        val reviewCardView = view.findViewById<ReviewCardView>(R.id.review_card_view)
+        Log.d("CardStackView", "onCardDisappeared: ($position) ${reviewCardView.sentence}")
     }
 
     private fun setupNavigation() {

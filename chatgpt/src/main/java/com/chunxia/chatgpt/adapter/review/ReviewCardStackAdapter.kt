@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chunxia.chatgpt.R
 import com.chunxia.chatgpt.model.review.SentenceCard
 
-class CardStackAdapter(
-        private var sentenceCards: List<SentenceCard> = emptyList()
-) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+class ReviewCardStackAdapter(
+    private var sentenceCards: List<SentenceCard> = emptyList()
+) : RecyclerView.Adapter<ReviewCardStackAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -19,8 +19,8 @@ class CardStackAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val card = sentenceCards[position]
-        holder.sentence.text = card.sentence
-        holder.translation.text = card.translation
+        holder.reviewCardView.sentence = card.sentence
+        holder.reviewCardView.translation = card.translation
     }
 
     override fun getItemCount(): Int {
@@ -36,8 +36,7 @@ class CardStackAdapter(
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val sentence: TextView = view.findViewById(R.id.item_review_card_sentence)
-        var translation: TextView = view.findViewById(R.id.item_review_card_translation)
+        val reviewCardView: ReviewCardView = view.findViewById(R.id.review_card_view)
     }
 
 }

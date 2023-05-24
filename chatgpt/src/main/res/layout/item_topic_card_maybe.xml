@@ -19,27 +19,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <com.chunxia.chatgpt.adapter.review.ReviewCardView
-            android:id="@+id/review_card_view"
+        <TextView
+            android:id="@+id/item_review_card_sentence"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            app:mLText="迫切需要全球行动来应对气候变化，保护我们星球的未来。"
-            app:tLText="Urgent global action is imperative to combat climate change and safeguard our planet's future."
-            app:mLTextStyle="bold"
-            app:tLTextStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/space"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="Urgent global action is imperative to combat climate change and safeguard our planet's future."
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="26sp"/>
+
+        <TextView
+            android:id="@+id/item_review_card_translation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/space"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="迫切需要全球行动来应对气候变化，保护我们星球的未来。"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"/>
+
+        <View
+            android:id="@+id/space"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:mLTextColor="@android:color/black"
-            app:tLTextColor="@android:color/black"
-            app:mLTextSize="20dp"
-            app:tLTextSize="22dp" />
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

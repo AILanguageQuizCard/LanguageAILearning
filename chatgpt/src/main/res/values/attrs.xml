@@ -12,6 +12,27 @@
         <attr name="icon" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="ReviewCardView">
+        <attr name="mLText" format="string" />
+        <attr name="tLText" format="string" />
+        <attr name="mLTextStyle" format="integer">
+            <enum name="normal" value="0"/>
+            <enum name="bold" value="1"/>
+            <enum name="italic" value="2"/>
+            <enum name="bold_italic" value="3"/>
+        </attr>
+        <attr name="tLTextStyle" format="integer">
+            <enum name="normal" value="0"/>
+            <enum name="bold" value="1"/>
+            <enum name="italic" value="2"/>
+            <enum name="bold_italic" value="3"/>
+        </attr>
+        <attr name="mLTextColor" format="color" />
+        <attr name="tLTextColor" format="color" />
+        <attr name="mLTextSize" format="dimension" />
+        <attr name="tLTextSize" format="dimension" />
+    </declare-styleable>
+
 
     <!--Voice Player for Recorded mp3 playing -->
     <declare-styleable name="VoicePlayerView">
