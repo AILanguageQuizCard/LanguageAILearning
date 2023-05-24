@@ -16,11 +16,20 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import com.chunxia.chatgpt.R
 import com.chunxia.chatgpt.adapter.review.CardStackAdapter
-import com.chunxia.chatgpt.model.review.SentenceCard
-import com.google.android.material.navigation.NavigationView
-import com.yuyakaido.android.cardstackview.*
 import com.chunxia.chatgpt.adapter.review.SpotDiffCallback
 import com.chunxia.chatgpt.model.review.ReviewCardManager
+import com.chunxia.chatgpt.model.review.SentenceCard
+import com.google.android.material.navigation.NavigationView
+import com.material.components.utils.Tools
+import com.yuyakaido.android.cardstackview.CardStackLayoutManager
+import com.yuyakaido.android.cardstackview.CardStackListener
+import com.yuyakaido.android.cardstackview.CardStackView
+import com.yuyakaido.android.cardstackview.Direction
+import com.yuyakaido.android.cardstackview.Duration
+import com.yuyakaido.android.cardstackview.RewindAnimationSetting
+import com.yuyakaido.android.cardstackview.StackFrom
+import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
+import com.yuyakaido.android.cardstackview.SwipeableMethod
 
 class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
@@ -36,10 +45,17 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_review_card)
+        setupSystemBar()
         setupNavigation()
         setupCardStackView()
         setupButton()
     }
+
+    private fun setupSystemBar() {
+        Tools.setSystemBarColor(this, R.color.white)
+        Tools.setSystemBarLight(this)
+    }
+
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

@@ -12,11 +12,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
-import com.chunxia.chatgpt.model.review.SentenceCard;
-import com.chunxia.chatgpt.model.review.TopicTestCard;
 import com.chunxia.chatgpt.texttovoice.Text2VoiceModel;
-
-import java.util.ArrayList;
 
 public class LearningMaterialCardAdapter extends PagerAdapter {
     private LayoutInflater layoutInflater = null;
