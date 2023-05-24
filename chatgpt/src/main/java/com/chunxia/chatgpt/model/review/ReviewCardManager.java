@@ -14,24 +14,24 @@ public class ReviewCardManager {
 
     public static void initReviewCardsList() {
         if (CXMMKV.getInstance().getMMKV().decodeString(LEARN_CARDS_KEY) == null) {
-            CXMMKV.getInstance().getMMKV().encode(LEARN_CARDS_KEY, gson.toJson(new ArrayList<LearnCard>()));
+            CXMMKV.getInstance().getMMKV().encode(LEARN_CARDS_KEY, gson.toJson(new ArrayList<SentenceCard>()));
         }
     }
 
-    public static List<LearnCard> getAllLearnCards() {
+    public static List<SentenceCard> getAllLearnCards() {
         String learnCardsJson = CXMMKV.getInstance().getMMKV().decodeString(LEARN_CARDS_KEY);
-        Type learnCardListType = new TypeToken<ArrayList<LearnCard>>() {
+        Type learnCardListType = new TypeToken<ArrayList<SentenceCard>>() {
         }.getType();
-        List<LearnCard> results = gson.fromJson(learnCardsJson, learnCardListType);
+        List<SentenceCard> results = gson.fromJson(learnCardsJson, learnCardListType);
         if (results == null) {
-            return new ArrayList<LearnCard>();
+            return new ArrayList<SentenceCard>();
         } else {
             return results;
         }
     }
 
-    public static boolean saveLearnCards(List<LearnCard> learnCards) {
-        String learnCardsJson = gson.toJson(learnCards);
+    public static boolean saveLearnCards(List<SentenceCard> sentenceCards) {
+        String learnCardsJson = gson.toJson(sentenceCards);
         return CXMMKV.getInstance().getMMKV().encode(LEARN_CARDS_KEY, learnCardsJson);
     }
 
@@ -41,16 +41,16 @@ public class ReviewCardManager {
     }
 
 
-    public static boolean addOneLearnCard(LearnCard learnCard) {
-        List<LearnCard> learnCards = getAllLearnCards();
-        learnCards.add(learnCard);
-        return saveLearnCards(learnCards);
+    public static boolean addOneLearnCard(SentenceCard sentenceCard) {
+        List<SentenceCard> sentenceCards = getAllLearnCards();
+        sentenceCards.add(sentenceCard);
+        return saveLearnCards(sentenceCards);
     }
 
-    public static boolean removeOneLearnCard(LearnCard learnCard) {
-        List<LearnCard> learnCards = getAllLearnCards();
-        if (learnCards.remove(learnCard)) {
-            return saveLearnCards(learnCards);
+    public static boolean removeOneLearnCard(SentenceCard sentenceCard) {
+        List<SentenceCard> sentenceCards = getAllLearnCards();
+        if (sentenceCards.remove(sentenceCard)) {
+            return saveLearnCards(sentenceCards);
         } else {
             return false;
         }

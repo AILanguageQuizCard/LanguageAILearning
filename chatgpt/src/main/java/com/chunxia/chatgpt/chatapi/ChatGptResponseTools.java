@@ -2,15 +2,15 @@ package com.chunxia.chatgpt.chatapi;
 
 import android.util.Pair;
 
-import com.chunxia.chatgpt.model.review.LearnCard;
+import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
 
 import java.util.ArrayList;
 
 public class ChatGptResponseTools {
 
-    public static ArrayList<LearnCard> extractTopicTrainingSentences(String input) {
-        ArrayList<LearnCard> learnCards = new ArrayList<>();
+    public static ArrayList<SentenceCard> extractTopicTrainingSentences(String input) {
+        ArrayList<SentenceCard> sentenceCards = new ArrayList<>();
 
         int sentenceCount = 1;
         String[] words = extractAllSentences(input);
@@ -19,11 +19,11 @@ public class ChatGptResponseTools {
             String deleteS = (sentenceCount + ".");
             String res = word.replace(deleteS, "").trim();
             Pair<String, String> pair = extractOneSentence(res);
-            learnCards.add(new LearnCard(pair.first, pair.second));
+            sentenceCards.add(new SentenceCard(pair.first, pair.second));
             sentenceCount++;
         }
 
-        return learnCards;
+        return sentenceCards;
     }
 
 

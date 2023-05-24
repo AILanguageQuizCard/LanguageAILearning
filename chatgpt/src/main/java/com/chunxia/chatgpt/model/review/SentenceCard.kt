@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
 
-class LearnCard() : Parcelable {
+class SentenceCard() : Parcelable {
     var sentence: String? = null
     var translation: String? = null
     var voicePath: String? = null
@@ -41,12 +41,12 @@ class LearnCard() : Parcelable {
         return 0
     }
 
-    companion object CREATOR : Creator<LearnCard> {
-        override fun createFromParcel(parcel: Parcel): LearnCard {
-            return LearnCard(parcel)
+    companion object CREATOR : Creator<SentenceCard> {
+        override fun createFromParcel(parcel: Parcel): SentenceCard {
+            return SentenceCard(parcel)
         }
 
-        override fun newArray(size: Int): Array<LearnCard?> {
+        override fun newArray(size: Int): Array<SentenceCard?> {
             return arrayOfNulls(size)
         }
     }

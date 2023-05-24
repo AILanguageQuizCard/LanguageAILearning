@@ -1,5 +1,6 @@
 package com.chunxia.chatgpt.activity;
 
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_TOPIC_KEY;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_QUESTION_RESULT_KEY;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_RESULT_KEY;
@@ -17,8 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.activity.dataholder.DataHolder;
+import com.chunxia.chatgpt.adapter.topiccard.LearningMaterialCardAdapter;
 import com.chunxia.chatgpt.adapter.topiccard.TopicCardViewPagerAdapter;
-import com.chunxia.chatgpt.model.review.LearnCard;
+import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
+import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
 import com.material.components.utils.Tools;
 
@@ -26,23 +30,20 @@ import java.util.ArrayList;
 
 public class TopicTrainingCardActivity extends AppCompatActivity {
 
-    private int currentCardNum = 10;
-    private String currentTopic;
+    private int currentCardNum;
     private ViewPager viewPager;
     private Button btnNext;
-    private TopicCardViewPagerAdapter topicCardViewPagerAdapter;
-    private ArrayList<String> titleList = new ArrayList<>();
-    private ArrayList<LearnCard> learnCards = new ArrayList<>();
+    private LearningMaterialCardAdapter adapter;
+    private AllLearningMaterialCard learningMaterialCard;
 
-    private void initData(ArrayList<LearnCard> resultList, ArrayList<TopicTestCard> topicTestCards) {
-        for(int i = 0; i < currentCardNum; i++) {
-            titleList.add(currentTopic);
-        }
-        learnCards = resultList;
+    private void initData(AllLearningMaterialCard learningMaterialCard) {
+        this.learningMaterialCard = learningMaterialCard;
+        currentCardNum = getAllSize();
+    }
 
-        for (TopicTestCard topicTestCard: topicTestCards) {
-            learnCards.add(new LearnCard(topicTestCard.getQuestion(), topicTestCard.getAnswer()));
-        }
+    private int getAllSize() {
+        if (learningMaterialCard == null) return 0;
+        return learningMaterialCard.size();
     }
 
     @Override
@@ -50,13 +51,7 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_wizard_overlap);
 
-        Intent intent = getIntent();
-
-        currentTopic = intent.getStringExtra(TOPIC_TRAINING_ACTIVITY_TOPIC_KEY);
-        ArrayList<LearnCard> resultList = (ArrayList<LearnCard>) intent.getSerializableExtra(TOPIC_TRAINING_RESULT_KEY);
-        ArrayList<TopicTestCard> topicTestCards = (ArrayList<TopicTestCard>) intent.getSerializableExtra(TOPIC_TRAINING_QUESTION_RESULT_KEY);
-        currentCardNum = resultList.size() + topicTestCards.size();
-        initData(resultList, topicTestCards);
+        initData((AllLearningMaterialCard) DataHolder.getInstance().getData(TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY));
 
         // adding bottom dots
         bottomProgressDots(0);
@@ -89,9 +84,9 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
     }
 
     private void initViewPager() {
-        topicCardViewPagerAdapter = new TopicCardViewPagerAdapter(this.getApplication(), titleList, learnCards);
+        adapter = new LearningMaterialCardAdapter(this.getApplication(), this.learningMaterialCard);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        viewPager.setAdapter(topicCardViewPagerAdapter);
+        viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
         viewPager.setClipToPadding(false);
@@ -105,7 +100,7 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (viewPager.getCurrentItem() == titleList.size() - 1) {
+                if (viewPager.getCurrentItem() == getAllSize() - 1) {
                     btnNext.setText("Get Started");
                 } else {
                     btnNext.setText("Next");

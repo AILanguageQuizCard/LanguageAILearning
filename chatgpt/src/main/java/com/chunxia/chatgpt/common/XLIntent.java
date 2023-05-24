@@ -3,7 +3,7 @@ package com.chunxia.chatgpt.common;
 import android.content.Context;
 import android.content.Intent;
 
-import com.chunxia.chatgpt.model.review.LearnCard;
+import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
 
 import java.io.Serializable;
@@ -31,7 +31,7 @@ public class XLIntent extends Intent {
         return this;
     }
 
-    public XLIntent putLearnCardArrayList(String key, ArrayList<LearnCard> list) {
+    public XLIntent putLearnCardArrayList(String key, ArrayList<SentenceCard> list) {
         this.putExtra(key, (Serializable) list);
         return this;
     }

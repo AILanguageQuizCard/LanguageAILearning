@@ -11,42 +11,43 @@ import android.widget.TextView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
 import com.chunxia.chatgpt.model.review.SentenceCard;
+import com.chunxia.chatgpt.model.review.TopicTestCard;
 import com.chunxia.chatgpt.texttovoice.Text2VoiceModel;
 
 import java.util.ArrayList;
 
-public class TopicCardViewPagerAdapter extends PagerAdapter {
-    private LayoutInflater layoutInflater;
+public class LearningMaterialCardAdapter extends PagerAdapter {
+    private LayoutInflater layoutInflater = null;
+    private final Text2VoiceModel text2VoiceModel;
+    private final Context context;
 
-    private ArrayList<String> titleList = new ArrayList<>();
-    private ArrayList<SentenceCard> sentenceCards = new ArrayList<>();
+    private final AllLearningMaterialCard learningMaterialCard;
 
-    private Text2VoiceModel text2VoiceModel;
-    private Context context;
-
-    public TopicCardViewPagerAdapter(Application application, ArrayList<String> titleList, ArrayList<SentenceCard> sentenceCards) {
+    public LearningMaterialCardAdapter(Application application, AllLearningMaterialCard learningMaterialCard) {
         this.context = application;
-        this.titleList = titleList;
-        this.sentenceCards = sentenceCards;
         text2VoiceModel = new Text2VoiceModel(application);
+        this.learningMaterialCard = learningMaterialCard;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        layoutInflater = (LayoutInflater)  context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (layoutInflater == null) {
+            layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
 
         View view = layoutInflater.inflate(R.layout.item_card_wizard, container, false);
-        ((TextView) view.findViewById(R.id.topic_card_title)).setText(titleList.get(position));
-        ((TextView) view.findViewById(R.id.topic_card_sentence)).setText(sentenceCards.get(position).getSentence());
+        ((TextView) view.findViewById(R.id.topic_card_title)).setText(learningMaterialCard.getTopic());
+        ((TextView) view.findViewById(R.id.topic_card_sentence)).setText(learningMaterialCard.getSentenceCards().get(position).getSentence());
         TextView translateView = view.findViewById(R.id.topic_card_translation);
-        translateView.setText(sentenceCards.get(position).getTranslation());
+        translateView.setText(learningMaterialCard.getSentenceCards().get(position).getTranslation());
         Button playButton = view.findViewById(R.id.topic_card_play_button);
         Button favoriteButton = view.findViewById(R.id.topic_card_favorite_button);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text2VoiceModel.onSpeak(sentenceCards.get(position).getSentence());
+                text2VoiceModel.onSpeak(learningMaterialCard.getSentenceCards().get(position).getSentence());
             }
         });
 
@@ -56,7 +57,7 @@ public class TopicCardViewPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return titleList.size();
+        return learningMaterialCard.size();
     }
 
     @Override

@@ -1,18 +1,14 @@
 package com.chunxia.chatgpt.chatapi;
 
 import android.util.Log;
-import android.util.Pair;
 
-import androidx.lifecycle.Observer;
-
-import com.chunxia.chatgpt.model.review.LearnCard;
+import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.LearnRecord;
 import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
-import java.util.function.BiFunction;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -27,17 +23,20 @@ public class TrainingMaterial {
     private final String TAG = "TrainingMaterial";
     private String learningLanguage = "English";
     private String motherLanguage = "Chinese";
-    private int sentenceN = 10;
+    private int sentenceN = 5;
     private int questionN = 3;
     private final int maxTokenN = 1024;
 
-    private ArrayList<LearnCard> learnCards;
+    private ArrayList<SentenceCard> sentenceCards;
     private ArrayList<TopicTestCard> topicTestCards;
 
 
-    public TrainingMaterial() {
-
+    public TrainingMaterial(int sentenceN, int questionN) {
+        this.sentenceN = sentenceN;
+        this.questionN = questionN;
     }
+
+    public TrainingMaterial(){}
 
     public static class Result {
         String s1;
@@ -53,21 +52,17 @@ public class TrainingMaterial {
     public void prepareData(String topic, ReceiveTrainMaterialCallback callback) {
         Observable<String> stringObservable = getTrainingSentencesObservable(topic).subscribeOn(Schedulers.io());
         Observable<String> stringObservable1 = getTrainingQuestionAndAnswerObservable(topic).subscribeOn(Schedulers.io());
-        Observable.zip(
-                        stringObservable,
-                        stringObservable1,
-                        Result::new
-                )
+        Observable.zip(stringObservable, stringObservable1, Result::new)
                 .observeOn(AndroidSchedulers.mainThread())  // 在主线程处理请求结果
                 .subscribe(
                         new DisposableObserver<Result>() {
                             @Override
                             public void onNext(@NonNull final Result result) {
-                                learnCards = ChatGptResponseTools.extractTopicTrainingSentences(result.s1);
-                                saveLearnCards(learnCards);
+                                sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result.s1);
+                                saveLearnCards(sentenceCards);
                                 topicTestCards = ChatGptResponseTools.extractTopicTrainingQuestions(result.s2);
                                 saveLearnTestCards(topicTestCards);
-                                callback.onReceiveData(learnCards, topicTestCards);
+                                callback.onReceiveData(sentenceCards, topicTestCards);
                             }
 
                             @Override
@@ -79,13 +74,36 @@ public class TrainingMaterial {
                             public void onComplete() {
 
                             }
-                        }
-                );
-
+                        });
     }
 
+    public void prepareSentenceData(String topic, ReceiveTrainMaterialCallback callback) {
+        Observable<String> stringObservable = getTrainingSentencesObservable(topic).subscribeOn(Schedulers.io());
+        stringObservable
+                .observeOn(AndroidSchedulers.mainThread())  // 在主线程处理请求结果
+                .subscribe(new DisposableObserver<String>() {
+                    @Override
+                    public void onNext(@NonNull final String result) {
+                        sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result);
+                        saveLearnCards(sentenceCards);
+                        callback.onReceiveData(sentenceCards, null);
+                    }
+
+                    @Override
+                    public void onError(@NonNull final Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+
     public interface ReceiveTrainMaterialCallback {
-        void onReceiveData(ArrayList<LearnCard> learnCards, ArrayList<TopicTestCard> topicTestCards);
+        void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards);
     }
 
 
@@ -110,9 +128,9 @@ public class TrainingMaterial {
     }
 
 
-    public void saveLearnCards(ArrayList<LearnCard> results) {
-        for (LearnCard learnCard : results) {
-            learnCard.setLearnRecord(new LearnRecord());
+    public void saveLearnCards(ArrayList<SentenceCard> results) {
+        for (SentenceCard sentenceCard : results) {
+            sentenceCard.setLearnRecord(new LearnRecord());
         }
         ReviewCardManager.saveLearnCards(results);
     }

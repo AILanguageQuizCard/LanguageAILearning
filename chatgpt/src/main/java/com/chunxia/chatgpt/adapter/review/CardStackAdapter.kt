@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.chunxia.chatgpt.R
-import com.chunxia.chatgpt.model.review.LearnCard
+import com.chunxia.chatgpt.model.review.SentenceCard
 
 class CardStackAdapter(
-        private var learnCards: List<LearnCard> = emptyList()
+        private var sentenceCards: List<SentenceCard> = emptyList()
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -18,21 +18,21 @@ class CardStackAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val card = learnCards[position]
+        val card = sentenceCards[position]
         holder.sentence.text = card.sentence
         holder.translation.text = card.translation
     }
 
     override fun getItemCount(): Int {
-        return learnCards.size
+        return sentenceCards.size
     }
 
-    fun setLearnCards(learnCards1: List<LearnCard>) {
-        this.learnCards = learnCards1
+    fun setLearnCards(sentenceCards1: List<SentenceCard>) {
+        this.sentenceCards = sentenceCards1
     }
 
-    fun getLearnCards(): List<LearnCard> {
-        return learnCards
+    fun getLearnCards(): List<SentenceCard> {
+        return sentenceCards
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

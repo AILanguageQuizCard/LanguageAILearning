@@ -16,13 +16,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import com.chunxia.chatgpt.R
 import com.chunxia.chatgpt.adapter.review.CardStackAdapter
-import com.chunxia.chatgpt.model.review.LearnCard
+import com.chunxia.chatgpt.model.review.SentenceCard
 import com.google.android.material.navigation.NavigationView
 import com.yuyakaido.android.cardstackview.*
-import com.yuyakaido.android.cardstackview.sample.Spot
 import com.chunxia.chatgpt.adapter.review.SpotDiffCallback
 import com.chunxia.chatgpt.model.review.ReviewCardManager
-import java.util.*
 
 class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
@@ -57,7 +55,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
     override fun onCardSwiped(direction: Direction) {
         Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
-        if (manager.topPosition == adapter.itemCount - 5) {
+        if (manager.topPosition == adapter.itemCount - 1) {
             paginate()
         }
     }
@@ -193,7 +191,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
     private fun addFirst(size: Int) {
         val old = adapter.getLearnCards()
-        val new = mutableListOf<LearnCard>().apply {
+        val new = mutableListOf<SentenceCard>().apply {
             addAll(old)
             for (i in 0 until size) {
                 add(manager.topPosition, createSpot())
@@ -207,7 +205,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
     private fun addLast(size: Int) {
         val old = adapter.getLearnCards()
-        val new = mutableListOf<LearnCard>().apply {
+        val new = mutableListOf<SentenceCard>().apply {
             addAll(old)
             addAll(List(size) { createSpot() })
         }
@@ -223,7 +221,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         }
 
         val old = adapter.getLearnCards()
-        val new = mutableListOf<LearnCard>().apply {
+        val new = mutableListOf<SentenceCard>().apply {
             addAll(old)
             for (i in 0 until size) {
                 removeAt(manager.topPosition)
@@ -241,7 +239,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         }
 
         val old = adapter.getLearnCards()
-        val new = mutableListOf<LearnCard>().apply {
+        val new = mutableListOf<SentenceCard>().apply {
             addAll(old)
             for (i in 0 until size) {
                 removeAt(this.size - 1)
@@ -255,7 +253,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
     private fun replace() {
         val old = adapter.getLearnCards()
-        val new = mutableListOf<LearnCard>().apply {
+        val new = mutableListOf<SentenceCard>().apply {
             addAll(old)
             removeAt(manager.topPosition)
             add(manager.topPosition, createSpot())
@@ -266,7 +264,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
     private fun swap() {
         val old = adapter.getLearnCards()
-        val new = mutableListOf<LearnCard>().apply {
+        val new = mutableListOf<SentenceCard>().apply {
             addAll(old)
             val first = removeAt(manager.topPosition)
             val last = removeAt(this.size - 1)
@@ -279,11 +277,11 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         result.dispatchUpdatesTo(adapter)
     }
 
-    private fun createSpot(): LearnCard {
+    private fun createSpot(): SentenceCard {
         if (learnCards.size > 0) {
             return learnCards[0]
         }
-        return LearnCard(
+        return SentenceCard(
             sentence = "Danish girls possess a natural and effortless beauty that is captivating.",
             translation = "丹麦女孩拥有一种自然而不费力的迷人美"
         )
