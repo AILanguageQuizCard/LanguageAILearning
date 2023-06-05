@@ -1,9 +1,6 @@
 package com.chunxia.chatgpt.activity;
 
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY;
-import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_TOPIC_KEY;
-import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_QUESTION_RESULT_KEY;
-import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_RESULT_KEY;
 
 import android.content.Context;
 import android.content.Intent;

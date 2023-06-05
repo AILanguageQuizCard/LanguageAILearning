@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chunxia.chatgpt.R;
@@ -23,11 +24,17 @@ public class ChatItemViewHolder extends RecyclerView.ViewHolder {
         public int viewType;
         private Text2VoiceModel text2VoiceModel;
 
+        public CardView cardView;
+
+        public boolean selected = false;
+        public ImageView chooseButton;
 
         public ChatItemViewHolder(View v, int viewType) {
             super(v);
             textContentView = v.findViewById(R.id.text_content);
             lytParentView = v.findViewById(R.id.lyt_parent);
+            cardView = v.findViewById(R.id.item_chat_card_view);
+            chooseButton = v.findViewById(R.id.item_chat_choose_view);
 
             if (viewType == CHAT_ME) {
                 textTimeView = v.findViewById(R.id.text_time);

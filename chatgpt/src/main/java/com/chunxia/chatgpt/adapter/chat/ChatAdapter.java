@@ -1,14 +1,21 @@
 package com.chunxia.chatgpt.adapter.chat;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
 import android.app.Application;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,14 +25,15 @@ import com.chunxia.chatgpt.model.Message;
 import com.chunxia.chatgpt.model.TextMessage;
 import com.chunxia.chatgpt.model.VoiceMessage;
 import com.chunxia.chatgpt.texttovoice.Text2VoiceModel;
+import com.chunxia.chatgpt.voicerecord.models.Events;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -40,6 +48,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public ArrayList<Message> getItems() {
         return items;
     }
+
+    private ArrayList<String> choosedItems = new ArrayList<>();
+
+    private boolean shouldShowHiddenView = false;
 
     private final Application application;
 
@@ -84,6 +96,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 setOnClickPlayVoiceButton(vItem, m);
                 setOnClickCopyContentButton(vItem);
             }
+            setLongClick((ChatItemViewHolder) holder);
+            showChooseView((ChatItemViewHolder) holder);
 
         } else if (holder instanceof VoiceMessageItemViewHolder) {
             VoiceMessageItemViewHolder vItem = (VoiceMessageItemViewHolder) holder;
@@ -94,6 +108,104 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         }
     }
+
+
+    public ArrayList<String> getChoosedItems(){
+        return choosedItems;
+    }
+
+    void showChooseView(ChatItemViewHolder holder) {
+        if (shouldShowHiddenView) {
+            holder.chooseButton.setVisibility(View.VISIBLE);
+            holder.chooseButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(holder.selected) {
+                        holder.chooseButton.setImageResource(R.drawable.ic_select3);
+                        holder.selected = false;
+                        choosedItems.remove(holder.textContentView.getText().toString());
+                    } else {
+                        holder.chooseButton.setImageResource(R.drawable.ic_selected3);
+                        holder.selected = true;
+                        choosedItems.add(holder.textContentView.getText().toString());
+                    }
+                }
+            });
+
+        } else {
+            holder.chooseButton.setVisibility(View.GONE);
+            holder.selected = false;
+        }
+
+    }
+
+    public void showHiddenView() {
+        shouldShowHiddenView = true;
+        notifyDataSetChanged();
+    }
+
+    public void hideHiddenView() {
+        shouldShowHiddenView = false;
+        notifyDataSetChanged();
+    }
+
+
+    void chooseQuestionAndAnswer() {
+        showHiddenView();
+        EventBus.getDefault().post(new Events.ShowAddToQuizCardView());
+    }
+
+
+    void setLongClick(ChatItemViewHolder vItem) {
+        Context context = vItem.cardView.getContext();
+
+        vItem.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // 加载弹出窗口的布局
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+                View popupView = inflater.inflate(R.layout.item_chat_popup_window, null);
+
+                // 创建弹出窗口
+                final PopupWindow popupWindow = new PopupWindow(
+                        popupView,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+
+                // 这些设置将使得弹出窗口在点击界面外的时候消失
+                popupWindow.setOutsideTouchable(true);
+                popupWindow.setFocusable(true);
+                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+                // 为每个按钮设置点击事件
+                Button button1 = popupView.findViewById(R.id.button1);
+                button1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        chooseQuestionAndAnswer();
+                        popupWindow.dismiss();
+                    }
+                });
+
+                Button button2 = popupView.findViewById(R.id.button2);
+                button2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        popupWindow.dismiss();
+                    }
+                });
+
+                // 显示弹出窗口，你可以根据需要调整显示的位置
+                popupWindow.showAsDropDown(v);
+                return true;
+            }
+        });
+
+    }
+
 
     void setOnClickCopyContentButton(ChatItemViewHolder vItem) {
         if (vItem.copyContentButton != null) {

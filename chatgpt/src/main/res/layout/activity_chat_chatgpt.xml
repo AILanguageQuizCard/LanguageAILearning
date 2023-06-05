@@ -85,6 +85,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/chat_activity_like_bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/spacing_xxlarge"
         android:background="@android:color/white"
@@ -130,6 +131,24 @@
             android:padding="8dp"
             app:srcCompat="@drawable/ic_send"
             app:tint="#0382FE" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/chat_activity_add_quiz_card_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_xxlarge"
+        android:visibility="gone"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textSize="20dp"
+            android:gravity="center"
+            android:text="@string/chat_activity_add_quiz_cardlayout_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 

@@ -2,6 +2,8 @@ package com.chunxia.chatgpt.chatapi;
 
 import android.util.Log;
 
+import com.chunxia.chatgpt.mmkv.CXMMKV;
+import com.chunxia.chatgpt.mmkv.MMKVConstant;
 import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.LearnRecord;
 import com.chunxia.chatgpt.model.review.ReviewCardManager;
@@ -31,12 +33,26 @@ public class TrainingMaterial {
     private ArrayList<TopicTestCard> topicTestCards;
 
 
+
     public TrainingMaterial(int sentenceN, int questionN) {
         this.sentenceN = sentenceN;
         this.questionN = questionN;
+        this.motherLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY,
+                MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_DEFAULT_VALUE);
+
+        this.learningLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
+                MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
+
     }
 
-    public TrainingMaterial(){}
+    public TrainingMaterial(){
+        this.motherLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY,
+                MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_DEFAULT_VALUE);
+
+        this.learningLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
+                MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
+
+    }
 
     public static class Result {
         String s1;

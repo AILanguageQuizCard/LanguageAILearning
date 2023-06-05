@@ -12,10 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -77,6 +79,11 @@ public class OneRoundChatActivity extends AppCompatActivity {
 
     private boolean alreadySend = false;
 
+    private LinearLayout inputLayout;
+
+    private LinearLayout showAddToQuizCardLayout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +97,7 @@ public class OneRoundChatActivity extends AppCompatActivity {
         initComponent(getIntent().getStringExtra(ActivityIntentKeys.START_WORDS));
         initVoiceMessageButton();
         initLikedButton();
+        initBottom();
     }
 
 
@@ -213,6 +221,41 @@ public class OneRoundChatActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void initBottom() {
+        inputLayout = findViewById(R.id.chat_activity_like_bottom_layout);
+        showAddToQuizCardLayout = findViewById(R.id.chat_activity_add_quiz_card_layout);
+        showAddToQuizCardLayout.setVisibility(View.GONE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void showAddQuizCardView(Events.ShowAddToQuizCardView event) {
+        Log.i("lyk", "showAddQuizCardView");
+        // 隐藏旧的底部 View
+        inputLayout.setVisibility(View.GONE);
+
+        TranslateAnimation animate = new TranslateAnimation(0, 0, showAddToQuizCardLayout.getHeight(), 0);
+        animate.setDuration(400);
+        animate.setFillAfter(true);
+
+        showAddToQuizCardLayout.startAnimation(animate);
+        showAddToQuizCardLayout.setVisibility(View.VISIBLE);
+        showAddToQuizCardLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> choosedItems = adapter.getChoosedItems();
+                if (choosedItems.size() != 2) {
+                    Toast.makeText(OneRoundChatActivity.this, "You have to choose only 2 items", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity.class)
+                            .putString(ActivityIntentKeys.SENTENCE_CARD_ANSWER, choosedItems.get(1))
+                            .putString(ActivityIntentKeys.SENTENCE_CARD_QUESTION, choosedItems.get(0));
+                    ActivityUtils.getTopActivity().startActivity(intent);
+                }
+            }
+        });
+    }
+
 
     private Message initialMessage;
 

@@ -10,4 +10,7 @@ class Events {
     class RecordingSaved internal constructor(val uri: Uri?)
     class TopicTrainingPending internal constructor()
     class TopicTrainingPendingEnd internal constructor()
+
+    class ShowAddToQuizCardView internal constructor()
+
 }

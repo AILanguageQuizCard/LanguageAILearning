@@ -93,4 +93,7 @@
     <string name="topic_card_voice_play_text">播放</string>
     <string name="topic_card_favorite_text">收藏</string>
 
+
+    <string name="chat_activity_add_quiz_cardlayout_text"> 添加卡片 </string>
+
 </resources>

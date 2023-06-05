@@ -12,9 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -64,27 +66,15 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     private String chatMode = "";
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        // todo
-//        outState.putParcelableArrayList(ActivityIntentKeys.getActivityChatModeKey(chatMode), adapter.getItems());
-    }
 
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-//        ArrayList<Parcelable> chatList = savedInstanceState.getParcelableArrayList(ActivityIntentKeys.getActivityChatModeKey(chatMode));
-//        if(chatList == null) return;
-//        ArrayList<Message> list  = chatList.stream().map(item -> (Message) item).collect(Collectors.toCollection(ArrayList::new));
-//        adapter.setItems(list);
-    }
+    private LinearLayout inputLayout;
+
+    private LinearLayout showAddToQuizCardLayout;
 
     private ActionBar actionBar;
 
     private MultiRoundChatAgent multiRoundChatAgent;
 
-    private EventBus bus = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,12 +88,13 @@ public class ChatActivity extends AppCompatActivity {
         chatMode = getIntent().getStringExtra(ActivityIntentKeys.ACTIVITY_CHAT_MODE);
         initComponent(getIntent().getStringExtra(ActivityIntentKeys.START_WORDS));
         initVoiceMessageButton();
+
+        initBottom();
     }
 
 
     private void initEventBus() {
-        bus = EventBus.getDefault();
-        bus.register(this);
+        EventBus.getDefault().register(this);
     }
 
 
@@ -184,7 +175,7 @@ public class ChatActivity extends AppCompatActivity {
         // https://cloud.google.com/speech-to-text/docs/basics?hl=zh-cn#select-model
 
         String path = event.getPath();
-        Log.i("RecorderFragment", path);
+        Log.i("lyk", path);
         adapter.insertItem(new VoiceMessage(adapter.getItemCount(), true,
                 true, Tools.getFormattedTimeEvent(System.currentTimeMillis()), path));
         ThreadUtils.getSinglePool().execute(new Runnable() {
@@ -197,6 +188,42 @@ public class ChatActivity extends AppCompatActivity {
                         sendChat(v2tResult);
                     }
                 });
+            }
+        });
+    }
+
+
+    private void initBottom() {
+        inputLayout = findViewById(R.id.chat_activity_like_bottom_layout);
+        showAddToQuizCardLayout = findViewById(R.id.chat_activity_add_quiz_card_layout);
+        showAddToQuizCardLayout.setVisibility(View.GONE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void showAddQuizCardView(Events.ShowAddToQuizCardView event) {
+        Log.i("lyk", "showAddQuizCardView");
+        // 隐藏旧的底部 View
+        inputLayout.setVisibility(View.GONE);
+
+        TranslateAnimation animate = new TranslateAnimation(0, 0, showAddToQuizCardLayout.getHeight(), 0);
+        animate.setDuration(400);
+        animate.setFillAfter(true);
+
+        showAddToQuizCardLayout.startAnimation(animate);
+        showAddToQuizCardLayout.setVisibility(View.VISIBLE);
+
+        showAddToQuizCardLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> choosedItems = adapter.getChoosedItems();
+                if (choosedItems.size() != 2) {
+                    Toast.makeText(ChatActivity.this, "You have to choose only 2 items", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity.class)
+                            .putString(ActivityIntentKeys.SENTENCE_CARD_ANSWER, choosedItems.get(1))
+                            .putString(ActivityIntentKeys.SENTENCE_CARD_QUESTION, choosedItems.get(0));
+                    ActivityUtils.getTopActivity().startActivity(intent);
+                }
             }
         });
     }
@@ -279,7 +306,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        bus.unregister(this);
+        EventBus.getDefault().unregister(this);
         multiRoundChatAgent.cancelAllCurrentThread();
         CXMMKV.getInstance().saveMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode), adapter.getItems());
     }
