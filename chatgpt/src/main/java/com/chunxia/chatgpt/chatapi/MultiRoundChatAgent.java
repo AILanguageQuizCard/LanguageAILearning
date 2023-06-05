@@ -3,6 +3,8 @@ package com.chunxia.chatgpt.chatapi;
 import android.util.Log;
 
 import com.blankj.utilcode.util.ThreadUtils;
+import com.chunxia.chatgpt.model.review.LearnRecord;
+import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.theokanning.openai.completion.chat.ChatCompletionChoice;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
@@ -71,6 +73,14 @@ public class MultiRoundChatAgent {
     public void cancelAllCurrentThread() {
         // todo 只取消当前正在执行的
         threadTasks.forEach(ThreadUtils::cancel);
+    }
+
+    public SentenceCard getOneRoundSentenceCard() {
+        if (oldMessages.size() < 3) {
+            return null;
+        }
+        SentenceCard sentenceCard = new SentenceCard(oldMessages.get(2).getContent(),oldMessages.get(1).getContent());
+        return sentenceCard;
     }
 
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:weightSum="10">
+
+    <EditText
+        android:id="@+id/questionEditText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:gravity="top|start"
+        android:hint="Enter question"
+        android:inputType="textMultiLine"
+        android:minLines="4"
+        android:scrollbars="vertical"
+        android:overScrollMode="always"
+        android:background="@drawable/edit_text_border"/>
+
+    <EditText
+        android:layout_marginTop="20dp"
+        android:id="@+id/answerEditText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:gravity="top|start"
+        android:hint="Enter answer"
+        android:inputType="textMultiLine"
+        android:minLines="4"
+        android:scrollbars="vertical"
+        android:overScrollMode="always"
+        android:background="@drawable/edit_text_border"/>
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:text="Submit" />
+
+</LinearLayout>

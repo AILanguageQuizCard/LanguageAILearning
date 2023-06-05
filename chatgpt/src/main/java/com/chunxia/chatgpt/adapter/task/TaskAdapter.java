@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.activity.ActivityIntentKeys;
 import com.chunxia.chatgpt.activity.ChatActivity;
+import com.chunxia.chatgpt.activity.OneRoundChatActivity;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.ui.TopicView2;
 
@@ -27,7 +28,7 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Integer> favoriteData;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public TaskAdapter( List<TopicInfo> data) {
+    public TaskAdapter(List<TopicInfo> data) {
         items = new ArrayList<>(data);
         setFavoriteData(items);
     }
@@ -35,8 +36,8 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void setFavoriteData(List<TopicInfo> datas) {
         favoriteData = new ArrayList<>();
         int count = 0;
-        for (TopicInfo topicInfo: datas ) {
-            if(topicInfo.isFavorite()) {
+        for (TopicInfo topicInfo : datas) {
+            if (topicInfo.isFavorite()) {
                 favoriteData.add(count, 0);
             } else {
                 favoriteData.add(count);
@@ -79,7 +80,7 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             topicView = (TopicView2) v;
             titleView = v.findViewById(R.id.title_textview);
             descriptionView = v.findViewById(R.id.description_textview);
-            favoriteView =  v.findViewById(R.id.favorite_button);
+            favoriteView = v.findViewById(R.id.favorite_button);
         }
     }
 
@@ -103,7 +104,15 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             taskItemViewHolder.topicView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), ChatActivity.class)
+
+                    Class<?> clazz = null;
+                    if (topicInfo.getTitle().equals(taskItemViewHolder.topicView.getContext().getString(R.string.topic_title_4))) {
+                        clazz = OneRoundChatActivity.class;
+                    } else {
+                        clazz = ChatActivity.class;
+                    }
+
+                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), clazz)
                             .putString(ActivityIntentKeys.ACTIVITY_CHAT_MODE, topicInfo.getTitle())
                             .putInt(ActivityIntentKeys.CHAT_ACTIVITY_START_MODE, topicInfo.getStartMode())
                             .putString(ActivityIntentKeys.START_WORDS, topicInfo.getStartWords())
@@ -115,7 +124,7 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             taskItemViewHolder.titleView.setText(topicInfo.getTitle());
             taskItemViewHolder.descriptionView.setText(topicInfo.getDescription());
-            taskItemViewHolder.topicView.setBackgroundResource( topicInfo.getBgDrawableId());
+            taskItemViewHolder.topicView.setBackgroundResource(topicInfo.getBgDrawableId());
             if (topicInfo.isFavorite()) {
                 taskItemViewHolder.favoriteView.setImageResource(R.drawable.ic_bookmark_liked);
             } else {
@@ -124,7 +133,7 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             taskItemViewHolder.favoriteView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(topicInfo.isFavorite()) {
+                    if (topicInfo.isFavorite()) {
                         topicInfo.setFavorite(false);
                         taskItemViewHolder.favoriteView.setImageResource(R.drawable.ic_bookmark);
 //                        like2unlike(topicInfo);

@@ -33,6 +33,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name="com.chunxia.chatgpt.activity.OneRoundChatActivity"
+            android:screenOrientation="portrait" />
+
+
+        <activity
             android:name="com.chunxia.chatgpt.subscription.SubscriptionActivity"
             android:screenOrientation="portrait">
         </activity>
@@ -48,6 +53,10 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name="com.chunxia.chatgpt.activity.AddReviewCardActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
         <activity
             android:name="com.chunxia.chatgpt.activity.TopicTrainingCardActivity"

@@ -47,6 +47,13 @@ public class ReviewCardManager {
         return saveLearnCards(sentenceCards);
     }
 
+    public static boolean addLearnCards(List<SentenceCard> sentenceCards) {
+        List<SentenceCard> old = getAllLearnCards();
+        old.addAll(sentenceCards);
+        return saveLearnCards(old);
+    }
+
+
     public static boolean removeOneLearnCard(SentenceCard sentenceCard) {
         List<SentenceCard> sentenceCards = getAllLearnCards();
         if (sentenceCards.remove(sentenceCard)) {

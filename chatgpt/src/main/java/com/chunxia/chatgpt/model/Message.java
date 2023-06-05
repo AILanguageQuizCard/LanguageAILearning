@@ -3,8 +3,6 @@ package com.chunxia.chatgpt.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 public class Message implements Parcelable {
 	private long id;
 	private String date;

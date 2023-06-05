@@ -6,14 +6,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,6 +26,7 @@ public class ReviewCardView extends LinearLayout {
     private float tLTextSize;
     private float mLTextSize;
     private int topMargin, middleMargin, bottomMargin;
+    private String TAG = "ReviewCardView";
 
     public ReviewCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -48,7 +48,9 @@ public class ReviewCardView extends LinearLayout {
         initViews(mLText, mLTextStyle, mLTextColor, mLTextSize, tLText, tLTextStyle, tLTextColor, tLTextSize);
     }
 
-    private void initViews(String mLText, int mLTextStyle, int mLTextColor, float mLTextSize, String tLText, int tLTextStyle, int tLTextColor, float tLTextSize) {
+
+    private void initViews(String mLText, int mLTextStyle, int mLTextColor, float mLTextSize,
+                           String tLText, int tLTextStyle, int tLTextColor, float tLTextSize) {
         this.setOrientation(LinearLayout.VERTICAL);
         Context context = getContext();
         mLTextView = new TextView(context);
@@ -64,7 +66,9 @@ public class ReviewCardView extends LinearLayout {
 
         mLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLTextSize);
         tLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, tLTextSize);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            tLTextView.setAutoSizeTextTypeUniformWithConfiguration(15, 24, 2, TypedValue.COMPLEX_UNIT_SP);
+        }
         middleMargin = dpToPx(context, 30);
 
         LayoutParams mLLayoutParams = new LayoutParams(
@@ -79,71 +83,59 @@ public class ReviewCardView extends LinearLayout {
         defaultTargetTextSize = tLTextView.getTextSize();
     }
 
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//
-//        int totalHeight = getMeasuredHeight();
-//        float targetHeight = totalHeight * 0.6f;
-//
-//        Paint mLanguagePaint = mLTextView.getPaint();
-//        Paint tLanguagePaint = tLTextView.getPaint();
-//
-//        float mLTextHeight = mLanguagePaint.descent() - mLanguagePaint.ascent();
-//        float tLTextHeight = tLanguagePaint.descent() - tLanguagePaint.ascent();
-//
-//        float totalTextHeight = mLTextHeight + tLTextHeight + middleMargin;
-//
-//        if (totalTextHeight > targetHeight) {
-//            float scale = targetHeight / totalTextHeight;
-//            float newtLTextSize = defaultTargetTextSize * scale;
-//            tLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, newtLTextSize);
-//        } else {
-//            tLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, defaultTargetTextSize);
-//        }
-//
-//        requestLayout();
-//        // 再次调用super.onMeasure以使用新的文本大小
-//        // super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//    }
 
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        Log.i("ReviewCardView", "onMeasure");
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        int full = getMeasuredHeight();
-//        float targetHeight = full * 0.6f;
-//        float height1 = measureTextViewHeight(mLTextView, mLTextSize);
-//        float height2 = measureTextViewHeight(tLTextView, tLTextSize);
-//        Log.i("ReviewCardView", "tLTextView height: " + height2 + ", size:" + tLTextSize);
-//        float currentHeight = height1 + height2 + middleMargin;
-//
-//        float newtLTextSize = tLTextSize;
-//        while (currentHeight > targetHeight) {
-//            Log.i("ReviewCardView", "currentHeight:" + currentHeight + ", targetHeight:" + targetHeight);
-//            newtLTextSize = newtLTextSize - 3;
-//            tLTextSize = newtLTextSize;
-//            height1 = measureTextViewHeight(mLTextView, mLTextSize);
-//            height2 = measureTextViewHeight(tLTextView, tLTextSize);
-//            Log.i("ReviewCardView", "after change tLTextView height: " + height2 + ", size:" + newtLTextSize);
-//            currentHeight = height1 + height2 + middleMargin;
-//        }
-//        if (newtLTextSize != tLTextSize){
-//            tLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, newtLTextSize);
-//        }
-//
-////         再次调用super.onMeasure以使用新的文本大小
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//    }
-//
-//    private float measureTextViewHeight(TextView textView, float textSize) {
-//        Paint paint = textView.getPaint();
-//        paint.setTextSize(textSize);//设置字体大小
-//        float oneLine = paint.descent() - paint.ascent();
-//        int lineNumber = textView.getLineCount();
-//        float space = textView.getLineSpacingExtra();
-//        return oneLine * lineNumber + space * (lineNumber - 1);
-//    }
+    public void setQuizMode() {
+        tLTextView.setVisibility(View.GONE);
+    }
+
+    public void setAnswerMode() {
+        tLTextView.setVisibility(View.VISIBLE);
+    }
+
+
+    //    1. 如何测量多行字体的高度？
+//    2. 子view中如何获取父View的高度？
+//    3. 该什么时机设置子view的高度？
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+
+        float h1 = measureTextViewHeight(tLTextView, tLTextView.getTextSize());
+        Log.i(TAG, "h1:" + h1);
+
+        int totalHeight = getMeasuredHeight();
+        float targetHeight = totalHeight * 0.6f;
+
+        Paint mLanguagePaint = mLTextView.getPaint();
+        Paint tLanguagePaint = tLTextView.getPaint();
+
+        float mLTextHeight = mLanguagePaint.descent() - mLanguagePaint.ascent();
+        float tLTextHeight = tLanguagePaint.descent() - tLanguagePaint.ascent();
+
+        float totalTextHeight = mLTextHeight + tLTextHeight + middleMargin;
+
+        if (totalTextHeight > targetHeight) {
+            float scale = targetHeight / totalTextHeight;
+            float newtLTextSize = defaultTargetTextSize * scale;
+            tLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, newtLTextSize);
+        } else {
+            tLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, defaultTargetTextSize);
+        }
+
+        requestLayout();
+        // 再次调用super.onMeasure以使用新的文本大小
+        // super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    private float measureTextViewHeight(TextView textView, float textSize) {
+        Paint paint = textView.getPaint();
+        paint.setTextSize(textSize);//设置字体大小
+        float oneLine = paint.descent() - paint.ascent();
+        int lineNumber = textView.getLineCount();
+        float space = textView.getLineSpacingExtra();
+        return oneLine * lineNumber + space * (lineNumber - 1);
+    }
 
     public void setSentence(String s) {
         tLTextView.setText(s);

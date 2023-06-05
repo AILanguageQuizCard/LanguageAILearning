@@ -28,7 +28,7 @@
             android:text="@string/chat_setting_top_view_title"/>
 
         <com.chunxia.chatgpt.ui.SettingItemView
-            android:id="@+id/voice_language_setting_view"
+            android:id="@+id/start_review_view"
             app:text="@string/review_item_start_review"
             app:icon="@drawable/ic_volume_up"
             android:layout_marginLeft="10dp"
@@ -37,6 +37,18 @@
             android:background="@drawable/pay_view_blue"
             android:layout_width="match_parent"
             android:layout_height="50dp"/>
+
+        <com.chunxia.chatgpt.ui.SettingItemView
+            android:id="@+id/add_your_own_review_card_view"
+            app:text="@string/review_add_your_own_review_card"
+            app:icon="@drawable/ic_volume_up"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/pay_view_blue"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
 
     </LinearLayout>
 

@@ -38,6 +38,7 @@
     <string name="strZeroTimer">00:00:00 / 00:00:00</string>
 
     <string name="review_item_start_review">Start Review</string>
+    <string name="review_add_your_own_review_card">Add Your Own Cards</string>
 
     <string name="app_launcher_name">Voice Recorder</string>
     <string name="recording_saved_successfully">Recording saved successfully</string>

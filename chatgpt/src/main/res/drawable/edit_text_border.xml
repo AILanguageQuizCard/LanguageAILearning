@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF" /> <!-- 这里设置EditText的背景颜色，你可以根据需要更改 -->
+    <stroke android:color="#808080" android:width="1dp" /> <!-- 这里设置边框颜色和宽度 -->
+    <corners android:radius="2dp" /> <!-- 这里设置边框圆角半径，你可以根据需要更改 -->
+</shape>

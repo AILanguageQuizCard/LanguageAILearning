@@ -146,4 +146,8 @@ dependencies {
 
     // 轮子哥 权限库
     implementation 'com.github.getActivity:XXPermissions:18.0'
+
+    // butterknife 不再维护，当java版本升级到11时，会有问题
+//    implementation 'com.jakewharton:butterknife:10.2.3'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 }

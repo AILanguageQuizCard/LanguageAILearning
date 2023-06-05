@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.activity.AddReviewCardActivity;
 import com.chunxia.chatgpt.activity.ReviewCardActivity;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.ui.SettingItemView;
@@ -18,6 +19,7 @@ import com.chunxia.chatgpt.ui.SettingItemView;
 public class ChatGptReviewFragment extends Fragment {
 
     private SettingItemView startReviewButton;
+    private SettingItemView addYourOwnCardButton;
     private View root;
 
     public ChatGptReviewFragment() {
@@ -42,10 +44,22 @@ public class ChatGptReviewFragment extends Fragment {
         });
     }
 
+    private void initAddYourOwnCardButton() {
+        addYourOwnCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new XLIntent(getActivity(), AddReviewCardActivity.class);
+                ActivityUtils.startActivity(intent);
+            }
+        });
+    }
+
 
     public void initView() {
-        startReviewButton = root.findViewById(R.id.voice_language_setting_view);
+        startReviewButton = root.findViewById(R.id.start_review_view);
         initStartReviewButton();
+        addYourOwnCardButton = root.findViewById(R.id.add_your_own_review_card_view);
+        initAddYourOwnCardButton();
     }
 
 

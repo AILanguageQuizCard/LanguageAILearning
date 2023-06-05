@@ -41,6 +41,7 @@
     <string name="strZeroTimer">00:00:00 / 00:00:00</string>
 
     <string name="review_item_start_review">开始复习</string>
+    <string name="review_add_your_own_review_card">添加卡片</string>
 
 
     <string name="app_launcher_name">录音机</string>
