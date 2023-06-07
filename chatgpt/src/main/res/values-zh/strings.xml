@@ -91,7 +91,7 @@
     <string name="monthly">Monthly</string>
     <string name="yearly">Yearly</string>
     <string name="topic_card_voice_play_text">播放</string>
-    <string name="topic_card_favorite_text">收藏</string>
+    <string name="topic_card_favorite_text">添加到复习列表</string>
 
 
     <string name="chat_activity_add_quiz_cardlayout_text"> 添加卡片 </string>

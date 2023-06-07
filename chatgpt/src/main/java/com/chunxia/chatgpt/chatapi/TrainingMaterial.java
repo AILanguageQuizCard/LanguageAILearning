@@ -75,9 +75,7 @@ public class TrainingMaterial {
                             @Override
                             public void onNext(@NonNull final Result result) {
                                 sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result.s1);
-                                saveLearnCards(sentenceCards);
                                 topicTestCards = ChatGptResponseTools.extractTopicTrainingQuestions(result.s2);
-                                saveLearnTestCards(topicTestCards);
                                 callback.onReceiveData(sentenceCards, topicTestCards);
                             }
 
@@ -101,7 +99,6 @@ public class TrainingMaterial {
                     @Override
                     public void onNext(@NonNull final String result) {
                         sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result);
-                        saveLearnCards(sentenceCards);
                         callback.onReceiveData(sentenceCards, null);
                     }
 
@@ -144,14 +141,6 @@ public class TrainingMaterial {
     }
 
 
-    public void saveLearnCards(ArrayList<SentenceCard> results) {
-        for (SentenceCard sentenceCard : results) {
-            sentenceCard.setLearnRecord(new LearnRecord());
-        }
-        ReviewCardManager.saveLearnCards(results);
-    }
-
-
     public Observable<String> getTrainingQuestionAndAnswerObservable(String topic) {
         return Observable.fromCallable(new Callable<String>() {
             @Override
@@ -177,7 +166,7 @@ public class TrainingMaterial {
         for (TopicTestCard learnCard : results) {
             learnCard.setLearnRecord(new LearnRecord());
         }
-        ReviewCardManager.saveLearnTestCards(results);
+        ReviewCardManager.getInstance().saveLearnTestCards(results);
     }
 
 

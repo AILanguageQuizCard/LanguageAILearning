@@ -1,4 +1,4 @@
-package com.chunxia.chatgpt.model;
+package com.chunxia.chatgpt.model.message;
 
 import android.os.Parcel;
 import android.os.Parcelable;

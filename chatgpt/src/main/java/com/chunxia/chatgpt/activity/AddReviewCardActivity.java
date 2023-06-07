@@ -21,6 +21,8 @@ public class AddReviewCardActivity extends AppCompatActivity {
 
     private Button submitButton;
 
+    // todo fix it
+    private final String topic = "English";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +58,7 @@ public class AddReviewCardActivity extends AppCompatActivity {
                 String question = questionEditText.getText().toString();
                 String answer = answerEditText.getText().toString();
 
-                ReviewCardManager.addOneLearnCard(new SentenceCard(answer, question));
+                ReviewCardManager.getInstance().addOneSentenceCardInTopicReviewSets(topic, new SentenceCard(answer, question));
 
                 Toast.makeText(AddReviewCardActivity.this,
                         "Question: " + question + "\nAnswer: " + answer,

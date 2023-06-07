@@ -21,10 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.chunxia.chatgpt.R;
-import com.chunxia.chatgpt.model.Message;
-import com.chunxia.chatgpt.model.TextMessage;
-import com.chunxia.chatgpt.model.VoiceMessage;
+import com.chunxia.chatgpt.model.message.Message;
+import com.chunxia.chatgpt.model.message.TextMessage;
+import com.chunxia.chatgpt.model.message.VoiceMessage;
 import com.chunxia.chatgpt.texttovoice.Text2VoiceModel;
+import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.voicerecord.models.Events;
 
 import org.greenrobot.eventbus.EventBus;
@@ -95,9 +96,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ChatItemViewHolder) holder).setText2VoiceModel(new Text2VoiceModel(application));
                 setOnClickPlayVoiceButton(vItem, m);
                 setOnClickCopyContentButton(vItem);
+
+                setLongClick((ChatItemViewHolder) holder);
+                showChooseView((ChatItemViewHolder) holder, m.isFromMe());
             }
-            setLongClick((ChatItemViewHolder) holder);
-            showChooseView((ChatItemViewHolder) holder);
 
         } else if (holder instanceof VoiceMessageItemViewHolder) {
             VoiceMessageItemViewHolder vItem = (VoiceMessageItemViewHolder) holder;
@@ -114,9 +116,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return choosedItems;
     }
 
-    void showChooseView(ChatItemViewHolder holder) {
+    void showChooseView(ChatItemViewHolder holder, boolean isFromMe) {
         if (shouldShowHiddenView) {
             holder.chooseButton.setVisibility(View.VISIBLE);
+            if (!isFromMe) {
+                RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.lytParentView.getLayoutParams();
+                // todo 原来的右边距 - 选中按钮的宽度 = 10，此处不应该写死的
+                layoutParams.setMargins(0, 0, Tools.dpToPx(holder.lytParentView.getContext(), 10), 0);
+                holder.lytParentView.setLayoutParams(layoutParams);
+
+            } else {
+                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) holder.meCardViewContainer.getLayoutParams();
+                layoutParams.setMargins(Tools.dpToPx(holder.meCardViewContainer.getContext(), 10), 0, 0, 0);
+                holder.meCardViewContainer.setLayoutParams(layoutParams);
+            }
+
             holder.chooseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -136,7 +150,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.chooseButton.setVisibility(View.GONE);
             holder.selected = false;
         }
-
     }
 
     public void showHiddenView() {
@@ -203,7 +216,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return true;
             }
         });
-
     }
 
 

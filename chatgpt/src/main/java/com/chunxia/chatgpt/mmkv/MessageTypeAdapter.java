@@ -1,8 +1,8 @@
 package com.chunxia.chatgpt.mmkv;
 
-import com.chunxia.chatgpt.model.Message;
-import com.chunxia.chatgpt.model.TextMessage;
-import com.chunxia.chatgpt.model.VoiceMessage;
+import com.chunxia.chatgpt.model.message.Message;
+import com.chunxia.chatgpt.model.message.TextMessage;
+import com.chunxia.chatgpt.model.message.VoiceMessage;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

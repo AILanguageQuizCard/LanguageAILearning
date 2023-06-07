@@ -1,5 +1,6 @@
 package com.chunxia.chatgpt.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,10 +14,12 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
+import com.blankj.utilcode.util.ActivityUtils
 import com.chunxia.chatgpt.R
 import com.chunxia.chatgpt.adapter.review.ReviewCardStackAdapter
 import com.chunxia.chatgpt.adapter.review.ReviewCardView
 import com.chunxia.chatgpt.adapter.review.SpotDiffCallback
+import com.chunxia.chatgpt.common.XLIntent
 import com.chunxia.chatgpt.model.review.ReviewCardManager
 import com.chunxia.chatgpt.model.review.SentenceCard
 import com.google.android.material.navigation.NavigationView
@@ -36,7 +39,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     private val drawerLayout by lazy { findViewById<DrawerLayout>(R.id.drawer_layout) }
     private val cardStackView by lazy { findViewById<CardStackView>(R.id.card_stack_view) }
     private val manager by lazy { CardStackLayoutManager(this, this) }
-    private val learnCards = ReviewCardManager.getAllLearnCards()
+    private val learnCards = ReviewCardManager.getInstance().currentPresentingCards
 
     private val adapter by lazy {
         ReviewCardStackAdapter(learnCards)
@@ -114,8 +117,8 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         val navigationView = findViewById<NavigationView>(R.id.navigation_view)
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.reload -> reload()
-                R.id.add_spot_to_first -> addFirst(1)
+                R.id.reload -> editCurrentCard()
+                R.id.add_spot_to_first -> deleteCurrentCard()
                 R.id.add_spot_to_last -> addLast(1)
                 R.id.remove_spot_from_first -> removeFirst(1)
                 R.id.remove_spot_from_last -> removeLast(1)
@@ -196,23 +199,28 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         result.dispatchUpdatesTo(adapter)
     }
 
-    private fun reload() {
-        val old = adapter.getLearnCards()
-        val new = learnCards
-        val callback = SpotDiffCallback(old, new)
-        val result = DiffUtil.calculateDiff(callback)
-        adapter.setLearnCards(new)
-        result.dispatchUpdatesTo(adapter)
+    private fun editCurrentCard() {
+        val sentenceCard = getTopSentenceCard()
+        val intent: Intent =
+            XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity::class.java)
+                .putString(ActivityIntentKeys.SENTENCE_CARD_ANSWER, sentenceCard.translation)
+                .putString(ActivityIntentKeys.SENTENCE_CARD_QUESTION, sentenceCard.sentence)
+        ActivityUtils.getTopActivity().startActivity(intent)
     }
 
-    private fun addFirst(size: Int) {
+    private fun getTopSentenceCard(): SentenceCard {
+        val topPosition = manager.topPosition
+        return adapter.getLearnCards()[topPosition]
+    }
+
+
+    private fun deleteCurrentCard() {
         val old = adapter.getLearnCards()
         val new = mutableListOf<SentenceCard>().apply {
             addAll(old)
-            for (i in 0 until size) {
-                add(manager.topPosition, createSpot())
-            }
+            removeAt(manager.topPosition)
         }
+        learnCards.remove(getTopSentenceCard())
         val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
         adapter.setLearnCards(new)

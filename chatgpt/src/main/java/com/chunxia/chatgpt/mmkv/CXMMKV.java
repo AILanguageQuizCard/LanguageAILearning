@@ -1,16 +1,8 @@
 package com.chunxia.chatgpt.mmkv;
 
-
 import android.app.Application;
 
-import com.chunxia.chatgpt.model.Message;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.tencent.mmkv.MMKV;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 
 public class CXMMKV {
@@ -42,24 +34,5 @@ public class CXMMKV {
         MMKV.initialize(application);
     }
 
-    public void saveMessages(String key, ArrayList<Message> messages) {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Message.class, new MessageTypeAdapter())
-                .create();
-        String json = gson.toJson(messages);
-        mmkv.encode(key, json);
-    }
-
-    public ArrayList<Message> loadMessages(String key) {
-        String json = mmkv.decodeString(key, "");
-        if (json.isEmpty()) {
-            return new ArrayList<>();
-        }
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Message.class, new MessageTypeAdapter())
-                .create();
-        Type type = new TypeToken<ArrayList<Message>>() {}.getType();
-        return gson.fromJson(json, type);
-    }
 
 }

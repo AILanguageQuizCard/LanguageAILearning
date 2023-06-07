@@ -12,6 +12,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
+import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.texttovoice.Text2VoiceModel;
 
 public class LearningMaterialCardAdapter extends PagerAdapter {
@@ -47,6 +48,13 @@ public class LearningMaterialCardAdapter extends PagerAdapter {
             }
         });
 
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReviewCardManager.getInstance().addOneSentenceCardInTopicReviewSets(learningMaterialCard.getTopic(),
+                        learningMaterialCard.getSentenceCards().get(position));
+            }
+        });
         container.addView(view);
         return view;
     }

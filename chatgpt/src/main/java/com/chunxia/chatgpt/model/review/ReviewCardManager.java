@@ -2,64 +2,102 @@ package com.chunxia.chatgpt.model.review;
 
 import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class ReviewCardManager {
-    private static final Gson gson = new Gson();
+    private final Gson gson = new Gson();
     private static final String LEARN_CARDS_KEY = "learn_cards";
     private static final String LEARN_TEST_CARDS_KEY = "learn_test_cards";
+    private static final String ALL_REVIEW_DATA_KEY = "all_review_data_key";
 
-    public static void initReviewCardsList() {
-        if (CXMMKV.getInstance().getMMKV().decodeString(LEARN_CARDS_KEY) == null) {
-            CXMMKV.getInstance().getMMKV().encode(LEARN_CARDS_KEY, gson.toJson(new ArrayList<SentenceCard>()));
-        }
+    private AllReviewData allReviewData;
+
+
+    private ReviewCardManager() {
+        loadData();
     }
 
-    public static List<SentenceCard> getAllLearnCards() {
-        String learnCardsJson = CXMMKV.getInstance().getMMKV().decodeString(LEARN_CARDS_KEY);
-        Type learnCardListType = new TypeToken<ArrayList<SentenceCard>>() {
-        }.getType();
-        List<SentenceCard> results = gson.fromJson(learnCardsJson, learnCardListType);
-        if (results == null) {
-            return new ArrayList<SentenceCard>();
+    private static volatile ReviewCardManager instance;
+
+    public static ReviewCardManager getInstance() {
+        if (instance == null) {
+            synchronized (ReviewCardManager.class) {
+                if (instance == null) {
+                    instance = new ReviewCardManager();
+                }
+            }
+        }
+        return instance;
+    }
+
+
+    private void loadData() {
+        AllReviewData temp = getAllReviewData();
+        if (temp != null) {
+            allReviewData = temp;
         } else {
-            return results;
+            allReviewData = new AllReviewData();
         }
     }
 
-    public static boolean saveLearnCards(List<SentenceCard> sentenceCards) {
-        String learnCardsJson = gson.toJson(sentenceCards);
-        return CXMMKV.getInstance().getMMKV().encode(LEARN_CARDS_KEY, learnCardsJson);
+
+    public void addOneTopicReviewSets(TopicReviewSets topicReviewSets) {
+        allReviewData.addOneTopicReviewSet(topicReviewSets);
+        saveAllReviewData();
     }
 
-    public static boolean saveLearnTestCards(List<TopicTestCard> learnCards) {
+    public void addOneTopicReviewSets(String topic, ArrayList<SentenceCard> sentenceCards) {
+        TopicReviewSets topicReviewSets = new TopicReviewSets(topic, sentenceCards);
+        addOneTopicReviewSets(topicReviewSets);
+    }
+
+
+    public void addOneSentenceCardInTopicReviewSets(String topic, SentenceCard sentenceCard) {
+        allReviewData.addOneSentenceCardInTopicReviewSets(topic, sentenceCard);
+        saveAllReviewData();
+    }
+
+    public ArrayList<SentenceCard> getSentencesCardsByTopic(String topic) {
+        return allReviewData.getSentencesCardsByTopic(topic);
+    }
+
+
+    public ArrayList<SentenceCard> getAllLearnCards() {
+        return allReviewData.getAllLearnCards();
+    }
+
+    public boolean saveLearnTestCards(List<TopicTestCard> learnCards) {
         String learnCardsJson = gson.toJson(learnCards);
         return CXMMKV.getInstance().getMMKV().encode(LEARN_TEST_CARDS_KEY, learnCardsJson);
     }
 
-
-    public static boolean addOneLearnCard(SentenceCard sentenceCard) {
-        List<SentenceCard> sentenceCards = getAllLearnCards();
-        sentenceCards.add(sentenceCard);
-        return saveLearnCards(sentenceCards);
+    public List<String> getAllTopics() {
+        return allReviewData.getAllTopics();
     }
 
-    public static boolean addLearnCards(List<SentenceCard> sentenceCards) {
-        List<SentenceCard> old = getAllLearnCards();
-        old.addAll(sentenceCards);
-        return saveLearnCards(old);
+    public int getSize() {
+        return allReviewData.getSize();
     }
 
 
-    public static boolean removeOneLearnCard(SentenceCard sentenceCard) {
-        List<SentenceCard> sentenceCards = getAllLearnCards();
-        if (sentenceCards.remove(sentenceCard)) {
-            return saveLearnCards(sentenceCards);
-        } else {
-            return false;
-        }
+    public AllReviewData getAllReviewData() {
+        return CXMMKV.getInstance().getMMKV().decodeParcelable(ALL_REVIEW_DATA_KEY, AllReviewData.class);
+    }
+
+    public boolean saveAllReviewData() {
+        return CXMMKV.getInstance().getMMKV().encode(ALL_REVIEW_DATA_KEY, allReviewData);
+    }
+
+
+    private ArrayList<SentenceCard> currentPresentingCards;
+    public void setCurrentPresentingCards(ArrayList<SentenceCard> currentPresentingCards) {
+        this.currentPresentingCards = currentPresentingCards;
+        saveAllReviewData();
+    }
+
+    public ArrayList<SentenceCard> getCurrentPresentingCards() {
+        return currentPresentingCards;
     }
 }

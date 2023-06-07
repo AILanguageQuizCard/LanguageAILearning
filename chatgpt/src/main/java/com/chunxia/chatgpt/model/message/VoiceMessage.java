@@ -1,6 +1,8 @@
-package com.chunxia.chatgpt.model;
+package com.chunxia.chatgpt.model.message;
 
-public class VoiceMessage extends Message{
+import com.chunxia.chatgpt.model.message.Message;
+
+public class VoiceMessage extends Message {
 
     private String path =null;
 

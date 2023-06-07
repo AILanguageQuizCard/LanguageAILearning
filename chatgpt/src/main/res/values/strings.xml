@@ -91,7 +91,7 @@
     <string name="monthly">Monthly</string>
     <string name="yearly">Yearly</string>
     <string name="topic_card_voice_play_text">Play</string>
-    <string name="topic_card_favorite_text">Collect</string>
+    <string name="topic_card_favorite_text">Add to Review List</string>
 
 
     <!-- NavigationView -->

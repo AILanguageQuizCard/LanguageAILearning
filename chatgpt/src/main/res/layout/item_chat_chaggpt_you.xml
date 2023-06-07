@@ -4,7 +4,6 @@
     android:id="@+id/lyt_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/spacing_xlarge"
     android:layout_marginRight="@dimen/spacing_xlarge"
     android:gravity="start|left"
     android:orientation="horizontal"
@@ -19,8 +18,8 @@
         android:layout_marginRight="5dp"
         android:src="@drawable/ic_select3"
         android:visibility="gone"
-        android:layout_width="30dp"
-        android:layout_height="30dp"/>
+        android:layout_width="25dp"
+        android:layout_height="25dp"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/item_chat_card_view"

@@ -37,10 +37,10 @@ import com.chunxia.chatgpt.adapter.chat.ChatAdapter;
 import com.chunxia.chatgpt.chatapi.MultiRoundChatAgent;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.mmkv.CXMMKV;
-import com.chunxia.chatgpt.model.Message;
-import com.chunxia.chatgpt.model.TextMessage;
-import com.chunxia.chatgpt.model.VoiceMessage;
-import com.chunxia.chatgpt.model.review.ReviewCardManager;
+import com.chunxia.chatgpt.model.message.Message;
+import com.chunxia.chatgpt.model.message.MessageManager;
+import com.chunxia.chatgpt.model.message.TextMessage;
+import com.chunxia.chatgpt.model.message.VoiceMessage;
 import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.voicerecord.VoiceRecordActivity;
@@ -260,7 +260,7 @@ public class OneRoundChatActivity extends AppCompatActivity {
     private Message initialMessage;
 
     private void setAdapterItems(String startWords) {
-        ArrayList<Message> arrayList = CXMMKV.getInstance().loadMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode));
+        ArrayList<Message> arrayList = MessageManager.getInstance().loadMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode));
         initialMessage = new TextMessage(adapter.getItemCount(), startWords, false,
                 adapter.getItemCount() % 5 == 0, Tools.getFormattedTimeEvent(System.currentTimeMillis()));
         if (arrayList == null || arrayList.size() == 0) {
@@ -346,7 +346,7 @@ public class OneRoundChatActivity extends AppCompatActivity {
         super.onDestroy();
         bus.unregister(this);
         multiRoundChatAgent.cancelAllCurrentThread();
-        CXMMKV.getInstance().saveMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode), adapter.getItems());
+        MessageManager.getInstance().saveMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode), adapter.getItems());
     }
 
     @Override

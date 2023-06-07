@@ -73,7 +73,7 @@
 
             <Button
                 android:id="@+id/topic_card_play_button"
-                android:layout_width="110dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
@@ -83,12 +83,13 @@
 
             <Button
                 android:id="@+id/topic_card_favorite_button"
-                android:layout_width="110dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/topic_card_play_button"
                 android:text="@string/topic_card_favorite_text" />
 
 
