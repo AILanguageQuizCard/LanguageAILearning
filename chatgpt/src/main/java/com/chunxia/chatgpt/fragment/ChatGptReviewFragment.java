@@ -78,6 +78,7 @@ public class ChatGptReviewFragment extends Fragment {
 
     private void initReviewListViews() {
         AllReviewData allReviewData = ReviewCardManager.getInstance().getAllReviewData();
+        if(allReviewData == null) return;
         int size = allReviewData.getSize();
         if (size == 0) return;
 

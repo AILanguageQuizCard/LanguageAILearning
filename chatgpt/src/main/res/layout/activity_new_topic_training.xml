@@ -98,6 +98,7 @@
                 android:layout_height="@dimen/spacing_large" />
 
             <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/lyt_popular_keyword_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_large"
@@ -176,6 +177,44 @@
                     android:text="Road Trip"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_rounded_white_green"
+                    android:onClick="popKeywordClick"
+                    android:text="How can AI help humans?"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_rounded_white_green"
+                    android:onClick="popKeywordClick"
+                    android:text="Road Trip"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_rounded_white_green"
+                    android:onClick="popKeywordClick"
+                    android:text="How can AI help humans?"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_rounded_white_green"
+                    android:onClick="popKeywordClick"
+                    android:text="Road Trip"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+
 
             </com.google.android.flexbox.FlexboxLayout>
 

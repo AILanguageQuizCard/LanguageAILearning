@@ -2,6 +2,7 @@ package com.chunxia.chatgpt.adapter.chat;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -119,17 +120,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     void showChooseView(ChatItemViewHolder holder, boolean isFromMe) {
         if (shouldShowHiddenView) {
             holder.chooseButton.setVisibility(View.VISIBLE);
-            if (!isFromMe) {
-                RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.lytParentView.getLayoutParams();
-                // todo 原来的右边距 - 选中按钮的宽度 = 10，此处不应该写死的
-                layoutParams.setMargins(0, 0, Tools.dpToPx(holder.lytParentView.getContext(), 10), 0);
-                holder.lytParentView.setLayoutParams(layoutParams);
-
-            } else {
-                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) holder.meCardViewContainer.getLayoutParams();
-                layoutParams.setMargins(Tools.dpToPx(holder.meCardViewContainer.getContext(), 10), 0, 0, 0);
-                holder.meCardViewContainer.setLayoutParams(layoutParams);
-            }
+            setParentViewMargin(holder, isFromMe, 10);
 
             holder.chooseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -149,22 +140,39 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else {
             holder.chooseButton.setVisibility(View.GONE);
             holder.selected = false;
+            setParentViewMargin(holder, isFromMe, 35);
         }
     }
 
-    public void showHiddenView() {
+    private static void setParentViewMargin(ChatItemViewHolder holder, boolean isFromMe, int margin) {
+        if (!isFromMe) {
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.lytParentView.getLayoutParams();
+            // todo 原来的右边距 - 选中按钮的宽度 = 10，此处不应该写死的
+            layoutParams.setMargins(0, 0, Tools.dpToPx(holder.lytParentView.getContext(), margin), 0);
+            holder.lytParentView.setLayoutParams(layoutParams);
+
+        } else {
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) holder.meCardViewContainer.getLayoutParams();
+            layoutParams.setMargins(Tools.dpToPx(holder.meCardViewContainer.getContext(), margin), 0, 0, 0);
+            holder.meCardViewContainer.setLayoutParams(layoutParams);
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void showChooseView() {
         shouldShowHiddenView = true;
         notifyDataSetChanged();
     }
 
-    public void hideHiddenView() {
+    @SuppressLint("NotifyDataSetChanged")
+    public void hideChooseView() {
         shouldShowHiddenView = false;
         notifyDataSetChanged();
     }
 
 
     void chooseQuestionAndAnswer() {
-        showHiddenView();
+        showChooseView();
         EventBus.getDefault().post(new Events.ShowAddToQuizCardView());
     }
 

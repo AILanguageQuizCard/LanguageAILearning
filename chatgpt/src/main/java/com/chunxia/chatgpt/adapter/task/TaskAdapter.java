@@ -106,11 +106,12 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View v) {
 
                     Class<?> clazz = null;
-                    if (topicInfo.getTitle().equals(taskItemViewHolder.topicView.getContext().getString(R.string.topic_title_4))) {
-                        clazz = OneRoundChatActivity.class;
-                    } else {
-                        clazz = ChatActivity.class;
-                    }
+                    clazz = ChatActivity.class;
+//                    if (topicInfo.getTitle().equals(taskItemViewHolder.topicView.getContext().getString(R.string.topic_title_4))) {
+//                        clazz = OneRoundChatActivity.class;
+//                    } else {
+//                        clazz = ChatActivity.class;
+//                    }
 
                     Intent intent = new XLIntent(ActivityUtils.getTopActivity(), clazz)
                             .putString(ActivityIntentKeys.ACTIVITY_CHAT_MODE, topicInfo.getTitle())

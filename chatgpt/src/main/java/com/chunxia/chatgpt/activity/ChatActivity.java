@@ -35,7 +35,6 @@ import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.chat.ChatAdapter;
 import com.chunxia.chatgpt.chatapi.MultiRoundChatAgent;
 import com.chunxia.chatgpt.common.XLIntent;
-import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.model.message.MessageManager;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.voicerecord.VoiceRecordActivity;
@@ -193,11 +192,31 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (isShowAddToQuizCardLayout()) {
+            backToChat();
+        } else {
+            super.onBackPressed();
+        }
+
+    }
 
     private void initBottom() {
         inputLayout = findViewById(R.id.chat_activity_like_bottom_layout);
         showAddToQuizCardLayout = findViewById(R.id.chat_activity_add_quiz_card_layout);
         showAddToQuizCardLayout.setVisibility(View.GONE);
+    }
+
+
+    private boolean isShowAddToQuizCardLayout() {
+        return showAddToQuizCardLayout.getVisibility() == View.VISIBLE;
+    }
+
+    private void backToChat() {
+        showAddToQuizCardLayout.setVisibility(View.GONE);
+        inputLayout.setVisibility(View.VISIBLE);
+        adapter.hideChooseView();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -207,8 +226,8 @@ public class ChatActivity extends AppCompatActivity {
         inputLayout.setVisibility(View.GONE);
 
         TranslateAnimation animate = new TranslateAnimation(0, 0, showAddToQuizCardLayout.getHeight(), 0);
-        animate.setDuration(400);
-        animate.setFillAfter(true);
+        animate.setDuration(500);
+//        animate.setFillAfter(true);
 
         showAddToQuizCardLayout.startAnimation(animate);
         showAddToQuizCardLayout.setVisibility(View.VISIBLE);

@@ -32,9 +32,13 @@ import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
 import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
+import com.chunxia.chatgpt.model.topic.TrainingTopicManager;
+import com.google.android.flexbox.FlexboxLayout;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class TopicTrainingActivity extends AppCompatActivity {
     private final String TAG = "TopicTrainingActivity";
@@ -42,6 +46,8 @@ public class TopicTrainingActivity extends AppCompatActivity {
     private EditText et_search;
     private View lyt_content;
     private LinearLayout pendingView;
+
+    private FlexboxLayout flexboxLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +82,7 @@ public class TopicTrainingActivity extends AppCompatActivity {
         et_search = findViewById(R.id.et_search);
         progress_bar = findViewById(R.id.progress_bar);
         progress_bar.setVisibility(View.GONE);
-
+        flexboxLayout = findViewById(R.id.lyt_popular_keyword_container);
         et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -87,6 +93,17 @@ public class TopicTrainingActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        int count = flexboxLayout.getChildCount();
+        ArrayList<String> randomTopicList = TrainingTopicManager.getRandomTopicList(count, this);
+
+        for (int i = 0; i < count; i++) {
+            View child = flexboxLayout.getChildAt(i);
+            if (child instanceof Button) {
+                Button b = (Button) child;
+                b.setText(randomTopicList.get(i));
+            }
+        }
 
     }
 
