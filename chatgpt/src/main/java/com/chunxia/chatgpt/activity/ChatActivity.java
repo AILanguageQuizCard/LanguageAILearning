@@ -240,8 +240,8 @@ public class ChatActivity extends AppCompatActivity {
                     Toast.makeText(ChatActivity.this, "You have to choose only 2 items", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity.class)
-                            .putString(ActivityIntentKeys.SENTENCE_CARD_ANSWER, choosedItems.get(1))
-                            .putString(ActivityIntentKeys.SENTENCE_CARD_QUESTION, choosedItems.get(0));
+                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER, choosedItems.get(1))
+                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION, choosedItems.get(0));
                     ActivityUtils.getTopActivity().startActivity(intent);
                 }
             }

@@ -3,7 +3,6 @@ package com.chunxia.chatgpt.model.review;
 import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.google.gson.Gson;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class ReviewCardManager {
@@ -59,8 +58,27 @@ public class ReviewCardManager {
         saveAllReviewData();
     }
 
+    public void editOneSentenceCardInTopicReviewSets(String topic, SentenceCard oldCard, SentenceCard newCard){
+        allReviewData.editOneSentenceCardInTopicReviewSets(topic, oldCard, newCard);
+        saveAllReviewData();
+    }
+
+    public boolean sentenceCardExistsInTopicReviewSets(String topic, SentenceCard sentenceCard) {
+        return allReviewData.sentenceCardExistsInTopicReviewSets(topic, sentenceCard);
+    }
+
+    public void deleteOneSentenceCardInTopicReviewSets(String topic, SentenceCard sentenceCard) {
+        allReviewData.deleteOneSentenceCardInTopicReviewSets(topic, sentenceCard);
+        saveAllReviewData();
+    }
+
+
     public ArrayList<SentenceCard> getSentencesCardsByTopic(String topic) {
         return allReviewData.getSentencesCardsByTopic(topic);
+    }
+
+    public TopicReviewSets getTopicReviewSetsByTopic(String topic) {
+        return allReviewData.getTopicReviewSetsByTopic(topic);
     }
 
 
@@ -91,13 +109,24 @@ public class ReviewCardManager {
     }
 
 
-    private ArrayList<SentenceCard> currentPresentingCards;
-    public void setCurrentPresentingCards(ArrayList<SentenceCard> currentPresentingCards) {
-        this.currentPresentingCards = currentPresentingCards;
-        saveAllReviewData();
+    private TopicReviewSets currentTopicReviewSets;
+    public void setCurrentTopicReviewSets(TopicReviewSets current) {
+        this.currentTopicReviewSets = current;
     }
 
-    public ArrayList<SentenceCard> getCurrentPresentingCards() {
-        return currentPresentingCards;
+    public TopicReviewSets getCurrentTopicReviewSets() {
+        return currentTopicReviewSets;
     }
+
+
+    private SentenceCard editedSentenceCard;
+    public void setEditedSentenceCard(SentenceCard current) {
+        this.editedSentenceCard = current;
+    }
+
+    public SentenceCard getEditedSentenceCard() {
+        return editedSentenceCard;
+    }
+
+
 }

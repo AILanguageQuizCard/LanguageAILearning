@@ -5,9 +5,11 @@ import android.os.Parcelable;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class AllReviewData implements Parcelable {
 
@@ -36,6 +38,43 @@ public class AllReviewData implements Parcelable {
             size++;
         }
     }
+
+    public void editOneSentenceCardInTopicReviewSets(String topic, SentenceCard oldCard, SentenceCard newCard) {
+        for (int j = 0; j < topicReviewSetsList.size(); j++) {
+            if (topicReviewSetsList.get(j).topic.equals(topic)) {
+                for (int i = 0; i < topicReviewSetsList.get(j).sentenceCardList.size(); i++) {
+                    if (topicReviewSetsList.get(j).sentenceCardList.get(i).equals(oldCard)) {
+                        topicReviewSetsList.get(j).sentenceCardList.set(i, newCard);
+                        return;
+                    }
+                }
+            }
+        }
+        throw new RuntimeException("topic not exist, can not edit sentence card");
+    }
+
+    public boolean sentenceCardExistsInTopicReviewSets(String topic, SentenceCard sentenceCard) {
+        return topicReviewSetsList.stream()
+                .filter(topicReviewSet -> topicReviewSet.topic.equals(topic))
+                .anyMatch(topicReviewSet -> topicReviewSet.sentenceCardList.contains(sentenceCard));
+    }
+
+    public void deleteOneSentenceCardInTopicReviewSets(String topic, SentenceCard sentenceCard) {
+        for (TopicReviewSets trs : topicReviewSetsList) {
+            if (trs.topic.equals(topic)) {
+                Iterator<SentenceCard> iterator = trs.sentenceCardList.iterator();
+                while (iterator.hasNext()) {
+                    SentenceCard sc = iterator.next();
+                    if (sc.equals(sentenceCard)) {
+                        iterator.remove();
+                        return;
+                    }
+                }
+            }
+        }
+        throw new RuntimeException("topic not exist, can not delete sentence card");
+    }
+
 
     public void addOneTopicReviewSet(TopicReviewSets topicReviewSets) {
         if (topicExist(topicReviewSets.getTopic())) {
@@ -67,6 +106,14 @@ public class AllReviewData implements Parcelable {
                 .filter(a -> a.getTopic().equals(topic))
                 .forEach(a -> sentenceCards.addAll(a.getSentenceCardList()));
         return sentenceCards;
+    }
+
+
+
+    public TopicReviewSets getTopicReviewSetsByTopic(String topic) {
+        Stream<TopicReviewSets> topicReviewSetsStream = topicReviewSetsList.stream()
+                .filter(a -> a.getTopic().equals(topic));
+        return topicReviewSetsStream.findFirst().orElse(null);
     }
 
 

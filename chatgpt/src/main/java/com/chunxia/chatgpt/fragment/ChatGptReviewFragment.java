@@ -1,5 +1,7 @@
 package com.chunxia.chatgpt.fragment;
 
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_TOPIC;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.model.review.AllReviewData;
 import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.model.review.SentenceCard;
+import com.chunxia.chatgpt.model.review.TopicReviewSets;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.ui.ReviewCardListView;
 import com.chunxia.chatgpt.ui.SettingItemView;
@@ -47,11 +50,12 @@ public class ChatGptReviewFragment extends Fragment {
         startReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<SentenceCard> sentencesCardsByTopic = ReviewCardManager.getInstance()
-                        .getAllLearnCards();
-                ReviewCardManager.getInstance().setCurrentPresentingCards(sentencesCardsByTopic);
-                Intent intent = new XLIntent(getActivity(), ReviewCardActivity.class);
-                ActivityUtils.startActivity(intent);
+//                ArrayList<SentenceCard> sentencesCardsByTopic = ReviewCardManager.getInstance()
+//                        .getAllLearnCards();
+//
+//                ReviewCardManager.getInstance().setCurrentPresentingCards(sentencesCardsByTopic);
+//                Intent intent = new XLIntent(getActivity(), ReviewCardActivity.class);
+//                ActivityUtils.startActivity(intent);
             }
         });
     }
@@ -104,10 +108,13 @@ public class ChatGptReviewFragment extends Fragment {
             reviewCardListView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ArrayList<SentenceCard> sentencesCardsByTopic = ReviewCardManager.getInstance()
-                            .getSentencesCardsByTopic(topic);
-                    ReviewCardManager.getInstance().setCurrentPresentingCards(sentencesCardsByTopic);
-                    Intent intent = new XLIntent(getActivity(), ReviewCardActivity.class);
+
+                    TopicReviewSets topicReviewSets = ReviewCardManager.getInstance()
+                            .getTopicReviewSetsByTopic(topic);
+
+                    ReviewCardManager.getInstance().setCurrentTopicReviewSets(topicReviewSets);
+                    Intent intent = new XLIntent(getActivity(), ReviewCardActivity.class)
+                            .putString(ACTIVITY_REVIEW_CARD_TOPIC, topic);
                     intent.putExtra("topic", topic);
                     ActivityUtils.startActivity(intent);
                 }
@@ -117,5 +124,3 @@ public class ChatGptReviewFragment extends Fragment {
 
 
 }
-
-

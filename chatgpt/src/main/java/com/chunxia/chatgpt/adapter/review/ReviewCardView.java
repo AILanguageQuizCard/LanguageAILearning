@@ -92,15 +92,11 @@ public class ReviewCardView extends LinearLayout {
         tLTextView.setVisibility(View.VISIBLE);
     }
 
-
-    //    1. 如何测量多行字体的高度？
-//    2. 子view中如何获取父View的高度？
-//    3. 该什么时机设置子view的高度？
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-
+        // todo 动态调整字体大小
         float h1 = measureTextViewHeight(tLTextView, tLTextView.getTextSize());
         Log.i(TAG, "h1:" + h1);
 

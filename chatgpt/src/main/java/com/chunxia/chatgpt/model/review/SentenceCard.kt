@@ -30,6 +30,30 @@ class SentenceCard() : Parcelable {
         return if (learnRecord == null) false else learnRecord!!.shouldReview()
     }
 
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as SentenceCard
+
+        if (sentence != other.sentence) return false
+        if (translation != other.translation) return false
+        if (voicePath != other.voicePath) return false
+        if (learnRecord != other.learnRecord) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = sentence?.hashCode() ?: 0
+        result = 31 * result + (translation?.hashCode() ?: 0)
+        result = 31 * result + (voicePath?.hashCode() ?: 0)
+        result = 31 * result + (learnRecord?.hashCode() ?: 0)
+        return result
+    }
+
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(sentence)
         parcel.writeString(translation)
@@ -40,6 +64,7 @@ class SentenceCard() : Parcelable {
     override fun describeContents(): Int {
         return 0
     }
+
 
     companion object CREATOR : Creator<SentenceCard> {
         override fun createFromParcel(parcel: Parcel): SentenceCard {

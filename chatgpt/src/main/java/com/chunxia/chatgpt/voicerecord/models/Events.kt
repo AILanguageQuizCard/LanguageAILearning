@@ -1,6 +1,7 @@
 package com.chunxia.chatgpt.voicerecord.models
 
 import android.net.Uri
+import com.chunxia.chatgpt.model.review.SentenceCard
 
 class Events {
     class RecordingDuration internal constructor(val duration: Int)
@@ -12,5 +13,6 @@ class Events {
     class TopicTrainingPendingEnd internal constructor()
 
     class ShowAddToQuizCardView internal constructor()
+    class PresentEditedCard internal constructor(val newCard: SentenceCard)
 
 }

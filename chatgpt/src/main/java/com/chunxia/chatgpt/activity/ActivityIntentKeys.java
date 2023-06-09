@@ -19,11 +19,13 @@ public class ActivityIntentKeys {
     public static final String TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY = "ai_lingo_master_topic_training_activity_learning_material_key";
 
     public static final String ACTIVITY_CHAT_MODE = "activity_chat_mode";
-    public static final String SENTENCE_CARD_QUESTION = "activity_chat_sentence_card_question";
-    public static final String SENTENCE_CARD_ANSWER= "activity_chat_sentence_card_answer";
+    public static final String ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION = "activity_add_review_card_sentence_card_question";
+    public static final String ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER = "activity_add_review_card_sentence_card_answer";
+    public static final String ACTIVITY_ADD_REVIEW_SENTENCE_CARD_TOPIC = "activity_add_review_card_sentence_card_topic";
 
-
-
+    public static final String ACTIVITY_REVIEW_CARD_TOPIC = "activity_review_card_topic";
+    public static final String ACTIVITY_REVIEW_CARD_EDITED_QUESTION = "activity_review_card_edited_question";
+    public static final String ACTIVITY_REVIEW_CARD_EDITED_ANSWER = "activity_review_card_edited_answer";
 
     public static String getActivityChatModeKey(String s) {
         return ACTIVITY_CHAT_MODE + s;

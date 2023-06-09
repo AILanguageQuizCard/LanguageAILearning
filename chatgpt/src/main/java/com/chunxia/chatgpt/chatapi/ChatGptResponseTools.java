@@ -1,5 +1,6 @@
 package com.chunxia.chatgpt.chatapi;
 
+import android.util.Log;
 import android.util.Pair;
 
 import com.chunxia.chatgpt.model.review.SentenceCard;
@@ -9,16 +10,20 @@ import java.util.ArrayList;
 
 public class ChatGptResponseTools {
 
+    private static String TAG = "ChatGptResponseTools";
+
     public static ArrayList<SentenceCard> extractTopicTrainingSentences(String input) {
         ArrayList<SentenceCard> sentenceCards = new ArrayList<>();
 
         int sentenceCount = 1;
         String[] words = extractAllSentences(input);
         for (String word : words) {
+            Log.i(TAG, "sentence: " + word);
             if (word.isEmpty()) continue;
             String deleteS = (sentenceCount + ".");
             String res = word.replace(deleteS, "").trim();
             Pair<String, String> pair = extractOneSentence(res);
+            Log.i(TAG, "sentence: " + pair.first + "\ntranslation: " + pair.second);
             sentenceCards.add(new SentenceCard(pair.first, pair.second));
             sentenceCount++;
         }

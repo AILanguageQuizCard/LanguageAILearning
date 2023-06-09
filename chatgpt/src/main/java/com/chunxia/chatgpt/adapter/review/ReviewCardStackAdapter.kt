@@ -15,7 +15,7 @@ import io.reactivex.rxjava3.core.CompletableObserver
 import io.reactivex.rxjava3.disposables.Disposable
 
 class ReviewCardStackAdapter(
-    private var sentenceCards: List<SentenceCard> = emptyList(),
+    private var topicReviewSets: List<SentenceCard> = emptyList(),
 ) : RecyclerView.Adapter<ReviewCardStackAdapter.ViewHolder>() {
 
     private val TAG = "ReviewCardStackAdapter"
@@ -26,22 +26,22 @@ class ReviewCardStackAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val card = sentenceCards[position]
+        val card = topicReviewSets[position]
         holder.reviewCardView.sentence = card.sentence
         holder.reviewCardView.translation = card.translation
         holder.reviewCardView.setQuizMode()
     }
 
     override fun getItemCount(): Int {
-        return sentenceCards.size
+        return topicReviewSets.size
     }
 
     fun setLearnCards(sentenceCards1: List<SentenceCard>) {
-        this.sentenceCards = sentenceCards1
+        this.topicReviewSets = sentenceCards1
     }
 
     fun getLearnCards(): List<SentenceCard> {
-        return sentenceCards
+        return topicReviewSets
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

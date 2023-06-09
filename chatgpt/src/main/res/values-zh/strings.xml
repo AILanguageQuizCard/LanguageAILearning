@@ -93,7 +93,17 @@
     <string name="topic_card_voice_play_text">播放</string>
     <string name="topic_card_favorite_text">添加到复习列表</string>
 
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
+    <string name="edit_current_card">编辑卡片</string>
+    <string name="add_spot_to_first">Add spot to first</string>
+    <string name="delete_current_card">删除卡片</string>
+    <string name="remove_spot_from_first">Remove spot from first</string>
+    <string name="remove_spot_from_last">Remove spot from last</string>
+    <string name="replace_first_spot">Replace first spot</string>
+    <string name="swap_first_for_last">Swap first for last</string>
+
 
     <string name="chat_activity_add_quiz_cardlayout_text"> 添加卡片 </string>
-
+    <string name="chat_review_top_view_title"> 记忆卡片 </string>
 </resources>

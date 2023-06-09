@@ -39,12 +39,14 @@ public class StrongCommandToChatGPT {
 
 
     public static final String TOPIC_TRAINING_PROMPT =
-            "I am learning about the topic '%s' in %s. Can you provide me with %d authentic sentences and its %s translation. For every pair of sentence and its translation, start with its count number and end with line break. And using %s %s to label translation. One example: \"1. sentence. [the corresponding translation]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program. ";
+            "I am learning about the topic '%s' in %s. Can you provide me with %d authentic sentences and its %s translation. For every pair of sentence and its translation, start with its count number and end with line break. And using %s %s to label translation. One example: \"1. sentence in %s. [the corresponding %s translation]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program. ";
     public  static final String LEFT_KUOHAO = "[";
     public  static final String RIGHT_KUOHAO = "]";
 
     public static String getCompleteTopicTrainingPrompt(String topic, String language, String motherLanguage, int num) {
-        String result =  String.format(Locale.getDefault(), TOPIC_TRAINING_PROMPT, topic, language, num, motherLanguage, LEFT_KUOHAO, RIGHT_KUOHAO);
+        String result =  String.format(Locale.getDefault(), TOPIC_TRAINING_PROMPT,
+                topic, language, num, motherLanguage,
+                LEFT_KUOHAO, RIGHT_KUOHAO, language, motherLanguage);
         Log.i(TAG, result);
         return result;
     }

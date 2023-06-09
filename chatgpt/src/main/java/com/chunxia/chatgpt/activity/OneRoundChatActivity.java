@@ -36,7 +36,6 @@ import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.chat.ChatAdapter;
 import com.chunxia.chatgpt.chatapi.MultiRoundChatAgent;
 import com.chunxia.chatgpt.common.XLIntent;
-import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.model.message.Message;
 import com.chunxia.chatgpt.model.message.MessageManager;
 import com.chunxia.chatgpt.model.message.TextMessage;
@@ -112,8 +111,8 @@ public class OneRoundChatActivity extends AppCompatActivity {
                     Toast.makeText(OneRoundChatActivity.this, "There must be both your question to GPT and the answer from GPT", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity.class)
-                            .putString(ActivityIntentKeys.SENTENCE_CARD_ANSWER, sentenceCard.getSentence())
-                            .putString(ActivityIntentKeys.SENTENCE_CARD_QUESTION, sentenceCard.getTranslation());
+                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER, sentenceCard.getSentence())
+                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION, sentenceCard.getTranslation());
                     ActivityUtils.getTopActivity().startActivity(intent);
 
                 }
@@ -248,8 +247,8 @@ public class OneRoundChatActivity extends AppCompatActivity {
                     Toast.makeText(OneRoundChatActivity.this, "You have to choose only 2 items", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity.class)
-                            .putString(ActivityIntentKeys.SENTENCE_CARD_ANSWER, choosedItems.get(1))
-                            .putString(ActivityIntentKeys.SENTENCE_CARD_QUESTION, choosedItems.get(0));
+                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER, choosedItems.get(1))
+                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION, choosedItems.get(0));
                     ActivityUtils.getTopActivity().startActivity(intent);
                 }
             }

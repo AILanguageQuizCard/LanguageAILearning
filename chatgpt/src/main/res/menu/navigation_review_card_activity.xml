@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/reload"
-        android:title="@string/reload"
+        android:title="@string/edit_current_card"
         />
 
     <item
@@ -14,7 +14,7 @@
 
     <item
         android:id="@+id/add_spot_to_last"
-        android:title="@string/add_spot_to_last"
+        android:title="@string/delete_current_card"
         />
 
     <item

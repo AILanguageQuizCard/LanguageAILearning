@@ -97,9 +97,9 @@
     <!-- NavigationView -->
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
-    <string name="reload">Reload</string>
+    <string name="edit_current_card">edit current card</string>
     <string name="add_spot_to_first">Add spot to first</string>
-    <string name="add_spot_to_last">Add spot to last</string>
+    <string name="delete_current_card">delete current card</string>
     <string name="remove_spot_from_first">Remove spot from first</string>
     <string name="remove_spot_from_last">Remove spot from last</string>
     <string name="replace_first_spot">Replace first spot</string>
@@ -107,5 +107,7 @@
 
 
     <string name="chat_activity_add_quiz_cardlayout_text"> Add to Quiz Cards</string>
+
+    <string name="chat_review_top_view_title"> Quiz Card Lists</string>
 
 </resources>
