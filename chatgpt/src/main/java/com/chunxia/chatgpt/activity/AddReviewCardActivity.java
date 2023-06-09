@@ -1,10 +1,10 @@
 package com.chunxia.chatgpt.activity;
 
-import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_EDITED_ANSWER;
-import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_EDITED_QUESTION;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.model.review.SentenceCard;
+
+import java.util.ArrayList;
 
 
 public class AddReviewCardActivity extends AppCompatActivity {
@@ -60,11 +62,15 @@ public class AddReviewCardActivity extends AppCompatActivity {
     }
 
 
+    ArrayList<SentenceCard> editedSentencesCards = new ArrayList<>();
 
     private void setResult() {
         Intent resultIntent = new Intent();
-        resultIntent.putExtra(ACTIVITY_REVIEW_CARD_EDITED_QUESTION, question); // 设置返回的数据，可选
-        resultIntent.putExtra(ACTIVITY_REVIEW_CARD_EDITED_ANSWER, answer); // 设置返回的数据，可选
+        SentenceCard sentenceCard = new SentenceCard(answer, question);
+        if (!editedSentencesCards.contains(sentenceCard)){
+            editedSentencesCards.add(sentenceCard);
+        }
+        resultIntent.putParcelableArrayListExtra(ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST, editedSentencesCards);
         setResult(RESULT_OK, resultIntent);
     }
 

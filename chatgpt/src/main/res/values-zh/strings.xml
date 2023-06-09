@@ -96,7 +96,7 @@
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
     <string name="edit_current_card">编辑卡片</string>
-    <string name="add_spot_to_first">Add spot to first</string>
+    <string name="add_quiz_cards">添加卡片</string>
     <string name="delete_current_card">删除卡片</string>
     <string name="remove_spot_from_first">Remove spot from first</string>
     <string name="remove_spot_from_last">Remove spot from last</string>

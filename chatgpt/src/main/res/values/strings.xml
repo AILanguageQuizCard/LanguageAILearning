@@ -98,7 +98,7 @@
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
     <string name="edit_current_card">edit current card</string>
-    <string name="add_spot_to_first">Add spot to first</string>
+    <string name="add_quiz_cards">add cards</string>
     <string name="delete_current_card">delete current card</string>
     <string name="remove_spot_from_first">Remove spot from first</string>
     <string name="remove_spot_from_last">Remove spot from last</string>

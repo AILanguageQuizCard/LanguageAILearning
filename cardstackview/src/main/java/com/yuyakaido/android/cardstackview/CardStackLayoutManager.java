@@ -571,6 +571,10 @@ public class CardStackLayoutManager
         state.topPosition = topPosition;
     }
 
+    public void resetTopPositionWhenRemoveLastElement() {
+        state.topPosition = 0;
+    }
+
     public void setStackFrom(@NonNull StackFrom stackFrom) {
         setting.stackFrom = stackFrom;
     }

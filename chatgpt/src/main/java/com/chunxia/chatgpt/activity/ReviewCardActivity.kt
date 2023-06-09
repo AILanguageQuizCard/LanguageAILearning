@@ -18,6 +18,7 @@ import com.blankj.utilcode.util.ActivityUtils
 import com.chunxia.chatgpt.R
 import com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_EDITED_ANSWER
 import com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_EDITED_QUESTION
+import com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST
 import com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_TOPIC
 import com.chunxia.chatgpt.adapter.review.ReviewCardStackAdapter
 import com.chunxia.chatgpt.adapter.review.ReviewCardView
@@ -27,6 +28,7 @@ import com.chunxia.chatgpt.model.review.ReviewCardManager
 import com.chunxia.chatgpt.model.review.SentenceCard
 import com.chunxia.chatgpt.model.review.TopicReviewSets
 import com.google.android.material.navigation.NavigationView
+import com.material.components.activity.list.ListNewsCard
 import com.material.components.utils.Tools
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
@@ -45,6 +47,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     private val manager by lazy { CardStackLayoutManager(this, this) }
 
     private var topic : String = ""
+    // topicReviewSets 应该保持是通过mmkv获取的最新数据
     private var topicReviewSets: TopicReviewSets? = null
     private var adapter = ReviewCardStackAdapter()
 
@@ -65,12 +68,9 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
     private fun initData() {
         topic = intent.getStringExtra(ACTIVITY_REVIEW_CARD_TOPIC).toString()
-        topicReviewSets = ReviewCardManager.getInstance().getTopicReviewSetsByTopic(topic)
-        if (topicReviewSets == null) {
-            ActivityUtils.finishActivity(this)
-        } else {
-            adapter.setLearnCards(topicReviewSets!!.sentenceCardList)
-        }
+        topicReviewSets = TopicReviewSets(topic)
+        topicReviewSets?.update()
+        adapter.setLearnCards(topicReviewSets!!.sentenceCardList)
     }
 
 
@@ -132,12 +132,8 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.reload -> editCurrentCard()
-                R.id.add_spot_to_first -> deleteCurrentCard()
+                R.id.add_spot_to_first -> jumpToEmptyAddCardActivity()
                 R.id.add_spot_to_last -> removeTop()
-                R.id.remove_spot_from_first -> removeFirst(1)
-                R.id.remove_spot_from_last -> removeLast(1)
-                R.id.replace_first_spot -> replace()
-                R.id.swap_first_for_last -> swap()
             }
             drawerLayout.closeDrawers()
             true
@@ -206,14 +202,8 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     }
 
     private fun paginate() {
-        val old = adapter.getLearnCards()
-        topicReviewSets?.let {
-            val new = old.plus(it.sentenceCardList)
-            val callback = SpotDiffCallback(old, new)
-            val result = DiffUtil.calculateDiff(callback)
-            adapter.setLearnCards(new)
-            result.dispatchUpdatesTo(adapter)
-        }
+        adapter.setLearnCards(topicReviewSets!!.sentenceCardList)
+        adapter.notifyDataSetChanged()
     }
 
 
@@ -230,44 +220,45 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == this.requestCode) {
-            if (resultCode == RESULT_OK) {
-                val question = data?.getStringExtra(ACTIVITY_REVIEW_CARD_EDITED_QUESTION)
-                val answer = data?.getStringExtra(ACTIVITY_REVIEW_CARD_EDITED_ANSWER)
-
-                topicReviewSets = ReviewCardManager.getInstance().getTopicReviewSetsByTopic(topic)
-                val newsCard = SentenceCard(answer!!, question!!)
-                val old = adapter.getLearnCards()
-                val new = mutableListOf<SentenceCard>().apply {
-                    addAll(old)
-                    removeAt(manager.topPosition)
-                    add(manager.topPosition, newsCard)
+        if (resultCode == RESULT_OK) {
+            if (requestCode == this.requestCode) {
+                val editedSentenceCardList: ArrayList<SentenceCard>?  = data?.getParcelableArrayListExtra(ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST)
+                editedSentenceCardList?.let {
+                    // 哪怕editedSentenceCardList传递了多个数据，也只替换一个
+                    replace(editedSentenceCardList[0])
                 }
-                adapter.setLearnCards(new)
-                adapter.notifyItemChanged(manager.topPosition)
-
+            } else if (requestCode == this.addCardRequestCode) {
+                val editedSentenceCardList: ArrayList<SentenceCard>?  = data?.getParcelableArrayListExtra(ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST)
+                editedSentenceCardList?.let {
+                    addCards(editedSentenceCardList)
+                }
             }
         }
     }
 
 
     private fun getTopSentenceCard(): SentenceCard {
-        val topPosition = manager.topPosition
-        return adapter.getLearnCards()[topPosition]
+        return adapter.getLearnCards()[manager.topPosition]
     }
 
 
-    private fun deleteCurrentCard() {
+    private val addCardRequestCode: Int = 20350743
+    private fun jumpToEmptyAddCardActivity() {
+        val intent: Intent =
+            XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity::class.java)
+                .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_TOPIC, topicReviewSets?.topic)
+        startActivityForResult(intent, addCardRequestCode)
+    }
+
+    private fun addCards(sentenceCardList: ArrayList<SentenceCard> ) {
         val old = adapter.getLearnCards()
         val new = mutableListOf<SentenceCard>().apply {
             addAll(old)
-            removeAt(manager.topPosition)
+            addAll(sentenceCardList)
         }
-        topicReviewSets?.sentenceCardList?.remove(getTopSentenceCard())
-        val callback = SpotDiffCallback(old, new)
-        val result = DiffUtil.calculateDiff(callback)
         adapter.setLearnCards(new)
-        result.dispatchUpdatesTo(adapter)
+        adapter.notifyDataSetChanged()
+        topicReviewSets?.update()
     }
 
 
@@ -289,24 +280,28 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         val result = DiffUtil.calculateDiff(callback)
         adapter.setLearnCards(new)
         result.dispatchUpdatesTo(adapter)
+        Log.i("ReviewCardActivity", "removeFirst: " + adapter.getLearnCards().size);
     }
 
     private fun removeTop() {
+        // todo 当remove的是最后一张卡片的时候，将不会触发循环添加。当remove的时候，manager.topPosition并没有改变
         if (adapter.getLearnCards().isEmpty()) {
             return
         }
 
         ReviewCardManager.getInstance().deleteOneSentenceCardInTopicReviewSets(topicReviewSets?.topic, getTopSentenceCard())
-        topicReviewSets?.sentenceCardList?.remove(getTopSentenceCard())
-        val old = adapter.getLearnCards()
-        val new = mutableListOf<SentenceCard>().apply {
-            addAll(old)
-            removeAt(manager.topPosition)
+        // 这里可以不用update，事实上topicReviewSets就是同一份引用
+        topicReviewSets?.update()
+        var pos = -1
+        if (manager.topPosition == adapter.itemCount) {
+            manager.resetTopPositionWhenRemoveLastElement()
+            pos = 0
+        } else {
+            pos = manager.topPosition
         }
-        val callback = SpotDiffCallback(old, new)
-        val result = DiffUtil.calculateDiff(callback)
-        adapter.setLearnCards(new)
-        result.dispatchUpdatesTo(adapter)
+
+        adapter.notifyDataSetChanged()
+        manager.scrollToPosition(pos)
     }
 
 
@@ -328,7 +323,17 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         result.dispatchUpdatesTo(adapter)
     }
 
-    private fun replace() {
+    private fun replace(newsCard: SentenceCard) {
+        val old = adapter.getLearnCards()
+        val new = mutableListOf<SentenceCard>().apply {
+            addAll(old)
+            removeAt(manager.topPosition)
+            add(manager.topPosition, newsCard)
+        }
+        adapter.setLearnCards(new)
+        adapter.notifyItemChanged(manager.topPosition)
+
+        topicReviewSets?.update()
     }
 
     private fun swap() {

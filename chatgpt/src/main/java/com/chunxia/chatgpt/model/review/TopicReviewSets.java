@@ -27,6 +27,15 @@ public class TopicReviewSets implements Parcelable {
         sentenceCardList = new ArrayList<>();
     }
 
+    public void update() {
+        TopicReviewSets newVersion = ReviewCardManager.getInstance().getTopicReviewSetsByTopic(topic);
+        if (newVersion == null) {
+            // 上层应该处理对应话题已经被删除的情况
+            sentenceCardList = new ArrayList<>();
+        } else {
+            this.sentenceCardList = newVersion.sentenceCardList;
+        }
+    }
 
 
     @Override
