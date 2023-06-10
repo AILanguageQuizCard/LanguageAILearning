@@ -1,5 +1,7 @@
 package com.chunxia.chatgpt.activity;
 
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_CHAT_ADD_TO_REVIEW_CARD;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,6 +36,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.chat.ChatAdapter;
+import com.chunxia.chatgpt.adapter.chat.ChoosedItem;
 import com.chunxia.chatgpt.chatapi.MultiRoundChatAgent;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.model.message.Message;
@@ -242,13 +245,12 @@ public class OneRoundChatActivity extends AppCompatActivity {
         showAddToQuizCardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> choosedItems = adapter.getChoosedItems();
+                ArrayList<ChoosedItem> choosedItems = adapter.getChoosedItems();
                 if (choosedItems.size() != 2) {
                     Toast.makeText(OneRoundChatActivity.this, "You have to choose only 2 items", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity.class)
-                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER, choosedItems.get(1))
-                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION, choosedItems.get(0));
+                            .putParcelableArrayListExtra(ACTIVITY_CHAT_ADD_TO_REVIEW_CARD, choosedItems);
                     ActivityUtils.getTopActivity().startActivity(intent);
                 }
             }

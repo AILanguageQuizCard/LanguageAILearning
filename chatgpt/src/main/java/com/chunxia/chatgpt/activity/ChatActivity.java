@@ -1,5 +1,7 @@
 package com.chunxia.chatgpt.activity;
 
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_CHAT_ADD_TO_REVIEW_CARD;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -24,8 +25,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +32,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.chat.ChatAdapter;
+import com.chunxia.chatgpt.adapter.chat.ChoosedItem;
 import com.chunxia.chatgpt.chatapi.MultiRoundChatAgent;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.model.message.MessageManager;
@@ -103,14 +103,8 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initStatusBar() {
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.white));
-
-        WindowInsetsControllerCompat wic = ViewCompat.getWindowInsetsController(getWindow().getDecorView());
-        if (wic != null) {
-            // true表示Light Mode，状态栏字体呈黑色，反之呈白色
-            wic.setAppearanceLightStatusBars(true);
-        }
+        Tools.setSystemBarColor(this, R.color.white);
+        Tools.setSystemBarLight(this);
     }
 
     public void initToolbar() {
@@ -235,13 +229,12 @@ public class ChatActivity extends AppCompatActivity {
         showAddToQuizCardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> choosedItems = adapter.getChoosedItems();
+                ArrayList<ChoosedItem> choosedItems = adapter.getChoosedItems();
                 if (choosedItems.size() != 2) {
                     Toast.makeText(ChatActivity.this, "You have to choose only 2 items", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity.class)
-                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER, choosedItems.get(1))
-                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION, choosedItems.get(0));
+                            .putParcelableArrayListExtra(ACTIVITY_CHAT_ADD_TO_REVIEW_CARD, choosedItems);
                     ActivityUtils.getTopActivity().startActivity(intent);
                 }
             }

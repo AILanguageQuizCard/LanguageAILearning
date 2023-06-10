@@ -32,6 +32,8 @@ import com.chunxia.chatgpt.voicerecord.models.Events;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableObserver;
@@ -51,7 +53,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return items;
     }
 
-    private ArrayList<String> choosedItems = new ArrayList<>();
+    private ArrayList<ChoosedItem> choosedItems = new ArrayList<>();
+
 
     private boolean shouldShowHiddenView = false;
 
@@ -99,7 +102,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 setOnClickCopyContentButton(vItem);
 
                 setLongClick((ChatItemViewHolder) holder);
-                showChooseView((ChatItemViewHolder) holder, m.isFromMe());
+                showChooseView((ChatItemViewHolder) holder, m.isFromMe(), realPosition);
             }
 
         } else if (holder instanceof VoiceMessageItemViewHolder) {
@@ -113,11 +116,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-    public ArrayList<String> getChoosedItems(){
+    public ArrayList<ChoosedItem> getChoosedItems(){
         return choosedItems;
     }
 
-    void showChooseView(ChatItemViewHolder holder, boolean isFromMe) {
+    void showChooseView(ChatItemViewHolder holder, boolean isFromMe, int position) {
         if (shouldShowHiddenView) {
             holder.chooseButton.setVisibility(View.VISIBLE);
             setParentViewMargin(holder, isFromMe, 10);
@@ -128,12 +131,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     if(holder.selected) {
                         holder.chooseButton.setImageResource(R.drawable.ic_select3);
                         holder.selected = false;
-                        choosedItems.remove(holder.textContentView.getText().toString());
+                        ChoosedItem item = new ChoosedItem(position, holder.textContentView.getText().toString());
+                        choosedItems.remove(item);
                     } else {
                         holder.chooseButton.setImageResource(R.drawable.ic_selected3);
                         holder.selected = true;
-                        choosedItems.add(holder.textContentView.getText().toString());
+                        ChoosedItem item = new ChoosedItem(position, holder.textContentView.getText().toString());
+                        choosedItems.add(item);
                     }
+
+                    choosedItems.sort(Comparator.comparingInt(ChoosedItem::getPosition));
+
                 }
             });
 

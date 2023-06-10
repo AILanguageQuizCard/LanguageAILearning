@@ -18,6 +18,8 @@ public class ActivityIntentKeys {
 
     public static final String TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY = "ai_lingo_master_topic_training_activity_learning_material_key";
 
+    public static final String ACTIVITY_CHAT_ADD_TO_REVIEW_CARD = "activity_chat_add_to_review_card";
+
     public static final String ACTIVITY_CHAT_MODE = "activity_chat_mode";
     public static final String ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION = "activity_add_review_card_sentence_card_question";
     public static final String ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER = "activity_add_review_card_sentence_card_answer";

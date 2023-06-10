@@ -33,6 +33,20 @@
         android:overScrollMode="always"
         android:background="@drawable/edit_text_border"/>
 
+    <EditText
+        android:layout_marginTop="20dp"
+        android:id="@+id/topicEditText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="top|start"
+        android:hint="Enter Topic"
+        android:inputType="textMultiLine"
+        android:minLines="4"
+        android:scrollbars="vertical"
+        android:overScrollMode="always"
+        android:background="@drawable/edit_text_border"/>
+
     <Button
         android:layout_marginTop="20dp"
         android:id="@+id/submitButton"

@@ -1,10 +1,10 @@
 package com.chunxia.chatgpt.activity;
 
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_CHAT_ADD_TO_REVIEW_CARD;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.adapter.chat.ChoosedItem;
 import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.model.review.SentenceCard;
 
@@ -24,6 +25,7 @@ public class AddReviewCardActivity extends AppCompatActivity {
     private EditText questionEditText;
 
     private EditText answerEditText;
+    private EditText topicEditText;
 
     private Button submitButton;
 
@@ -39,26 +41,34 @@ public class AddReviewCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_review_card);
 
-        question = getIntent().getStringExtra(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION);
-        answer = getIntent().getStringExtra(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER);
-        topic = getIntent().getStringExtra(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_TOPIC);
-
         questionEditText = findViewById(R.id.questionEditText);
         answerEditText = findViewById(R.id.answerEditText);
+        topicEditText = findViewById(R.id.topicEditText);
         submitButton = findViewById(R.id.submitButton);
 
-        initData(question, answer);
+        initData();
         initSubmitButtonClicked();
     }
 
+    public void initData() {
+        ArrayList<ChoosedItem> choosedItems = getIntent().getParcelableArrayListExtra(ACTIVITY_CHAT_ADD_TO_REVIEW_CARD);
+        if (choosedItems!=null) {
+            question = choosedItems.get(0).text;
+            answer = choosedItems.get(1).text;
+        } else {
+            question = getIntent().getStringExtra(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION);
+            answer = getIntent().getStringExtra(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER);
+        }
 
-    public void initData(String question, String answer) {
+        topic = getIntent().getStringExtra(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_TOPIC);
+
         if (question == null || answer == null || question.isEmpty() || answer.isEmpty()) {
             return;
         }
 
         questionEditText.setText(question);
         answerEditText.setText(answer);
+        topicEditText.setText(topic);
     }
 
 
@@ -81,6 +91,10 @@ public class AddReviewCardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String newQuestion = questionEditText.getText().toString();
                 String newAnswer = answerEditText.getText().toString();
+                topic = topicEditText.getText().toString();
+                if (topic == null || topic.isEmpty()) {
+                    topic = "default";
+                }
                 SentenceCard oldCard = new SentenceCard(answer, question);
                 SentenceCard newCard = new SentenceCard(newAnswer, newQuestion);
 

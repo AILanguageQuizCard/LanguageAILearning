@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 
 
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.tools.Tools;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -26,18 +27,12 @@ public class BottomNavigationLightActivity extends AppCompatActivity {
         initNavigation();
 
         initComponent();
-        initStatusBar(R.color.white);
+        initStatusBar();
     }
 
-    private void initStatusBar(int colorId) {
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(getResources().getColor(colorId));
-
-        WindowInsetsControllerCompat wic = ViewCompat.getWindowInsetsController(getWindow().getDecorView());
-        if (wic != null) {
-            // true表示Light Mode，状态栏字体呈黑色，反之呈白色
-            wic.setAppearanceLightStatusBars(true);
-        }
+    private void initStatusBar() {
+        Tools.setSystemBarColor(this, R.color.white);
+        Tools.setSystemBarLight(this);
     }
 
     private void initNavigation() {
