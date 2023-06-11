@@ -91,14 +91,15 @@ public class TrainingMaterial {
                         });
     }
 
-    public void prepareSentencePatternExamplesData(String sentencePattern, ReceiveSentencePatternExamplesCallback callback) {
+    public void prepareSentencePatternExamplesData(String sentencePattern, ReceiveTrainMaterialCallback callback) {
         Observable<String> stringObservable = getSentencesPatternExamplesObservable(sentencePattern).subscribeOn(Schedulers.io());
         stringObservable
                 .observeOn(AndroidSchedulers.mainThread())  // 在主线程处理请求结果
                 .subscribe(new DisposableObserver<String>() {
                     @Override
                     public void onNext(@NonNull final String result) {
-                        callback.onReceiveData(result);
+                        sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result);
+                        callback.onReceiveData(sentenceCards, null);
                     }
 
                     @Override
@@ -177,7 +178,7 @@ public class TrainingMaterial {
                 MultiRoundChatAgent agent = new MultiRoundChatAgent();
                 agent.setMaxTokenN(maxTokenN);
                 // todo 获取母语设置
-                String prompt = StrongCommandToChatGPT.getSentencePatternExamplesPrompt(sentencePattern, learningLanguage, sentenceN);
+                String prompt = StrongCommandToChatGPT.getSentencePatternExamplesPrompt(sentencePattern, learningLanguage, motherLanguage, sentenceN);
                 Log.i(TAG, prompt);
                 long start = System.currentTimeMillis();
 

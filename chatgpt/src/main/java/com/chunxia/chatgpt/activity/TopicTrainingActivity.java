@@ -14,12 +14,14 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
@@ -28,9 +30,13 @@ import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.activity.dataholder.DataHolder;
 import com.chunxia.chatgpt.chatapi.TrainingMaterial;
 import com.chunxia.chatgpt.common.XLIntent;
+import com.chunxia.chatgpt.model.message.Message;
+import com.chunxia.chatgpt.model.message.MessageManager;
+import com.chunxia.chatgpt.model.message.TextMessage;
 import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
 import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
+import com.chunxia.chatgpt.model.sentence_pattern.SentencePatternManager;
 import com.chunxia.chatgpt.model.topic.TrainingTopicManager;
 import com.google.android.flexbox.FlexboxLayout;
 import com.material.components.utils.Tools;
@@ -44,14 +50,44 @@ public class TopicTrainingActivity extends AppCompatActivity {
     private View lyt_content;
 
     private FlexboxLayout flexboxLayout;
+    private TextView hintQuestionTextView;
+    private String mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_topic_training);
 
+        initData();
+
         initToolbar();
         initComponent();
+    }
+
+    private void initData() {
+        mode = getIntent().getStringExtra(ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_MODE_KEY);
+        if (mode == null || mode.isEmpty()) {
+            mode = "topic_training";
+        }
+    }
+
+
+    private boolean isTopicTrainingMode() {
+        return mode.equals("topic_training");
+    }
+
+    private boolean isSentencePatternTrainingMode() {
+        return mode.equals("sentence_pattern_training");
+    }
+
+    private ArrayList<String> getTrainingData(int count) {
+        if (mode.equals("topic_training")) {
+            return new TrainingTopicManager().getRandomTopicList(count, this);
+        } else if (mode.equals("sentence_pattern_training")) {
+            return new SentencePatternManager().getRandomTopicList(count, this);
+        } else {
+            return new TrainingTopicManager().getRandomTopicList(count, this);
+        }
     }
 
     private void initToolbar() {
@@ -73,12 +109,31 @@ public class TopicTrainingActivity extends AppCompatActivity {
         }
     }
 
+    private void initHintText() {
+
+        hintQuestionTextView = findViewById(R.id.activity_topic_training_hint_question);
+
+        int id;
+        if (isTopicTrainingMode()) {
+            id = R.string.topic_training_hint_question;
+        } else if (isSentencePatternTrainingMode()) {
+            id = R.string.sentence_pattern_hint_question;
+        } else {
+            id = R.string.topic_training_hint_question;
+        }
+        hintQuestionTextView.setText(id);
+
+    }
+
     private void initComponent() {
         lyt_content = findViewById(R.id.lyt_content);
         et_search = findViewById(R.id.et_search);
         progress_bar = findViewById(R.id.progress_bar);
         progress_bar.setVisibility(View.GONE);
         flexboxLayout = findViewById(R.id.lyt_popular_keyword_container);
+
+        initHintText();
+
         et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -90,15 +145,29 @@ public class TopicTrainingActivity extends AppCompatActivity {
             }
         });
 
-        int count = flexboxLayout.getChildCount();
-        ArrayList<String> randomTopicList = new TrainingTopicManager().getRandomTopicList(count, this);
+        flexboxLayout.removeAllViews();
+        int count = 10;
+        ArrayList<String> randomTopicList = getTrainingData(count);
 
         for (int i = 0; i < count; i++) {
-            View child = flexboxLayout.getChildAt(i);
-            if (child instanceof Button) {
-                Button b = (Button) child;
-                b.setText(randomTopicList.get(i));
-            }
+            Button btn = new Button(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            btn.setLayoutParams(params);
+            btn.setText(randomTopicList.get(i));
+            btn.setAllCaps(false);
+            btn.setTextColor(ContextCompat.getColor(this, R.color.white));
+            btn.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_rounded_colorprimary));
+
+            btn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    popKeywordClick(v);
+                }
+            });
+
+            flexboxLayout.addView(btn);
         }
 
     }
@@ -156,17 +225,28 @@ public class TopicTrainingActivity extends AppCompatActivity {
     private void initTopicChat(String topic) {
         TrainingMaterial trainingMaterial = new TrainingMaterial();
 
-        trainingMaterial.prepareSentenceData(topic, new TrainingMaterial.ReceiveTrainMaterialCallback() {
-            @Override
-            public void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
-                onPendingEnd();
-                AllLearningMaterialCard learningMaterialCard = new AllLearningMaterialCard(sentenceCards, topicTestCards, topic);
-                DataHolder.getInstance().setData(TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY, learningMaterialCard);
-                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class);
-                ActivityUtils.getTopActivity().startActivity(intent);
-            }
-        });
+        if (isTopicTrainingMode()) {
+            trainingMaterial.prepareSentenceData(topic, new TrainingMaterial.ReceiveTrainMaterialCallback() {
+                @Override
+                public void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
+                    onPendingEnd();
+                    AllLearningMaterialCard learningMaterialCard = new AllLearningMaterialCard(sentenceCards, topicTestCards, topic);
+                    DataHolder.getInstance().setData(TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY, learningMaterialCard);
+                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class);
+                    ActivityUtils.getTopActivity().startActivity(intent);
+                }
+            });
+        } else if (isSentencePatternTrainingMode()) {
+            trainingMaterial.prepareSentencePatternExamplesData(topic, new TrainingMaterial.ReceiveTrainMaterialCallback() {
+                @Override
+                public void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
+                    onPendingEnd();
+                    AllLearningMaterialCard learningMaterialCard = new AllLearningMaterialCard(sentenceCards, topicTestCards, topic);
+                    DataHolder.getInstance().setData(TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY, learningMaterialCard);
+                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class);
+                    ActivityUtils.getTopActivity().startActivity(intent);
+                }
+            });
+        }
     }
-
-
 }

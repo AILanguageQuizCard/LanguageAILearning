@@ -32,8 +32,9 @@
 
     <string name="setting_item_voice_language_name"> 播放语音语言 </string>
 
+    <string name = "sentence_pattern_training_hint_question"> 请输入句型 </string>
 
-    <string name="topic_search_greeting_hint">
+    <string name="topic_training_hint_question">
         你好！你想知道关于什么的表达呢？
     </string>
 

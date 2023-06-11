@@ -61,9 +61,14 @@ public class StrongCommandToChatGPT {
     }
 
 
-    public static String getSentencePatternExamplesPrompt(String sentencePatter, String language, int num) {
-        String prompt =  "I am learning the %s sentence structure '%s' Please generate %d authentic sentences in this structure for me.";
-        String result =  String.format(Locale.getDefault(), prompt, language, sentencePatter, num);
+    public static final String SENTENCE_PATTERN_TRAINING_PROMPT =
+            "I am learning about the sentence pattern '%s' in %s. Can you provide me with %d authentic sentences of that sentence structure and its %s translation. For every pair of sentence and its translation, start with its count number and end with line break. And using %s %s to label translation. One example: \"1. one sentence of that sentence pattern in %s. [the corresponding %s translation]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program. ";
+
+
+    public static String getSentencePatternExamplesPrompt(String sentencePatter, String language, String motherLanguage, int num) {
+        String result =  String.format(Locale.getDefault(), SENTENCE_PATTERN_TRAINING_PROMPT,
+                sentencePatter, language, num, motherLanguage,
+                LEFT_KUOHAO, RIGHT_KUOHAO, language, motherLanguage);
         Log.i(TAG, result);
         return result;
     }

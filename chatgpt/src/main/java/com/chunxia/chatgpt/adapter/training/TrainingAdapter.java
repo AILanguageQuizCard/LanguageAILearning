@@ -1,5 +1,9 @@
 package com.chunxia.chatgpt.adapter.training;
 
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_MODE_KEY;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_SENTENCE_PATTERN;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_TOPIC;
+
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.activity.OpinionTrainingActivity;
-import com.chunxia.chatgpt.activity.SentencePatternTrainingActivity;
 import com.chunxia.chatgpt.activity.TopicTrainingActivity;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.ui.TopicView2;
@@ -87,13 +90,15 @@ public class TrainingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 public void onClick(View v) {
                     if (trainingInfo.getType().equals(TrainingType.TOPIC)) {
                         // todo 先跳转卡片,后续需要先加上话题输入界面
-                        Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingActivity.class);
+                        Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingActivity.class)
+                                .putString(TOPIC_TRAINING_ACTIVITY_MODE_KEY, TOPIC_TRAINING_TOPIC);
                         ActivityUtils.getTopActivity().startActivity(intent);
                     } else if (trainingInfo.getType().equals(TrainingType.OPINION)) {
                         Intent intent = new XLIntent(ActivityUtils.getTopActivity(), OpinionTrainingActivity.class);
                         ActivityUtils.getTopActivity().startActivity(intent);
                     } else if (trainingInfo.getType().equals(TrainingType.SENTENCE_PATTERN)) {
-                        Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingActivity.class);
+                        Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingActivity.class)
+                                .putString(TOPIC_TRAINING_ACTIVITY_MODE_KEY, TOPIC_TRAINING_SENTENCE_PATTERN);
                         ActivityUtils.getTopActivity().startActivity(intent);
                     }
                 }

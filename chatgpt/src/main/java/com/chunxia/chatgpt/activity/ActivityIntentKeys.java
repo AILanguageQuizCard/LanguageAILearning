@@ -30,6 +30,10 @@ public class ActivityIntentKeys {
     public static final String ACTIVITY_REVIEW_CARD_EDITED_QUESTION = "activity_review_card_edited_question";
     public static final String ACTIVITY_REVIEW_CARD_EDITED_ANSWER = "activity_review_card_edited_answer";
 
+    public static final String TOPIC_TRAINING_ACTIVITY_MODE_KEY = "ai_lingo_master_topic_training_activity_mode_key";
+    public static final String TOPIC_TRAINING_SENTENCE_PATTERN = "sentence_pattern_training";
+    public static final String TOPIC_TRAINING_TOPIC = "topic_training";
+
     public static String getActivityChatModeKey(String s) {
         return ACTIVITY_CHAT_MODE + s;
     }
