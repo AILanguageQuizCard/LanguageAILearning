@@ -14,7 +14,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,15 +36,12 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class TopicTrainingActivity extends AppCompatActivity {
     private final String TAG = "TopicTrainingActivity";
     private ProgressBar progress_bar;
     private EditText et_search;
     private View lyt_content;
-    private LinearLayout pendingView;
 
     private FlexboxLayout flexboxLayout;
 
@@ -95,7 +91,7 @@ public class TopicTrainingActivity extends AppCompatActivity {
         });
 
         int count = flexboxLayout.getChildCount();
-        ArrayList<String> randomTopicList = TrainingTopicManager.getRandomTopicList(count, this);
+        ArrayList<String> randomTopicList = new TrainingTopicManager().getRandomTopicList(count, this);
 
         for (int i = 0; i < count; i++) {
             View child = flexboxLayout.getChildAt(i);

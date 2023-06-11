@@ -83,7 +83,7 @@ class RecorderService : Service() {
             defaultFolder.mkdir()
         }
 
-        val baseFolder = if (isRPlus() && !hasProperStoredFirstParentUri(defaultFolder.absolutePath)) {
+        val baseFolder = if (!hasProperStoredFirstParentUri(defaultFolder.absolutePath)) {
             cacheDir
         } else {
             defaultFolder.absolutePath

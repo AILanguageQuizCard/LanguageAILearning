@@ -64,15 +64,10 @@ public class ChatActivity extends AppCompatActivity {
     private EditText inputMessageEditText;
     private ChatAdapter adapter;
     private RecyclerView recyclerView;
-
     private String chatMode = "";
-
     private LinearLayout inputLayout;
-
     private LinearLayout showAddToQuizCardLayout;
-
     private ActionBar actionBar;
-
     private MultiRoundChatAgent multiRoundChatAgent;
 
 
@@ -135,7 +130,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void requestAudio() {
-        if (XXPermissions.isGranted(ChatActivity.this, Permission.RECORD_AUDIO)) {
+        if (XXPermissions.isGranted(ChatActivity.this, Permission.RECORD_AUDIO) ) {
             jump2AudioRecord();
             return;
         }
@@ -299,6 +294,7 @@ public class ChatActivity extends AppCompatActivity {
                 true, adapter.getItemCount() % 5 == 0,
                 Tools.getFormattedTimeEvent(System.currentTimeMillis())));
         inputMessageEditText.setText("");
+        // todo fix
         recyclerView.scrollToPosition(adapter.getItemCount() - 1);
 
         multiRoundChatAgent.sendMessageInThread(msg,

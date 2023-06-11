@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
@@ -29,7 +30,7 @@ import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.model.message.Message;
 import com.chunxia.chatgpt.model.message.MessageManager;
 import com.chunxia.chatgpt.model.message.TextMessage;
-import com.chunxia.chatgpt.model.topic.TrainingTopicManager;
+import com.chunxia.chatgpt.model.opinion.OpinionManager;
 import com.google.android.flexbox.FlexboxLayout;
 import com.material.components.utils.Tools;
 
@@ -94,15 +95,38 @@ public class OpinionTrainingActivity extends AppCompatActivity {
             }
         });
 
-        int count = flexboxLayout.getChildCount();
-        ArrayList<String> randomTopicList = TrainingTopicManager.getRandomTopicList(count, this);
+        flexboxLayout.removeAllViews();
+        int count = 5;
+        ArrayList<String> randomTopicList = new OpinionManager().getRandomTopicList(count, this);
 
         for (int i = 0; i < count; i++) {
-            View child = flexboxLayout.getChildAt(i);
-            if (child instanceof Button) {
-                Button b = (Button) child;
-                b.setText(randomTopicList.get(i));
-            }
+            // Create new Button
+            Button btn = new Button(this);
+
+            // Set layout parameters
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            btn.setLayoutParams(params);
+
+            // Set the properties of the button
+            btn.setText(randomTopicList.get(i));
+            btn.setAllCaps(false);
+            btn.setTextColor(ContextCompat.getColor(this, R.color.white));
+
+            // Set the background drawable
+            btn.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_rounded_colorprimary));
+
+            // Set the click listener
+            btn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Do something in response to button click
+                    popKeywordClick(v);
+                }
+            });
+
+            flexboxLayout.addView(btn);
         }
 
     }
@@ -118,7 +142,7 @@ public class OpinionTrainingActivity extends AppCompatActivity {
 
     private void searchAction(String topic) {
         initPendingView();
-        initSentencePatternChat(topic);
+        initOpinionChat(topic);
     }
 
     @Override
@@ -157,7 +181,7 @@ public class OpinionTrainingActivity extends AppCompatActivity {
         lyt_content.setVisibility(View.VISIBLE);
     }
 
-    private void initSentencePatternChat(String topic) {
+    private void initOpinionChat(String topic) {
         TrainingMaterial trainingMaterial = new TrainingMaterial();
 
         trainingMaterial.getOpinionObservable(topic, new TrainingMaterial.ReceiveSentencePatternExamplesCallback() {
@@ -182,6 +206,4 @@ public class OpinionTrainingActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

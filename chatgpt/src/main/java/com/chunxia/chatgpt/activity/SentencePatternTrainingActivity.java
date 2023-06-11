@@ -1,7 +1,5 @@
 package com.chunxia.chatgpt.activity;
 
-import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,15 +24,11 @@ import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
-import com.chunxia.chatgpt.activity.dataholder.DataHolder;
 import com.chunxia.chatgpt.chatapi.TrainingMaterial;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.model.message.Message;
 import com.chunxia.chatgpt.model.message.MessageManager;
 import com.chunxia.chatgpt.model.message.TextMessage;
-import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
-import com.chunxia.chatgpt.model.review.SentenceCard;
-import com.chunxia.chatgpt.model.review.TopicTestCard;
 import com.chunxia.chatgpt.model.topic.TrainingTopicManager;
 import com.google.android.flexbox.FlexboxLayout;
 import com.material.components.utils.Tools;
@@ -46,7 +40,6 @@ public class SentencePatternTrainingActivity extends AppCompatActivity {
     private ProgressBar progress_bar;
     private EditText et_search;
     private View lyt_content;
-    private LinearLayout pendingView;
 
     private TextView hintQuestionTextView;
 
@@ -101,7 +94,7 @@ public class SentencePatternTrainingActivity extends AppCompatActivity {
         });
 
         int count = flexboxLayout.getChildCount();
-        ArrayList<String> randomTopicList = TrainingTopicManager.getRandomTopicList(count, this);
+        ArrayList<String> randomTopicList = new TrainingTopicManager().getRandomTopicList(count, this);
 
         for (int i = 0; i < count; i++) {
             View child = flexboxLayout.getChildAt(i);
