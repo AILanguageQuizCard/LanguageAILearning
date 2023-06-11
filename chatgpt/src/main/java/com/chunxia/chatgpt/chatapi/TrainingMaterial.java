@@ -114,6 +114,29 @@ public class TrainingMaterial {
                 });
     }
 
+    public void prepareGrammarExamplesData(String grammar, ReceiveTrainMaterialCallback callback) {
+        Observable<String> stringObservable = getGrammarExamplesObservable(grammar).subscribeOn(Schedulers.io());
+        stringObservable
+                .observeOn(AndroidSchedulers.mainThread())  // 在主线程处理请求结果
+                .subscribe(new DisposableObserver<String>() {
+                    @Override
+                    public void onNext(@NonNull final String result) {
+                        sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result);
+                        callback.onReceiveData(sentenceCards, null);
+                    }
+
+                    @Override
+                    public void onError(@NonNull final Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
     public void getOpinionObservable(String opinion, ReceiveSentencePatternExamplesCallback callback) {
         Observable<String> stringObservable = getOpinionObservable(opinion).subscribeOn(Schedulers.io());
         stringObservable
@@ -189,6 +212,28 @@ public class TrainingMaterial {
             }
         });
     }
+
+    public Observable<String> getGrammarExamplesObservable(String grammar) {
+        return Observable.fromCallable(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                Log.i(TAG, "getGrammarExamplesObservable");
+                MultiRoundChatAgent agent = new MultiRoundChatAgent();
+                agent.setMaxTokenN(maxTokenN);
+                // todo 获取母语设置
+                String prompt = StrongCommandToChatGPT.getGrammarExamplesPrompt(grammar, learningLanguage, motherLanguage, sentenceN);
+                Log.i(TAG, prompt);
+                long start = System.currentTimeMillis();
+
+                String result = agent.sendMessage(prompt);
+                long end = System.currentTimeMillis();
+                Log.i(TAG, "get training sentences time: " + (end - start));
+                return result;
+            }
+        });
+    }
+
+
 
     public Observable<String> getOpinionObservable(String opinion) {
         return Observable.fromCallable(new Callable<String>() {

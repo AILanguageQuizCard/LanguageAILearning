@@ -25,7 +25,11 @@
     <string name="topic_training_3"> 句型训练 </string>
     <string name="topic_training_description_3">您提供一个句型，比如"I would like ..."，我们将为您举例，供您学习</string>
 
+    <string name="topic_training_4">语法训练</string>
+    <string name="topic_training_description_4">您提供一个语法知识点，比如虚拟语气，我们将为您举例，供您学习</string>
+
     <string name = "sentence_pattern_hint_question"> 请输入句型</string>
+    <string name = "grammar_hint_question">请输入语法知识点</string>
 
     <string name = "opinion_training_hint_question"> 请输入您的观点</string>
 

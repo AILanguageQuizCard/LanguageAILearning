@@ -73,6 +73,19 @@ public class StrongCommandToChatGPT {
         return result;
     }
 
+    public static final String GRAMMAR_TRAINING_PROMPT =
+            "I am learning about the grammar '%s' in %s. Can you provide me with %d authentic examples sentences and its %s translation. For every pair of sentence and its translation, start with its count number and end with line break. And using %s %s to label translation. One example: \"1. one sentence of that grammar in %s. [the corresponding %s translation]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program. ";
+
+    public static String getGrammarExamplesPrompt(String grammar, String language, String motherLanguage, int num) {
+        String result =  String.format(Locale.getDefault(), GRAMMAR_TRAINING_PROMPT,
+                grammar, language, num, motherLanguage,
+                LEFT_KUOHAO, RIGHT_KUOHAO, language, motherLanguage);
+        Log.i(TAG, result);
+        return result;
+    }
+
+
+
     public static String getOpinionPrompt(String opinion, String language) {
         String prompt =  "I hold the viewpoint that \"%s\" I want to express my opinion in %s. Please argue my viewpoint in %s, not exceeding 100 words.";
         String result =  String.format(Locale.getDefault(), prompt, opinion, language, language);

@@ -1,17 +1,12 @@
 package com.chunxia.chatgpt.adapter.review
 
 import android.app.Application
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.media.MediaPlayer.OnCompletionListener
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import com.chunxia.chatgpt.R
 import com.chunxia.chatgpt.model.review.SentenceCard
@@ -85,7 +80,6 @@ class ReviewCardStackAdapter(
 
             copyView.setOnClickListener(View.OnClickListener {
                 Tools.copyToClipboard(view.context, reviewCardView.sentence)
-                Toast.makeText(view.context, "已复制到剪切板", Toast.LENGTH_SHORT).show()
             })
 
         }

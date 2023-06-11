@@ -1,6 +1,9 @@
 package com.chunxia.chatgpt.activity;
 
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_GRAMMAR;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_SENTENCE_PATTERN;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_TOPIC;
 
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +33,7 @@ import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.activity.dataholder.DataHolder;
 import com.chunxia.chatgpt.chatapi.TrainingMaterial;
 import com.chunxia.chatgpt.common.XLIntent;
+import com.chunxia.chatgpt.model.grammar.GrammarManager;
 import com.chunxia.chatgpt.model.message.Message;
 import com.chunxia.chatgpt.model.message.MessageManager;
 import com.chunxia.chatgpt.model.message.TextMessage;
@@ -73,18 +77,25 @@ public class TopicTrainingActivity extends AppCompatActivity {
 
 
     private boolean isTopicTrainingMode() {
-        return mode.equals("topic_training");
+        return mode.equals(TOPIC_TRAINING_TOPIC);
     }
 
     private boolean isSentencePatternTrainingMode() {
-        return mode.equals("sentence_pattern_training");
+        return mode.equals(TOPIC_TRAINING_SENTENCE_PATTERN);
     }
 
+    private boolean isGrammarTrainingMode() {
+        return mode.equals(TOPIC_TRAINING_GRAMMAR);
+    }
+
+
     private ArrayList<String> getTrainingData(int count) {
-        if (mode.equals("topic_training")) {
+        if (isTopicTrainingMode()) {
             return new TrainingTopicManager().getRandomTopicList(count, this);
-        } else if (mode.equals("sentence_pattern_training")) {
+        } else if (isSentencePatternTrainingMode()) {
             return new SentencePatternManager().getRandomTopicList(count, this);
+        } else if (isGrammarTrainingMode()) {
+            return new GrammarManager().getRandomTopicList(count, this);
         } else {
             return new TrainingTopicManager().getRandomTopicList(count, this);
         }
@@ -118,6 +129,8 @@ public class TopicTrainingActivity extends AppCompatActivity {
             id = R.string.topic_training_hint_question;
         } else if (isSentencePatternTrainingMode()) {
             id = R.string.sentence_pattern_hint_question;
+        } else if (isGrammarTrainingMode()) {
+            id = R.string.grammar_hint_question;
         } else {
             id = R.string.topic_training_hint_question;
         }
@@ -238,6 +251,17 @@ public class TopicTrainingActivity extends AppCompatActivity {
             });
         } else if (isSentencePatternTrainingMode()) {
             trainingMaterial.prepareSentencePatternExamplesData(topic, new TrainingMaterial.ReceiveTrainMaterialCallback() {
+                @Override
+                public void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
+                    onPendingEnd();
+                    AllLearningMaterialCard learningMaterialCard = new AllLearningMaterialCard(sentenceCards, topicTestCards, topic);
+                    DataHolder.getInstance().setData(TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY, learningMaterialCard);
+                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class);
+                    ActivityUtils.getTopActivity().startActivity(intent);
+                }
+            });
+        } else if (isGrammarTrainingMode()) {
+            trainingMaterial.prepareGrammarExamplesData(topic, new TrainingMaterial.ReceiveTrainMaterialCallback() {
                 @Override
                 public void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
                     onPendingEnd();

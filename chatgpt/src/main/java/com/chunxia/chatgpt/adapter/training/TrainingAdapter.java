@@ -1,6 +1,7 @@
 package com.chunxia.chatgpt.adapter.training;
 
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_MODE_KEY;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_GRAMMAR;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_SENTENCE_PATTERN;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_TOPIC;
 
@@ -99,6 +100,10 @@ public class TrainingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     } else if (trainingInfo.getType().equals(TrainingType.SENTENCE_PATTERN)) {
                         Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingActivity.class)
                                 .putString(TOPIC_TRAINING_ACTIVITY_MODE_KEY, TOPIC_TRAINING_SENTENCE_PATTERN);
+                        ActivityUtils.getTopActivity().startActivity(intent);
+                    } else if (trainingInfo.getType().equals(TrainingType.GRAMMAR)){
+                        Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingActivity.class)
+                                .putString(TOPIC_TRAINING_ACTIVITY_MODE_KEY, TOPIC_TRAINING_GRAMMAR);
                         ActivityUtils.getTopActivity().startActivity(intent);
                     }
                 }

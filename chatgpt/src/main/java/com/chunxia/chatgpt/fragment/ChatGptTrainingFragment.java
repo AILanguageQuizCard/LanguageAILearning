@@ -30,7 +30,6 @@ public class ChatGptTrainingFragment extends Fragment {
     public ChatGptTrainingFragment() {
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_training_chatgpt, container, false);
@@ -50,6 +49,9 @@ public class ChatGptTrainingFragment extends Fragment {
 
         mylist.add(new TrainingInfo(getString(R.string.topic_training_3), getString(R.string.topic_training_description_3),
                 false, R.drawable.topic_view_blue, TrainingType.SENTENCE_PATTERN));
+
+        mylist.add(new TrainingInfo(getString(R.string.topic_training_4), getString(R.string.topic_training_description_4),
+                false, R.drawable.topic_view_green, TrainingType.GRAMMAR));
 
         return mylist;
     }
