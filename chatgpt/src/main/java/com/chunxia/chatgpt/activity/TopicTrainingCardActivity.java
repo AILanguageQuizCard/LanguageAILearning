@@ -49,17 +49,19 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
 
         initNextButton();
         initViewPager();
-        initSystemBar();
+        initStatusBar();
     }
 
 
-    private void initSystemBar() {
-        Tools.setSystemBarColor(this, R.color.grey_10);
-        Tools.setSystemBarLight(this);
+    private void initStatusBar() {
+        com.chunxia.chatgpt.tools.Tools.setSystemBarColor(this, R.color.white);
+        com.chunxia.chatgpt.tools.Tools.setSystemBarLight(this);
     }
+
 
     private void initNextButton() {
         btnNext = (Button) findViewById(R.id.btn_next);
+        btnNext.setVisibility(View.INVISIBLE);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,9 +94,11 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if (viewPager.getCurrentItem() == getAllSize() - 1) {
-                    btnNext.setText("Get Started");
+                    btnNext.setText("Generate more for me");
+                    btnNext.setVisibility(View.VISIBLE);
                 } else {
-                    btnNext.setText("Next");
+//                    btnNext.setText("Next");
+                    btnNext.setVisibility(View.INVISIBLE);
                 }
             }
 
