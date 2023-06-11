@@ -91,6 +91,51 @@ public class TrainingMaterial {
                         });
     }
 
+    public void prepareSentencePatternExamplesData(String sentencePattern, ReceiveSentencePatternExamplesCallback callback) {
+        Observable<String> stringObservable = getSentencesPatternExamplesObservable(sentencePattern).subscribeOn(Schedulers.io());
+        stringObservable
+                .observeOn(AndroidSchedulers.mainThread())  // 在主线程处理请求结果
+                .subscribe(new DisposableObserver<String>() {
+                    @Override
+                    public void onNext(@NonNull final String result) {
+                        callback.onReceiveData(result);
+                    }
+
+                    @Override
+                    public void onError(@NonNull final Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    public void getOpinionObservable(String opinion, ReceiveSentencePatternExamplesCallback callback) {
+        Observable<String> stringObservable = getOpinionObservable(opinion).subscribeOn(Schedulers.io());
+        stringObservable
+                .observeOn(AndroidSchedulers.mainThread())  // 在主线程处理请求结果
+                .subscribe(new DisposableObserver<String>() {
+                    @Override
+                    public void onNext(@NonNull final String result) {
+                        callback.onReceiveData(result);
+                    }
+
+                    @Override
+                    public void onError(@NonNull final Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+
     public void prepareSentenceData(String topic, ReceiveTrainMaterialCallback callback) {
         Observable<String> stringObservable = getTrainingSentencesObservable(topic).subscribeOn(Schedulers.io());
         stringObservable
@@ -117,6 +162,51 @@ public class TrainingMaterial {
 
     public interface ReceiveTrainMaterialCallback {
         void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards);
+    }
+
+    public interface ReceiveSentencePatternExamplesCallback {
+        void onReceiveData(String reply);
+    }
+
+
+    public Observable<String> getSentencesPatternExamplesObservable(String sentencePattern) {
+        return Observable.fromCallable(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                Log.i(TAG, "getSentencesPatternExamplesObservable");
+                MultiRoundChatAgent agent = new MultiRoundChatAgent();
+                agent.setMaxTokenN(maxTokenN);
+                // todo 获取母语设置
+                String prompt = StrongCommandToChatGPT.getSentencePatternExamplesPrompt(sentencePattern, learningLanguage, sentenceN);
+                Log.i(TAG, prompt);
+                long start = System.currentTimeMillis();
+
+                String result = agent.sendMessage(prompt);
+                long end = System.currentTimeMillis();
+                Log.i(TAG, "get training sentences time: " + (end - start));
+                return result;
+            }
+        });
+    }
+
+    public Observable<String> getOpinionObservable(String opinion) {
+        return Observable.fromCallable(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                Log.i(TAG, "getOpinionObservable");
+                MultiRoundChatAgent agent = new MultiRoundChatAgent();
+                agent.setMaxTokenN(maxTokenN);
+                // todo 获取母语设置
+                String prompt = StrongCommandToChatGPT.getOpinionPrompt(opinion, learningLanguage);
+                Log.i(TAG, prompt);
+                long start = System.currentTimeMillis();
+
+                String result = agent.sendMessage(prompt);
+                long end = System.currentTimeMillis();
+                Log.i(TAG, "get training sentences time: " + (end - start));
+                return result;
+            }
+        });
     }
 
 

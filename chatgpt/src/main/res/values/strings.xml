@@ -21,6 +21,14 @@
     <string name="topic_training_2">Opinion training</string>
     <string name="topic_training_description_2">You first provide a viewpoint, such as \'I believe higher education should be free\', and we will generate examples and related expressions to support your argument for you to learn from.</string>
 
+    <string name="topic_training_3"> Sentence Pattern Training </string>
+    <string name="topic_training_description_3">You provide a sentence pattern, such as "I would like…", and we will provide examples for you to learn from.</string>
+
+    <string name = "sentence_pattern_hint_question"> Please enter the sentence pattern</string>
+
+    <string name = "opinion_training_hint_question"> Please enter your opinion</string>
+
+
     <string name="setting_item_voice_language_name"> Voice Language </string>
 
     <string name="topic_search_greeting_hint">

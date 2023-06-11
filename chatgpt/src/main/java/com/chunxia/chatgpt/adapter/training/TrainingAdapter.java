@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.activity.OpinionTrainingActivity;
+import com.chunxia.chatgpt.activity.SentencePatternTrainingActivity;
 import com.chunxia.chatgpt.activity.TopicTrainingActivity;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.ui.TopicView2;
@@ -88,8 +90,11 @@ public class TrainingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingActivity.class);
                         ActivityUtils.getTopActivity().startActivity(intent);
                     } else if (trainingInfo.getType().equals(TrainingType.OPINION)) {
-
-
+                        Intent intent = new XLIntent(ActivityUtils.getTopActivity(), OpinionTrainingActivity.class);
+                        ActivityUtils.getTopActivity().startActivity(intent);
+                    } else if (trainingInfo.getType().equals(TrainingType.SENTENCE_PATTERN)) {
+                        Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingActivity.class);
+                        ActivityUtils.getTopActivity().startActivity(intent);
                     }
                 }
             });

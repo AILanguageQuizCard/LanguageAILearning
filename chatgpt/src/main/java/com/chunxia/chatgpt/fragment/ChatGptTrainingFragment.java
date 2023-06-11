@@ -48,6 +48,9 @@ public class ChatGptTrainingFragment extends Fragment {
         mylist.add(new TrainingInfo(getString(R.string.topic_training_2), getString(R.string.topic_training_description_2),
                 false, R.drawable.topic_view_green, TrainingType.OPINION));
 
+        mylist.add(new TrainingInfo(getString(R.string.topic_training_3), getString(R.string.topic_training_description_3),
+                false, R.drawable.topic_view_blue, TrainingType.SENTENCE_PATTERN));
+
         return mylist;
     }
 

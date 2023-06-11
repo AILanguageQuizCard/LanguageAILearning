@@ -61,6 +61,20 @@ public class StrongCommandToChatGPT {
     }
 
 
+    public static String getSentencePatternExamplesPrompt(String sentencePatter, String language, int num) {
+        String prompt =  "I am learning the %s sentence structure '%s' Please generate %d authentic sentences in this structure for me.";
+        String result =  String.format(Locale.getDefault(), prompt, language, sentencePatter, num);
+        Log.i(TAG, result);
+        return result;
+    }
+
+    public static String getOpinionPrompt(String opinion, String language) {
+        String prompt =  "I hold the viewpoint that \"%s\" I want to express my opinion in %s. Please argue my viewpoint in %s, not exceeding 100 words.";
+        String result =  String.format(Locale.getDefault(), prompt, opinion, language, language);
+        Log.i(TAG, result);
+        return result;
+    }
+
 
 }
 

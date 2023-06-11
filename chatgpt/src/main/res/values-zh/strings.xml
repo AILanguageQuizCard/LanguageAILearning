@@ -22,6 +22,14 @@
     <string name="topic_training_2"> 观点训练 </string>
     <string name="topic_training_description_2">您首先提供一个观点，比如“我认为高等教育应该是免费的”，我们将为您生成论证的例子和相关表达，以供您学习。</string>
 
+    <string name="topic_training_3"> 句型训练 </string>
+    <string name="topic_training_description_3">您提供一个句型，比如"I would like ..."，我们将为您举例，供您学习</string>
+
+    <string name = "sentence_pattern_hint_question"> 请输入句型</string>
+
+    <string name = "opinion_training_hint_question"> 请输入您的观点</string>
+
+
     <string name="setting_item_voice_language_name"> 播放语音语言 </string>
 
 
