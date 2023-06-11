@@ -2,10 +2,11 @@ package com.chunxia.chatgpt.adapter.topiccard;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
@@ -36,11 +37,13 @@ public class LearningMaterialCardAdapter extends PagerAdapter {
 
         View view = layoutInflater.inflate(R.layout.item_card_wizard, container, false);
         ((TextView) view.findViewById(R.id.topic_card_title)).setText(learningMaterialCard.getTopic());
-        ((TextView) view.findViewById(R.id.topic_card_sentence)).setText(learningMaterialCard.getSentenceCards().get(position).getSentence());
+        TextView sentenceView = view.findViewById(R.id.topic_card_sentence);
+        sentenceView.setText(learningMaterialCard.getSentenceCards().get(position).getSentence());
         TextView translateView = view.findViewById(R.id.topic_card_translation);
         translateView.setText(learningMaterialCard.getSentenceCards().get(position).getTranslation());
-        Button playButton = view.findViewById(R.id.topic_card_play_button);
-        Button favoriteButton = view.findViewById(R.id.topic_card_favorite_button);
+
+        ImageView playButton = view.findViewById(R.id.topic_card_play_button);
+        ImageView favoriteButton = view.findViewById(R.id.topic_card_favorite_button);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -6,94 +6,101 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="@dimen/spacing_middle"
-        app:cardCornerRadius="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginBottom="120dp"
+        app:cardCornerRadius="8dp"
         app:cardBackgroundColor="@android:color/white"
         app:cardElevation="2dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="280dp"
-            android:layout_height="420dp">
+        <com.balysv.materialripple.MaterialRippleLayout
+            style="@style/RippleStyleWhite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@color/light_blue_100"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/topic_card_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxWidth="180dp"
+                android:maxWidth="250dp"
                 android:layout_marginTop="30dp"
                 android:text="Ready to Travel"
                 android:textAlignment="center"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:textSize="22sp"
+                android:textSize="23sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/grey_80"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
-
 
             <TextView
                 android:id="@+id/topic_card_sentence"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_mxlarge"
-                android:layout_marginRight="@dimen/spacing_mxlarge"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
                 android:layout_marginTop="35dp"
                 android:layout_marginBottom="@dimen/spacing_xlarge"
                 app:layout_constraintTop_toBottomOf="@+id/topic_card_title"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:textSize="17sp"
-                android:text="Find Featured and Premium \nItem From Our Store"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/grey_40" />
+                android:textSize="21sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Find Featured and Premium \nItem From Our Store" />
 
             <TextView
                 android:id="@+id/topic_card_translation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_mxlarge"
-                android:layout_marginRight="@dimen/spacing_mxlarge"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="@dimen/spacing_xlarge"
                 app:layout_constraintTop_toBottomOf="@+id/topic_card_sentence"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:textSize="17sp"
-                android:text="Find Featured and Premium \nItem From Our Store"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/grey_40" />
+                android:textSize="21sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Find Featured and Premium \nItem From Our Store" />
 
 
-            <Button
-                android:id="@+id/topic_card_play_button"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:text="@string/topic_card_voice_play_text"/>
+                <ImageView
+                    android:id="@+id/topic_card_play_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/topic_card_favorite_button"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_play_arrow" />
 
-            <Button
-                android:id="@+id/topic_card_favorite_button"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/topic_card_play_button"
-                android:text="@string/topic_card_favorite_text" />
+                <ImageView
+                    android:id="@+id/topic_card_favorite_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:src="@drawable/ic_favorite_border" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
 
     </androidx.cardview.widget.CardView>
 

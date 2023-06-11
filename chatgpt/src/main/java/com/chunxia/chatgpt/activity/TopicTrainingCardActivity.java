@@ -76,12 +76,12 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
 
     private void initViewPager() {
         adapter = new LearningMaterialCardAdapter(this.getApplication(), this.learningMaterialCard);
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager = (ViewPager) findViewById(R.id.activity_train_card_view_pager);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
         viewPager.setClipToPadding(false);
-        viewPager.setPadding(0, 0, 0, 0);
+        viewPager.setPadding(30, 0, 30, 0);
         viewPager.setPageMargin(getResources().getDimensionPixelOffset(R.dimen.viewpager_margin_overlap));
         viewPager.setOffscreenPageLimit(4);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.chunxia.chatgpt.R;
 
 public class ReviewCardView extends LinearLayout {
@@ -28,8 +30,34 @@ public class ReviewCardView extends LinearLayout {
     private int topMargin, middleMargin, bottomMargin;
     private String TAG = "ReviewCardView";
 
-    public ReviewCardView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public ReviewCardView(Context context) {
+        this(context, null);
+    }
+
+    public ReviewCardView(Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public ReviewCardView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        this(context, attrs, defStyleAttr, 0);
+    }
+
+    public ReviewCardView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        initViews(context, attrs, defStyleAttr);
+    }
+
+
+    public void setmLText(String mLText) {
+        mLTextView.setText(mLText);
+    }
+
+    public void settLText(String tLText) {
+        tLTextView.setText(tLText);
+    }
+
+
+    private void initViews(Context context, AttributeSet attrs, int defStyleAttr) {
 
         // 读取自定义属性的值
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ReviewCardView);
@@ -44,15 +72,7 @@ public class ReviewCardView extends LinearLayout {
         tLTextSize = typedArray.getDimension(R.styleable.ReviewCardView_tLTextSize, dpToPx(context, 22));
         typedArray.recycle();
 
-        // 初始化视图，如创建中英文TextView等
-        initViews(mLText, mLTextStyle, mLTextColor, mLTextSize, tLText, tLTextStyle, tLTextColor, tLTextSize);
-    }
-
-
-    private void initViews(String mLText, int mLTextStyle, int mLTextColor, float mLTextSize,
-                           String tLText, int tLTextStyle, int tLTextColor, float tLTextSize) {
         this.setOrientation(LinearLayout.VERTICAL);
-        Context context = getContext();
         mLTextView = new TextView(context);
         mLTextView.setText(mLText);
         tLTextView = new TextView(context);
