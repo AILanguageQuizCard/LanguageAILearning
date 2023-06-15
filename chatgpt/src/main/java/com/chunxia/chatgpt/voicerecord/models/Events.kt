@@ -15,4 +15,6 @@ class Events {
     class ShowAddToQuizCardView internal constructor()
     class PresentEditedCard internal constructor(val newCard: SentenceCard)
 
+    class ShowSnackBar internal constructor(val message: String)
+
 }

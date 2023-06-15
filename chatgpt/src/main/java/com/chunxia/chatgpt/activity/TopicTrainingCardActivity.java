@@ -6,6 +6,7 @@ import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_GRA
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_SENTENCE_PATTERN;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_TOPIC;
 
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -25,6 +27,12 @@ import com.chunxia.chatgpt.chatapi.TrainingMaterial;
 import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
 import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
+import com.chunxia.chatgpt.voicerecord.models.Events;
+import com.google.android.material.snackbar.Snackbar;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -35,6 +43,8 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
 
     private static final int MAX_CARD_NUM = 15;
     private ViewPager viewPager;
+
+    private View parentView;
     private Button btnNext;
     private LearningMaterialCardAdapter adapter;
     private AllLearningMaterialCard learningMaterialCard;
@@ -60,6 +70,7 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_wizard_overlap);
 
+        EventBus.getDefault().register(this);
         initData((AllLearningMaterialCard) DataHolder.getInstance().getData(TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY));
 
         // adding bottom dots
@@ -71,9 +82,16 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
         initStatusBar();
     }
 
-    private void initView() {
-        container = (LinearLayout) findViewById(R.id.activity_train_card_container);
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    private void initView() {
+        parentView = findViewById(android.R.id.content);
+        container = (LinearLayout) findViewById(R.id.activity_train_card_container);
         progressBar = (ProgressBar) findViewById(R.id.activity_train_card_progress_bar);
         progressBar.setVisibility(View.GONE);
     }
@@ -178,7 +196,6 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
                     btnNext.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-//                            finish();
                             if (currentCardNum >= MAX_CARD_NUM) return;
                             getMoreData(learningMaterialCard.getTopic());
 
@@ -186,7 +203,6 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
                     });
 
                 } else {
-//                    btnNext.setText("Next");
                     btnNext.setVisibility(View.INVISIBLE);
                 }
             }
@@ -218,6 +234,24 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
             dots[current_index].setImageResource(R.drawable.shape_circle);
             dots[current_index].setColorFilter(getResources().getColor(R.color.light_green_600), PorterDuff.Mode.SRC_IN);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void snackBarIconSuccess(Events.ShowSnackBar event) {
+        final Snackbar snackbar = Snackbar.make(parentView, "", Snackbar.LENGTH_SHORT);
+        //inflate view
+        View custom_view = getLayoutInflater().inflate(com.material.components.R.layout.snackbar_icon_text, null);
+
+        snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
+        Snackbar.SnackbarLayout snackBarView = (Snackbar.SnackbarLayout) snackbar.getView();
+        snackBarView.setPadding(0, 0, 0, 0);
+
+
+        ((TextView) custom_view.findViewById(com.material.components.R.id.message)).setText(event.getMessage());
+        ((ImageView) custom_view.findViewById(com.material.components.R.id.icon)).setImageResource(com.material.components.R.drawable.ic_done);
+        (custom_view.findViewById(com.material.components.R.id.parent_view)).setBackgroundColor(getResources().getColor(com.material.components.R.color.light_blue_300));
+        snackBarView.addView(custom_view, 0);
+        snackbar.show();
     }
 
     //  viewpager change listener

@@ -14,6 +14,9 @@ import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
 import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.texttovoice.Text2VoiceModel;
+import com.chunxia.chatgpt.voicerecord.models.Events;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class LearningMaterialCardAdapter extends PagerAdapter {
     private LayoutInflater layoutInflater = null;
@@ -55,6 +58,9 @@ public class LearningMaterialCardAdapter extends PagerAdapter {
             public void onClick(View v) {
                 ReviewCardManager.getInstance().addOneSentenceCardInTopicReviewSets(learningMaterialCard.getTopic(),
                         learningMaterialCard.getSentenceCards().get(position));
+
+                EventBus.getDefault().post(new Events.ShowSnackBar(context.getString(R.string.train_card_add_to_review_set_successfully)));
+
             }
         });
         container.addView(view);
