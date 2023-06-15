@@ -2,7 +2,6 @@ package com.chunxia.chatgpt.adapter.topiccard;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

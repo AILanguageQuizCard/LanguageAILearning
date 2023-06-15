@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,31 +114,31 @@ public class ReviewCardView extends LinearLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        // todo 动态调整字体大小
-        float h1 = measureTextViewHeight(tLTextView, tLTextView.getTextSize());
-        Log.i(TAG, "h1:" + h1);
-
-        int totalHeight = getMeasuredHeight();
-        float targetHeight = totalHeight * 0.6f;
-
-        Paint mLanguagePaint = mLTextView.getPaint();
-        Paint tLanguagePaint = tLTextView.getPaint();
-
-        float mLTextHeight = mLanguagePaint.descent() - mLanguagePaint.ascent();
-        float tLTextHeight = tLanguagePaint.descent() - tLanguagePaint.ascent();
-
-        float totalTextHeight = mLTextHeight + tLTextHeight + middleMargin;
-
-        if (totalTextHeight > targetHeight) {
-            float scale = targetHeight / totalTextHeight;
-            float newtLTextSize = defaultTargetTextSize * scale;
-            tLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, newtLTextSize);
-        } else {
-            tLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, defaultTargetTextSize);
-        }
-
-        requestLayout();
+//
+//        // todo 动态调整字体大小
+//        float h1 = measureTextViewHeight(tLTextView, tLTextView.getTextSize());
+//        Log.i(TAG, "h1:" + h1);
+//
+//        int totalHeight = getMeasuredHeight();
+//        float targetHeight = totalHeight * 0.6f;
+//
+//        Paint mLanguagePaint = mLTextView.getPaint();
+//        Paint tLanguagePaint = tLTextView.getPaint();
+//
+//        float mLTextHeight = mLanguagePaint.descent() - mLanguagePaint.ascent();
+//        float tLTextHeight = tLanguagePaint.descent() - tLanguagePaint.ascent();
+//
+//        float totalTextHeight = mLTextHeight + tLTextHeight + middleMargin;
+//
+//        if (totalTextHeight > targetHeight) {
+//            float scale = targetHeight / totalTextHeight;
+//            float newtLTextSize = defaultTargetTextSize * scale;
+//            tLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, newtLTextSize);
+//        } else {
+//            tLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, defaultTargetTextSize);
+//        }
+//
+//        requestLayout();
         // 再次调用super.onMeasure以使用新的文本大小
         // super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

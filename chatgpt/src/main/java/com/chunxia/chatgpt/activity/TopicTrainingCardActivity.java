@@ -1,6 +1,10 @@
 package com.chunxia.chatgpt.activity;
 
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_ACTIVITY_MODE_KEY;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_GRAMMAR;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_SENTENCE_PATTERN;
+import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_TOPIC;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -9,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -16,18 +21,31 @@ import androidx.viewpager.widget.ViewPager;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.activity.dataholder.DataHolder;
 import com.chunxia.chatgpt.adapter.topiccard.LearningMaterialCardAdapter;
+import com.chunxia.chatgpt.chatapi.TrainingMaterial;
 import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
-import com.material.components.utils.Tools;
+import com.chunxia.chatgpt.model.review.SentenceCard;
+import com.chunxia.chatgpt.model.review.TopicTestCard;
+
+import java.util.ArrayList;
 
 public class TopicTrainingCardActivity extends AppCompatActivity {
 
+    private static final String TAG = "TopicTrainingCardActivity";
     private int currentCardNum;
+
+    private static final int MAX_CARD_NUM = 15;
     private ViewPager viewPager;
     private Button btnNext;
     private LearningMaterialCardAdapter adapter;
     private AllLearningMaterialCard learningMaterialCard;
 
+    private ProgressBar progressBar;
+
+    private LinearLayout container;
+    private String mode;
+
     private void initData(AllLearningMaterialCard learningMaterialCard) {
+        mode =  getIntent().getStringExtra(TOPIC_TRAINING_ACTIVITY_MODE_KEY);
         this.learningMaterialCard = learningMaterialCard;
         currentCardNum = getAllSize();
     }
@@ -47,11 +65,18 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
         // adding bottom dots
         bottomProgressDots(0);
 
+        initView();
         initNextButton();
         initViewPager();
         initStatusBar();
     }
 
+    private void initView() {
+        container = (LinearLayout) findViewById(R.id.activity_train_card_container);
+
+        progressBar = (ProgressBar) findViewById(R.id.activity_train_card_progress_bar);
+        progressBar.setVisibility(View.GONE);
+    }
 
     private void initStatusBar() {
         com.chunxia.chatgpt.tools.Tools.setSystemBarColor(this, R.color.white);
@@ -62,18 +87,72 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
     private void initNextButton() {
         btnNext = (Button) findViewById(R.id.btn_next);
         btnNext.setVisibility(View.INVISIBLE);
-        btnNext.setOnClickListener(new View.OnClickListener() {
+//        btnNext.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int current = viewPager.getCurrentItem() + 1;
+//                if (current < currentCardNum) {
+//                    // move to next screen
+//                    viewPager.setCurrentItem(current);
+//                } else {
+//                    finish();
+//                }
+//            }
+//        });
+    }
+
+
+    private boolean isTopicTrainingMode() {
+        return mode.equals(TOPIC_TRAINING_TOPIC);
+    }
+
+    private boolean isSentencePatternTrainingMode() {
+        return mode.equals(TOPIC_TRAINING_SENTENCE_PATTERN);
+    }
+
+    private boolean isGrammarTrainingMode() {
+        return mode.equals(TOPIC_TRAINING_GRAMMAR);
+    }
+
+
+    private void insertNewCard(String topic, ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
+        AllLearningMaterialCard newCards = new AllLearningMaterialCard(sentenceCards, topicTestCards, topic);
+        learningMaterialCard.addSentenceCard(newCards.getSentenceCards());
+        learningMaterialCard.addTopicTestCard(newCards.getTopicTestCards());
+
+        progressBar.setVisibility(View.GONE);
+        container.setVisibility(View.VISIBLE);
+
+        adapter.notifyDataSetChanged();
+        int oldSize = currentCardNum;
+        currentCardNum = getAllSize();
+        viewPager.setCurrentItem(oldSize - 1);
+        btnNext.setVisibility(View.INVISIBLE);
+        bottomProgressDots(oldSize - 1);
+
+    }
+
+    private void getMoreData(String topic){
+        progressBar.setVisibility(View.VISIBLE);
+        container.setVisibility(View.GONE);
+
+        TrainingMaterial trainingMaterial = new TrainingMaterial();
+
+
+        TrainingMaterial.ReceiveTrainMaterialCallback receiveTrainMaterialCallback = new TrainingMaterial.ReceiveTrainMaterialCallback() {
             @Override
-            public void onClick(View v) {
-                int current = viewPager.getCurrentItem() + 1;
-                if (current < currentCardNum) {
-                    // move to next screen
-                    viewPager.setCurrentItem(current);
-                } else {
-                    finish();
-                }
+            public void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
+                insertNewCard(topic, sentenceCards, topicTestCards);
             }
-        });
+        };
+
+        if (isTopicTrainingMode()) {
+            trainingMaterial.prepareSentenceData(topic, receiveTrainMaterialCallback);
+        } else if (isSentencePatternTrainingMode()) {
+            trainingMaterial.prepareSentencePatternExamplesData(topic, receiveTrainMaterialCallback);
+        } else if (isGrammarTrainingMode()) {
+            trainingMaterial.prepareGrammarExamplesData(topic, receiveTrainMaterialCallback);
+        }
     }
 
     private void initViewPager() {
@@ -94,8 +173,18 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if (viewPager.getCurrentItem() == getAllSize() - 1) {
-                    btnNext.setText("Generate more for me");
+                    btnNext.setText("generate more for me");
                     btnNext.setVisibility(View.VISIBLE);
+                    btnNext.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            finish();
+                            if (currentCardNum >= MAX_CARD_NUM) return;
+                            getMoreData(learningMaterialCard.getTopic());
+
+                        }
+                    });
+
                 } else {
 //                    btnNext.setText("Next");
                     btnNext.setVisibility(View.INVISIBLE);

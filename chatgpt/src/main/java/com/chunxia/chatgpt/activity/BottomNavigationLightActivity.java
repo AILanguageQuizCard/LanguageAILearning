@@ -1,11 +1,8 @@
 package com.chunxia.chatgpt.activity;
 
 import android.os.Bundle;
-import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;

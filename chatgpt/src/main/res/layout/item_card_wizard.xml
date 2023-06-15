@@ -16,10 +16,6 @@
         app:cardBackgroundColor="@android:color/white"
         app:cardElevation="2dp">
 
-        <com.balysv.materialripple.MaterialRippleLayout
-            style="@style/RippleStyleWhite"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
             android:background="@color/light_blue_100"
@@ -100,7 +96,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.balysv.materialripple.MaterialRippleLayout>
 
     </androidx.cardview.widget.CardView>
 
