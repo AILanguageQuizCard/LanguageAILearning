@@ -3,99 +3,98 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lyt_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="130dp"
-        android:layout_marginBottom="120dp"
-        app:cardCornerRadius="8dp"
-        app:cardBackgroundColor="@android:color/white"
-        app:cardElevation="2dp">
+        android:layout_centerVertical="true"
 
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="9dp"
+        app:cardElevation="2dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
             android:background="@color/light_blue_100"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/topic_card_title"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxWidth="200dp"
-                android:layout_marginTop="30dp"
-                android:text="Ready to Travel"
-                android:textAlignment="center"
+                android:orientation="vertical"
+                android:minHeight="450dp"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <TextView
+                    android:id="@+id/topic_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="200dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Ready to Travel"
+                    android:layout_gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:textSize="22sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/topic_card_sentence"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="Find Featured and Premium Find Featured and Premium  Find Featured and Premium  Find Featured and Premium Item From Our Store" />
+
+                <TextView
+                    android:id="@+id/topic_card_translation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="45dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="好你好你好你好，你好你好你好你好你好你好你好。好你好你好你好，你好你好你好你好你好你好你好。好你好你好你好，你好你好你好你好你好你好你好。好你好你好你好，你好你好你好你好你好你好你好。好你好你好你好，你好你好你好你好你好你好你好" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <ImageView
+                android:id="@+id/topic_card_play_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="3dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/topic_card_favorite_button"
+                android:layout_marginBottom="15dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_play_arrow" />
+
+            <ImageView
+                android:id="@+id/topic_card_favorite_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:textSize="22sp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/topic_card_sentence"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginBottom="@dimen/spacing_xlarge"
-                app:layout_constraintTop_toBottomOf="@+id/topic_card_title"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:text="Find Featured and Premium \nItem From Our Store" />
-
-            <TextView
-                android:id="@+id/topic_card_translation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="@dimen/spacing_xlarge"
-                app:layout_constraintTop_toBottomOf="@+id/topic_card_sentence"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:text="Find Featured and Premium \nItem From Our Store" />
-
-
-                <ImageView
-                    android:id="@+id/topic_card_play_button"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="3dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/topic_card_favorite_button"
-                    android:layout_marginBottom="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_play_arrow" />
-
-                <ImageView
-                    android:id="@+id/topic_card_favorite_button"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginRight="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:src="@drawable/ic_favorite_border" />
-
+                android:src="@drawable/ic_favorite_border" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.cardview.widget.CardView>
 

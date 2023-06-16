@@ -14,6 +14,7 @@ import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
 import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.texttovoice.Text2VoiceModel;
+import com.chunxia.chatgpt.ui.ExpandTextView;
 import com.chunxia.chatgpt.voicerecord.models.Events;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,8 +43,12 @@ public class LearningMaterialCardAdapter extends PagerAdapter {
         TextView sentenceView = view.findViewById(R.id.topic_card_sentence);
         sentenceView.setText(learningMaterialCard.getSentenceCards().get(position).getSentence());
         TextView translateView = view.findViewById(R.id.topic_card_translation);
-        translateView.setText(learningMaterialCard.getSentenceCards().get(position).getTranslation());
-
+        String translation = learningMaterialCard.getSentenceCards().get(position).getTranslation();
+        ExpandTextView expandTextView = new ExpandTextView(context);
+        expandTextView.setMaxLine(5)
+                .setMargin(R.dimen.training_card_left_right_margin)
+                .setColorStr("#346CE9");
+        expandTextView.show(translateView, translation);
         ImageView playButton = view.findViewById(R.id.topic_card_play_button);
         ImageView favoriteButton = view.findViewById(R.id.topic_card_favorite_button);
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -84,3 +89,4 @@ public class LearningMaterialCardAdapter extends PagerAdapter {
         container.removeView(view);
     }
 }
+
