@@ -18,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.ui.ExpandTextView;
 
 public class ReviewCardView extends LinearLayout {
 
@@ -154,6 +155,14 @@ public class ReviewCardView extends LinearLayout {
 
     public void setSentence(String s) {
         tLTextView.setText(s);
+        ExpandTextView expandTextView = new ExpandTextView(getContext());
+        expandTextView.setMaxLine(5)
+                .setMargin(R.dimen.training_card_left_right_margin)
+                .setColorStr("#346CE9");
+        expandTextView.show(tLTextView, s + "Hello, I am currently a master's student " +
+                "at the University of Copenhagen. Prior to coming to Denmark, I worked for a year" +
+                " at the second largest online shopping platform in China as an Android Developer. " +
+                "In that role ");
     }
 
     public void setTranslation(String s) {

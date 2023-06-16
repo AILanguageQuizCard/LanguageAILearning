@@ -103,12 +103,12 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
     override fun onCardAppeared(view: View, position: Int) {
         val reviewCardView = view.findViewById<ReviewCardView>(R.id.review_card_view)
-        Log.d("CardStackView", "onCardAppeared: ($position) ${reviewCardView.sentence}")
+//        Log.d("CardStackView", "onCardAppeared: ($position) ${reviewCardView.sentence}")
     }
 
     override fun onCardDisappeared(view: View, position: Int) {
         val reviewCardView = view.findViewById<ReviewCardView>(R.id.review_card_view)
-        Log.d("CardStackView", "onCardDisappeared: ($position) ${reviewCardView.sentence}")
+//        Log.d("CardStackView", "onCardDisappeared: ($position) ${reviewCardView.sentence}")
     }
 
     private fun setupNavigation() {
