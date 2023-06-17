@@ -117,6 +117,15 @@ public class AllReviewData implements Parcelable {
     }
 
 
+    private static final String ALL_TOPIC = "review-ALL-SPECIAL-TOPIC";
+    public TopicReviewSets getAllTopicReviewSets() {
+        TopicReviewSets topicReviewSets = new TopicReviewSets(ALL_TOPIC);
+        for (TopicReviewSets trs : topicReviewSetsList) {
+            topicReviewSets.addSentenceCardList(trs.getSentenceCardList());
+        }
+        return topicReviewSets;
+    }
+
 
 
 

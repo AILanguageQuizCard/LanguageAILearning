@@ -81,6 +81,10 @@ public class ReviewCardManager {
         return allReviewData.getTopicReviewSetsByTopic(topic);
     }
 
+    public TopicReviewSets getAllTopicReviewSets() {
+        return allReviewData.getAllTopicReviewSets();
+    }
+
 
     public ArrayList<SentenceCard> getAllLearnCards() {
         return allReviewData.getAllLearnCards();

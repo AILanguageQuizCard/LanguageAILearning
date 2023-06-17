@@ -9,12 +9,14 @@ class SentenceCard() : Parcelable {
     var translation: String? = null
     var voicePath: String? = null
     var learnRecord: LearnRecord? = null
+    var topic: String? = null
 
     constructor(parcel: Parcel) : this() {
         sentence = parcel.readString()
         translation = parcel.readString()
         voicePath = parcel.readString()
         learnRecord = parcel.readParcelable(LearnRecord::class.java.classLoader)
+        topic = parcel.readString()
     }
 
     constructor(sentence: String?) : this() {
@@ -41,6 +43,7 @@ class SentenceCard() : Parcelable {
         if (translation != other.translation) return false
         if (voicePath != other.voicePath) return false
         if (learnRecord != other.learnRecord) return false
+        if (topic != other.topic) return false
 
         return true
     }
@@ -50,6 +53,7 @@ class SentenceCard() : Parcelable {
         result = 31 * result + (translation?.hashCode() ?: 0)
         result = 31 * result + (voicePath?.hashCode() ?: 0)
         result = 31 * result + (learnRecord?.hashCode() ?: 0)
+        result = 31 * result + (topic?.hashCode() ?: 0)
         return result
     }
 
@@ -59,6 +63,7 @@ class SentenceCard() : Parcelable {
         parcel.writeString(translation)
         parcel.writeString(voicePath)
         parcel.writeParcelable(learnRecord, flags)
+        parcel.writeString(topic)
     }
 
     override fun describeContents(): Int {

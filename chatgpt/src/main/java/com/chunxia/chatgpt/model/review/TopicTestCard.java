@@ -11,8 +11,7 @@ public class TopicTestCard implements Parcelable {
     private String voicePath;
     private LearnRecord learnRecord;
 
-
-
+    private String topic;
 
     public TopicTestCard() {
     }
@@ -56,6 +55,14 @@ public class TopicTestCard implements Parcelable {
         this.learnRecord = learnRecord;
     }
 
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -67,6 +74,7 @@ public class TopicTestCard implements Parcelable {
         dest.writeString(this.answer);
         dest.writeString(this.voicePath);
         dest.writeParcelable(this.learnRecord, flags);
+        dest.writeString(this.topic);
     }
 
     public void readFromParcel(Parcel source) {
@@ -74,6 +82,7 @@ public class TopicTestCard implements Parcelable {
         this.answer = source.readString();
         this.voicePath = source.readString();
         this.learnRecord = source.readParcelable(LearnRecord.class.getClassLoader());
+        this.topic = source.readString();
     }
 
 
@@ -82,6 +91,7 @@ public class TopicTestCard implements Parcelable {
         this.answer = in.readString();
         this.voicePath = in.readString();
         this.learnRecord = in.readParcelable(LearnRecord.class.getClassLoader());
+        this.topic = in.readString();
     }
 
     public static final Creator<TopicTestCard> CREATOR = new Creator<TopicTestCard>() {

@@ -75,7 +75,13 @@ public class TrainingMaterial {
                             @Override
                             public void onNext(@NonNull final Result result) {
                                 sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result.s1);
+                                for (SentenceCard sentenceCard : sentenceCards) {
+                                    sentenceCard.setTopic(topic);
+                                }
                                 topicTestCards = ChatGptResponseTools.extractTopicTrainingQuestions(result.s2);
+                                for (TopicTestCard topicTestCard : topicTestCards) {
+                                    topicTestCard.setTopic(topic);
+                                }
                                 callback.onReceiveData(sentenceCards, topicTestCards);
                             }
 
@@ -99,6 +105,9 @@ public class TrainingMaterial {
                     @Override
                     public void onNext(@NonNull final String result) {
                         sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result);
+                        for (SentenceCard sentenceCard : sentenceCards) {
+                            sentenceCard.setTopic(sentencePattern);
+                        }
                         callback.onReceiveData(sentenceCards, null);
                     }
 
@@ -122,6 +131,9 @@ public class TrainingMaterial {
                     @Override
                     public void onNext(@NonNull final String result) {
                         sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result);
+                        for (SentenceCard sentenceCard : sentenceCards) {
+                            sentenceCard.setTopic(grammar);
+                        }
                         callback.onReceiveData(sentenceCards, null);
                     }
 
@@ -168,6 +180,9 @@ public class TrainingMaterial {
                     @Override
                     public void onNext(@NonNull final String result) {
                         sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result);
+                        for (SentenceCard sentenceCard : sentenceCards) {
+                            sentenceCard.setTopic(topic);
+                        }
                         callback.onReceiveData(sentenceCards, null);
                     }
 
@@ -295,14 +310,6 @@ public class TrainingMaterial {
                 return result;
             }
         });
-    }
-
-
-    public void saveLearnTestCards(ArrayList<TopicTestCard> results) {
-        for (TopicTestCard learnCard : results) {
-            learnCard.setLearnRecord(new LearnRecord());
-        }
-        ReviewCardManager.getInstance().saveLearnTestCards(results);
     }
 
 

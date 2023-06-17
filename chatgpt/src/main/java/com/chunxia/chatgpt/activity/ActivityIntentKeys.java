@@ -24,6 +24,9 @@ public class ActivityIntentKeys {
     public static final String ACTIVITY_ADD_REVIEW_SENTENCE_CARD_TOPIC = "activity_add_review_card_sentence_card_topic";
 
     public static final String ACTIVITY_REVIEW_CARD_TOPIC = "activity_review_card_topic";
+    public static final String ACTIVITY_REVIEW_CARD_MODE = "activity_review_card_mode";
+    public static final String ACTIVITY_REVIEW_CARD_MODE_ALL = "activity_review_card_mode_all";
+    public static final String ACTIVITY_REVIEW_CARD_MODE_SINGLE = "activity_review_card_mode_single";
     public static final String ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST = "activity_review_card_edited_sentence_list";
     public static final String ACTIVITY_REVIEW_CARD_EDITED_QUESTION = "activity_review_card_edited_question";
     public static final String ACTIVITY_REVIEW_CARD_EDITED_ANSWER = "activity_review_card_edited_answer";

@@ -89,4 +89,3 @@ public class LearningMaterialCardAdapter extends PagerAdapter {
         container.removeView(view);
     }
 }
-

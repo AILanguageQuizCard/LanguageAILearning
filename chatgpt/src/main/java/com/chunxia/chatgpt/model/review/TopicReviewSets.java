@@ -37,6 +37,9 @@ public class TopicReviewSets implements Parcelable {
         }
     }
 
+    public void addSentenceCardList(ArrayList<SentenceCard> sentenceCardList) {
+        this.sentenceCardList.addAll(sentenceCardList);
+    }
 
     @Override
     public int describeContents() {
