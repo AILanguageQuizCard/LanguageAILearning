@@ -112,38 +112,6 @@ public class ReviewCardView extends LinearLayout {
         tLTextView.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//
-//        // todo 动态调整字体大小
-//        float h1 = measureTextViewHeight(tLTextView, tLTextView.getTextSize());
-//        Log.i(TAG, "h1:" + h1);
-//
-//        int totalHeight = getMeasuredHeight();
-//        float targetHeight = totalHeight * 0.6f;
-//
-//        Paint mLanguagePaint = mLTextView.getPaint();
-//        Paint tLanguagePaint = tLTextView.getPaint();
-//
-//        float mLTextHeight = mLanguagePaint.descent() - mLanguagePaint.ascent();
-//        float tLTextHeight = tLanguagePaint.descent() - tLanguagePaint.ascent();
-//
-//        float totalTextHeight = mLTextHeight + tLTextHeight + middleMargin;
-//
-//        if (totalTextHeight > targetHeight) {
-//            float scale = targetHeight / totalTextHeight;
-//            float newtLTextSize = defaultTargetTextSize * scale;
-//            tLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, newtLTextSize);
-//        } else {
-//            tLTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, defaultTargetTextSize);
-//        }
-//
-//        requestLayout();
-        // 再次调用super.onMeasure以使用新的文本大小
-        // super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
     private float measureTextViewHeight(TextView textView, float textSize) {
         Paint paint = textView.getPaint();
         paint.setTextSize(textSize);//设置字体大小
@@ -153,16 +121,15 @@ public class ReviewCardView extends LinearLayout {
         return oneLine * lineNumber + space * (lineNumber - 1);
     }
 
+
+    ExpandTextView answerExpandTextView = new ExpandTextView(getContext());
+
     public void setSentence(String s) {
         tLTextView.setText(s);
-        ExpandTextView expandTextView = new ExpandTextView(getContext());
-        expandTextView.setMaxLine(5)
+        answerExpandTextView.setMaxLine(5)
                 .setMargin(R.dimen.training_card_left_right_margin)
                 .setColorStr("#346CE9");
-        expandTextView.show(tLTextView, s + "Hello, I am currently a master's student " +
-                "at the University of Copenhagen. Prior to coming to Denmark, I worked for a year" +
-                " at the second largest online shopping platform in China as an Android Developer. " +
-                "In that role ");
+        answerExpandTextView.show(tLTextView, s);
     }
 
     public void setTranslation(String s) {
@@ -170,7 +137,7 @@ public class ReviewCardView extends LinearLayout {
     }
 
     public String getSentence() {
-        return (String) tLTextView.getText();
+        return answerExpandTextView.getContent();
     }
 
     public String getTranslation() {

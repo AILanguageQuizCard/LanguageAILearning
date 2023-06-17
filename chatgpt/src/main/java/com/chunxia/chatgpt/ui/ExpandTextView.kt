@@ -8,6 +8,7 @@ import android.text.Spanned
 import android.text.StaticLayout
 import android.text.style.ForegroundColorSpan
 import android.widget.TextView
+import com.chunxia.chatgpt.R
 
 /**
  * Desc 支持展开收起的TextView
@@ -31,6 +32,13 @@ class ExpandTextView(var context: Context) {
     // 收起显示文本
     private var foldStr: String = "收起"
 
+
+    private var content: String = ""
+
+    fun getContent(): String {
+        return content
+    }
+
     fun setMaxLine(maxLine: Int): ExpandTextView {
         this.maxLine = maxLine
         return this
@@ -46,17 +54,15 @@ class ExpandTextView(var context: Context) {
         return this
     }
 
-    fun setFoldStr(foldStr: String): ExpandTextView {
-        this.foldStr = foldStr
-        return this
+
+    fun initDefaultSetting() {
+        expandStr = context.resources.getString(R.string.expand_text_view_expandStr)
+        foldStr = context.resources.getString(R.string.expand_text_view_foldStr)
     }
 
-    fun setExpandStr(expandStr: String): ExpandTextView {
-        this.expandStr = expandStr
-        return this
-    }
 
     fun show(expandTextView: TextView, content: String) {
+        initDefaultSetting()
 
         // 裁剪函数来去除前导空格
         expandTextView.text = content.trimIndent()
@@ -105,5 +111,6 @@ class ExpandTextView(var context: Context) {
             expandTextView.text = content
             expandTextView.setOnClickListener(null)
         }
+        this.content = content
     }
 }

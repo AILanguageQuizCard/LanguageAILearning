@@ -123,4 +123,7 @@
     <string name="chat_review_top_view_title"> Quiz Card Lists</string>
 
     <string name="train_card_add_to_review_set_successfully"> Add successfully! </string>
+
+    <string name="expand_text_view_expandStr">Unfold</string>
+    <string name="expand_text_view_foldStr">Fold</string>
 </resources>
