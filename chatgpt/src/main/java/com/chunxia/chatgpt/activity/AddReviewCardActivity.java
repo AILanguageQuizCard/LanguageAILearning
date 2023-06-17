@@ -76,7 +76,7 @@ public class AddReviewCardActivity extends AppCompatActivity {
 
     private void setResult() {
         Intent resultIntent = new Intent();
-        SentenceCard sentenceCard = new SentenceCard(answer, question);
+        SentenceCard sentenceCard = new SentenceCard(answer, question, topic);
         if (!editedSentencesCards.contains(sentenceCard)){
             editedSentencesCards.add(sentenceCard);
         }
@@ -95,16 +95,11 @@ public class AddReviewCardActivity extends AppCompatActivity {
                 if (topic == null || topic.isEmpty()) {
                     topic = "default";
                 }
-                SentenceCard oldCard = new SentenceCard(answer, question);
-                SentenceCard newCard = new SentenceCard(newAnswer, newQuestion);
+                SentenceCard oldCard = new SentenceCard(answer, question, topic);
+                SentenceCard newCard = new SentenceCard(newAnswer, newQuestion, topic);
 
-                if (ReviewCardManager.getInstance().sentenceCardExistsInTopicReviewSets(topic, oldCard) ) {
-                    ReviewCardManager.getInstance().editOneSentenceCardInTopicReviewSets(topic,
-                            oldCard,
-                            newCard);
-                } else {
-                    ReviewCardManager.getInstance().addOneSentenceCardInTopicReviewSets(topic, newCard);
-                }
+                ReviewCardManager.getInstance().addOneSentenceCardInTopicReviewSets(topic, oldCard, newCard);
+
                 answer = newAnswer;
                 question = newQuestion;
 

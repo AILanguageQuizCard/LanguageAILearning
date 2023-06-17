@@ -32,10 +32,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/review_card_list_view_number2"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="8dp"
         android:text="123"
         android:maxLines="1"
-        android:textColor="@android:color/black"
+        android:textColor="@color/green_600"
         android:textSize="18sp" />
 
     <TextView
@@ -47,10 +47,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/review_card_list_view_number3"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="8dp"
         android:text="234"
         android:maxLines="1"
-        android:textColor="@android:color/black"
+        android:textColor="@color/yellow_300"
         android:textSize="18sp" />
 
     <TextView
@@ -65,7 +65,7 @@
         android:layout_marginRight="8dp"
         android:text="9999"
         android:maxLines="1"
-        android:textColor="@android:color/black"
+        android:textColor="@color/red_500"
         android:textSize="18sp" />
 
 </merge>

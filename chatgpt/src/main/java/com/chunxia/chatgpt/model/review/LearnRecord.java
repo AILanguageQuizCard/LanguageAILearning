@@ -11,7 +11,11 @@ import java.util.concurrent.TimeUnit;
 public class LearnRecord implements Parcelable {
     private static final int[] REVIEW_SCHEDULE = {1, 5, 15};  // Review schedule in days
 
-    private List<ReviewRecord> reviewRecordList;
+    private List<ReviewRecord> reviewRecordList = new ArrayList<>();
+
+    public LearnRecord() {
+    }
+
 
     public List<ReviewRecord> getReviewRecordList() {
         return reviewRecordList;
@@ -36,6 +40,11 @@ public class LearnRecord implements Parcelable {
         GOOD,
         BAD
     }
+
+    // todo 复习系统到底应该怎么设计？
+//    public boolean reviewed() {
+//        return !reviewRecordList.isEmpty();
+//    }
 
     public boolean shouldReview() {
         if (reviewRecordList.isEmpty()) {
@@ -95,8 +104,6 @@ public class LearnRecord implements Parcelable {
         source.readList(this.reviewRecordList, ReviewRecord.class.getClassLoader());
     }
 
-    public LearnRecord() {
-    }
 
     protected LearnRecord(Parcel in) {
         this.reviewRecordList = new ArrayList<ReviewRecord>();

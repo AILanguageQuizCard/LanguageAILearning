@@ -58,6 +58,14 @@ public class ReviewCardManager {
         saveAllReviewData();
     }
 
+    public void addOneSentenceCardInTopicReviewSets(String topic, SentenceCard oldCard, SentenceCard newCard) {
+        if (sentenceCardExistsInTopicReviewSets(topic, oldCard)) {
+            editOneSentenceCardInTopicReviewSets(topic, oldCard, newCard);
+        } else {
+            addOneSentenceCardInTopicReviewSets(topic, newCard);
+        }
+    }
+
     public void editOneSentenceCardInTopicReviewSets(String topic, SentenceCard oldCard, SentenceCard newCard){
         allReviewData.editOneSentenceCardInTopicReviewSets(topic, oldCard, newCard);
         saveAllReviewData();
@@ -131,6 +139,5 @@ public class ReviewCardManager {
     public SentenceCard getEditedSentenceCard() {
         return editedSentenceCard;
     }
-
 
 }

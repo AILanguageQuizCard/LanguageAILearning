@@ -3,7 +3,6 @@ package com.chunxia.chatgpt.chatapi;
 import android.util.Log;
 
 import com.blankj.utilcode.util.ThreadUtils;
-import com.chunxia.chatgpt.model.review.LearnRecord;
 import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.theokanning.openai.completion.chat.ChatCompletionChoice;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;

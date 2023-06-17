@@ -5,8 +5,6 @@ import android.util.Log;
 import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.mmkv.MMKVConstant;
 import com.chunxia.chatgpt.model.review.SentenceCard;
-import com.chunxia.chatgpt.model.review.LearnRecord;
-import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
 
 import java.util.ArrayList;

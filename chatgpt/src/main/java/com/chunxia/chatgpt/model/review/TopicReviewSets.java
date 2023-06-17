@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import io.reactivex.annotations.NonNull;
 
@@ -25,6 +26,41 @@ public class TopicReviewSets implements Parcelable {
     public TopicReviewSets(String topic) {
         this.topic = topic;
         sentenceCardList = new ArrayList<>();
+    }
+
+    public static class ReviewData {
+        public int reviewedNumber;
+        public int unReviewedNumber;
+        public int reviewingNumber;
+
+        public ReviewData(int unReviewedNumber,int reviewingNumber, int reviewedNumber) {
+            this.reviewedNumber = reviewedNumber;
+            this.unReviewedNumber = unReviewedNumber;
+            this.reviewingNumber = reviewingNumber;
+        }
+    }
+
+    public ReviewData getReviewNumber() {
+        AtomicInteger reviewedNumber = new AtomicInteger();
+        AtomicInteger unReviewedNumber = new AtomicInteger();
+        AtomicInteger reviewingNumber = new AtomicInteger();
+
+        sentenceCardList.stream().forEach(sentenceCard -> {
+            int reviewLevel = sentenceCard.getReviewLevel();
+            switch (reviewLevel) {
+                case  0:
+                    unReviewedNumber.getAndIncrement();
+                    break;
+                case 1:
+                    reviewingNumber.getAndIncrement();
+                    break;
+                case  2:
+                    reviewedNumber.getAndIncrement();
+                    break;
+            }
+        });
+        return new ReviewData(unReviewedNumber.get(),reviewingNumber.get(),reviewedNumber.get());
+
     }
 
     public void update() {
@@ -63,7 +99,7 @@ public class TopicReviewSets implements Parcelable {
     }
 
     public void addOneSentenceCard(SentenceCard sentenceCard) {
-        if(sentenceCardList == null || sentenceCard == null) return;
+        if (sentenceCardList == null || sentenceCard == null) return;
         sentenceCardList.add(sentenceCard);
     }
 

@@ -26,10 +26,29 @@ class SentenceCard() : Parcelable {
     constructor(sentence: String?, translation: String?) : this() {
         this.sentence = sentence
         this.translation = translation
+        this.learnRecord = LearnRecord()
     }
 
+    constructor(sentence: String, translation: String, topic: String) : this() {
+        this.sentence = sentence
+        this.translation = translation
+        this.learnRecord = LearnRecord()
+        this.topic = topic
+    }
+
+
     fun shouldReviewNow(): Boolean {
-        return if (learnRecord == null) false else learnRecord!!.shouldReview()
+        return if (learnRecord == null) true else learnRecord!!.shouldReview()
+    }
+
+    fun getReviewLevel(): Int {
+        return if (learnRecord == null || learnRecord!!.reviewRecordList == null || learnRecord!!.reviewRecordList!!.isEmpty()) {
+            0
+        } else if (learnRecord!!.shouldReview()) {
+            1
+        } else {
+            2
+        }
     }
 
 

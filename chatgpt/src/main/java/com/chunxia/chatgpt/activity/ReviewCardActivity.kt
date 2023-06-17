@@ -19,6 +19,7 @@ import com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_EDIT
 import com.chunxia.chatgpt.adapter.review.ReviewCardStackAdapter
 import com.chunxia.chatgpt.adapter.review.ReviewCardView
 import com.chunxia.chatgpt.common.XLIntent
+import com.chunxia.chatgpt.model.review.LearnRecord
 import com.chunxia.chatgpt.model.review.ReviewCardManager
 import com.chunxia.chatgpt.model.review.SentenceCard
 import com.chunxia.chatgpt.model.review.TopicReviewSets
@@ -148,6 +149,13 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
                 .build()
             manager.setSwipeAnimationSetting(setting)
             cardStackView.swipe()
+            getTopSentenceCard().let {
+                if (it.learnRecord == null) {
+                    it.learnRecord = LearnRecord()
+                }
+                it.learnRecord?.addBadReview()
+            }
+            ReviewCardManager.getInstance().saveAllReviewData()
         }
 
         val rewind = findViewById<View>(R.id.rewind_button)
@@ -170,6 +178,13 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
                 .build()
             manager.setSwipeAnimationSetting(setting)
             cardStackView.swipe()
+            getTopSentenceCard().let {
+                if (it.learnRecord == null) {
+                    it.learnRecord = LearnRecord()
+                }
+                it.learnRecord?.addGoodReview()
+            }
+            ReviewCardManager.getInstance().saveAllReviewData()
         }
     }
 
@@ -294,7 +309,5 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
         topicReviewSets?.update()
     }
-
-
 
 }

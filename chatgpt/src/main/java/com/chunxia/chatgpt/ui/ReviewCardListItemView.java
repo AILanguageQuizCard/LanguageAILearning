@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.chunxia.chatgpt.R;
 
-public class ReviewCardListView extends ConstraintLayout {
+public class ReviewCardListItemView extends ConstraintLayout {
 
     private TextView topicView;
 
@@ -21,15 +21,15 @@ public class ReviewCardListView extends ConstraintLayout {
     private TextView reviewedCountView;
 
 
-    public ReviewCardListView(Context context) {
+    public ReviewCardListItemView(Context context) {
         this(context, null);
     }
 
-    public ReviewCardListView(Context context, AttributeSet attrs) {
+    public ReviewCardListItemView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ReviewCardListView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ReviewCardListItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context, attrs);
     }

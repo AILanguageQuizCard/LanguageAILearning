@@ -24,7 +24,7 @@ import com.chunxia.chatgpt.model.review.AllReviewData;
 import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.model.review.TopicReviewSets;
 import com.chunxia.chatgpt.tools.Tools;
-import com.chunxia.chatgpt.ui.ReviewCardListView;
+import com.chunxia.chatgpt.ui.ReviewCardListItemView;
 import com.chunxia.chatgpt.ui.SettingItemView;
 
 
@@ -75,7 +75,13 @@ public class ChatGptReviewFragment extends Fragment {
         initStartReviewButton();
         addYourOwnCardButton = root.findViewById(R.id.add_your_own_review_card_view);
         initAddYourOwnCardButton();
+        initReviewListViews();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // todo 优化 全部刷新太耗时，只应该刷新修改的部分
         initReviewListViews();
     }
 
@@ -88,10 +94,14 @@ public class ChatGptReviewFragment extends Fragment {
         Activity activity = getActivity();
 
         LinearLayout container = root.findViewById(R.id.fragment_review_cards_container);
-        for (int i = 0; i < size; i++) {
-            String topic = allReviewData.getTopicReviewSetsList().get(i).getTopic();
+        container.removeViews(3, container.getChildCount() - 3);
 
-            ReviewCardListView reviewCardListView = new ReviewCardListView(activity);
+        for (int i = 0; i < size; i++) {
+            TopicReviewSets tempTopicReviewSets = allReviewData.getTopicReviewSetsList().get(i);
+            TopicReviewSets.ReviewData reviewData = tempTopicReviewSets.getReviewNumber();
+            String topic = tempTopicReviewSets.getTopic();
+
+            ReviewCardListItemView reviewCardListItemView = new ReviewCardListItemView(activity);
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, // 宽度
@@ -100,11 +110,14 @@ public class ChatGptReviewFragment extends Fragment {
 
             int margin = Tools.dip2px(activity, 10); // 将 dp 转换为像素
             layoutParams.setMargins(margin, margin, margin, 0);
-            reviewCardListView.setBackground(getResources().getDrawable(R.drawable.pay_view_blue, null));
-            reviewCardListView.setTopic(topic);
-            container.addView(reviewCardListView, layoutParams);
+            reviewCardListItemView.setBackground(getResources().getDrawable(R.drawable.pay_view_blue, null));
+            reviewCardListItemView.setTopic(topic);
+            reviewCardListItemView.setUnReviewCount(reviewData.unReviewedNumber);
+            reviewCardListItemView.setReviewingCount(reviewData.reviewingNumber);
+            reviewCardListItemView.setReviewedCount(reviewData.reviewedNumber);
+            container.addView(reviewCardListItemView, layoutParams);
 
-            reviewCardListView.setOnClickListener(new View.OnClickListener() {
+            reviewCardListItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -121,6 +134,4 @@ public class ChatGptReviewFragment extends Fragment {
             });
         }
     }
-
-
 }
