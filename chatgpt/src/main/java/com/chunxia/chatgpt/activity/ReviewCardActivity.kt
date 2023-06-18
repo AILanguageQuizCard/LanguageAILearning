@@ -82,6 +82,27 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
     override fun onCardSwiped(direction: Direction) {
         Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
+        // todo
+        if (direction == Direction.Right) {
+            getTopSentenceCard().let {
+                if (it.learnRecord == null) {
+                    it.learnRecord = LearnRecord()
+                }
+                it.learnRecord?.addGoodReview()
+            }
+            ReviewCardManager.getInstance().saveAllReviewData()
+
+        } else if (direction == Direction.Left) {
+            getTopSentenceCard().let {
+                if (it.learnRecord == null) {
+                    it.learnRecord = LearnRecord()
+                }
+                it.learnRecord?.addBadReview()
+            }
+            ReviewCardManager.getInstance().saveAllReviewData()
+
+        }
+
         if (manager.topPosition == adapter.itemCount) {
             paginate()
         }
