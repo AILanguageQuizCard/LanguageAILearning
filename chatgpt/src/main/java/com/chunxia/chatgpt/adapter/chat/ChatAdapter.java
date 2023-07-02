@@ -56,6 +56,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<ChoosedItem> choosedItems = new ArrayList<>();
     private ArrayList<RecyclerView.ViewHolder> viewHolders = new ArrayList<>();
 
+    public void clearHolders() {
+        viewHolders.clear();
+    }
+
 
     private boolean shouldShowHiddenView = false;
 

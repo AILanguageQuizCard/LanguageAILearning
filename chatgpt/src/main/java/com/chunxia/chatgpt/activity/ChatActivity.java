@@ -285,6 +285,7 @@ public class ChatActivity extends AppCompatActivity {
                 ArrayList<Message> items = new ArrayList<>();
                 items.add(initialMessage);
                 adapter.setItems(items);
+                adapter.clearHolders();
                 for (String audioKey : KVUtils.get().getAllKeys()) {
                     if (audioKey.contains(chatMode)) {
                         KVUtils.get().remove(audioKey);
