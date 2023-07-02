@@ -28,11 +28,11 @@ import com.chunxia.chatgpt.model.message.VoiceMessage;
 import com.chunxia.chatgpt.texttovoice.Text2VoiceModel;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.voicerecord.models.Events;
+import com.chunxia.mmkv.KVUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -54,14 +54,18 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private ArrayList<ChoosedItem> choosedItems = new ArrayList<>();
+    private ArrayList<RecyclerView.ViewHolder> viewHolders = new ArrayList<>();
 
 
     private boolean shouldShowHiddenView = false;
 
     private final Application application;
+    private final String chatMode;
+    private int voicePlayingIndex = -1;
 
-    public ChatAdapter(Application app) {
+    public ChatAdapter(Application app, String chatMode) {
         application = app;
+        this.chatMode = chatMode;
     }
 
 
@@ -72,13 +76,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewType == Constant.CHAT_ME) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_chatgpt_me, parent, false);
             vh = new ChatItemViewHolder(v, viewType);
-        } else if ( viewType == Constant.CHAT_YOU){
+        } else if (viewType == Constant.CHAT_YOU) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_chaggpt_you, parent, false);
             vh = new ChatItemViewHolder(v, viewType);
         } else if (viewType == Constant.CHAT_ME_VOICE) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_voice_message, parent, false);
             vh = new VoiceMessageItemViewHolder(v);
         }
+        viewHolders.add(vh);
         return vh;
     }
 
@@ -116,7 +121,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-    public ArrayList<ChoosedItem> getChoosedItems(){
+    public ArrayList<ChoosedItem> getChoosedItems() {
         return choosedItems;
     }
 
@@ -128,7 +133,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.chooseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(holder.selected) {
+                    if (holder.selected) {
                         holder.chooseButton.setImageResource(R.drawable.ic_select3);
                         holder.selected = false;
                         ChoosedItem item = new ChoosedItem(position, holder.textContentView.getText().toString());
@@ -250,57 +255,90 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    public void stopPlayingVoice() {
+        if (voicePlayingIndex != -1) {
+            ChatItemViewHolder lastPlayingItem = (ChatItemViewHolder) viewHolders.get(voicePlayingIndex);
+            lastPlayingItem.getText2VoiceModel().stop();
+            lastPlayingItem.playVoiceButton.setImageResource(R.drawable.ic_play_arrow);
+            lastPlayingItem.voiceStatus = VOICE_PAUSED;
+        }
+    }
 
     void setOnClickPlayVoiceButton(ChatItemViewHolder vItem, Message m) {
         if (vItem.playVoiceButton != null) {
             vItem.playVoiceButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    int currentIndex = vItem.getBindingAdapterPosition();
                     if (!(m instanceof TextMessage)) {
                         return;
                     }
-
-                    if(vItem.voiceStatus == VOICE_INITIAL) {
-
+                    StringBuilder builder = new StringBuilder();
+                    String audioKey = chatMode + "_" + String.valueOf(currentIndex) + KVUtils.audioVoiceKVSeparator;
+                    String realS = ((TextMessage) m).getContent().replace("。", ",");
+                    builder.append(audioKey).append(realS);
+                    String audioVoiceKV = builder.toString();
+                    MediaPlayer.OnCompletionListener comletionCallback = new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            vItem.playVoiceButton.setImageResource(R.drawable.ic_play_arrow);
+                            vItem.voiceStatus = VOICE_PAUSED;
+                            voicePlayingIndex = -1;
+                        }
+                    };
+                    if (vItem.voiceStatus == VOICE_INITIAL) {
                         // google cloud 的文字转语音模型，读中文的时候，会把最后的句号读出来，所以，直接把句号替换成逗号
-                        String realS =((TextMessage) m).getContent().replace("。", ",");
-                        MediaPlayer.OnCompletionListener comletionCallback = new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                vItem.playVoiceButton.setImageResource(R.drawable.ic_play_arrow);
-                                vItem.voiceStatus = VOICE_INITIAL;
-                            }
-                        };
-                        // todo 已经从google cloud获取到语音的，不需要再次请求
-                        vItem.getText2VoiceModel().onSpeak(realS, comletionCallback, new CompletableObserver() {
+                        // todo 已经从google cloud获取到语音的，不需要再次请求(complete)
+                        stopPlayingVoice();
+                        voicePlayingIndex = currentIndex;
+                        vItem.getText2VoiceModel().onSpeak(audioVoiceKV, comletionCallback, new CompletableObserver() {
                             @Override
                             public void onSubscribe(@NonNull Disposable d) {
                             }
 
                             @Override
                             public void onComplete() {
-                                Log.i(TAG, "speak success");
+                                Log.i(TAG, "audio init success and start playing");
                             }
 
                             @Override
                             public void onError(@NonNull Throwable e) {
                                 Log.e(TAG, "Speak failed", e);
                             }
-                        } );
+                        });
                         vItem.playVoiceButton.setImageResource(R.drawable.ic_pause_black);
                         vItem.voiceStatus = VOICE_PLAYING;
-
-                    } else if ( vItem.voiceStatus == VOICE_PLAYING) {
+                    } else if (vItem.voiceStatus == VOICE_PLAYING) {
                         vItem.playVoiceButton.setImageResource(R.drawable.ic_play_arrow);
                         vItem.voiceStatus = VOICE_PAUSED;
                         vItem.getText2VoiceModel().pause();
-
                     } else if (vItem.voiceStatus == VOICE_PAUSED) {
                         vItem.playVoiceButton.setImageResource(R.drawable.ic_pause_black);
                         vItem.voiceStatus = VOICE_PLAYING;
-                        vItem.getText2VoiceModel().resume();
-                    }
+                        if (voicePlayingIndex != currentIndex) {
+                            if (voicePlayingIndex != -1) {
+                                stopPlayingVoice();
+                            }
+                            voicePlayingIndex = currentIndex;
+                            vItem.getText2VoiceModel().onSpeak(audioVoiceKV, comletionCallback, new CompletableObserver() {
+                                @Override
+                                public void onSubscribe(@NonNull Disposable d) {
+                                }
 
+                                @Override
+                                public void onComplete() {
+                                    Log.i(TAG, "audio loaded");
+                                }
+
+                                @Override
+                                public void onError(@NonNull Throwable e) {
+                                    Log.e(TAG, "Speak failed", e);
+                                }
+                            });
+                        } else {
+                            vItem.getText2VoiceModel().resume();
+                        }
+                    }
                 }
             });
         }

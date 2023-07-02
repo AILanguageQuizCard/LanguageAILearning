@@ -44,6 +44,7 @@ import com.chunxia.chatgpt.model.message.TextMessage;
 import com.chunxia.chatgpt.model.message.VoiceMessage;
 
 import com.chunxia.chatgpt.voicerecord.models.Events;
+import com.chunxia.mmkv.KVUtils;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -130,7 +131,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void requestAudio() {
-        if (XXPermissions.isGranted(ChatActivity.this, Permission.RECORD_AUDIO) ) {
+        if (XXPermissions.isGranted(ChatActivity.this, Permission.RECORD_AUDIO)) {
             jump2AudioRecord();
             return;
         }
@@ -255,7 +256,7 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        adapter = new ChatAdapter(getApplication());
+        adapter = new ChatAdapter(getApplication(), chatMode);
         recyclerView.setAdapter(adapter);
         // todo 将初始message换成选择要输入的话
         setAdapterItems(startWords);
@@ -284,6 +285,11 @@ public class ChatActivity extends AppCompatActivity {
                 ArrayList<Message> items = new ArrayList<>();
                 items.add(initialMessage);
                 adapter.setItems(items);
+                for (String audioKey : KVUtils.get().getAllKeys()) {
+                    if (audioKey.contains(chatMode)) {
+                        KVUtils.get().remove(audioKey);
+                    }
+                }
             }
         });
     }
@@ -315,6 +321,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        this.adapter.stopPlayingVoice();
         EventBus.getDefault().unregister(this);
         multiRoundChatAgent.cancelAllCurrentThread();
         MessageManager.getInstance().saveMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode), adapter.getItems());

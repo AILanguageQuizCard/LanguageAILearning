@@ -277,7 +277,7 @@ public class OneRoundChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        adapter = new ChatAdapter(getApplication());
+        adapter = new ChatAdapter(getApplication(), chatMode);
         recyclerView.setAdapter(adapter);
         // todo 将初始message换成选择要输入的话
         setAdapterItems(startWords);

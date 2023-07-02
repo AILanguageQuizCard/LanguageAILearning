@@ -98,6 +98,10 @@ public class Text2VoiceModel extends AndroidViewModel {
         mGoogleCloudTTS.resume();
     }
 
+    public void stop() {
+        mGoogleCloudTTS.stop();
+    }
+
 
     public void dispose() {
         mGoogleCloudTTS.close();

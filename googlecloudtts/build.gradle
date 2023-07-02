@@ -20,7 +20,7 @@ android {
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
 
-            buildConfigField "String", "API_KEY", "\"AIzaSyBjq-sz5NWbHW-J9Xq4HLYcu0h0hkANGvs\""
+            buildConfigField "String", "API_KEY", "\"AIzaSyCjf4FV8wK5NH5igEa9fzb5TNPJlT79shg\""
         }
         release {
             minifyEnabled false
@@ -40,6 +40,7 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     implementation 'com.google.code.gson:gson:2.10.1'
+    implementation project(path: ':mmkv')
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.json:json:20180813'

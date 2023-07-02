@@ -1,7 +1,12 @@
 package darren.googlecloudtts;
 
 import android.media.MediaPlayer;
+import android.util.Log;
+
+import com.chunxia.mmkv.KVUtils;
+
 import java.io.IOException;
+
 import darren.googlecloudtts.api.SynthesizeApi;
 import darren.googlecloudtts.api.VoicesApi;
 import darren.googlecloudtts.model.VoicesList;
@@ -71,21 +76,27 @@ public class GoogleCloudTTS implements AutoCloseable {
             throw new NullPointerException("You forget to setAudioConfig()");
         }
 
-        SynthesizeRequest request = new SynthesizeRequest(new SynthesisInput(text), mVoiceSelectionParams, mAudioConfig);
-
-        try {
-            SynthesizeResponse response = mSynthesizeApi.get(request);
-            playAudio(response.getAudioContent(), completionListener);
-        } catch (Exception e) {
-            throw new ApiException(e);
+        int separatorIdx = text.indexOf(KVUtils.audioVoiceKVSeparator);
+        String audioKey = text.substring(0, separatorIdx);
+        String audioText = text.substring(separatorIdx + 1);
+        if (!KVUtils.get().contains(audioKey)) {
+            try {
+                initAudio(audioKey, audioText);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        try {
+            loadAudio(KVUtils.get().getString(audioKey), completionListener);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void stop() {
         if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
             mMediaPlayer.stop();
-            mMediaPlayer.reset();
-            mVoiceLength = -1;
         }
     }
 
@@ -103,10 +114,21 @@ public class GoogleCloudTTS implements AutoCloseable {
         }
     }
 
-    private void playAudio(String base64EncodedString, MediaPlayer.OnCompletionListener completionListener) throws IOException {
-        stop();
+    private void initAudio(String audioKey, String audioText) throws IOException {
+        SynthesizeRequest request = new SynthesizeRequest(new SynthesisInput(audioText), mVoiceSelectionParams, mAudioConfig);
+        try {
+            SynthesizeResponse response = mSynthesizeApi.get(request);
+            String url = "data:audio/mp3;base64," + response.getAudioContent();
+            KVUtils.get().putString(audioKey, url);
+        } catch (Exception e) {
+            throw new ApiException(e);
+        }
+    }
 
-        String url = "data:audio/mp3;base64," + base64EncodedString;
+
+    private void loadAudio(String url, MediaPlayer.OnCompletionListener completionListener) throws IOException {
+        stop();
+        Log.d("GoogleCloudTTS", "loadCachedAudio: " + url);
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setOnCompletionListener(completionListener);
         mMediaPlayer.setDataSource(url);

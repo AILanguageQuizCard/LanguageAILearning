@@ -34,6 +34,8 @@ public class KVUtils {
      */
     private boolean migrate;
 
+    public static final String audioVoiceKVSeparator = "π";
+
     private KVUtils() {
     }
 
@@ -108,7 +110,7 @@ public class KVUtils {
         return mmkv;
     }
 
-    public boolean encode(String key,  String value) {
+    public boolean encode(String key, String value) {
         return getMMKV().encode(key, value);
     }
 
@@ -123,7 +125,7 @@ public class KVUtils {
 
 
     public String decodeString(String key, String defaultValue) {
-        return getMMKV().decodeString(key, defaultValue );
+        return getMMKV().decodeString(key, defaultValue);
     }
 
 
@@ -310,5 +312,9 @@ public class KVUtils {
 
     public boolean contains(String name, String key) {
         return getMMKV(name).contains(key);
+    }
+
+    public String[] getAllKeys() {
+        return getMMKV().allKeys();
     }
 }
