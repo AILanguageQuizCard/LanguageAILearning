@@ -79,8 +79,6 @@ dependencies {
 
     // 用于设置状态栏
     implementation "androidx.core:core-ktx:1.10.0"
-    // 数据持久化方案，使用微信出的mmkv
-    implementation 'com.tencent:mmkv:1.2.15'
 
     implementation 'com.mikhaellopez:circularimageview:3.2.0'          // circle image view
 
@@ -117,6 +115,7 @@ dependencies {
     implementation project(path: ':app')
     implementation project(path: ':deepl')
     implementation project(path: ':cardstackview')
+    implementation project(path: ':mmkv')
 
     // 录音功能
     implementation 'com.github.SimpleMobileTools:Simple-Commons:8bcb4d3851'

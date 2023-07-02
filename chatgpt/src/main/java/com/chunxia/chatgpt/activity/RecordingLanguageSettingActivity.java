@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.settingItem.RecordingLanguageSettingAdapter;
 import com.chunxia.chatgpt.adapter.settingItem.SettingInfo;
-import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.mmkv.MMKVConstant;
 import com.chunxia.chatgpt.voicerecord.voicetotext.GoogleVoiceToTextLanguageTools;
+import com.chunxia.mmkv.KVUtils;
 
 import java.util.ArrayList;
 
@@ -55,7 +55,7 @@ public class RecordingLanguageSettingActivity extends AppCompatActivity {
 
     private ArrayList<SettingInfo> getLanguageData() {
         ArrayList<SettingInfo> arrayList = new ArrayList<>();
-        String setLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY,
+        String setLanguage = KVUtils.get().getString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY,
                 MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
         ArrayList<GoogleVoiceToTextLanguageTools.GoogleVoiceToTextLanguage> googleLanguages =

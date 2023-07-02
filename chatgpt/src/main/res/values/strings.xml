@@ -28,12 +28,12 @@
     <string name="topic_training_description_4">Provide us with a grammar topic, such as subjunctive mood, and we will give you examples for your study.</string>
 
 
-    <string name = "sentence_pattern_hint_question">Please enter the sentence pattern</string>
-    <string name = "grammar_hint_question">Please enter the grammar</string>
+    <string name="sentence_pattern_hint_question">Please enter the sentence pattern</string>
+    <string name="grammar_hint_question">Please enter the grammar</string>
 
-    <string name = "opinion_training_hint_question">Please enter your opinion</string>
+    <string name="opinion_training_hint_question">Please enter your opinion</string>
 
-    <string name = "sentence_pattern_training_hint_question">Please enter the sentence pattern</string>
+    <string name="sentence_pattern_training_hint_question">Please enter the sentence pattern</string>
 
     <string name="setting_item_voice_language_name">Voice Language</string>
 

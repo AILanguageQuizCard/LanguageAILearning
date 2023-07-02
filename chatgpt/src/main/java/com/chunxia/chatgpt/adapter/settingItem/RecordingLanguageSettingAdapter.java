@@ -9,9 +9,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chunxia.chatgpt.R;
-import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.mmkv.MMKVConstant;
 import com.chunxia.chatgpt.ui.LanguageItemView;
+import com.chunxia.mmkv.KVUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +77,7 @@ public class RecordingLanguageSettingAdapter extends RecyclerView.Adapter<Recycl
             settingItemViewHolder.setLanguage(settingInfo.getTitle());
             if (settingInfo.isChoosed()) {
                 settingItemViewHolder.setChooseViewVisible(true);
-                CXMMKV.getInstance().getMMKV().putString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY, settingInfo.getTitle());
+                KVUtils.get().putString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY, settingInfo.getTitle());
             } else {
                 settingItemViewHolder.setChooseViewVisible(false);
             }

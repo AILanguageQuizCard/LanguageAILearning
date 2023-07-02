@@ -68,5 +68,4 @@ dependencies {
     implementation 'com.google.android:flexbox:0.3.2'                  // google flexible box
     implementation 'com.crystal:crystalrangeseekbar:1.1.3'             // range seek bar
 
-
 }

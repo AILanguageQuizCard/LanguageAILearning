@@ -1,7 +1,7 @@
 package com.chunxia.chatgpt.model.message;
 
-import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.mmkv.MessageTypeAdapter;
+import com.chunxia.mmkv.KVUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -35,11 +35,11 @@ public class MessageManager {
                 .registerTypeAdapter(Message.class, new MessageTypeAdapter())
                 .create();
         String json = gson.toJson(messages);
-        CXMMKV.getInstance().getMMKV().encode(key, json);
+        KVUtils.get().encode(key, json);
     }
 
     public ArrayList<Message> loadMessages(String key) {
-        String json = CXMMKV.getInstance().getMMKV().decodeString(key, "");
+        String json = KVUtils.get().decodeString(key, "");
         if (json!= null && json.isEmpty()) {
             return new ArrayList<>();
         }

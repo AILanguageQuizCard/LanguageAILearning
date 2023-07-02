@@ -8,10 +8,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.mmkv.MMKVConstant;
-import com.chunxia.deepl.DeepLAPIKey;
-import com.chunxia.deepl.DeepLTranslator;
+import com.chunxia.mmkv.KVUtils;
 
 import darren.googlecloudtts.GoogleCloudTTS;
 import darren.googlecloudtts.GoogleCloudTTSFactory;
@@ -50,7 +48,7 @@ public class Text2VoiceModel extends AndroidViewModel {
     }
 
     private void init() {
-        String setLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY, MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
+        String setLanguage = KVUtils.get().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY, MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
         String languageCode = TextToVoiceSetting.getLanguageCode(getApplication(), setLanguage);
         String voiceName = TextToVoiceSetting.getVoiceName(getApplication(), setLanguage);

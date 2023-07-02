@@ -16,81 +16,63 @@
         tools:node="remove" />
 
     <application
-        android:name="com.chunxia.chatgpt.common.XLApplication"
+        android:name=".common.XLApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
         <activity
-            android:name="com.chunxia.chatgpt.voicerecord.VoiceRecordActivity"
-            android:exported="false">
-        </activity>
-
+            android:name=".activity.SubscribeActivity"
+            android:exported="false" />
         <activity
-            android:name="com.chunxia.chatgpt.activity.ChatActivity"
+            android:name=".voicerecord.VoiceRecordActivity"
+            android:exported="false"></activity>
+        <activity
+            android:name=".activity.ChatActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.chunxia.chatgpt.activity.OneRoundChatActivity"
+            android:name=".activity.OneRoundChatActivity"
             android:screenOrientation="portrait" />
-
-
         <activity
-            android:name="com.chunxia.chatgpt.subscription.SubscriptionActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
-
+            android:name=".subscription.SubscriptionActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.chunxia.chatgpt.activity.RecordingLanguageSettingActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:name=".activity.RecordingLanguageSettingActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.chunxia.chatgpt.activity.VoiceLanguageSettingActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:name=".activity.VoiceLanguageSettingActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.chunxia.chatgpt.activity.OpinionTrainingActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:name=".activity.OpinionTrainingActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.chunxia.chatgpt.activity.AddReviewCardActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:name=".activity.AddReviewCardActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.chunxia.chatgpt.activity.TopicTrainingCardActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:name=".activity.TopicTrainingCardActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.chunxia.chatgpt.activity.TopicTrainingActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:name=".activity.TopicTrainingActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.chunxia.chatgpt.activity.ReviewCardActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:name=".activity.ReviewCardActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.chunxia.chatgpt.activity.BottomNavigationLightActivity"
+            android:name=".activity.BottomNavigationLightActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <service
-            android:name="com.chunxia.chatgpt.voicerecord.services.RecorderService"
+            android:name=".voicerecord.services.RecorderService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.example.chatgpt.action.GET_RECORDER_INFO" />
@@ -98,8 +80,6 @@
                 <action android:name="com.example.chatgpt.action.TOGGLE_PAUSE" />
             </intent-filter>
         </service>
-
-
     </application>
 
 </manifest>

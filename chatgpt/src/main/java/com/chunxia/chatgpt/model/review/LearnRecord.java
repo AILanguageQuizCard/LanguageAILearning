@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+
+// todo 三个剩余重要的部分 收入系统 教学 安全
 public class LearnRecord implements Parcelable {
     private static final int[] REVIEW_SCHEDULE = {1, 5, 15};  // Review schedule in days
 

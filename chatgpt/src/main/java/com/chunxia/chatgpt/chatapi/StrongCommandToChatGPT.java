@@ -40,6 +40,12 @@ public class StrongCommandToChatGPT {
 
     public static final String TOPIC_TRAINING_PROMPT =
             "I am learning about the topic '%s' in %s. Can you provide me with %d authentic sentences and its %s translation. For every pair of sentence and its translation, start with its count number and end with line break. And using %s %s to label translation. One example: \"1. sentence in %s. [the corresponding %s translation]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program. ";
+
+
+    public static final String TOPIC_TRAINING_PROMPT2 =
+            "provide me with %d authentic sentences about '%s' in %s and its %s translation. For every pair of sentence and its translation, start with its count number and end with line break. ";
+
+
     public  static final String LEFT_KUOHAO = "[";
     public  static final String RIGHT_KUOHAO = "]";
 
@@ -51,8 +57,17 @@ public class StrongCommandToChatGPT {
         return result;
     }
 
+    public static String getCompleteTopicTrainingPrompt2(String topic, String language, String motherLanguage, int num) {
+        String result =  String.format(Locale.getDefault(), TOPIC_TRAINING_PROMPT2,
+                 num, topic, language, motherLanguage);
+        Log.i(TAG, result);
+        return result;
+    }
+
+    // todo 过长文本如何处理，页面设计上，应该要兼容过长文本，直接固定答案字体，如果答案过长，就往下扩展
+    // todo 一句一句生成效果会比一起生成五句好？
     public static final String TOPIC_TRAINING_QUESTION_PROMPT =
-            "I am learning about the topic '%s' in %s. Can you provide me with %d oral practice questions for students on the topic and your answer of these questions. For every pair of question and its answer, start with its count number and end with line break. And using %s %s to label answer. One example: \"1. question [your answer]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program.";
+            "I am learning about the topic '%s' in %s. Can you provide me with %d oral practice questions for students on the topic and your answer of these questions. For every pair of question and its answer, start with its count number and end with line break. And using %s %s to label answer. One example: \"1. question [your answer]\".";
 
     public static String getCompleteTopicTrainingQuestionPrompt(String topic, String language, String motherLanguage, int num) {
         String result =  String.format(Locale.getDefault(), TOPIC_TRAINING_QUESTION_PROMPT, topic, language, num, LEFT_KUOHAO, RIGHT_KUOHAO);

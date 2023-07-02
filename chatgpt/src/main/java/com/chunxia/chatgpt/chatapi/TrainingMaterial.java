@@ -2,10 +2,10 @@ package com.chunxia.chatgpt.chatapi;
 
 import android.util.Log;
 
-import com.chunxia.chatgpt.mmkv.CXMMKV;
 import com.chunxia.chatgpt.mmkv.MMKVConstant;
 import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
+import com.chunxia.mmkv.KVUtils;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
@@ -35,19 +35,19 @@ public class TrainingMaterial {
     public TrainingMaterial(int sentenceN, int questionN) {
         this.sentenceN = sentenceN;
         this.questionN = questionN;
-        this.motherLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY,
+        this.motherLanguage = KVUtils.get().getString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY,
                 MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
-        this.learningLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
+        this.learningLanguage = KVUtils.get().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
                 MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
     }
 
     public TrainingMaterial(){
-        this.motherLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY,
+        this.motherLanguage = KVUtils.get().getString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY,
                 MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
-        this.learningLanguage = CXMMKV.getInstance().getMMKV().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
+        this.learningLanguage = KVUtils.get().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
                 MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
     }
@@ -94,6 +94,42 @@ public class TrainingMaterial {
                             }
                         });
     }
+
+    public void prepareData2(String topic, ReceiveTrainMaterialCallback callback) {
+        Observable<String> stringObservable = getTrainingSentencesObservable(topic).subscribeOn(Schedulers.io());
+        Observable<String> stringObservable1 = getTrainingQuestionAndAnswerObservable(topic).subscribeOn(Schedulers.io());
+        // todo make sure these two requests happen at the same time.
+        // todo how to add more requests at the same time
+
+        Observable.zip(stringObservable, stringObservable1, Result::new)
+                .observeOn(AndroidSchedulers.mainThread())  // 在主线程处理请求结果
+                .subscribe(
+                        new DisposableObserver<Result>() {
+                            @Override
+                            public void onNext(@NonNull final Result result) {
+                                sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result.s1);
+                                for (SentenceCard sentenceCard : sentenceCards) {
+                                    sentenceCard.setTopic(topic);
+                                }
+                                topicTestCards = ChatGptResponseTools.extractTopicTrainingQuestions(result.s2);
+                                for (TopicTestCard topicTestCard : topicTestCards) {
+                                    topicTestCard.setTopic(topic);
+                                }
+                                callback.onReceiveData(sentenceCards, topicTestCards);
+                            }
+
+                            @Override
+                            public void onError(@NonNull final Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+    }
+
 
     public void prepareSentencePatternExamplesData(String sentencePattern, ReceiveTrainMaterialCallback callback) {
         Observable<String> stringObservable = getSentencesPatternExamplesObservable(sentencePattern).subscribeOn(Schedulers.io());
