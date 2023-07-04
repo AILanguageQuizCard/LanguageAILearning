@@ -67,24 +67,13 @@ public class GoogleCloudTTS implements AutoCloseable {
         return voicesList;
     }
 
-    public void start(String text, MediaPlayer.OnCompletionListener completionListener) {
+    public void start(String audioKey, MediaPlayer.OnCompletionListener completionListener) {
         if (mVoiceSelectionParams == null) {
             throw new NullPointerException("You forget to setVoiceSelectionParams()");
         }
 
         if (mAudioConfig == null) {
             throw new NullPointerException("You forget to setAudioConfig()");
-        }
-
-        int separatorIdx = text.indexOf(KVUtils.audioVoiceKVSeparator);
-        String audioKey = text.substring(0, separatorIdx);
-        String audioText = text.substring(separatorIdx + 1);
-        if (!KVUtils.get().contains(audioKey)) {
-            try {
-                initAudio(audioKey, audioText);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         try {
             loadAudio(KVUtils.get().getString(audioKey), completionListener);
@@ -114,7 +103,7 @@ public class GoogleCloudTTS implements AutoCloseable {
         }
     }
 
-    private void initAudio(String audioKey, String audioText) throws IOException {
+    public void initAudio(String audioKey, String audioText) {
         SynthesizeRequest request = new SynthesizeRequest(new SynthesisInput(audioText), mVoiceSelectionParams, mAudioConfig);
         try {
             SynthesizeResponse response = mSynthesizeApi.get(request);

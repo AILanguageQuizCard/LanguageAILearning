@@ -34,8 +34,6 @@ public class KVUtils {
      */
     private boolean migrate;
 
-    public static final String audioVoiceKVSeparator = "π";
-
     private KVUtils() {
     }
 

@@ -278,10 +278,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         return;
                     }
                     StringBuilder builder = new StringBuilder();
-                    String audioKey = chatMode + "_" + String.valueOf(currentIndex) + KVUtils.audioVoiceKVSeparator;
+                    String audioKey = chatMode + "_" + String.valueOf(currentIndex);
                     String realS = ((TextMessage) m).getContent().replace("。", ",");
-                    builder.append(audioKey).append(realS);
-                    String audioVoiceKV = builder.toString();
                     MediaPlayer.OnCompletionListener comletionCallback = new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mp) {
@@ -293,9 +291,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     if (vItem.voiceStatus == VOICE_INITIAL) {
                         // google cloud 的文字转语音模型，读中文的时候，会把最后的句号读出来，所以，直接把句号替换成逗号
                         // todo 已经从google cloud获取到语音的，不需要再次请求(complete)
+                        vItem.getText2VoiceModel().initAudio(audioKey, realS);
                         stopPlayingVoice();
                         voicePlayingIndex = currentIndex;
-                        vItem.getText2VoiceModel().onSpeak(audioVoiceKV, comletionCallback, new CompletableObserver() {
+                        vItem.getText2VoiceModel().onSpeak(audioKey, comletionCallback, new CompletableObserver() {
                             @Override
                             public void onSubscribe(@NonNull Disposable d) {
                             }
@@ -324,7 +323,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 stopPlayingVoice();
                             }
                             voicePlayingIndex = currentIndex;
-                            vItem.getText2VoiceModel().onSpeak(audioVoiceKV, comletionCallback, new CompletableObserver() {
+                            vItem.getText2VoiceModel().onSpeak(audioKey, comletionCallback, new CompletableObserver() {
                                 @Override
                                 public void onSubscribe(@NonNull Disposable d) {
                                 }

@@ -57,8 +57,12 @@ public class Text2VoiceModel extends AndroidViewModel {
         initTTSVoice(languageCode, voiceName, pitch, speakRate);
     }
 
-    public void onSpeak(String text, MediaPlayer.OnCompletionListener completionCallback, CompletableObserver observer) {
-        speak(text, completionCallback).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(observer);
+    public void onSpeak(String audioKey, MediaPlayer.OnCompletionListener completionCallback, CompletableObserver observer) {
+        speak(audioKey, completionCallback).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(observer);
+    }
+
+    public void initAudio(String audioKey,String audioText){
+        mGoogleCloudTTS.initAudio(audioKey,audioText);
     }
 
     public void onSpeak(String text) {
@@ -86,8 +90,8 @@ public class Text2VoiceModel extends AndroidViewModel {
     }
 
 
-    public Completable speak(String text, MediaPlayer.OnCompletionListener completionCallback) {
-        return fromCallable(() -> mGoogleCloudTTS.start(text, completionCallback));
+    public Completable speak(String audioKey, MediaPlayer.OnCompletionListener completionCallback) {
+        return fromCallable(() -> mGoogleCloudTTS.start(audioKey, completionCallback));
     }
 
     public void pause() {
