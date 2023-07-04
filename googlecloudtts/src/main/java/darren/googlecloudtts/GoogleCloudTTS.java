@@ -63,6 +63,16 @@ public class GoogleCloudTTS implements AutoCloseable {
     }
 
     public void start(String text, MediaPlayer.OnCompletionListener completionListener) {
+        boolean textVoicePathExist = GoogleCloudText2VoiceManager.isTextVoicePathExist(text);
+        if (textVoicePathExist) {
+            try {
+                playAudioByUrl(GoogleCloudText2VoiceManager.getTextVoicePath(text), completionListener);
+            } catch (Exception e) {
+                throw new ApiException(e);
+            }
+            return;
+        }
+
         if (mVoiceSelectionParams == null) {
             throw new NullPointerException("You forget to setVoiceSelectionParams()");
         }
@@ -75,7 +85,8 @@ public class GoogleCloudTTS implements AutoCloseable {
 
         try {
             SynthesizeResponse response = mSynthesizeApi.get(request);
-            playAudio(response.getAudioContent(), completionListener);
+            saveAudioByUrl(text, jointURL(response.getAudioContent()));
+            playAudioByUrl(jointURL(response.getAudioContent()), completionListener);
         } catch (Exception e) {
             throw new ApiException(e);
         }
@@ -103,16 +114,24 @@ public class GoogleCloudTTS implements AutoCloseable {
         }
     }
 
-    private void playAudio(String base64EncodedString, MediaPlayer.OnCompletionListener completionListener) throws IOException {
+    private String jointURL(String base64EncodedString) {
+        return "data:audio/mp3;base64," + base64EncodedString;
+    }
+
+    private void saveAudioByUrl(String text, String url) throws IOException {
+        GoogleCloudText2VoiceManager.setTextVoicePath(text, url);
+    }
+
+    private void playAudioByUrl(String url, MediaPlayer.OnCompletionListener completionListener) throws IOException {
         stop();
 
-        String url = "data:audio/mp3;base64," + base64EncodedString;
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setOnCompletionListener(completionListener);
         mMediaPlayer.setDataSource(url);
         mMediaPlayer.prepare();
         mMediaPlayer.start();
     }
+
 
     public void close() {
         stop();
