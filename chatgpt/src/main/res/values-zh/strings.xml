@@ -123,4 +123,12 @@
     <string name="train_card_add_to_review_set_successfully"> 成功添加 </string>
     <string name="expand_text_view_expandStr">展开</string>
     <string name="expand_text_view_foldStr">收起</string>
+    <string name="subscription_description_title1">无限制</string>
+    <string name="subscription_description_detail1">进行无数次对话</string>
+    <string name="subscription_description_title2">无广告</string>
+    <string name="subscription_description_detail2">不被广告打扰</string>
+    <string name="subscription_description_title3">语音播放</string>
+    <string name="subscription_description_detail3">随时随地可听到文本的读音</string>
+    <string name="subscription_description_title4">语音输入</string>
+    <string name="subscription_description_detail4">无需打字语音即可输入您的问题</string>
 </resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--todo 为什么RelativeLayout 比 ConstraintLayout 好-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/subscription_option_bg_unchoose"
+    android:id="@+id/subscription_option_view"
+    android:layout_height="69dp"
+    android:layout_width="335dp">
+        
+    <ImageView
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/subscription_option_unchoose"
+        android:id="@+id/choose_imageview"
+        android:layout_width="20dp"
+        android:layout_height="20dp"/>
+    
+    <TextView
+        android:id="@+id/subscription_option_title_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="65dp"
+        android:layout_marginTop="13dp"
+        android:text="年订阅"
+        android:maxLines="1"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/subscription_option_price_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="35dp"
+        android:text="￥178/年 自动续订"
+        android:maxLines="1"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+
+    <TextView
+        android:text="节约77%"
+        android:textColor="#FFFFFFFF"
+        android:background="@drawable/subscription_option_save_bg"
+        android:layout_marginLeft="204dp"
+        android:layout_marginTop="39dp"
+        android:layout_width="45dp"
+        android:layout_height="17dp"
+        android:gravity="center"
+        android:textSize="8sp"/>
+
+</RelativeLayout>

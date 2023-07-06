@@ -2,21 +2,112 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/subscription_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.SubscribeActivity">
 
-    <Button
-        android:id="@+id/subscribe_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/subscribe_close_imageview"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="27dp"
+        android:layout_marginTop="27dp"
+        android:src="@drawable/subscription_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+    <TextView
+        android:id="@+id/subscribe_name"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="Subscribe"
-        android:minWidth="300dp">
+        android:layout_marginTop="56dp"
+        android:textSize="26sp"
+        android:textColor="#FF000000"
+        android:text="AILingoMaster"
+        android:layout_width="180dp"
+        android:layout_height="40dp"/>
 
-    </Button>
+    <com.chunxia.chatgpt.ui.SubscriptionDescriptionView
+        android:id="@+id/subscription_description_view1"
+        app:layout_constraintTop_toBottomOf="@+id/subscribe_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="95dp"
+        android:layout_marginTop="36dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.chunxia.chatgpt.ui.SubscriptionDescriptionView
+        android:id="@+id/subscription_description_view2"
+        app:layout_constraintTop_toBottomOf="@+id/subscription_description_view1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="95dp"
+        android:layout_marginTop="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.chunxia.chatgpt.ui.SubscriptionDescriptionView
+        android:id="@+id/subscription_description_view3"
+        app:layout_constraintTop_toBottomOf="@+id/subscription_description_view2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="95dp"
+        android:layout_marginTop="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.chunxia.chatgpt.ui.SubscriptionDescriptionView
+        android:id="@+id/subscription_description_view4"
+        app:layout_constraintTop_toBottomOf="@+id/subscription_description_view3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="95dp"
+        android:layout_marginTop="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <com.chunxia.chatgpt.ui.SubscriptionOptionView
+        android:id="@+id/subscription_option1"
+        app:layout_constraintTop_toBottomOf="@+id/subscription_description_view4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="40dp"
+        android:layout_width="335dp"
+        android:layout_height="69dp"/>
+
+    <com.chunxia.chatgpt.ui.SubscriptionOptionView
+        android:id="@+id/subscription_option2"
+        app:layout_constraintTop_toBottomOf="@+id/subscription_option1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_width="335dp"
+        android:layout_height="69dp"/>
+
+
+    <com.chunxia.chatgpt.ui.SubscriptionOptionView
+        android:id="@+id/subscription_option3"
+        app:layout_constraintTop_toBottomOf="@+id/subscription_option2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_width="335dp"
+        android:layout_height="69dp"/>
+
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@+id/subscription_option3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:text="立即订阅"
+        android:gravity="center"
+        android:textSize="16dp"
+        android:background="@drawable/subscription_button_bg"
+        android:id="@+id/subscribe_button"
+        android:layout_width="335dp"
+        android:layout_height="57dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

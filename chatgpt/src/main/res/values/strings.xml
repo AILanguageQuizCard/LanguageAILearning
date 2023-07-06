@@ -126,4 +126,15 @@
 
     <string name="expand_text_view_expandStr">Unfold</string>
     <string name="expand_text_view_foldStr">Fold</string>
+
+    <string name="subscription_description_title1">Unlimited</string>
+    <string name="subscription_description_detail1">Countless conversations</string>
+    <string name="subscription_description_title2">Ad-free</string>
+    <string name="subscription_description_detail2">Not disturbed by advertisements</string>
+    <string name="subscription_description_title3">Voice playback</string>
+    <string name="subscription_description_detail3">Hear the pronunciation of the text anytime, anywhere</string>
+    <string name="subscription_description_title4">Voice input</string>
+    <string name="subscription_description_detail4">No need to type, you can input your question via voice</string>
+
+
 </resources>
