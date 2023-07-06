@@ -20,14 +20,14 @@ android {
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
 
-            buildConfigField "String", "API_KEY", "\"AIzaSyBjq-sz5NWbHW-J9Xq4HLYcu0h0hkANGvs\""
+            buildConfigField "String", "API_KEY", "\"AIzaSyAOJmjZz64zAHrQ1S5QdNbQB5he55StJ9Q\""
         }
         release {
             minifyEnabled false
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
 
-            buildConfigField "String", "API_KEY", "\"AIzaSyCxtn_WKQp-LceVekWo1KUtk7SrzbYm3g8\""
+            buildConfigField "String", "API_KEY", "\"AIzaSyAOJmjZz64zAHrQ1S5QdNbQB5he55StJ9Q\""
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

@@ -22,7 +22,6 @@ public class ChatItemViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout lytParentView;
         public ImageView playVoiceButton;
         public ImageView copyContentButton;
-        public int voiceStatus;
         public int viewType;
         private Text2VoiceModel text2VoiceModel;
 

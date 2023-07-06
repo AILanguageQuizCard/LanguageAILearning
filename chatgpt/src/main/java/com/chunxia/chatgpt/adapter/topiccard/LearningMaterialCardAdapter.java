@@ -32,6 +32,11 @@ public class LearningMaterialCardAdapter extends PagerAdapter {
         this.learningMaterialCard = learningMaterialCard;
     }
 
+
+    public void stopAllVoice() {
+        text2VoiceModel.stop();
+    }
+
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         if (layoutInflater == null) {

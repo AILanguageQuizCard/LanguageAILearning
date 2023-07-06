@@ -19,6 +19,8 @@ import darren.googlecloudtts.response.VoicesResponse;
  * Description:
  * Reference:
  */
+
+// todo 加上各种listener
 public class GoogleCloudTTS implements AutoCloseable {
     private SynthesizeApi mSynthesizeApi;
     private VoicesApi mVoicesApi;

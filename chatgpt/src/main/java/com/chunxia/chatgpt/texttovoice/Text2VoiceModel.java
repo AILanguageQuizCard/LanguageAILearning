@@ -2,8 +2,6 @@ package com.chunxia.chatgpt.texttovoice;
 
 import android.app.Application;
 import android.media.MediaPlayer;
-import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -92,6 +90,10 @@ public class Text2VoiceModel extends AndroidViewModel {
 
     public void pause() {
         mGoogleCloudTTS.pause();
+    }
+
+    public void stop() {
+        mGoogleCloudTTS.stop();
     }
 
     public void resume() {

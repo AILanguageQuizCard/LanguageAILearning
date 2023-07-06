@@ -32,7 +32,6 @@ import com.chunxia.chatgpt.voicerecord.models.Events;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -54,7 +53,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private ArrayList<ChoosedItem> choosedItems = new ArrayList<>();
-
 
     private boolean shouldShowHiddenView = false;
 
@@ -96,10 +94,18 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (vItem.viewType == Constant.CHAT_ME) {
                     vItem.textTimeView.setText(m.getDate());
                 }
-
-                ((ChatItemViewHolder) holder).setText2VoiceModel(new Text2VoiceModel(application));
-                setOnClickPlayVoiceButton(vItem, m);
-                setOnClickCopyContentButton(vItem);
+                if (vItem.viewType == Constant.CHAT_YOU) {
+                    if (m.getText2VoiceModel()!= null ) {
+                        m.getText2VoiceModel().stop();
+                        ((ChatItemViewHolder) holder).setText2VoiceModel(m.getText2VoiceModel());
+                    } else {
+                        Text2VoiceModel text2VoiceModel1 = new Text2VoiceModel(application);
+                        ((ChatItemViewHolder) holder).setText2VoiceModel(text2VoiceModel1);
+                        m.setText2VoiceModel(text2VoiceModel1);
+                    }
+                    setOnClickPlayVoiceButton(vItem, m, realPosition);
+                    setOnClickCopyContentButton(vItem);
+                }
 
                 setLongClick((ChatItemViewHolder) holder);
                 showChooseView((ChatItemViewHolder) holder, m.isFromMe(), realPosition);
@@ -251,16 +257,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-    void setOnClickPlayVoiceButton(ChatItemViewHolder vItem, Message m) {
+    private int playingItemIndex = -1;
+
+    void setOnClickPlayVoiceButton(ChatItemViewHolder vItem, TextMessage m, int position) {
         if (vItem.playVoiceButton != null) {
+            vItem.playVoiceButton.setImageResource(R.drawable.ic_play_arrow);
             vItem.playVoiceButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!(m instanceof TextMessage)) {
-                        return;
-                    }
 
-                    if(vItem.voiceStatus == VOICE_INITIAL) {
+                    if(m.voiceStatus == VOICE_INITIAL) {
 
                         // google cloud 的文字转语音模型，读中文的时候，会把最后的句号读出来，所以，直接把句号替换成逗号
                         String realS =((TextMessage) m).getContent().replace("。", ",");
@@ -268,11 +274,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             @Override
                             public void onCompletion(MediaPlayer mp) {
                                 vItem.playVoiceButton.setImageResource(R.drawable.ic_play_arrow);
-                                vItem.voiceStatus = VOICE_INITIAL;
+                                m.voiceStatus = VOICE_INITIAL;
                             }
                         };
-                        // todo 已经从google cloud获取到语音的，不需要再次请求
-                        vItem.getText2VoiceModel().onSpeak(realS, comletionCallback, new CompletableObserver() {
+                        m.getText2VoiceModel().onSpeak(realS, comletionCallback, new CompletableObserver() {
                             @Override
                             public void onSubscribe(@NonNull Disposable d) {
                             }
@@ -287,22 +292,48 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 Log.e(TAG, "Speak failed", e);
                             }
                         } );
+                        m.voiceStatus = VOICE_PLAYING;
                         vItem.playVoiceButton.setImageResource(R.drawable.ic_pause_black);
-                        vItem.voiceStatus = VOICE_PLAYING;
 
-                    } else if ( vItem.voiceStatus == VOICE_PLAYING) {
+                        setOldPlayingItemIcon();
+                        playingItemIndex = position;
+
+                    } else if ( m.voiceStatus == VOICE_PLAYING) {
                         vItem.playVoiceButton.setImageResource(R.drawable.ic_play_arrow);
-                        vItem.voiceStatus = VOICE_PAUSED;
-                        vItem.getText2VoiceModel().pause();
-
-                    } else if (vItem.voiceStatus == VOICE_PAUSED) {
+                        m.voiceStatus = VOICE_PAUSED;
+                        m.getText2VoiceModel().pause();
+                        playingItemIndex = -1;
+                    } else if (m.voiceStatus == VOICE_PAUSED) {
                         vItem.playVoiceButton.setImageResource(R.drawable.ic_pause_black);
-                        vItem.voiceStatus = VOICE_PLAYING;
-                        vItem.getText2VoiceModel().resume();
-                    }
+                        m.voiceStatus = VOICE_PLAYING;
+                        // todo 如果一开始因为网络问题，没有能获取语音，这里不应该是resume，而是重新获取语音
+                        m.getText2VoiceModel().resume();
 
+                        setOldPlayingItemIcon();
+                        playingItemIndex = position;
+                    }
                 }
             });
+        }
+    }
+
+
+    /**
+     * 当正在播放语音，而用户又新点击了另外一个语音的时候，
+     * 需要把正在播放的语音的图标恢复成原来的样子
+     */
+    private void setOldPlayingItemIcon() {
+        if (playingItemIndex != -1) {
+            ((TextMessage) items.get(playingItemIndex)).setVoiceStatus(VOICE_INITIAL);
+            notifyItemChanged(playingItemIndex);
+        }
+    }
+
+    public void stopAllVoice() {
+        if (playingItemIndex != -1) {
+            if (items.get(playingItemIndex) instanceof TextMessage) {
+                ((TextMessage) items.get(playingItemIndex)).getText2VoiceModel().stop();
+            }
         }
     }
 

@@ -1,9 +1,10 @@
 package com.chunxia.chatgpt.model.message;
 
-import com.chunxia.chatgpt.model.message.Message;
+import com.google.gson.annotations.Expose;
 
 public class VoiceMessage extends Message {
 
+    @Expose
     private String path =null;
 
     public VoiceMessage(long id, boolean fromMe, boolean showTime, String date, String path) {

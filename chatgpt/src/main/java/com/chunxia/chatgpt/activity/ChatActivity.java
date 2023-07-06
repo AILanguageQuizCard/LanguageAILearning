@@ -249,6 +249,12 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopAllVoice();
+    }
+
     public void initComponent(String startWords) {
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

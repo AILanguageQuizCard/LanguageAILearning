@@ -22,9 +22,13 @@ class ReviewCardStackAdapter(
 
     private val TAG = "ReviewCardStackAdapter"
 
+    private val text2VoiceModel: Text2VoiceModel = Text2VoiceModel(Application())
+
+
+    // 必须在 onCreateViewHolder 中传递 text2VoiceModel 到 ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(inflater.inflate(R.layout.item_reivew_card, parent, false))
+        return ViewHolder(inflater.inflate(R.layout.item_reivew_card, parent, false), text2VoiceModel)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -46,12 +50,15 @@ class ReviewCardStackAdapter(
         return topicReviewSets
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    fun stopAllVoice() {
+        text2VoiceModel.stop()
+    }
+
+    class ViewHolder(view: View, private val text2VoiceModel: Text2VoiceModel) : RecyclerView.ViewHolder(view) {
 
         val reviewCardView: ReviewCardView = view.findViewById(R.id.review_card_view)
         val playView: ImageButton = view.findViewById(R.id.review_card_play)
         val copyView: ImageButton = view.findViewById(R.id.review_card_copy)
-        val voiceModel: Text2VoiceModel = Text2VoiceModel(view.context.applicationContext as Application)
 
         init {
             view.setOnClickListener(View.OnClickListener {
@@ -66,16 +73,16 @@ class ReviewCardStackAdapter(
 
                 val comletionCallback = OnCompletionListener { }
                 // todo 已经从google cloud获取到语音的，不需要再次请求
-                voiceModel.onSpeak(realS, comletionCallback, object : CompletableObserver {
-                        override fun onSubscribe(d: Disposable) {}
-                        override fun onComplete() {
-                            Log.i("ReviewCardStackAdapter", "speak success")
-                        }
+                text2VoiceModel.onSpeak(realS, comletionCallback, object : CompletableObserver {
+                    override fun onSubscribe(d: Disposable) {}
+                    override fun onComplete() {
+                        Log.i("ReviewCardStackAdapter", "speak success")
+                    }
 
-                        override fun onError(e: Throwable) {
-                            Log.e("ReviewCardStackAdapter", "Speak failed", e)
-                        }
-                    })
+                    override fun onError(e: Throwable) {
+                        Log.e("ReviewCardStackAdapter", "Speak failed", e)
+                    }
+                })
             })
 
             copyView.setOnClickListener(View.OnClickListener {

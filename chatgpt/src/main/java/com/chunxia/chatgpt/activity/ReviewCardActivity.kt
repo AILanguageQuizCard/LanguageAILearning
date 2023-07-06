@@ -67,6 +67,10 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        adapter.stopAllVoice()
+    }
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

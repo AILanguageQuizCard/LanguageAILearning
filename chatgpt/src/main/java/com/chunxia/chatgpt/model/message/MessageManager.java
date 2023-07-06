@@ -32,8 +32,11 @@ public class MessageManager {
 
     public void saveMessages(String key, ArrayList<Message> messages) {
         Gson gson = new GsonBuilder()
+                // excludeFieldsWithoutExposeAnnotation必须在registerTypeAdapter后
                 .registerTypeAdapter(Message.class, new MessageTypeAdapter())
+                .excludeFieldsWithoutExposeAnnotation()
                 .create();
+
         String json = gson.toJson(messages);
         KVUtils.get().encode(key, json);
     }

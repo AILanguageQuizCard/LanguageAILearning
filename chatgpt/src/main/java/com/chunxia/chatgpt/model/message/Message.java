@@ -3,12 +3,22 @@ package com.chunxia.chatgpt.model.message;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+
 public class Message implements Parcelable {
+	@Expose
 	private long id;
+
+	@Expose
 	private String date;
+
+	@Expose
 	private boolean fromMe;
+
+	@Expose
 	private boolean showTime = true;
 
+	@Expose
 	protected String messageType;
 
 	public Message(long id, boolean fromMe, String date) {

@@ -65,6 +65,13 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
         return learningMaterialCard.size();
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopAllVoice();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
