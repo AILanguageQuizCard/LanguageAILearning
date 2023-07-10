@@ -131,4 +131,10 @@
     <string name="subscription_description_detail3">随时随地可听到文本的读音</string>
     <string name="subscription_description_title4">语音输入</string>
     <string name="subscription_description_detail4">无需打字语音即可输入您的问题</string>
+    <string name="subscription_option_name1">年订阅</string>
+    <string name="subscription_option_name1_description">自动续订</string>
+    <string name="subscription_option_title1">月订阅</string>
+    <string name="subscription_option_title2">季订阅</string>
+    <string name="subscription_option_title3">年订阅</string>
+
 </resources>

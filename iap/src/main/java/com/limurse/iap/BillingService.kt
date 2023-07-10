@@ -294,7 +294,8 @@ class BillingService(
                 productDetailsList.forEach {
                     productDetails[it.productId] = it
                 }
-                log("queryProductDetails. productDetails:$productDetails")
+                    log("queryProductDetails. productDetails:$productDetails")
+                // todo 从这里获取到商品信息
                 productDetails.mapNotNull { entry ->
                     entry.value?.let {
                         when(it.productType){
@@ -304,7 +305,8 @@ class BillingService(
                                     description = it.description,
                                     priceCurrencyCode = it.subscriptionOfferDetails?.get(0)?.pricingPhases?.pricingPhaseList?.get(0)?.priceCurrencyCode,
                                     price = it.subscriptionOfferDetails?.get(0)?.pricingPhases?.pricingPhaseList?.get(0)?.formattedPrice,
-                                    priceAmount = it.subscriptionOfferDetails?.get(0)?.pricingPhases?.pricingPhaseList?.get(0)?.priceAmountMicros?.div(1000000.0)
+                                    priceAmount = it.subscriptionOfferDetails?.get(0)?.pricingPhases?.pricingPhaseList?.get(0)?.priceAmountMicros?.div(1000000.0),
+                                    subscriptionPeriod = it.subscriptionOfferDetails?.get(0)?.pricingPhases?.pricingPhaseList?.get(0)?.billingPeriod
                                 )
                             }
                             else->{

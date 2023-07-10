@@ -9,6 +9,7 @@ import androidx.navigation.ui.NavigationUI;
 
 
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.subscription.SubscriptionManager;
 import com.chunxia.chatgpt.tools.Tools;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -20,11 +21,15 @@ public class BottomNavigationLightActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        initSubscription();
+
         setContentView(R.layout.activity_bottom_navigation_light_chatgpt);
         initNavigation();
 
         initComponent();
         initStatusBar();
+
     }
 
     private void initStatusBar() {
@@ -43,6 +48,10 @@ public class BottomNavigationLightActivity extends AppCompatActivity {
     private void initComponent() {
 //        Tools.setSystemBarColor(this, R.color.grey_5);
 //        Tools.setSystemBarLight(this);
+    }
+
+    private void initSubscription() {
+        SubscriptionManager.getInstance().initSubscribe(this);
     }
 
 

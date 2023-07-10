@@ -135,6 +135,11 @@
     <string name="subscription_description_detail3">Hear the pronunciation of the text anytime, anywhere</string>
     <string name="subscription_description_title4">Voice input</string>
     <string name="subscription_description_detail4">No need to type, you can input your question via voice</string>
+    <string name="subscription_option_name1">Yearly Subscription</string>
+    <string name="subscription_option_name1_description">Auto-renewal</string>
+    <string name="subscription_option_title1">Monthly subscription</string>
+    <string name="subscription_option_title2">Quarterly subscription</string>
+    <string name="subscription_option_title3">Annual subscription</string>
 
 
 </resources>

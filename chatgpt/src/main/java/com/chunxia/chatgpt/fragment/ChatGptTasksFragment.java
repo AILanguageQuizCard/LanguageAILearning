@@ -1,10 +1,12 @@
 package com.chunxia.chatgpt.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,12 +17,15 @@ import com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT;
 import com.chunxia.chatgpt.adapter.task.TaskAdapter;
 import com.chunxia.chatgpt.adapter.task.TaskRecyclerViewItemDecoration;
 import com.chunxia.chatgpt.adapter.task.TopicInfo;
+import com.chunxia.chatgpt.subscription.SubscriptionManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ChatGptTasksFragment extends Fragment {
+
+    private static final String TAG = "ChatGptTasksFragment";
 
     private View root;
     private RecyclerView recyclerView;
@@ -35,6 +40,7 @@ public class ChatGptTasksFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_task_chatgpt, container, false);
         this.root = root;
         initRecyclerView();
+        initSubscriptionView();
         return root;
     }
 
@@ -64,6 +70,21 @@ public class ChatGptTasksFragment extends Fragment {
                 StrongCommandToChatGPT.INFORMAL_ENGLISH_ONLY_COMMAND, StrongCommandToChatGPT.INFORMAL_ENGLISH_ONLY_COMMAND_ADD_TO_USER,
                 R.drawable.topic_view_blue, 4));
         return mylist;
+    }
+
+
+    private void initSubscriptionView() {
+        RelativeLayout relativeLayout = root.findViewById(R.id.subscription_view);
+        if (SubscriptionManager.getInstance().isSubscribed()) {
+            relativeLayout.setVisibility(View.GONE);
+        }
+        SubscriptionManager.getInstance().registerSubscriptionListener(new SubscriptionManager.SubscriptionUpdateListener() {
+            @Override
+            public void onUpdatedSubscription(String sku) {
+                Log.i(TAG, "onUpdatedSubscription: " + sku);
+                relativeLayout.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void initRecyclerView() {

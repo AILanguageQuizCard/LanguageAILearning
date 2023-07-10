@@ -10,6 +10,40 @@
         layout="@layout/chat_task_top_view_layout"/>
 
     <RelativeLayout
+        android:background="@drawable/pay_view_blue"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp"
+        android:id="@+id/subscription_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            app:lottie_fileName="pay_button_present.json"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/animation_view"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="60dp"
+            android:textSize="24sp"
+            android:text="Go Premium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:background="@color/grey_3"
         android:layout_height="0dp"
@@ -20,8 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/spacing_medium"
             android:paddingTop="@dimen/spacing_medium"
+            android:paddingBottom="@dimen/spacing_medium"
             android:scrollbars="vertical"
             android:scrollingCache="true" />
 

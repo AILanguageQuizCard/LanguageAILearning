@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chunxia.chatgpt.R;
-import com.chunxia.chatgpt.subscription.SubscriptionUtils;
+import com.chunxia.chatgpt.subscription.SubscriptionManager;
 import com.chunxia.chatgpt.ui.SubscriptionDescriptionView;
 import com.chunxia.chatgpt.ui.SubscriptionOptionView;
 import com.limurse.iap.DataWrappers;
@@ -21,12 +21,14 @@ import java.util.Map;
 
 public class SubscribeActivity extends AppCompatActivity {
 
+    private static final String TAG = "SubscribeActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscribe);
         initView();
+        initSubscriptionInfo();
     }
 
     private SubscriptionOptionView subcriptionView1;
@@ -52,6 +54,37 @@ public class SubscribeActivity extends AppCompatActivity {
         initSubscriptionButton();
     }
 
+    private void initSubscriptionInfo() {
+        SubscriptionServiceListener listener = new SubscriptionServiceListener() {
+            public void onSubscriptionRestored(@NonNull DataWrappers.PurchaseInfo purchaseInfo) {
+                SubscriptionManager.getInstance().addValidSubscription(purchaseInfo.getSku());
+            }
+
+            public void onSubscriptionPurchased(@NonNull DataWrappers.PurchaseInfo purchaseInfo) {
+                SubscriptionManager.getInstance().addValidSubscription(purchaseInfo.getSku());
+            }
+
+            public void onPricesUpdated(@NotNull Map<String, DataWrappers.ProductDetails> iapKeyPrices) {
+                // for 循环遍历map，需要遍历key和value
+                DataWrappers.ProductDetails monthlyDetails = iapKeyPrices.get(SubscriptionManager.SKU_ID_MONTHLY);
+                if(monthlyDetails != null) {
+                    subcriptionView1.setPrice(monthlyDetails.getPrice());
+                }
+                DataWrappers.ProductDetails seasonlyDetail = iapKeyPrices.get(SubscriptionManager.SKU_ID_SEASONLY);
+                if(seasonlyDetail != null) {
+                    subcriptionView2.setPrice(seasonlyDetail.getPrice());
+                }
+                DataWrappers.ProductDetails yearlyDetail = iapKeyPrices.get(SubscriptionManager.SKU_ID_YEARLY);
+                if(yearlyDetail != null) {
+                    subcriptionView3.setPrice(yearlyDetail.getPrice());
+                }
+
+            }
+        };
+
+        SubscriptionManager.getInstance().addSubscriptionListener(listener);
+    }
+
     private void setDescriptionView() {
         descriptionView1 = findViewById(R.id.subscription_description_view1);
         descriptionView2 = findViewById(R.id.subscription_description_view2);
@@ -64,10 +97,16 @@ public class SubscribeActivity extends AppCompatActivity {
         descriptionView4.setAll(R.drawable.subscription_description4, getString(R.string.subscription_description_title4), getString(R.string.subscription_description_detail4));
     }
 
-    private void initSubscriptionOptionButton(){
+    private void initSubscriptionOptionButton() {
         subcriptionView1 = findViewById(R.id.subscription_option1);
         subcriptionView2 = findViewById(R.id.subscription_option2);
         subcriptionView3 = findViewById(R.id.subscription_option3);
+        // todo 验证不同地区的价格，是否正确
+        subcriptionView1.setTitle(getString(R.string.subscription_option_title1));
+        subcriptionView2.setTitle(getString(R.string.subscription_option_title2));
+        subcriptionView3.setTitle(getString(R.string.subscription_option_title3));
+
+        subcriptionView1.choose();
         onSubscriptionOptionClick();
     }
 
@@ -82,16 +121,18 @@ public class SubscribeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // todo 根据不同的选中的方案，来订阅不同的套餐
-                subscribe();
+                subscribe(choosedSkuID);
             }
         });
     }
 
+    private String choosedSkuID = SubscriptionManager.SKU_ID_MONTHLY;
 
     private void onSubscriptionOptionClick() {
         subcriptionView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                choosedSkuID = SubscriptionManager.SKU_ID_MONTHLY;
                 subcriptionView1.choose();
                 subcriptionView2.unchoose();
                 subcriptionView3.unchoose();
@@ -101,6 +142,7 @@ public class SubscribeActivity extends AppCompatActivity {
         subcriptionView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                choosedSkuID = SubscriptionManager.SKU_ID_SEASONLY;
                 subcriptionView2.choose();
                 subcriptionView1.unchoose();
                 subcriptionView3.unchoose();
@@ -110,6 +152,7 @@ public class SubscribeActivity extends AppCompatActivity {
         subcriptionView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                choosedSkuID = SubscriptionManager.SKU_ID_YEARLY;
                 subcriptionView3.choose();
                 subcriptionView1.unchoose();
                 subcriptionView2.unchoose();
@@ -117,23 +160,7 @@ public class SubscribeActivity extends AppCompatActivity {
         });
     }
 
-    private void subscribe() {
-
-        SubscriptionUtils.getInstance().addSubscriptionListener(new SubscriptionServiceListener() {
-            public void onSubscriptionRestored(@NonNull DataWrappers.PurchaseInfo purchaseInfo) {
-            }
-
-            public void onSubscriptionPurchased(@NonNull DataWrappers.PurchaseInfo purchaseInfo) {
-//                if (purchaseInfo.getSku().equals("subscription")) { }
-                // todo 订阅成功之后，给予用于VIP权限
-                // todo 如果在google cloud console变更了价格，客户端需要做什么变更么
-            }
-
-            public void onPricesUpdated(@NotNull Map iapKeyPrices) {
-
-            }
-        });
-
-        SubscriptionUtils.getInstance().subscribe(SubscribeActivity.this);
+    private void subscribe(String sku) {
+        SubscriptionManager.getInstance().subscribe(SubscribeActivity.this, sku);
     }
 }

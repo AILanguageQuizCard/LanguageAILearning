@@ -2,12 +2,12 @@ package com.chunxia.chatgpt.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
@@ -16,17 +16,12 @@ import com.chunxia.chatgpt.activity.RecordingLanguageSettingActivity;
 import com.chunxia.chatgpt.activity.SubscribeActivity;
 import com.chunxia.chatgpt.activity.VoiceLanguageSettingActivity;
 import com.chunxia.chatgpt.common.XLIntent;
-import com.chunxia.chatgpt.subscription.SubscriptionUtils;
+import com.chunxia.chatgpt.subscription.SubscriptionManager;
 import com.chunxia.chatgpt.ui.SettingItemView;
-import com.limurse.iap.DataWrappers;
-import com.limurse.iap.SubscriptionServiceListener;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-
 
 public class ChatGptSettingFragment extends Fragment {
+
+    private static final String TAG = "ChatGptSettingFragment";
 
     private RelativeLayout payButton;
     private SettingItemView outputVoiceButton;
@@ -45,10 +40,22 @@ public class ChatGptSettingFragment extends Fragment {
     }
 
     private void initSubscription(){
-        SubscriptionUtils.getInstance().initSubscribe(getActivity());
+
+        if (SubscriptionManager.getInstance().isSubscribed()) {
+            payButton.setVisibility(View.GONE);
+        }
+        SubscriptionManager.getInstance().registerSubscriptionListener(new SubscriptionManager.SubscriptionUpdateListener() {
+            @Override
+            public void onUpdatedSubscription(String sku) {
+                Log.i(TAG, "onUpdatedSubscription: " + sku);
+                payButton.setVisibility(View.GONE);
+            }
+        });
+
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // todo initSubscription之后，拿到订阅内容后更新
                 startActivity(new XLIntent(getActivity(), SubscribeActivity.class));
             }
         });

@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="65dp"
         android:layout_marginTop="13dp"
-        android:text="年订阅"
+        android:text="@string/subscription_option_name1"
         android:maxLines="1"
         android:textColor="@android:color/black"
         android:textSize="15sp" />
@@ -33,12 +33,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="64dp"
         android:layout_marginTop="35dp"
-        android:text="￥178/年 自动续订"
+        android:text="@string/subscription_option_name1_description"
         android:maxLines="1"
         android:textColor="@android:color/black"
         android:textSize="15sp" />
 
     <TextView
+        android:id="@+id/subscription_option_save_view"
         android:text="节约77%"
         android:textColor="#FFFFFFFF"
         android:background="@drawable/subscription_option_save_bg"
@@ -47,6 +48,7 @@
         android:layout_width="45dp"
         android:layout_height="17dp"
         android:gravity="center"
+        android:visibility="gone"
         android:textSize="8sp"/>
 
 </RelativeLayout>
