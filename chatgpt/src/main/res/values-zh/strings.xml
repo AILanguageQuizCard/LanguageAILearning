@@ -44,8 +44,8 @@
 
 
     <string name="chat_copy_successfully">成功复制</string>
-    <string name="setting_item_voice_language">播放语音语言</string>
-    <string name="setting_item_recording_language">录音语言</string>
+    <string name="setting_item_voice_language">正在学习的语言</string>
+    <string name="setting_item_recording_language">您的母语</string>
     <string name="setting_item_3">语音</string>
     <string name="setting_item_4">语音</string>
     <string name="setting_item_5">语音</string>

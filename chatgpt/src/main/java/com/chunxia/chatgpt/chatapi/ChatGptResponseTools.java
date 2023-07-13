@@ -12,11 +12,11 @@ public class ChatGptResponseTools {
 
     private static String TAG = "ChatGptResponseTools";
 
-    public static ArrayList<SentenceCard> extractTopicTrainingSentences(String input) {
+    public static ArrayList<SentenceCard> extractTopicTrainingSentences(String input, int targetN) throws ExtractSentencesException {
         ArrayList<SentenceCard> sentenceCards = new ArrayList<>();
 
         int sentenceCount = 1;
-        String[] words = extractAllSentences(input);
+        String[] words = extractAllSentences(input, targetN);
         for (String word : words) {
             Log.i(TAG, "sentence: " + word);
             if (word.isEmpty()) continue;
@@ -32,11 +32,19 @@ public class ChatGptResponseTools {
     }
 
 
-    public static ArrayList<TopicTestCard> extractTopicTrainingQuestions(String input) {
+    public static class ExtractSentencesException extends Exception  {
+        public ExtractSentencesException(String message) {
+            super(message);
+        }
+    }
+
+
+
+    public static ArrayList<TopicTestCard> extractTopicTrainingQuestions(String input, int targetN) throws ExtractSentencesException {
         ArrayList<TopicTestCard> topicTestCards = new ArrayList<>();
 
         int sentenceCount = 1;
-        String[] words = extractAllSentences(input);
+        String[] words = extractAllSentences(input, targetN);
         for (String word : words) {
             if (word.isEmpty()) continue;
             String deleteS = (sentenceCount + ".");
@@ -48,9 +56,10 @@ public class ChatGptResponseTools {
 
         return topicTestCards;
     }
-    
 
-    private static String[] extractAllSentences(String input) {
+    private static int count = 0;
+
+    private static String[] extractAllSentences(String input, int targetN) throws ExtractSentencesException {
         int finalStartIndex = 0;
         int realSentencesStartIndex = input.indexOf("\n1. ");
         int realSentencesStartIndex2 = input.indexOf("1. ");
@@ -71,14 +80,30 @@ public class ChatGptResponseTools {
             finalStartIndex = realSentencesStartIndex5;
         } else if (realSentencesStartIndex6 != -1) {
             finalStartIndex = realSentencesStartIndex6;
+        } else {
+            // if none of the start index found, it means parsing failed.
+           throw new ExtractSentencesException("extractAllSentences failed");
         }
-        String newInput = input.substring(finalStartIndex);
 
-        return newInput.split("\n");
+        if (count == 1) {
+            throw new ExtractSentencesException("extractAllSentences failed");
+        }
+
+        count++;
+
+        String newInput = input.substring(finalStartIndex);
+        String[] sentences = newInput.split("\n");
+
+        if (sentences.length != targetN) {
+            throw new ExtractSentencesException("extractAllSentences failed");
+        }
+        // Copy the sentences to the resultList.
+
+        return sentences;
     }
 
 
-    private static Pair<String, String> extractOneSentence(String res) {
+    private static Pair<String, String> extractOneSentence(String res) throws ExtractSentencesException{
         String sentence = "";
         String translation = "";
         int finalKuoHaoIndex = 0;
@@ -103,6 +128,8 @@ public class ChatGptResponseTools {
             translation = res.substring(finalKuoHaoIndex+1)
                     .replace(StrongCommandToChatGPT.RIGHT_KUOHAO, "")
                     .trim();
+        } else {
+            throw new ExtractSentencesException("extractOneSentence failed");
         }
         return new Pair<>(sentence,translation);
     }

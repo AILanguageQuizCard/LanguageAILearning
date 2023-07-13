@@ -40,8 +40,8 @@
     <string name="topic_training_hint_question">Hello, What topic would you like to search?</string>
 
     <string name="chat_copy_successfully">copy successfully!</string>
-    <string name="setting_item_voice_language">Voice Language</string>
-    <string name="setting_item_recording_language">Recording Voice Language</string>
+    <string name="setting_item_voice_language">Your native language</string>
+    <string name="setting_item_recording_language">Learning language</string>
     <string name="setting_item_3">Voice</string>
     <string name="setting_item_4">Voice</string>
     <string name="setting_item_5">Voice</string>

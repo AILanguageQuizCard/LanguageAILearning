@@ -21,8 +21,8 @@ public class TrainingMaterial {
 
     //    private final MultiRoundChatAgent agent;
     private final String TAG = "TrainingMaterial";
-    private String learningLanguage = "English";
-    private String motherLanguage = "Chinese";
+    private String learningLanguage = "";
+    private String motherLanguage = "";
     private int sentenceN = 5;
     private int questionN = 3;
     private final int maxTokenN = 1024;
@@ -72,15 +72,34 @@ public class TrainingMaterial {
                         new DisposableObserver<Result>() {
                             @Override
                             public void onNext(@NonNull final Result result) {
-                                sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result.s1);
-                                for (SentenceCard sentenceCard : sentenceCards) {
-                                    sentenceCard.setTopic(topic);
+                                boolean b = true;
+
+                                try {
+                                    sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result.s1, sentenceN);
+                                    for (SentenceCard sentenceCard : sentenceCards) {
+                                        sentenceCard.setTopic(topic);
+                                    }
+
+                                } catch (ChatGptResponseTools.ExtractSentencesException e) {
+                                    callback.onExtractSentencesFail(result.s1);
+                                    b = false;
                                 }
-                                topicTestCards = ChatGptResponseTools.extractTopicTrainingQuestions(result.s2);
-                                for (TopicTestCard topicTestCard : topicTestCards) {
-                                    topicTestCard.setTopic(topic);
+
+
+                                try {
+                                    topicTestCards = ChatGptResponseTools.extractTopicTrainingQuestions(result.s2, questionN);
+                                    for (TopicTestCard topicTestCard : topicTestCards) {
+                                        topicTestCard.setTopic(topic);
+                                    }
+
+                                } catch (ChatGptResponseTools.ExtractSentencesException e) {
+                                    callback.onExtractSentencesFail(result.s1);
+                                    b = false;
                                 }
-                                callback.onReceiveData(sentenceCards, topicTestCards);
+
+                                if (b) {
+                                    callback.onReceiveData(sentenceCards, topicTestCards);
+                                }
                             }
 
                             @Override
@@ -94,42 +113,6 @@ public class TrainingMaterial {
                             }
                         });
     }
-
-    public void prepareData2(String topic, ReceiveTrainMaterialCallback callback) {
-        Observable<String> stringObservable = getTrainingSentencesObservable(topic).subscribeOn(Schedulers.io());
-        Observable<String> stringObservable1 = getTrainingQuestionAndAnswerObservable(topic).subscribeOn(Schedulers.io());
-        // todo make sure these two requests happen at the same time.
-        // todo how to add more requests at the same time
-
-        Observable.zip(stringObservable, stringObservable1, Result::new)
-                .observeOn(AndroidSchedulers.mainThread())  // 在主线程处理请求结果
-                .subscribe(
-                        new DisposableObserver<Result>() {
-                            @Override
-                            public void onNext(@NonNull final Result result) {
-                                sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result.s1);
-                                for (SentenceCard sentenceCard : sentenceCards) {
-                                    sentenceCard.setTopic(topic);
-                                }
-                                topicTestCards = ChatGptResponseTools.extractTopicTrainingQuestions(result.s2);
-                                for (TopicTestCard topicTestCard : topicTestCards) {
-                                    topicTestCard.setTopic(topic);
-                                }
-                                callback.onReceiveData(sentenceCards, topicTestCards);
-                            }
-
-                            @Override
-                            public void onError(@NonNull final Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onComplete() {
-
-                            }
-                        });
-    }
-
 
     public void prepareSentencePatternExamplesData(String sentencePattern, ReceiveTrainMaterialCallback callback) {
         Observable<String> stringObservable = getSentencesPatternExamplesObservable(sentencePattern).subscribeOn(Schedulers.io());
@@ -138,11 +121,16 @@ public class TrainingMaterial {
                 .subscribe(new DisposableObserver<String>() {
                     @Override
                     public void onNext(@NonNull final String result) {
-                        sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result);
-                        for (SentenceCard sentenceCard : sentenceCards) {
-                            sentenceCard.setTopic(sentencePattern);
+                        try {
+                            sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result, sentenceN);
+                            for (SentenceCard sentenceCard : sentenceCards) {
+                                sentenceCard.setTopic(sentencePattern);
+                            }
+                            callback.onReceiveData(sentenceCards, null);
+                        } catch (ChatGptResponseTools.ExtractSentencesException e) {
+                            callback.onExtractSentencesFail(result);
                         }
-                        callback.onReceiveData(sentenceCards, null);
+
                     }
 
                     @Override
@@ -164,11 +152,15 @@ public class TrainingMaterial {
                 .subscribe(new DisposableObserver<String>() {
                     @Override
                     public void onNext(@NonNull final String result) {
-                        sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result);
-                        for (SentenceCard sentenceCard : sentenceCards) {
-                            sentenceCard.setTopic(grammar);
+                        try {
+                            sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result, sentenceN);
+                            for (SentenceCard sentenceCard : sentenceCards) {
+                                sentenceCard.setTopic(grammar);
+                            }
+                            callback.onReceiveData(sentenceCards, null);
+                        } catch (ChatGptResponseTools.ExtractSentencesException e) {
+                            callback.onExtractSentencesFail(result);
                         }
-                        callback.onReceiveData(sentenceCards, null);
                     }
 
                     @Override
@@ -213,11 +205,15 @@ public class TrainingMaterial {
                 .subscribe(new DisposableObserver<String>() {
                     @Override
                     public void onNext(@NonNull final String result) {
-                        sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result);
-                        for (SentenceCard sentenceCard : sentenceCards) {
-                            sentenceCard.setTopic(topic);
+                        try {
+                            sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result, sentenceN);
+                            for (SentenceCard sentenceCard : sentenceCards) {
+                                sentenceCard.setTopic(topic);
+                            }
+                            callback.onReceiveData(sentenceCards, null);
+                        } catch (ChatGptResponseTools.ExtractSentencesException e) {
+                            callback.onExtractSentencesFail(result);
                         }
-                        callback.onReceiveData(sentenceCards, null);
                     }
 
                     @Override
@@ -235,6 +231,8 @@ public class TrainingMaterial {
 
     public interface ReceiveTrainMaterialCallback {
         void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards);
+
+        void onExtractSentencesFail(String answers);
     }
 
     public interface ReceiveSentencePatternExamplesCallback {

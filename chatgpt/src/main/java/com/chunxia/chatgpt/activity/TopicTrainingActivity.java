@@ -35,6 +35,9 @@ import com.chunxia.chatgpt.activity.dataholder.DataHolder;
 import com.chunxia.chatgpt.chatapi.TrainingMaterial;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.model.grammar.GrammarManager;
+import com.chunxia.chatgpt.model.message.Message;
+import com.chunxia.chatgpt.model.message.MessageManager;
+import com.chunxia.chatgpt.model.message.TextMessage;
 import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
 import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
@@ -236,42 +239,44 @@ public class TopicTrainingActivity extends AppCompatActivity {
     private void initTopicChat(String topic) {
         TrainingMaterial trainingMaterial = new TrainingMaterial();
 
+        TrainingMaterial.ReceiveTrainMaterialCallback receiveTrainMaterialCallback = new TrainingMaterial.ReceiveTrainMaterialCallback() {
+            @Override
+            public void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
+                onPendingEnd();
+                AllLearningMaterialCard learningMaterialCard = new AllLearningMaterialCard(sentenceCards, topicTestCards, topic);
+                DataHolder.getInstance().setData(TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY, learningMaterialCard);
+                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class)
+                        .putString(TOPIC_TRAINING_ACTIVITY_MODE_KEY, mode);
+                ActivityUtils.getTopActivity().startActivity(intent);
+            }
+
+            @Override
+            public void onExtractSentencesFail(String answers) {
+                onPendingEnd();
+                Toast.makeText(ActivityUtils.getTopActivity(), "Unable to extract answer from GPT", Toast.LENGTH_SHORT).show();
+
+                Class<?> clazz = ChatActivity.class;
+                String chatMode = "training_fail";
+                ArrayList<Message> messages = new ArrayList<>();
+
+                messages.add(new TextMessage(1, topic, true, true, com.chunxia.chatgpt.tools.Tools.getFormattedTimeEvent(System.currentTimeMillis())));
+                messages.add(new TextMessage(1, answers, false, false, com.chunxia.chatgpt.tools.Tools.getFormattedTimeEvent(System.currentTimeMillis())));
+
+                MessageManager.getInstance().saveMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode), messages);
+                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), clazz)
+                        .putString(ActivityIntentKeys.ACTIVITY_CHAT_MODE, chatMode);
+
+                ActivityUtils.getTopActivity().startActivity(intent);
+
+            }
+        };
+
         if (isTopicTrainingMode()) {
-            trainingMaterial.prepareSentenceData(topic, new TrainingMaterial.ReceiveTrainMaterialCallback() {
-                @Override
-                public void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
-                    onPendingEnd();
-                    AllLearningMaterialCard learningMaterialCard = new AllLearningMaterialCard(sentenceCards, topicTestCards, topic);
-                    DataHolder.getInstance().setData(TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY, learningMaterialCard);
-                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class)
-                            .putString(TOPIC_TRAINING_ACTIVITY_MODE_KEY, mode);
-                    ActivityUtils.getTopActivity().startActivity(intent);
-                }
-            });
+            trainingMaterial.prepareSentenceData(topic, receiveTrainMaterialCallback);
         } else if (isSentencePatternTrainingMode()) {
-            trainingMaterial.prepareSentencePatternExamplesData(topic, new TrainingMaterial.ReceiveTrainMaterialCallback() {
-                @Override
-                public void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
-                    onPendingEnd();
-                    AllLearningMaterialCard learningMaterialCard = new AllLearningMaterialCard(sentenceCards, topicTestCards, topic);
-                    DataHolder.getInstance().setData(TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY, learningMaterialCard);
-                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class)
-                            .putString(TOPIC_TRAINING_ACTIVITY_MODE_KEY, mode);
-                    ActivityUtils.getTopActivity().startActivity(intent);
-                }
-            });
+            trainingMaterial.prepareSentencePatternExamplesData(topic,receiveTrainMaterialCallback);
         } else if (isGrammarTrainingMode()) {
-            trainingMaterial.prepareGrammarExamplesData(topic, new TrainingMaterial.ReceiveTrainMaterialCallback() {
-                @Override
-                public void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
-                    onPendingEnd();
-                    AllLearningMaterialCard learningMaterialCard = new AllLearningMaterialCard(sentenceCards, topicTestCards, topic);
-                    DataHolder.getInstance().setData(TOPIC_TRAINING_ACTIVITY_LEARNING_MATERIAL_KEY, learningMaterialCard);
-                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), TopicTrainingCardActivity.class)
-                            .putString(TOPIC_TRAINING_ACTIVITY_MODE_KEY, mode);
-                    ActivityUtils.getTopActivity().startActivity(intent);
-                }
-            });
+            trainingMaterial.prepareGrammarExamplesData(topic, receiveTrainMaterialCallback);
         }
     }
 }

@@ -6,6 +6,7 @@ import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_GRA
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_SENTENCE_PATTERN;
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_TOPIC;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -16,17 +17,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.activity.dataholder.DataHolder;
 import com.chunxia.chatgpt.adapter.topiccard.LearningMaterialCardAdapter;
 import com.chunxia.chatgpt.chatapi.TrainingMaterial;
+import com.chunxia.chatgpt.common.XLIntent;
+import com.chunxia.chatgpt.model.message.Message;
+import com.chunxia.chatgpt.model.message.MessageManager;
+import com.chunxia.chatgpt.model.message.TextMessage;
 import com.chunxia.chatgpt.model.review.AllLearningMaterialCard;
 import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
+import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.voicerecord.models.Events;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -104,8 +112,8 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
     }
 
     private void initStatusBar() {
-        com.chunxia.chatgpt.tools.Tools.setSystemBarColor(this, R.color.white);
-        com.chunxia.chatgpt.tools.Tools.setSystemBarLight(this);
+        Tools.setSystemBarColor(this, R.color.white);
+        Tools.setSystemBarLight(this);
     }
 
 
@@ -140,13 +148,17 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
     }
 
 
+    private void cancelPending() {
+        progressBar.setVisibility(View.GONE);
+        container.setVisibility(View.VISIBLE);
+    }
+
     private void insertNewCard(String topic, ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
         AllLearningMaterialCard newCards = new AllLearningMaterialCard(sentenceCards, topicTestCards, topic);
         learningMaterialCard.addSentenceCard(newCards.getSentenceCards());
         learningMaterialCard.addTopicTestCard(newCards.getTopicTestCards());
 
-        progressBar.setVisibility(View.GONE);
-        container.setVisibility(View.VISIBLE);
+        cancelPending();
 
         adapter.notifyDataSetChanged();
         int oldSize = currentCardNum;
@@ -168,6 +180,25 @@ public class TopicTrainingCardActivity extends AppCompatActivity {
             @Override
             public void onReceiveData(ArrayList<SentenceCard> sentenceCards, ArrayList<TopicTestCard> topicTestCards) {
                 insertNewCard(topic, sentenceCards, topicTestCards);
+            }
+
+            @Override
+            public void onExtractSentencesFail(String answers) {
+                cancelPending();
+                Toast.makeText(ActivityUtils.getTopActivity(), "Unable to extract answer from GPT", Toast.LENGTH_SHORT).show();
+                Class<?> clazz = ChatActivity.class;
+                String chatMode = "training_fail";
+                ArrayList<Message> messages = new ArrayList<>();
+
+                messages.add(new TextMessage(1, topic, true, true, com.chunxia.chatgpt.tools.Tools.getFormattedTimeEvent(System.currentTimeMillis())));
+                messages.add(new TextMessage(1, answers, false, false, com.chunxia.chatgpt.tools.Tools.getFormattedTimeEvent(System.currentTimeMillis())));
+
+                MessageManager.getInstance().saveMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode), messages);
+                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), clazz)
+                        .putString(ActivityIntentKeys.ACTIVITY_CHAT_MODE, chatMode);
+
+                ActivityUtils.getTopActivity().startActivity(intent);
+
             }
         };
 
