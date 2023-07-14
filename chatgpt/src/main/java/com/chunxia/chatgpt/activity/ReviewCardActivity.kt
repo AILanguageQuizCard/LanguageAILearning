@@ -19,6 +19,7 @@ import com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_EDIT
 import com.chunxia.chatgpt.adapter.review.ReviewCardStackAdapter
 import com.chunxia.chatgpt.adapter.review.ReviewCardView
 import com.chunxia.chatgpt.common.XLIntent
+import com.chunxia.chatgpt.model.review.AllReviewData
 import com.chunxia.chatgpt.model.review.LearnRecord
 import com.chunxia.chatgpt.model.review.ReviewCardManager
 import com.chunxia.chatgpt.model.review.SentenceCard
@@ -60,8 +61,15 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         Tools.setSystemBarLight(this)
     }
 
+    private var currentTopic : String? = null;
+
     private fun initData() {
         topicReviewSets = ReviewCardManager.getInstance().currentTopicReviewSets
+
+        if (!AllReviewData.isAllTopic(topicReviewSets?.topic)) {
+            currentTopic = topicReviewSets?.topic
+        }
+
         topicReviewSets?.let {
             adapter.setLearnCards(it.sentenceCardList)
         }
@@ -87,6 +95,11 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     override fun onCardSwiped(direction: Direction) {
         Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
         // todo
+
+        if (manager.topPosition == adapter.itemCount) {
+            paginate()
+        }
+
         if (direction == Direction.Right) {
             getTopSentenceCard().let {
                 if (it.learnRecord == null) {
@@ -107,9 +120,6 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
         }
 
-        if (manager.topPosition == adapter.itemCount) {
-            paginate()
-        }
     }
 
     override fun onCardRewound() {
@@ -263,7 +273,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
             } else if (requestCode == this.addCardRequestCode) {
                 val editedSentenceCardList: ArrayList<SentenceCard>?  = data?.getParcelableArrayListExtra(ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST)
                 editedSentenceCardList?.let {
-                    addCards(editedSentenceCardList)
+                    addCards()
                 }
             }
         }
@@ -271,6 +281,10 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
 
     private fun getTopSentenceCard(): SentenceCard {
+        if (adapter.getLearnCards().size <= manager.topPosition || manager.topPosition < 0) {
+            throw RuntimeException("getTopSentenceCard() error")
+        }
+
         return adapter.getLearnCards()[manager.topPosition]
     }
 
@@ -283,19 +297,16 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         startActivityForResult(intent, addCardRequestCode)
     }
 
-    private fun addCards(sentenceCardList: ArrayList<SentenceCard> ) {
-        val old = adapter.getLearnCards()
-        val new = mutableListOf<SentenceCard>().apply {
-            addAll(old)
-            addAll(sentenceCardList)
-        }
-        adapter.setLearnCards(new)
+    private fun addCards() {
         adapter.notifyDataSetChanged()
         topicReviewSets?.update()
     }
 
 
     private fun getCurrentTopic() : String? {
+        if (currentTopic != null) {
+            return currentTopic
+        }
         return getTopSentenceCard().topic
     }
 
@@ -323,13 +334,13 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
 
     private fun replace(newsCard: SentenceCard) {
-        val old = adapter.getLearnCards()
-        val new = mutableListOf<SentenceCard>().apply {
-            addAll(old)
-            removeAt(manager.topPosition)
-            add(manager.topPosition, newsCard)
-        }
-        adapter.setLearnCards(new)
+//        val old = adapter.getLearnCards()
+//        val new = mutableListOf<SentenceCard>().apply {
+//            addAll(old)
+//            removeAt(manager.topPosition)
+//            add(manager.topPosition, newsCard)
+//        }
+//        adapter.setLearnCards(new)
         adapter.notifyItemChanged(manager.topPosition)
 
         topicReviewSets?.update()

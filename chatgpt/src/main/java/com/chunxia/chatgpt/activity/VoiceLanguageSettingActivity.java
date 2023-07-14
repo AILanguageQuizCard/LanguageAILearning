@@ -56,7 +56,7 @@ public class VoiceLanguageSettingActivity extends AppCompatActivity {
                 MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
         ArrayList<GoogleTextToVoiceLanguageTools.GoogleTextToVoiceLanguage> googleLanguages =
-                GoogleTextToVoiceLanguageTools.getLanguages(this);
+                GoogleTextToVoiceLanguageTools.getLanguages(getApplicationContext());
         for (GoogleTextToVoiceLanguageTools.GoogleTextToVoiceLanguage lang: googleLanguages) {
             arrayList.add(new SettingInfo(lang.getLanguageName(), lang.getLanguageName().equals(setLanguage)));
         }

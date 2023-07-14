@@ -20,6 +20,7 @@ import android.widget.PopupWindow;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.model.message.Message;
@@ -99,7 +100,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         m.getText2VoiceModel().stop();
                         ((ChatItemViewHolder) holder).setText2VoiceModel(m.getText2VoiceModel());
                     } else {
-                        Text2VoiceModel text2VoiceModel1 = new Text2VoiceModel(application);
+                        Text2VoiceModel text2VoiceModel1 = new Text2VoiceModel();
                         ((ChatItemViewHolder) holder).setText2VoiceModel(text2VoiceModel1);
                         m.setText2VoiceModel(text2VoiceModel1);
                     }

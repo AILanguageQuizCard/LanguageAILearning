@@ -62,10 +62,6 @@ public class AddReviewCardActivity extends AppCompatActivity {
 
         topic = getIntent().getStringExtra(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_TOPIC);
 
-        if (question == null || answer == null || question.isEmpty() || answer.isEmpty()) {
-            return;
-        }
-
         questionEditText.setText(question);
         answerEditText.setText(answer);
         topicEditText.setText(topic);
@@ -95,10 +91,16 @@ public class AddReviewCardActivity extends AppCompatActivity {
                 if (topic == null || topic.isEmpty()) {
                     topic = "default";
                 }
-                SentenceCard oldCard = new SentenceCard(answer, question, topic);
-                SentenceCard newCard = new SentenceCard(newAnswer, newQuestion, topic);
 
-                ReviewCardManager.getInstance().addOneSentenceCardInTopicReviewSets(topic, oldCard, newCard);
+                SentenceCard newCard = new SentenceCard(newAnswer, newQuestion, topic);
+                if (answer == null && question == null) {
+                    ReviewCardManager.getInstance().addOneSentenceCardInTopicReviewSets(topic, newCard);
+                } else {
+                    assert answer != null;
+                    assert question != null;
+                    SentenceCard oldCard = new SentenceCard(answer, question, topic);
+                    ReviewCardManager.getInstance().addOneSentenceCardInTopicReviewSets(topic, oldCard, newCard);
+                }
 
                 answer = newAnswer;
                 question = newQuestion;

@@ -117,7 +117,7 @@ public class AllReviewData implements Parcelable {
     }
 
 
-    private static final String ALL_TOPIC = "review-ALL-SPECIAL-TOPIC";
+    public static final String ALL_TOPIC = "review-ALL-SPECIAL-TOPIC";
     public TopicReviewSets getAllTopicReviewSets() {
         TopicReviewSets topicReviewSets = new TopicReviewSets(ALL_TOPIC);
         for (TopicReviewSets trs : topicReviewSetsList) {
@@ -127,6 +127,9 @@ public class AllReviewData implements Parcelable {
     }
 
 
+    public static boolean isAllTopic(String s) {
+        return ALL_TOPIC.equals(s);
+    }
 
 
     public int getSize() {

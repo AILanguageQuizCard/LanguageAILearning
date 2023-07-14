@@ -1,5 +1,6 @@
 package com.chunxia.chatgpt.texttovoice;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 
@@ -73,6 +74,7 @@ public class GoogleTextToVoiceLanguageTools {
         // 在你的Activity或Fragment中
         ArrayList<GoogleTextToVoiceLanguage> arrayList =  new ArrayList<>();
         Resources res = context.getResources();
+
         String[] googleLanguages = res.getStringArray(R.array.google_api_voice_language_names);
 
         for (String googleLanguage : googleLanguages) {

@@ -1,12 +1,15 @@
 package com.chunxia.chatgpt.texttovoice;
 
 import android.app.Application;
+import android.content.Context;
 import android.media.MediaPlayer;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.chunxia.chatgpt.common.XLApplication;
 import com.chunxia.chatgpt.mmkv.MMKVConstant;
+import com.chunxia.chatgpt.voicerecord.helpers.Config;
 import com.chunxia.mmkv.KVUtils;
 
 import darren.googlecloudtts.GoogleCloudTTS;
@@ -28,14 +31,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * Description:
  * Reference:
  */
-public class Text2VoiceModel extends AndroidViewModel {
+public class Text2VoiceModel  {
     private final GoogleCloudTTS mGoogleCloudTTS;
     private final VoicesList mVoicesList = new VoicesList();
 
-    public Text2VoiceModel(@NonNull Application application) {
-        super(application);
+    public Text2VoiceModel() {
         mGoogleCloudTTS = GoogleCloudTTSFactory.create();
-        init();
+        init(XLApplication.getContext());
     }
 
     public Single<VoicesList> loading() {
@@ -45,11 +47,11 @@ public class Text2VoiceModel extends AndroidViewModel {
         });
     }
 
-    private void init() {
+    private void init(Context application) {
         String setLanguage = KVUtils.get().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY, MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
-        String languageCode = TextToVoiceSetting.getLanguageCode(getApplication(), setLanguage);
-        String voiceName = TextToVoiceSetting.getVoiceName(getApplication(), setLanguage);
+        String languageCode = TextToVoiceSetting.getLanguageCode(application, setLanguage);
+        String voiceName = TextToVoiceSetting.getVoiceName(application, setLanguage);
         float pitch = TextToVoiceSetting.getPitch();
         float speakRate = TextToVoiceSetting.getSpeakRate();
         initTTSVoice(languageCode, voiceName, pitch, speakRate);

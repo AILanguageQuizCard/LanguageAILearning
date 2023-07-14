@@ -57,8 +57,6 @@ public class ChatGptResponseTools {
         return topicTestCards;
     }
 
-    private static int count = 0;
-
     private static String[] extractAllSentences(String input, int targetN) throws ExtractSentencesException {
         int finalStartIndex = 0;
         int realSentencesStartIndex = input.indexOf("\n1. ");
@@ -84,12 +82,6 @@ public class ChatGptResponseTools {
             // if none of the start index found, it means parsing failed.
            throw new ExtractSentencesException("extractAllSentences failed");
         }
-
-        if (count == 1) {
-            throw new ExtractSentencesException("extractAllSentences failed");
-        }
-
-        count++;
 
         String newInput = input.substring(finalStartIndex);
         String[] sentences = newInput.split("\n");

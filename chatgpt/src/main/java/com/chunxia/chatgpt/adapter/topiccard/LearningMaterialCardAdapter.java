@@ -28,7 +28,7 @@ public class LearningMaterialCardAdapter extends PagerAdapter {
 
     public LearningMaterialCardAdapter(Application application, AllLearningMaterialCard learningMaterialCard) {
         this.context = application;
-        text2VoiceModel = new Text2VoiceModel(application);
+        text2VoiceModel = new Text2VoiceModel();
         this.learningMaterialCard = learningMaterialCard;
     }
 

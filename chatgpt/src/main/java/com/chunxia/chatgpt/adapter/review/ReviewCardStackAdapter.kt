@@ -22,7 +22,7 @@ class ReviewCardStackAdapter(
 
     private val TAG = "ReviewCardStackAdapter"
 
-    private val text2VoiceModel: Text2VoiceModel = Text2VoiceModel(Application())
+    private val text2VoiceModel: Text2VoiceModel = Text2VoiceModel()
 
 
     // 必须在 onCreateViewHolder 中传递 text2VoiceModel 到 ViewHolder

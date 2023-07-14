@@ -61,7 +61,7 @@ class SentenceCard() : Parcelable {
         if (sentence != other.sentence) return false
         if (translation != other.translation) return false
         if (voicePath != other.voicePath) return false
-        if (learnRecord != other.learnRecord) return false
+//        if (learnRecord != other.learnRecord) return false
         if (topic != other.topic) return false
 
         return true
