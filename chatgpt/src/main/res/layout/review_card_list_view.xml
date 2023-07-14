@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/review_card_list_view"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:background="@drawable/pay_view_blue"
@@ -13,59 +13,186 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_centerVertical="true"
         android:drawablePadding="8dp"
         android:text="Climate Change"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:maxLines="1"
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/review_card_list_view_number1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+    <ImageView
+        android:id="@+id/review_card_list_view_menu_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_centerVertical="true"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/review_card_list_view_number2"
-        android:layout_marginRight="8dp"
-        android:text="123"
-        android:maxLines="1"
-        android:textColor="@color/green_600"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/review_card_list_view_number2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_centerVertical="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/review_card_list_view_number3"
-        android:layout_marginRight="8dp"
-        android:text="234"
-        android:maxLines="1"
-        android:textColor="@color/yellow_300"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/review_card_list_view_number3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_centerVertical="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="8dp"
-        android:text="9999"
-        android:maxLines="1"
-        android:textColor="@color/red_500"
-        android:textSize="18sp" />
+        android:src="@color/green"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="40dp" />
+
+
+    <View
+        android:id="@+id/review_card_list_view_divider"
+        app:layout_constraintTop_toBottomOf="@+id/review_card_list_view_topic"
+        app:layout_constraintBottom_toTopOf="@+id/review_card_list_view_already_learn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@color/md_grey_500"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/review_card_list_view_already_learn"
+        app:layout_constraintTop_toBottomOf="@+id/review_card_list_view_divider"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/review_card_list_view_learning"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:text="已复习"
+            android:maxLines="1"
+            android:textColor="@color/grey_600"
+            android:textSize="11sp"
+            />
+
+        <TextView
+            android:id="@+id/review_card_list_view_already_learn_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="2dp"
+            android:text="22"
+            android:maxLines="1"
+            android:textColor="@color/grey_800"
+            android:textSize="11sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/review_card_list_view_learning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/review_card_list_view_divider"
+        app:layout_constraintLeft_toRightOf="@+id/review_card_list_view_already_learn"
+        app:layout_constraintRight_toLeftOf="@+id/review_card_list_view_not_learn"
+        android:orientation="vertical"  >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:text="复习中"
+            android:maxLines="1"
+            android:textColor="@color/grey_600"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/review_card_list_view_learning_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="2dp"
+            android:text="28"
+            android:maxLines="1"
+            android:textColor="@color/grey_800"
+            android:textSize="11sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/review_card_list_view_not_learn"
+        app:layout_constraintTop_toBottomOf="@+id/review_card_list_view_divider"
+        app:layout_constraintLeft_toRightOf="@+id/review_card_list_view_learning"
+        app:layout_constraintRight_toLeftOf="@+id/review_card_list_view_last_learn_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:text="未复习"
+            android:maxLines="1"
+            android:textColor="@color/grey_600"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/review_card_list_view_not_learn_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="2dp"
+            android:text="28"
+            android:maxLines="1"
+            android:textColor="@color/grey_800"
+            android:textSize="11sp" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/review_card_list_view_last_learn_time"
+        app:layout_constraintTop_toBottomOf="@+id/review_card_list_view_divider"
+        app:layout_constraintLeft_toRightOf="@+id/review_card_list_view_not_learn"
+        app:layout_constraintRight_toRightOf= "parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="30dp"
+            android:text="上次测试"
+            android:maxLines="1"
+            android:textColor="@color/grey_600"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/review_card_list_view_last_learn_time_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="30dp"
+            android:text="7/12 12:00"
+            android:maxLines="1"
+            android:textColor="@color/grey_800"
+            android:textSize="11sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
 </merge>

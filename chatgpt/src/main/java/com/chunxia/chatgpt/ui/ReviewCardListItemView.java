@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -38,15 +39,21 @@ public class ReviewCardListItemView extends ConstraintLayout {
 
     }
 
+    private ImageView menuIcon;
+
+    private TextView lastReviewTimeView;
 
     private void initView(Context context, AttributeSet attrs) {
         View view = LayoutInflater.from(context).inflate(R.layout.review_card_list_view, this, true);
 
         topicView = view.findViewById(R.id.review_card_list_view_topic);
-        unReviewCountView = view.findViewById(R.id.review_card_list_view_number1);
-        reviewingCountView = view.findViewById(R.id.review_card_list_view_number2);
-        reviewedCountView = view.findViewById(R.id.review_card_list_view_number3);
+        menuIcon = view.findViewById(R.id.review_card_list_view_menu_icon);
 
+        unReviewCountView = view.findViewById(R.id.review_card_list_view_not_learn_number);
+        reviewingCountView = view.findViewById(R.id.review_card_list_view_learning_number);
+        reviewedCountView = view.findViewById(R.id.review_card_list_view_already_learn_number);
+
+        lastReviewTimeView = view.findViewById(R.id.review_card_list_view_last_learn_time_number);
     }
 
     public void setTopic(String title) {

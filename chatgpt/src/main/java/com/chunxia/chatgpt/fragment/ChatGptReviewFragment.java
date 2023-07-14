@@ -105,7 +105,7 @@ public class ChatGptReviewFragment extends Fragment {
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, // 宽度
-                    (int) Tools.dip2px(activity, 50) // 高度
+                    LinearLayout.LayoutParams.WRAP_CONTENT // 高度
             );
 
             int margin = Tools.dip2px(activity, 10); // 将 dp 转换为像素

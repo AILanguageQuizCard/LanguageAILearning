@@ -102,3 +102,4 @@ class SentenceCard() : Parcelable {
 
 
 }
+
