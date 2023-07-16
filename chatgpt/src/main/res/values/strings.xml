@@ -140,6 +140,7 @@
     <string name="subscription_option_title1">Monthly subscription</string>
     <string name="subscription_option_title2">Quarterly subscription</string>
     <string name="subscription_option_title3">Annual subscription</string>
+    <string name="deck_options">Deck options</string>
 
 
 </resources>

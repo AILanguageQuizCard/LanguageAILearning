@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.reactivex.annotations.NonNull;
@@ -28,6 +30,15 @@ public class TopicReviewSets implements Parcelable {
         sentenceCardList = new ArrayList<>();
     }
 
+    public Date getLatestReviewTime() {
+        // 返回reviewRecordList 列表中，离当前时间最近的时间
+        return sentenceCardList.stream()
+                .map(SentenceCard::getLatestReviewTime)
+                .filter(Objects::nonNull)
+                .max(Date::compareTo)
+                .orElse(null);  // 返回 null 如果列表为空
+    }
+
     public static class ReviewData {
         public int reviewedNumber;
         public int unReviewedNumber;
@@ -41,27 +52,27 @@ public class TopicReviewSets implements Parcelable {
     }
 
     public ReviewData getReviewNumber() {
-        AtomicInteger reviewedNumber = new AtomicInteger();
-        AtomicInteger unReviewedNumber = new AtomicInteger();
-        AtomicInteger reviewingNumber = new AtomicInteger();
+        int reviewedNumber = 0;
+        int unReviewedNumber = 0;
+        int reviewingNumber = 0;
 
-        sentenceCardList.stream().forEach(sentenceCard -> {
+        for (SentenceCard sentenceCard : sentenceCardList) {
             int reviewLevel = sentenceCard.getReviewLevel();
             switch (reviewLevel) {
-                case  0:
-                    unReviewedNumber.getAndIncrement();
+                case 0:
+                    unReviewedNumber++;
                     break;
                 case 1:
-                    reviewingNumber.getAndIncrement();
+                    reviewingNumber++;
                     break;
-                case  2:
-                    reviewedNumber.getAndIncrement();
+                case 2:
+                    reviewedNumber++;
                     break;
             }
-        });
-        return new ReviewData(unReviewedNumber.get(),reviewingNumber.get(),reviewedNumber.get());
-
+        }
+        return new ReviewData(unReviewedNumber, reviewingNumber, reviewedNumber);
     }
+
 
     public void update() {
         TopicReviewSets newVersion = ReviewCardManager.getInstance().getTopicReviewSetsByTopic(topic);

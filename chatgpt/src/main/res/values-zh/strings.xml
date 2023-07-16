@@ -136,5 +136,6 @@
     <string name="subscription_option_title1">月订阅</string>
     <string name="subscription_option_title2">季订阅</string>
     <string name="subscription_option_title3">年订阅</string>
+    <string name="deck_options">Deck options</string>
 
 </resources>

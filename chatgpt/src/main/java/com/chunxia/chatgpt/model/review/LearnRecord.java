@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,15 @@ public class LearnRecord implements Parcelable {
     public List<ReviewRecord> getReviewRecordList() {
         return reviewRecordList;
     }
+
+    public Date getLatestReviewTime() {
+        // 返回reviewRecordList 列表中，离当前时间最近的时间
+        return reviewRecordList.stream()
+                .map(ReviewRecord::getTime)
+                .max(Comparator.naturalOrder())
+                .orElse(null);  // 返回 null 如果列表为空
+    }
+
 
     public void setReviewRecordList(List<ReviewRecord> reviewRecordList) {
         this.reviewRecordList = reviewRecordList;
@@ -58,7 +68,7 @@ public class LearnRecord implements Parcelable {
 
         // If last review was BAD, then should review and reset all previous records
         if (lastRecord.getLastReviewedGrade() == ReviewGrade.BAD) {
-            resetReviewRecords();
+//            resetReviewRecords();
             return true;
         }
 

@@ -25,13 +25,13 @@ import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.model.review.TopicReviewSets;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.ui.ReviewCardListItemView;
-import com.chunxia.chatgpt.ui.SettingItemView;
+import com.google.android.material.button.MaterialButton;
 
 
 public class ChatGptReviewFragment extends Fragment {
 
-    private SettingItemView startReviewButton;
-    private SettingItemView addYourOwnCardButton;
+    private MaterialButton startReviewButton;
+    private MaterialButton addYourOwnCardButton;
     private View root;
 
     public ChatGptReviewFragment() {
@@ -71,9 +71,9 @@ public class ChatGptReviewFragment extends Fragment {
 
 
     private void initView() {
-        startReviewButton = root.findViewById(R.id.start_review_view);
+        startReviewButton = root.findViewById(R.id.exerciseButton);
         initStartReviewButton();
-        addYourOwnCardButton = root.findViewById(R.id.add_your_own_review_card_view);
+        addYourOwnCardButton = root.findViewById(R.id.autoplayButton);
         initAddYourOwnCardButton();
         initReviewListViews();
     }
@@ -94,7 +94,7 @@ public class ChatGptReviewFragment extends Fragment {
         Activity activity = getActivity();
 
         LinearLayout container = root.findViewById(R.id.fragment_review_cards_container);
-        container.removeViews(3, container.getChildCount() - 3);
+        container.removeAllViews();
 
         for (int i = 0; i < size; i++) {
             TopicReviewSets tempTopicReviewSets = allReviewData.getTopicReviewSetsList().get(i);
@@ -110,11 +110,12 @@ public class ChatGptReviewFragment extends Fragment {
 
             int margin = Tools.dip2px(activity, 10); // 将 dp 转换为像素
             layoutParams.setMargins(margin, margin, margin, 0);
-            reviewCardListItemView.setBackground(getResources().getDrawable(R.drawable.pay_view_blue, null));
+//            reviewCardListItemView.setBackground(getResources().getDrawable(R.drawable.pay_view_blue, null));
             reviewCardListItemView.setTopic(topic);
             reviewCardListItemView.setUnReviewCount(reviewData.unReviewedNumber);
             reviewCardListItemView.setReviewingCount(reviewData.reviewingNumber);
             reviewCardListItemView.setReviewedCount(reviewData.reviewedNumber);
+            reviewCardListItemView.setLatestReviewTime(tempTopicReviewSets.getLatestReviewTime());
             container.addView(reviewCardListItemView, layoutParams);
 
             reviewCardListItemView.setOnClickListener(new View.OnClickListener() {

@@ -2,8 +2,16 @@
 <resources>
     <color name="timingBGColorWhite">#21FFFFFF</color>
 
+    <color name="accent">#FF8C00</color>
+    <color name="divider">#1e000000</color>
+    <color name="text_high_emphasis">#B8000000</color>
+    <color name="issue">#FF5957</color>
+    <color name="task">#A70060</color>
+    <color name="ripple">#42000000</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="icon_on_surface">#DE000000</color>
+    <color name="text_medium_emphasis">#99000000</color>
 
     <color name="chat_background"> #D0DBE2 </color>
     <color name="light_black">#1A1A1A</color>

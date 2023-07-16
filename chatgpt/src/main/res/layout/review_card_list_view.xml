@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/review_card_list_view"
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:background="@drawable/pay_view_blue"
+    android:background="@drawable/review_card_list_item_bg"
     android:layout_width="match_parent">
 
     <TextView
@@ -16,24 +17,30 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
         android:layout_centerVertical="true"
-        android:drawablePadding="8dp"
+
         android:text="Climate Change"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:maxLines="1"
+        android:textStyle="bold"
+        android:fontFamily="@font/nunito_bold"
         android:textColor="@android:color/black"
-        android:textSize="20sp" />
+        android:textSize="17sp" />
 
     <ImageView
         android:id="@+id/review_card_list_view_menu_icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:layout_centerVertical="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:src="@color/green"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="40dp" />
+        android:background="@drawable/ripple"
+        android:contentDescription="@string/deck_options"
+        app:tint="@color/icon_on_surface"
+        android:tintMode="src_in"
+        app:srcCompat="@drawable/ic_round_more_horiz_24" />
 
 
     <View
@@ -42,8 +49,8 @@
         app:layout_constraintBottom_toTopOf="@+id/review_card_list_view_already_learn"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:background="@color/md_grey_500"
-        android:layout_marginTop="10dp"
+        android:background="@color/divider"
+        android:layout_marginTop="7dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="80dp"
         android:layout_width="match_parent"
@@ -57,7 +64,7 @@
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="17dp"
         android:orientation="vertical">
 
         <TextView
@@ -67,7 +74,7 @@
             android:layout_marginTop="5dp"
             android:text="已复习"
             android:maxLines="1"
-            android:textColor="@color/grey_600"
+            android:textColor="@color/text_medium_emphasis"
             android:textSize="11sp"
             />
 
@@ -76,12 +83,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="2dp"
+            android:textStyle="bold"
             android:text="22"
             android:maxLines="1"
-            android:textColor="@color/grey_800"
+            android:textColor="@color/text_high_emphasis"
             android:textSize="11sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -102,7 +109,7 @@
             android:layout_marginTop="5dp"
             android:text="复习中"
             android:maxLines="1"
-            android:textColor="@color/grey_600"
+            android:textColor="@color/text_medium_emphasis"
             android:textSize="11sp" />
 
         <TextView
@@ -110,12 +117,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="2dp"
+            android:textStyle="bold"
             android:text="28"
             android:maxLines="1"
-            android:textColor="@color/grey_800"
+            android:textColor="@color/text_high_emphasis"
             android:textSize="11sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -137,7 +144,7 @@
             android:layout_marginTop="5dp"
             android:text="未复习"
             android:maxLines="1"
-            android:textColor="@color/grey_600"
+            android:textColor="@color/text_medium_emphasis"
             android:textSize="11sp" />
 
         <TextView
@@ -145,12 +152,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="2dp"
+            android:textStyle="bold"
             android:text="28"
             android:maxLines="1"
-            android:textColor="@color/grey_800"
+            android:textColor="@color/task"
             android:textSize="11sp" />
 
 
@@ -167,7 +174,6 @@
         android:orientation="vertical">
 
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -175,24 +181,47 @@
             android:layout_marginRight="30dp"
             android:text="上次测试"
             android:maxLines="1"
-            android:textColor="@color/grey_600"
+            android:textColor="@color/text_medium_emphasis"
             android:textSize="11sp" />
 
-        <TextView
-            android:id="@+id/review_card_list_view_last_learn_time_number"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="30dp"
-            android:text="7/12 12:00"
-            android:maxLines="1"
-            android:textColor="@color/grey_800"
-            android:textSize="11sp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/review_card_list_view_last_learn_time_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_high_emphasis"
+                android:textSize="11dp"
+                android:textStyle="bold"
+                tools:text="Nov 2"
+                tools:visibility="gone" />
+
+            <TextView
+                android:id="@+id/review_card_list_view_last_learn_time_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:background="@drawable/background_new_deck"
+                android:ellipsize="end"
+                android:layout_marginTop="1dp"
+                android:maxLines="1"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="NEW"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 
-</merge>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.chunxia.chatgpt.model.review
 import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
+import java.util.Date
 
 class SentenceCard() : Parcelable {
     var sentence: String? = null
@@ -36,6 +37,9 @@ class SentenceCard() : Parcelable {
         this.topic = topic
     }
 
+    fun getLatestReviewTime() : Date? {
+        return learnRecord?.latestReviewTime
+    }
 
     fun shouldReviewNow(): Boolean {
         return if (learnRecord == null) true else learnRecord!!.shouldReview()
