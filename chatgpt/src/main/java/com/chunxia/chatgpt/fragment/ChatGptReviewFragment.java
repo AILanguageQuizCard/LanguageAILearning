@@ -6,12 +6,16 @@ import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CA
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_TOPIC;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -25,14 +29,20 @@ import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.model.review.TopicReviewSets;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.ui.ReviewCardListItemView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
-
 
 public class ChatGptReviewFragment extends Fragment {
 
     private MaterialButton startReviewButton;
     private MaterialButton addYourOwnCardButton;
     private View root;
+
+    private BottomSheetBehavior mBehavior;
+    private BottomSheetDialog mBottomSheetDialog;
+
+    private View bottom_sheet;
 
     public ChatGptReviewFragment() {
     }
@@ -76,6 +86,12 @@ public class ChatGptReviewFragment extends Fragment {
         addYourOwnCardButton = root.findViewById(R.id.autoplayButton);
         initAddYourOwnCardButton();
         initReviewListViews();
+        initBottomSheetList();
+    }
+
+    private void initBottomSheetList() {
+        bottom_sheet = root.findViewById(R.id.review_bottom_sheet);
+        mBehavior = BottomSheetBehavior.from(bottom_sheet);
     }
 
     @Override
@@ -116,6 +132,13 @@ public class ChatGptReviewFragment extends Fragment {
             reviewCardListItemView.setReviewingCount(reviewData.reviewingNumber);
             reviewCardListItemView.setReviewedCount(reviewData.reviewedNumber);
             reviewCardListItemView.setLatestReviewTime(tempTopicReviewSets.getLatestReviewTime());
+            reviewCardListItemView.setMenuIconClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showBottomSheetDialog();
+                }
+            });
+
             container.addView(reviewCardListItemView, layoutParams);
 
             reviewCardListItemView.setOnClickListener(new View.OnClickListener() {
@@ -135,4 +158,56 @@ public class ChatGptReviewFragment extends Fragment {
             });
         }
     }
+
+
+    private void showBottomSheetDialog() {
+        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+
+        final View view = getLayoutInflater().inflate(R.layout.review_bottom_sheet_list, null);
+
+        ((View) view.findViewById(R.id.lyt_preview)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ((View) view.findViewById(R.id.lyt_share)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ((View) view.findViewById(R.id.lyt_get_link)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ((View) view.findViewById(R.id.lyt_make_copy)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mBottomSheetDialog = new BottomSheetDialog(getActivity());
+        mBottomSheetDialog.setContentView(view);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mBottomSheetDialog = null;
+            }
+        });
+    }
+
 }

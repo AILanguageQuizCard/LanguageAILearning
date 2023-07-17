@@ -158,4 +158,5 @@ dependencies {
     implementation "androidx.room:room-testing:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
 
+    implementation 'com.balysv:material-ripple:1.0.2'                  // ripple effect
 }

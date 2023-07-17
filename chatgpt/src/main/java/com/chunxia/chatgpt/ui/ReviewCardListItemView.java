@@ -76,6 +76,11 @@ public class ReviewCardListItemView extends ConstraintLayout {
         }
     }
 
+    public void setMenuIconClickListener(View.OnClickListener listener) {
+        menuIcon.setOnClickListener(listener);
+    }
+
+
     public void setTopic(String title) {
         if (title != null) {
             topicView.setText(title);
