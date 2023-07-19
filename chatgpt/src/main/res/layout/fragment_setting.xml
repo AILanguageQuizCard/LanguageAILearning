@@ -83,6 +83,7 @@
             android:layout_height="50dp"/>
 
         <com.chunxia.chatgpt.ui.SettingItemView
+            android:id="@+id/language_difficulty_setting_view"
             app:text="@string/setting_item_3"
             app:icon="@drawable/ic_volume_up"
             android:layout_marginLeft="10dp"

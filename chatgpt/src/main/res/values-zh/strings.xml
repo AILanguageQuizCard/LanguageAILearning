@@ -46,7 +46,7 @@
     <string name="chat_copy_successfully">成功复制</string>
     <string name="setting_item_voice_language">正在学习的语言</string>
     <string name="setting_item_recording_language">您的母语</string>
-    <string name="setting_item_3">语音</string>
+    <string name="setting_item_3">生成文本难度</string>
     <string name="setting_item_4">语音</string>
     <string name="setting_item_5">语音</string>
     <string name="setting_item_6">语音</string>
@@ -154,5 +154,11 @@
     <string name="title_new_card_list_input_already_toast">卡片组已经存在了</string>
     <string name="title_new_card_list_rename_already_exist_toast">该主题已存在</string>
     <string name="review_fragment_empty_card_list_hint">该卡片集为空</string>
+    <string name="setting_language_difficulty_option1">简单</string>
+    <string name="setting_language_difficulty_option2">中等</string>
+    <string name="setting_language_difficulty_option3">高级</string>
+    <string name="setting_language_difficulty_title">生成文本难度</string>
+    <string name="setting_language_difficulty_cancel">取消</string>
+    <string name="setting_language_difficulty_ok">选择</string>
 
 </resources>
