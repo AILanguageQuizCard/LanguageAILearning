@@ -194,12 +194,18 @@ public class ChatGptReviewFragment extends Fragment {
             public void onClick(View v) {
                 String text = String.valueOf(editView.getText());
                 if (text.isEmpty()) {
-                    Toast.makeText(getContext(), "请输入卡片集名称", Toast.LENGTH_SHORT).show();
+                    String toast = getResources().getString(R.string.title_new_card_list_empty_input_toast);
+                    Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
                 } else {
-                    TopicReviewSets topicReviewSets = new TopicReviewSets();
-                    ReviewCardManager.getInstance().addOneTopicReviewSets(topicReviewSets);
-                    initReviewListViews();
-                    dialog.dismiss();
+                    TopicReviewSets topicReviewSets = new TopicReviewSets(text);
+                    try {
+                        ReviewCardManager.getInstance().addOneTopicReviewSets(topicReviewSets);
+                        initReviewListViews();
+                        dialog.dismiss();
+                    } catch (AllReviewData.TopicExistedException e) {
+                        String toast = getResources().getString(R.string.title_new_card_list_input_already_toast);
+                        Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -242,7 +248,8 @@ public class ChatGptReviewFragment extends Fragment {
                     initReviewListViews();
                     dialog.dismiss();
                 } catch (AllReviewData.TopicExistedException e) {
-                    Toast.makeText(getContext(), "该主题已存在", Toast.LENGTH_SHORT).show();
+                    String toast = getResources().getString(R.string.title_new_card_list_rename_already_exist_toast);
+                    Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
                 }
             }
         });

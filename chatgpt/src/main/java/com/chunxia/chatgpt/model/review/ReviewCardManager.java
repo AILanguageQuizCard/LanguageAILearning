@@ -52,12 +52,12 @@ public class ReviewCardManager {
         saveAllReviewData();
     }
 
-    public void addOneTopicReviewSets(TopicReviewSets topicReviewSets) {
+    public void addOneTopicReviewSets(TopicReviewSets topicReviewSets) throws AllReviewData.TopicExistedException {
         allReviewData.addOneTopicReviewSet(topicReviewSets);
         saveAllReviewData();
     }
 
-    public void addOneTopicReviewSets(String topic, ArrayList<SentenceCard> sentenceCards) {
+    public void addOneTopicReviewSets(String topic, ArrayList<SentenceCard> sentenceCards) throws AllReviewData.TopicExistedException {
         TopicReviewSets topicReviewSets = new TopicReviewSets(topic, sentenceCards);
         addOneTopicReviewSets(topicReviewSets);
     }

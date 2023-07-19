@@ -76,11 +76,9 @@ public class AllReviewData implements Parcelable {
     }
 
 
-    public void addOneTopicReviewSet(TopicReviewSets topicReviewSets) {
+    public void addOneTopicReviewSet(TopicReviewSets topicReviewSets) throws TopicExistedException {
         if (topicExist(topicReviewSets.getTopic())) {
-            IntStream.range(0, topicReviewSetsList.size())
-                    .filter(i -> topicReviewSetsList.get(i).getTopic().equals(topicReviewSets.getTopic()))
-                    .forEach(i -> topicReviewSetsList.set(i, topicReviewSets));
+            throw new TopicExistedException("topic already exist");
         } else {
             topicReviewSetsList.add(topicReviewSets);
             size++;

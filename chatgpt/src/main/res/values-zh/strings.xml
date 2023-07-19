@@ -150,5 +150,8 @@
     <string name="review_bottom_list_delete_card_list">删除卡片组</string>
     <string name="review_bottom_list_rename">修改标题</string>
     <string name="fragment_start_button">开始复习</string>
+    <string name="title_new_card_list_empty_input_toast">请输入卡片集名称</string>
+    <string name="title_new_card_list_input_already_toast">卡片组已经存在了</string>
+    <string name="title_new_card_list_rename_already_exist_toast">该主题已存在</string>
 
 </resources>

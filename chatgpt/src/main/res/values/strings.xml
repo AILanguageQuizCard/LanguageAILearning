@@ -154,6 +154,9 @@
     <string name="review_bottom_list_delete_card_list">Delete Card List</string>
     <string name="review_bottom_list_rename">Rename Card List</string>
     <string name="fragment_start_button">Start Review</string>
+    <string name="title_new_card_list_empty_input_toast">Please enter the name of the card set.</string>
+    <string name="title_new_card_list_input_already_toast">The card set already exists.</string>
+    <string name="title_new_card_list_rename_already_exist_toast">The card set already exists.</string>
 
 
 </resources>
