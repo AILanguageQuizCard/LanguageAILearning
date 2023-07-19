@@ -30,6 +30,12 @@ public class TopicReviewSets implements Parcelable {
         sentenceCardList = new ArrayList<>();
     }
 
+
+    public int size() {
+        if (sentenceCardList == null) return 0;
+        return sentenceCardList.size();
+    }
+
     public Date getLatestReviewTime() {
         // 返回reviewRecordList 列表中，离当前时间最近的时间
         return sentenceCardList.stream()

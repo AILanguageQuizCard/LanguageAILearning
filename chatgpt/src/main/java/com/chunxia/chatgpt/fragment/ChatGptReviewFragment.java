@@ -68,6 +68,11 @@ public class ChatGptReviewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 TopicReviewSets topicReviewSets = ReviewCardManager.getInstance().getAllTopicReviewSets();
+                if (topicReviewSets.size() == 0) {
+                    Toast.makeText(getContext(), R.string.review_fragment_empty_card_list_hint, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 ReviewCardManager.getInstance().setCurrentTopicReviewSets(topicReviewSets);
                 Intent intent = new XLIntent(getActivity(), ReviewCardActivity.class)
                         .putString(ACTIVITY_REVIEW_CARD_MODE, ACTIVITY_REVIEW_CARD_MODE_ALL);
@@ -152,6 +157,11 @@ public class ChatGptReviewFragment extends Fragment {
 
                     TopicReviewSets topicReviewSets = ReviewCardManager.getInstance()
                             .getTopicReviewSetsByTopic(topic);
+
+                    if (topicReviewSets.size() == 0) {
+                        Toast.makeText(activity, R.string.review_fragment_empty_card_list_hint, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     ReviewCardManager.getInstance().setCurrentTopicReviewSets(topicReviewSets);
                     Intent intent = new XLIntent(getActivity(), ReviewCardActivity.class)
