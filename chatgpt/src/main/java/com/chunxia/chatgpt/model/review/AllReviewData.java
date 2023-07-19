@@ -87,6 +87,35 @@ public class AllReviewData implements Parcelable {
         }
     }
 
+    public static class TopicExistedException extends Exception {
+        public TopicExistedException(String message) {
+            super(message);
+        }
+    }
+
+    public void renameTopicReviewSet(String oldTopic, String newTopic) throws TopicExistedException {
+        if (topicExist(newTopic)) {
+            throw new TopicExistedException("new topic already exist");
+        }
+
+        if (topicExist(oldTopic)) {
+            IntStream.range(0, topicReviewSetsList.size())
+                    .filter(i -> topicReviewSetsList.get(i).getTopic().equals(oldTopic))
+                    .forEach(i -> topicReviewSetsList.get(i).setTopic(newTopic));
+        }
+    }
+
+    public void deleteTopicReviewSet(String topic){
+        for (int i = 0; i < topicReviewSetsList.size(); i++) {
+            if (topicReviewSetsList.get(i).getTopic().equals(topic)) {
+                topicReviewSetsList.remove(i);
+                size--;
+                return;
+            }
+        }
+    }
+
+
     public List<String> getAllTopics() {
         return topicReviewSetsList.stream().map(TopicReviewSets::getTopic).collect(Collectors.toList());
     }

@@ -6,21 +6,28 @@ import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CA
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_TOPIC;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.activity.ActivityIntentKeys;
 import com.chunxia.chatgpt.activity.AddReviewCardActivity;
 import com.chunxia.chatgpt.activity.ReviewCardActivity;
 import com.chunxia.chatgpt.common.XLIntent;
@@ -36,7 +43,7 @@ import com.google.android.material.button.MaterialButton;
 public class ChatGptReviewFragment extends Fragment {
 
     private MaterialButton startReviewButton;
-    private MaterialButton addYourOwnCardButton;
+    private MaterialButton addNewCardListButton;
     private View root;
 
     private BottomSheetBehavior mBehavior;
@@ -70,20 +77,18 @@ public class ChatGptReviewFragment extends Fragment {
     }
 
     private void initAddYourOwnCardButton() {
-        addYourOwnCardButton.setOnClickListener(new View.OnClickListener() {
+        addNewCardListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new XLIntent(getActivity(), AddReviewCardActivity.class);
-                ActivityUtils.startActivity(intent);
+                showNewTopicCardListDialog();
             }
         });
     }
 
-
     private void initView() {
         startReviewButton = root.findViewById(R.id.exerciseButton);
         initStartReviewButton();
-        addYourOwnCardButton = root.findViewById(R.id.autoplayButton);
+        addNewCardListButton = root.findViewById(R.id.autoplayButton);
         initAddYourOwnCardButton();
         initReviewListViews();
         initBottomSheetList();
@@ -135,7 +140,7 @@ public class ChatGptReviewFragment extends Fragment {
             reviewCardListItemView.setMenuIconClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showBottomSheetDialog();
+                    showBottomSheetDialog(topic);
                 }
             });
 
@@ -160,38 +165,134 @@ public class ChatGptReviewFragment extends Fragment {
     }
 
 
-    private void showBottomSheetDialog() {
+    private void showNewTopicCardListDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.review_dialog_rename);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        TextView textView = dialog.findViewById(R.id.review_dialog_title);
+        String title = getResources().getString(R.string.title_new_card_list_input_dialog_title);
+        textView.setText(title);
+
+        EditText editView = dialog.findViewById(R.id.review_dialog_rename_input);
+
+        ((AppCompatButton) dialog.findViewById(R.id.review_dialog_rename_cancel_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        ((AppCompatButton) dialog.findViewById(R.id.review_dialog_rename_ok_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = String.valueOf(editView.getText());
+                if (text.isEmpty()) {
+                    Toast.makeText(getContext(), "请输入卡片集名称", Toast.LENGTH_SHORT).show();
+                } else {
+                    TopicReviewSets topicReviewSets = new TopicReviewSets();
+                    ReviewCardManager.getInstance().addOneTopicReviewSets(topicReviewSets);
+                    initReviewListViews();
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    private void showRenameDialog(String topic) {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.review_dialog_rename);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        TextView textView = dialog.findViewById(R.id.review_dialog_title);
+        String title = getResources().getString(R.string.title_preset_name_input_dialog);
+        textView.setText(title);
+
+        EditText editView = dialog.findViewById(R.id.review_dialog_rename_input);
+        editView.setText(topic);
+        ((AppCompatButton) dialog.findViewById(R.id.review_dialog_rename_cancel_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        ((AppCompatButton) dialog.findViewById(R.id.review_dialog_rename_ok_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String newTopic = String.valueOf(editView.getText());
+                try {
+                    ReviewCardManager.getInstance().renameTopicReviewSetsByTopic(topic, newTopic);
+                    initReviewListViews();
+                    dialog.dismiss();
+                } catch (AllReviewData.TopicExistedException e) {
+                    Toast.makeText(getContext(), "该主题已存在", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    private void showBottomSheetDialog(String topic) {
         if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
 
         final View view = getLayoutInflater().inflate(R.layout.review_bottom_sheet_list, null);
 
-        ((View) view.findViewById(R.id.lyt_preview)).setOnClickListener(new View.OnClickListener() {
+        ((View) view.findViewById(R.id.change_quizcard_list_title)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
+                // 弹出修改标题的对话框
+                mBottomSheetDialog.dismiss();
+                showRenameDialog(topic);
             }
         });
 
-        ((View) view.findViewById(R.id.lyt_share)).setOnClickListener(new View.OnClickListener() {
+        ((View) view.findViewById(R.id.delete_quizcard_list)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
+                // 删除该卡片组
+                ReviewCardManager.getInstance().deleteTopicReviewSetsByTopic(topic);
+                initReviewListViews();
+                mBottomSheetDialog.dismiss();
             }
         });
 
-        ((View) view.findViewById(R.id.lyt_get_link)).setOnClickListener(new View.OnClickListener() {
+        ((View) view.findViewById(R.id.add_new_quizcard)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
+                // 进入新增卡片界面
+                Intent intent = new XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity.class)
+                .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_TOPIC, topic);
+                ActivityUtils.startActivity(intent);
+                mBottomSheetDialog.dismiss();
             }
         });
 
-        ((View) view.findViewById(R.id.lyt_make_copy)).setOnClickListener(new View.OnClickListener() {
+        ((View) view.findViewById(R.id.add_to_favorite_list)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
+                // 收藏
+                mBottomSheetDialog.dismiss();
             }
         });
 

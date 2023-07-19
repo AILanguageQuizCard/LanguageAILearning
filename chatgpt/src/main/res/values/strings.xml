@@ -141,6 +141,19 @@
     <string name="subscription_option_title2">Quarterly subscription</string>
     <string name="subscription_option_title3">Annual subscription</string>
     <string name="deck_options">Deck options</string>
+    <string name="title_preset_name_input_dialog">Preset name</string>
+
+    <string name="title_new_card_list_input_dialog_title">Input Set Name</string>
+    <string name="review_card_already_review">reviewed</string>
+    <string name="review_card_reviewing">reviewing</string>
+    <string name="review_card_unreview">unreviewed</string>
+    <string name="review_card_last_review_time">last review</string>
+    <string name="fragment_review_add_new_list">Add Card List</string>
+    <string name="review_bottom_list_add_new_card">Add Card</string>
+    <string name="review_bottom_list_favorite">Save</string>
+    <string name="review_bottom_list_delete_card_list">Delete Card List</string>
+    <string name="review_bottom_list_rename">Rename Card List</string>
+    <string name="fragment_start_button">Start Review</string>
 
 
 </resources>

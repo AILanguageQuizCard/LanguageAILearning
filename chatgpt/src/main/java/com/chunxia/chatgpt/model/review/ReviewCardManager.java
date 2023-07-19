@@ -42,6 +42,16 @@ public class ReviewCardManager {
     }
 
 
+    public void deleteTopicReviewSetsByTopic(String topic) {
+        allReviewData.deleteTopicReviewSet(topic);
+        saveAllReviewData();
+    }
+
+    public void renameTopicReviewSetsByTopic(String oldTopic, String newTopic) throws AllReviewData.TopicExistedException {
+        allReviewData.renameTopicReviewSet(oldTopic, newTopic);
+        saveAllReviewData();
+    }
+
     public void addOneTopicReviewSets(TopicReviewSets topicReviewSets) {
         allReviewData.addOneTopicReviewSet(topicReviewSets);
         saveAllReviewData();

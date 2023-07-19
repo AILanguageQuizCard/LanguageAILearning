@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            android:text="已复习"
+            android:text="@string/review_card_already_review"
             android:maxLines="1"
             android:textColor="@color/text_medium_emphasis"
             android:textSize="11sp"
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            android:text="复习中"
+            android:text="@string/review_card_reviewing"
             android:maxLines="1"
             android:textColor="@color/text_medium_emphasis"
             android:textSize="11sp" />
@@ -142,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            android:text="未复习"
+            android:text="@string/review_card_unreview"
             android:maxLines="1"
             android:textColor="@color/text_medium_emphasis"
             android:textSize="11sp" />
@@ -179,7 +179,7 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
             android:layout_marginRight="30dp"
-            android:text="上次测试"
+            android:text="@string/review_card_last_review_time"
             android:maxLines="1"
             android:textColor="@color/text_medium_emphasis"
             android:textSize="11sp" />

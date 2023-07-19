@@ -137,5 +137,18 @@
     <string name="subscription_option_title2">季订阅</string>
     <string name="subscription_option_title3">年订阅</string>
     <string name="deck_options">Deck options</string>
+    <string name="title_preset_name_input_dialog">重命名</string>
+
+    <string name="title_new_card_list_input_dialog_title">输入新列表名</string>
+    <string name="review_card_already_review">已复习</string>
+    <string name="review_card_reviewing">复习中</string>
+    <string name="review_card_unreview">未复习</string>
+    <string name="review_card_last_review_time">上次复习</string>
+    <string name="fragment_review_add_new_list">新增列表</string>
+    <string name="review_bottom_list_add_new_card">添加卡片</string>
+    <string name="review_bottom_list_favorite">收藏</string>
+    <string name="review_bottom_list_delete_card_list">删除卡片组</string>
+    <string name="review_bottom_list_rename">修改标题</string>
+    <string name="fragment_start_button">开始复习</string>
 
 </resources>

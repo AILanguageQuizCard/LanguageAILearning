@@ -17,7 +17,7 @@
         android:paddingRight="@dimen/spacing_middle">
 
         <LinearLayout
-            android:id="@+id/lyt_preview"
+            android:id="@+id/change_quizcard_list_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_middle"
                 android:layout_marginRight="@dimen/spacing_middle"
-                android:text="Preview"
+                android:text="@string/review_bottom_list_rename"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/grey_90" />
 
@@ -52,7 +52,7 @@
         android:paddingRight="@dimen/spacing_middle">
 
         <LinearLayout
-            android:id="@+id/lyt_share"
+            android:id="@+id/delete_quizcard_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_middle"
                 android:layout_marginRight="@dimen/spacing_middle"
-                android:text="Share"
+                android:text="@string/review_bottom_list_delete_card_list"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/grey_90" />
 
@@ -88,7 +88,7 @@
         android:paddingRight="@dimen/spacing_middle">
 
         <LinearLayout
-            android:id="@+id/lyt_get_link"
+            android:id="@+id/add_new_quizcard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_middle"
                 android:layout_marginRight="@dimen/spacing_middle"
-                android:text="Get link"
+                android:text="@string/review_bottom_list_add_new_card"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/grey_90" />
 
@@ -123,7 +123,7 @@
         android:paddingRight="@dimen/spacing_middle">
 
         <LinearLayout
-            android:id="@+id/lyt_make_copy"
+            android:id="@+id/add_to_favorite_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_middle"
                 android:layout_marginRight="@dimen/spacing_middle"
-                android:text="Make a copy"
+                android:text="@string/review_bottom_list_favorite"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/grey_90" />
 
