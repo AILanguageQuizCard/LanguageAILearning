@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/review_card_list_view"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
     android:background="@drawable/review_card_list_item_bg"
     android:layout_width="match_parent">
 

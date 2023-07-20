@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:weightSum="10">
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/nunito_extrabold"
+        android:gravity="center"
+        android:stateListAnimator="@animator/material_button"
+        android:text="@string/activity_add_review_card_question_title"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="18dp"/>
+
+<!--        app:icon="@drawable/ic_play_20"-->
+<!--        app:iconGravity="textStart"-->
+<!--        app:iconPadding="8dp"-->
+<!--        app:iconTint="@color/accent"-->
+<!--        app:iconTintMode="src_in"-->
+<!--        app:backgroundTint="@color/accent"-->
+<!--        app:cornerRadius="16dp"-->
+<!--        app:rippleColor="@android:color/white"-->
+
 
     <EditText
         android:id="@+id/questionEditText"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_height="100dp"
         android:gravity="top|start"
         android:hint="Enter question"
         android:inputType="textMultiLine"
@@ -19,12 +42,24 @@
         android:overScrollMode="always"
         android:background="@drawable/edit_text_border"/>
 
-    <EditText
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/nunito_extrabold"
+        android:gravity="center"
+        android:stateListAnimator="@animator/material_button"
+        android:text="@string/activity_add_review_card_answer_title"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="18dp"/>
+
+    <EditText
         android:id="@+id/answerEditText"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_height="150dp"
         android:gravity="top|start"
         android:hint="Enter answer"
         android:inputType="textMultiLine"
@@ -33,12 +68,24 @@
         android:overScrollMode="always"
         android:background="@drawable/edit_text_border"/>
 
-    <EditText
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/nunito_extrabold"
+        android:gravity="center"
+        android:stateListAnimator="@animator/material_button"
+        android:text="@string/activity_add_review_card_topic_title"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="18dp"/>
+
+    <EditText
         android:id="@+id/topicEditText"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="70dp"
         android:gravity="top|start"
         android:hint="Enter Topic"
         android:inputType="textMultiLine"
@@ -47,13 +94,28 @@
         android:overScrollMode="always"
         android:background="@drawable/edit_text_border"/>
 
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/activity_add_review_card_keywords_flexbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:flexWrap="wrap"
+        app:justifyContent="flex_start">
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
     <Button
         android:layout_marginTop="20dp"
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="bottom|center_horizontal"
         android:text="Submit" />
 
 </LinearLayout>

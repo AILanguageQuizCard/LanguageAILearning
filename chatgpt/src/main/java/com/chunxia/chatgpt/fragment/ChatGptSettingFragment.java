@@ -14,13 +14,12 @@ import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
-import com.chunxia.chatgpt.activity.RecordingLanguageSettingActivity;
+import com.chunxia.chatgpt.activity.MotherLanguageSettingActivity;
 import com.chunxia.chatgpt.activity.SubscribeActivity;
-import com.chunxia.chatgpt.activity.VoiceLanguageSettingActivity;
+import com.chunxia.chatgpt.activity.LearningLanguageSettingActivity;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionManager;
 import com.chunxia.chatgpt.ui.SettingItemView;
-import com.google.android.material.snackbar.Snackbar;
 
 public class ChatGptSettingFragment extends Fragment {
 
@@ -64,7 +63,6 @@ public class ChatGptSettingFragment extends Fragment {
                 startActivity(new XLIntent(getActivity(), SubscribeActivity.class));
             }
         });
-
     }
 
 
@@ -73,7 +71,7 @@ public class ChatGptSettingFragment extends Fragment {
         learningLanguageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new XLIntent(getActivity(), VoiceLanguageSettingActivity.class);
+                Intent intent = new XLIntent(getActivity(), LearningLanguageSettingActivity.class);
                 ActivityUtils.startActivity(intent);
 
             }
@@ -85,13 +83,12 @@ public class ChatGptSettingFragment extends Fragment {
         motherLanguageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new XLIntent(getActivity(), RecordingLanguageSettingActivity.class);
+                Intent intent = new XLIntent(getActivity(), MotherLanguageSettingActivity.class);
                 ActivityUtils.startActivity(intent);
 
             }
         });
     }
-
 
     public void initView() {
         initSubscription();
@@ -113,7 +110,7 @@ public class ChatGptSettingFragment extends Fragment {
 
     private void showSingleChoiceDialog() {
 
-        final String[] Options = new String[]{
+        final String[] Options = new String[] {
                 getResources().getString(R.string.setting_language_difficulty_option1),
                 getResources().getString(R.string.setting_language_difficulty_option2),
                 getResources().getString(R.string.setting_language_difficulty_option3)

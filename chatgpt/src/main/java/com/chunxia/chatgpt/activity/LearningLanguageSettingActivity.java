@@ -1,7 +1,11 @@
 package com.chunxia.chatgpt.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,12 +20,15 @@ import com.chunxia.chatgpt.adapter.settingItem.VoiceLanguageSettingAdapter;
 import com.chunxia.chatgpt.mmkv.MMKVConstant;
 import com.chunxia.chatgpt.texttovoice.GoogleTextToVoiceLanguageTools;
 import com.chunxia.mmkv.KVUtils;
+import com.material.components.model.Image;
 
 import java.util.ArrayList;
 
-public class VoiceLanguageSettingActivity extends AppCompatActivity {
+public class LearningLanguageSettingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private VoiceLanguageSettingAdapter adapter;
+
+    private TextView titleView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +49,18 @@ public class VoiceLanguageSettingActivity extends AppCompatActivity {
         }
     }
 
+    private ImageButton backView;
+
     private void initView() {
+        backView = findViewById(R.id.lyt_back);
+        backView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        titleView = findViewById(R.id.voice_language_title_view);
+        titleView.setText(R.string.setting_item_learning_language);
         recyclerView = findViewById(R.id.language_setting_recyclerView);
         adapter = new VoiceLanguageSettingAdapter(getLanguageData());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

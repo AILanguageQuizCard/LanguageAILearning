@@ -68,7 +68,6 @@ public class LearningMaterialCardAdapter extends PagerAdapter {
             public void onClick(View v) {
                 ReviewCardManager.getInstance().addOneSentenceCardInTopicReviewSets(learningMaterialCard.getTopic(),
                         learningMaterialCard.getSentenceCards().get(position));
-
                 EventBus.getDefault().post(new Events.ShowSnackBar(context.getString(R.string.train_card_add_to_review_set_successfully)));
 
             }
@@ -79,6 +78,29 @@ public class LearningMaterialCardAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
+        // todo fix
+//        Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'int com.chunxia.chatgpt.model.review.AllLearningMaterialCard.size()' on a null object reference
+//        at com.chunxia.chatgpt.adapter.topiccard.LearningMaterialCardAdapter.getCount(LearningMaterialCardAdapter.java:82)
+//        at androidx.viewpager.widget.ViewPager.setAdapter(ViewPager.java:532)
+//        at com.chunxia.chatgpt.activity.TopicTrainingCardActivity.initViewPager(TopicTrainingCardActivity.java:217)
+//        at com.chunxia.chatgpt.activity.TopicTrainingCardActivity.onCreate(TopicTrainingCardActivity.java:96)
+//        at android.app.Activity.performCreate(Activity.java:8508)
+//        at android.app.Activity.performCreate(Activity.java:8472)
+//        at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1417)
+//        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3783)
+//        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3948) 
+//        at android.app.servertransaction.LaunchActivityItem.execute(LaunchActivityItem.java:101) 
+//        at android.app.servertransaction.TransactionExecutor.executeCallbacks(TransactionExecutor.java:135) 
+//        at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:95) 
+//        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2402) 
+//        at android.os.Handler.dispatchMessage(Handler.java:106) 
+//        at android.os.Looper.loopOnce(Looper.java:211) 
+//        at android.os.Looper.loop(Looper.java:300) 
+//        at android.app.ActivityThread.main(ActivityThread.java:8143) 
+//        at java.lang.reflect.Method.invoke(Native Method) 
+//        at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:580) 
+//        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1028) 
+        if (learningMaterialCard == null) return 0;
         return learningMaterialCard.size();
     }
 

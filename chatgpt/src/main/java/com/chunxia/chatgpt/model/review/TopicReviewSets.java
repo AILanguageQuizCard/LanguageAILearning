@@ -117,6 +117,7 @@ public class TopicReviewSets implements Parcelable {
 
     public void addOneSentenceCard(SentenceCard sentenceCard) {
         if (sentenceCardList == null || sentenceCard == null) return;
+        if (sentenceCardList.contains(sentenceCard)) return;  // 避免重复添加
         sentenceCardList.add(sentenceCard);
     }
 

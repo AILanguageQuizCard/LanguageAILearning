@@ -4,21 +4,25 @@ import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_CHAT_ADD_
 import static com.chunxia.chatgpt.activity.ActivityIntentKeys.ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.chat.ChoosedItem;
 import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.model.review.SentenceCard;
+import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 public class AddReviewCardActivity extends AppCompatActivity {
 
@@ -29,7 +33,6 @@ public class AddReviewCardActivity extends AppCompatActivity {
 
     private Button submitButton;
 
-    // todo fix it
     private String topic = "";
 
     private String question= "";
@@ -47,7 +50,34 @@ public class AddReviewCardActivity extends AppCompatActivity {
         submitButton = findViewById(R.id.submitButton);
 
         initData();
+        initAllTopicButtons();
         initSubmitButtonClicked();
+    }
+
+
+    public void initAllTopicButtons() {
+        FlexboxLayout flexboxLayout = findViewById(R.id.activity_add_review_card_keywords_flexbox);
+        List<String> allTopics = ReviewCardManager.getInstance().getAllTopics();
+
+        flexboxLayout.removeAllViews();
+        for (String topic : allTopics) {
+            Button button = new Button(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            button.setLayoutParams(params);
+            button.setBackgroundResource(R.drawable.btn_rounded_colorprimary);
+            button.setText(topic);
+            button.setAllCaps(false);
+            button.setTextColor(ContextCompat.getColor(this, R.color.black));
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    topicEditText.setText(topic);
+                }
+            });
+            flexboxLayout.addView(button);
+        }
     }
 
     public void initData() {

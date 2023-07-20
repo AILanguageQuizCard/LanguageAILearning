@@ -34,7 +34,7 @@
     <string name = "opinion_training_hint_question"> 请输入您的观点</string>
 
 
-    <string name="setting_item_voice_language_name"> 播放语音语言 </string>
+    <string name="setting_item_voice_language_name">母语</string>
 
     <string name = "sentence_pattern_training_hint_question"> 请输入句型 </string>
 
@@ -44,8 +44,8 @@
 
 
     <string name="chat_copy_successfully">成功复制</string>
-    <string name="setting_item_voice_language">正在学习的语言</string>
-    <string name="setting_item_recording_language">您的母语</string>
+    <string name="setting_item_learning_language">学习语言</string>
+    <string name="setting_item_native_language">母语</string>
     <string name="setting_item_3">生成文本难度</string>
     <string name="setting_item_4">语音</string>
     <string name="setting_item_5">语音</string>
@@ -160,5 +160,8 @@
     <string name="setting_language_difficulty_title">生成文本难度</string>
     <string name="setting_language_difficulty_cancel">取消</string>
     <string name="setting_language_difficulty_ok">选择</string>
+    <string name="activity_add_review_card_question_title">Question</string>
+    <string name="activity_add_review_card_answer_title">Answer</string>
+    <string name="activity_add_review_card_topic_title">Topic</string>
 
 </resources>

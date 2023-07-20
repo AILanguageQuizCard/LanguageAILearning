@@ -1,7 +1,10 @@
 package com.chunxia.chatgpt.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -20,7 +23,7 @@ import com.chunxia.mmkv.KVUtils;
 
 import java.util.ArrayList;
 
-public class RecordingLanguageSettingActivity extends AppCompatActivity {
+public class MotherLanguageSettingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecordingLanguageSettingAdapter adapter;
 
@@ -43,14 +46,24 @@ public class RecordingLanguageSettingActivity extends AppCompatActivity {
         }
     }
 
+    private ImageButton backView;
     private void initView() {
+
+        backView = findViewById(R.id.lyt_back);
+        backView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         recyclerView = findViewById(R.id.language_setting_recyclerView);
         adapter = new RecordingLanguageSettingAdapter(getLanguageData());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        ((TextView) findViewById(R.id.voice_language_title_view)).setText(R.string.setting_item_recording_language);
+        ((TextView) findViewById(R.id.voice_language_title_view)).setText(R.string.setting_item_native_language);
     }
 
     private ArrayList<SettingInfo> getLanguageData() {

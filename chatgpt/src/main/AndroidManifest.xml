@@ -40,10 +40,10 @@
             android:name=".subscription.SubscriptionActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".activity.RecordingLanguageSettingActivity"
+            android:name=".activity.MotherLanguageSettingActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".activity.VoiceLanguageSettingActivity"
+            android:name=".activity.LearningLanguageSettingActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.OpinionTrainingActivity"

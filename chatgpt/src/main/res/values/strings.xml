@@ -35,13 +35,14 @@
 
     <string name="sentence_pattern_training_hint_question">Please enter the sentence pattern</string>
 
-    <string name="setting_item_voice_language_name">Voice Language</string>
+    <string name="setting_item_voice_language_name">Mother Language</string>
 
     <string name="topic_training_hint_question">Hello, What topic would you like to search?</string>
 
     <string name="chat_copy_successfully">copy successfully!</string>
-    <string name="setting_item_voice_language">Your native language</string>
-    <string name="setting_item_recording_language">Learning language</string>
+    <string name="setting_item_learning_language">Learning language</string>
+    <string name="setting_item_native_language">Your native language</string>
+
     <string name="setting_item_3">Difficulty of generating text</string>
     <string name="setting_item_4">Voice</string>
     <string name="setting_item_5">Voice</string>
@@ -164,6 +165,9 @@
     <string name="setting_language_difficulty_title">Text Generation Difficulty</string>
     <string name="setting_language_difficulty_cancel">Cancel</string>
     <string name="setting_language_difficulty_ok">Select</string>
+    <string name="activity_add_review_card_question_title">Question</string>
+    <string name="activity_add_review_card_answer_title">Answer</string>
+    <string name="activity_add_review_card_topic_title">Topic</string>
 
 
 </resources>
