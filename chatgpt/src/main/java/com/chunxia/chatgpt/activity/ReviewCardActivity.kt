@@ -1,17 +1,17 @@
 package com.chunxia.chatgpt.activity
 
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.blankj.utilcode.util.ActivityUtils
 import com.chunxia.chatgpt.R
@@ -24,7 +24,6 @@ import com.chunxia.chatgpt.model.review.LearnRecord
 import com.chunxia.chatgpt.model.review.ReviewCardManager
 import com.chunxia.chatgpt.model.review.SentenceCard
 import com.chunxia.chatgpt.model.review.TopicReviewSets
-import com.google.android.material.navigation.NavigationView
 import com.material.components.utils.Tools
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
@@ -38,7 +37,6 @@ import com.yuyakaido.android.cardstackview.SwipeableMethod
 
 class ReviewCardActivity : AppCompatActivity(), CardStackListener {
 
-    private val drawerLayout by lazy { findViewById<DrawerLayout>(R.id.drawer_layout) }
     private val cardStackView by lazy { findViewById<CardStackView>(R.id.card_stack_view) }
     private val manager by lazy { CardStackLayoutManager(this, this) }
 
@@ -61,7 +59,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         Tools.setSystemBarLight(this)
     }
 
-    private var currentTopic : String? = null;
+    private var currentTopic: String? = null;
 
     private fun initData() {
         topicReviewSets = ReviewCardManager.getInstance().currentTopicReviewSets
@@ -80,13 +78,6 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         adapter.stopAllVoice()
     }
 
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawers()
-        } else {
-            super.onBackPressed()
-        }
-    }
 
     override fun onCardDragging(direction: Direction, ratio: Float) {
         Log.d("CardStackView", "onCardDragging: d = ${direction.name}, r = $ratio")
@@ -141,33 +132,45 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     }
 
     private fun setupNavigation() {
-        // Toolbar
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val toolbar = findViewById<View>(R.id.activity_review_toolbar) as Toolbar
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
+        toolbar.navigationIcon!!
+            .setColorFilter(resources.getColor(R.color.grey_80), PorterDuff.Mode.SRC_ATOP)
+        toolbar.setTitleTextColor(resources.getColor(R.color.grey_80))
         setSupportActionBar(toolbar)
 
-        // DrawerLayout
-        val actionBarDrawerToggle = ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            toolbar,
-            R.string.open_drawer,
-            R.string.close_drawer
-        )
-        actionBarDrawerToggle.syncState()
-        drawerLayout.addDrawerListener(actionBarDrawerToggle)
-
-        // NavigationView
-        val navigationView = findViewById<NavigationView>(R.id.navigation_view)
-        navigationView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.reload -> editCurrentCard()
-                R.id.add_spot_to_first -> jumpToEmptyAddCardActivity()
-                R.id.add_spot_to_last -> removeTop()
-            }
-            drawerLayout.closeDrawers()
-            true
-        }
+        val title = getString(R.string.activity_review_title)
+        supportActionBar!!.title = title
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        Tools.setSystemBarLight(this)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_activity_review, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+            }
+
+            R.id.action_add_one_card -> {
+                jumpToEmptyAddCardActivity()
+            }
+
+            R.id.action_edit_card -> {
+                editCurrentCard()
+            }
+
+            R.id.action_delete_card -> {
+                removeTop()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     private fun setupCardStackView() {
         initialize()
@@ -255,9 +258,18 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         val sentenceCard = getTopSentenceCard()
         val intent: Intent =
             XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity::class.java)
-                .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER, sentenceCard.sentence)
-                .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION, sentenceCard.translation)
-                .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_TOPIC, getCurrentTopic())
+                .putString(
+                    ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER,
+                    sentenceCard.sentence
+                )
+                .putString(
+                    ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION,
+                    sentenceCard.translation
+                )
+                .putString(
+                    ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_TOPIC,
+                    getCurrentTopic()
+                )
         startActivityForResult(intent, requestCode)
     }
 
@@ -265,13 +277,15 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             if (requestCode == this.requestCode) {
-                val editedSentenceCardList: ArrayList<SentenceCard>?  = data?.getParcelableArrayListExtra(ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST)
+                val editedSentenceCardList: ArrayList<SentenceCard>? =
+                    data?.getParcelableArrayListExtra(ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST)
                 editedSentenceCardList?.let {
                     // 哪怕editedSentenceCardList传递了多个数据，也只替换一个
                     replace(editedSentenceCardList[0])
                 }
             } else if (requestCode == this.addCardRequestCode) {
-                val editedSentenceCardList: ArrayList<SentenceCard>?  = data?.getParcelableArrayListExtra(ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST)
+                val editedSentenceCardList: ArrayList<SentenceCard>? =
+                    data?.getParcelableArrayListExtra(ACTIVITY_REVIEW_CARD_EDITED_SENTENCES_LIST)
                 editedSentenceCardList?.let {
                     addCards()
                 }
@@ -293,7 +307,10 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     private fun jumpToEmptyAddCardActivity() {
         val intent: Intent =
             XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity::class.java)
-                .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_TOPIC, getCurrentTopic())
+                .putString(
+                    ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_TOPIC,
+                    getCurrentTopic()
+                )
         startActivityForResult(intent, addCardRequestCode)
     }
 
@@ -303,7 +320,7 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
     }
 
 
-    private fun getCurrentTopic() : String? {
+    private fun getCurrentTopic(): String? {
         if (currentTopic != null) {
             return currentTopic
         }
@@ -317,7 +334,8 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
             return
         }
 
-        ReviewCardManager.getInstance().deleteOneSentenceCardInTopicReviewSets(getCurrentTopic(), getTopSentenceCard())
+        ReviewCardManager.getInstance()
+            .deleteOneSentenceCardInTopicReviewSets(getCurrentTopic(), getTopSentenceCard())
         // 这里可以不用update，事实上topicReviewSets就是同一份引用
         topicReviewSets?.update()
         var pos = -1
