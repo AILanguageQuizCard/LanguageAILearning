@@ -94,6 +94,7 @@
             android:layout_height="50dp"/>
 
         <com.chunxia.chatgpt.ui.SettingItemView
+            android:id="@+id/fragment_setting_contact_us"
             app:text="@string/setting_item_4"
             app:icon="@drawable/ic_volume_up"
             android:layout_marginLeft="10dp"

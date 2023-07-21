@@ -1,13 +1,16 @@
 package com.chunxia.chatgpt.fragment;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
@@ -78,6 +81,34 @@ public class ChatGptSettingFragment extends Fragment {
         });
     }
 
+
+    private SettingItemView contactUsButton;
+    private void initContactUsButton() {
+        contactUsButton = root.findViewById(R.id.fragment_setting_contact_us);
+        contactUsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogContactUS();
+            }
+        });
+    }
+
+    private void showDialogContactUS() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_contact_us);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCancelable(true);
+        (dialog.findViewById(R.id.dialog_contact_us_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+
     private void initRecordingLanguageButton() {
         motherLanguageButton = root.findViewById(R.id.record_language_setting_view);
         motherLanguageButton.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +126,7 @@ public class ChatGptSettingFragment extends Fragment {
         initLearningLanguageButton();
         initRecordingLanguageButton();
         initLanguageDifficultyButton();
+        initContactUsButton();
     }
 
     private void initLanguageDifficultyButton() {
@@ -133,6 +165,4 @@ public class ChatGptSettingFragment extends Fragment {
         builder.setNegativeButton(R.string.setting_language_difficulty_cancel, null);
         builder.show();
     }
-
-
 }

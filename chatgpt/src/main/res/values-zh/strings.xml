@@ -47,7 +47,7 @@
     <string name="setting_item_learning_language">学习语言</string>
     <string name="setting_item_native_language">母语</string>
     <string name="setting_item_3">生成文本难度</string>
-    <string name="setting_item_4">语音</string>
+    <string name="setting_item_4">联系我们</string>
     <string name="setting_item_5">语音</string>
     <string name="setting_item_6">语音</string>
     <string name="cDescription" />
@@ -163,5 +163,6 @@
     <string name="activity_add_review_card_question_title">Question</string>
     <string name="activity_add_review_card_answer_title">Answer</string>
     <string name="activity_add_review_card_topic_title">Topic</string>
+    <string name="setting_item_email_address">englishchatai@gmail.com</string>
 
 </resources>
