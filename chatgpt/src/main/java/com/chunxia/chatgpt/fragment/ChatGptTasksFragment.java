@@ -6,18 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.activity.SubscribeActivity;
 import com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT;
 import com.chunxia.chatgpt.adapter.task.TaskAdapter;
 import com.chunxia.chatgpt.adapter.task.TaskRecyclerViewItemDecoration;
 import com.chunxia.chatgpt.adapter.task.TopicInfo;
+import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionManager;
+import com.chunxia.chatgpt.ui.SubscriptionReminderView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,15 +76,23 @@ public class ChatGptTasksFragment extends Fragment {
 
 
     private void initSubscriptionView() {
-        RelativeLayout relativeLayout = root.findViewById(R.id.subscription_view);
+        SubscriptionReminderView subscriptionReminderView = root.findViewById(R.id.subscription_reminder_view);
+
+        subscriptionReminderView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new XLIntent(getActivity(), SubscribeActivity.class));
+            }
+        });
+
         if (SubscriptionManager.getInstance().isSubscribed()) {
-            relativeLayout.setVisibility(View.GONE);
+            subscriptionReminderView.setVisibility(View.GONE);
         }
         SubscriptionManager.getInstance().registerSubscriptionListener(new SubscriptionManager.SubscriptionUpdateListener() {
             @Override
             public void onUpdatedSubscription(String sku) {
                 Log.i(TAG, "onUpdatedSubscription: " + sku);
-                relativeLayout.setVisibility(View.GONE);
+                subscriptionReminderView.setVisibility(View.GONE);
             }
         });
     }

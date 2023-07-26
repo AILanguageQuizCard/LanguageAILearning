@@ -170,6 +170,7 @@
     <string name="activity_add_review_card_topic_title">Topic</string>
     <string name="setting_item_email_address">englishchatai@gmail.com</string>
     <string name="activity_review_title">Review</string>
-
+    <string name="subscription_reminder_view_text1">您现在还剩</string>
+    <string name="subscription_reminder_view_text2">次试用机会，赶紧订阅吧</string>
 
 </resources>
