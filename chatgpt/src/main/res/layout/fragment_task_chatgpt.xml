@@ -9,16 +9,26 @@
     <include
         layout="@layout/chat_task_top_view_layout"/>
 
-    <com.chunxia.chatgpt.ui.SubscriptionReminderView
-        android:id="@+id/subscription_reminder_view"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="2dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bg_gradient_soft"
+        android:rotation="180" />
 
-    <RelativeLayout
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:background="@color/grey_3"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.chunxia.chatgpt.ui.SubscriptionReminderView
+            android:id="@+id/subscription_reminder_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/task_fragment_recyclerview"
@@ -30,13 +40,6 @@
             android:scrollbars="vertical"
             android:scrollingCache="true" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/bg_gradient_soft"
-            android:rotation="180" />
-
-    </RelativeLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </LinearLayout>

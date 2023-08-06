@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/navigation_chatgpt_tasks"
-        android:icon="@drawable/ic_recent"
+        android:icon="@drawable/ic_chat"
         android:title="Chat" />
 
     <item
         android:id="@+id/navigation_chatgpt_training"
-        android:icon="@drawable/icons8_coach"
+        android:icon="@drawable/ic_chat"
         android:title="Training" />
 
     <item
