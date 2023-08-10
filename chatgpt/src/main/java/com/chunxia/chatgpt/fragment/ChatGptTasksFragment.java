@@ -43,7 +43,21 @@ public class ChatGptTasksFragment extends Fragment {
         this.root = root;
         initRecyclerView();
         initSubscriptionView();
+        initSubscriptionReminderView();
         return root;
+    }
+
+
+    SubscriptionReminderView subscriptionReminderView = null;
+
+    public void initSubscriptionReminderView() {
+        subscriptionReminderView = this.root.findViewById(R.id.subscription_reminder_view);
+        if (SubscriptionManager.getInstance().isSubscribed()) {
+            subscriptionReminderView.setVisibility(View.GONE);
+        } else {
+            subscriptionReminderView.setTitle(SubscriptionManager.getInstance().getRemainingTrials());
+            subscriptionReminderView.setVisibility(View.VISIBLE);
+        }
     }
 
     private List<TopicInfo> getDatas() {

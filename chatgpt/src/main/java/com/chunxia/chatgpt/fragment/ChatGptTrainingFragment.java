@@ -15,6 +15,7 @@ import com.chunxia.chatgpt.adapter.task.TaskRecyclerViewItemDecoration;
 import com.chunxia.chatgpt.adapter.training.TrainingAdapter;
 import com.chunxia.chatgpt.adapter.training.TrainingInfo;
 import com.chunxia.chatgpt.adapter.training.TrainingType;
+import com.chunxia.chatgpt.ui.SubscriptionReminderView;
 
 
 import java.util.ArrayList;
@@ -35,8 +36,17 @@ public class ChatGptTrainingFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_training_chatgpt, container, false);
         this.root = root;
         initRecyclerView();
+        initSubscriptionReminderView();
         return root;
     }
+
+
+    SubscriptionReminderView subscriptionReminderView = null;
+    public void initSubscriptionReminderView() {
+        subscriptionReminderView = this.root.findViewById(R.id.subscription_reminder_view);
+        subscriptionReminderView.setTitle(5) ;
+    }
+
 
     private List<TrainingInfo> getDatas() {
         List<TrainingInfo> mylist = new ArrayList<>();

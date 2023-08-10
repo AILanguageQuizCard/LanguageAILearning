@@ -110,7 +110,7 @@ public class ReviewCardManager {
 
     public boolean saveLearnTestCards(List<TopicTestCard> learnCards) {
         String learnCardsJson = gson.toJson(learnCards);
-        return KVUtils.get().encode(LEARN_TEST_CARDS_KEY, learnCardsJson);
+        return KVUtils.get().encodeParcelable(LEARN_TEST_CARDS_KEY, learnCardsJson);
     }
 
     public List<String> getAllTopics() {
@@ -127,7 +127,7 @@ public class ReviewCardManager {
     }
 
     public boolean saveAllReviewData() {
-        return KVUtils.get().encode(ALL_REVIEW_DATA_KEY, allReviewData);
+        return KVUtils.get().encodeParcelable(ALL_REVIEW_DATA_KEY, allReviewData);
     }
 
 

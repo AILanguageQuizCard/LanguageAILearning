@@ -2,7 +2,6 @@ package com.chunxia.mmkv;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -108,18 +107,29 @@ public class KVUtils {
         return mmkv;
     }
 
-    public boolean encode(String key,  String value) {
+    public boolean encodeParcelable(String key, String value) {
         return getMMKV().encode(key, value);
     }
 
-    public boolean encode(String key, Parcelable value) {
+    public boolean encodeParcelable(String key, Parcelable value) {
         return getMMKV().encode(key, value);
     }
+
+    public boolean encodeParcelable(String mmkvName, String key, Parcelable value) {
+        return getMMKV(mmkvName).encode(key, value);
+    }
+
+
 
 
     public <T extends Parcelable> T decodeParcelable(String key, Class<T> tClass) {
         return getMMKV().decodeParcelable(key, tClass);
     }
+
+    public <T extends Parcelable> T decodeParcelable(String mmkvName, String key, Class<T> tClass) {
+        return getMMKV(mmkvName).decodeParcelable(key, tClass);
+    }
+
 
 
     public String decodeString(String key, String defaultValue) {

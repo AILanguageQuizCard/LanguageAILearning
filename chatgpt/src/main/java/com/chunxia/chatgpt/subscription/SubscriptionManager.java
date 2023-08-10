@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.chunxia.mmkv.KVUtils;
 import com.limurse.iap.DataWrappers;
 import com.limurse.iap.IapConnector;
 import com.limurse.iap.PurchaseServiceListener;
@@ -37,6 +38,31 @@ public class SubscriptionManager {
             }
         }
         return instance;
+    }
+
+    public int getRemainingTrials() {
+        return getSubscriptionData().getRemainingTrials();
+    }
+
+    private static String SUBSCRIPTION_DATA_KEY = "subscription_data_key";
+    private static String SUBSCRIPTION_MMKV_NAME = "subscription";
+    private static int TIMES = 5;
+
+    public SubscriptionData getSubscriptionData() {
+        SubscriptionData result =  KVUtils.get().decodeParcelable(SUBSCRIPTION_MMKV_NAME, SUBSCRIPTION_DATA_KEY, SubscriptionData.class);
+        if (result == null) {
+            return new SubscriptionData(TIMES);
+        } else {
+            return result;
+        }
+    }
+
+    public boolean saveSubscriptionData(SubscriptionData subscriptionData) {
+        return KVUtils.get().encodeParcelable(SUBSCRIPTION_MMKV_NAME, SUBSCRIPTION_DATA_KEY, subscriptionData);
+    }
+
+    public boolean saveRemainingTrails(int n) {
+        return saveSubscriptionData(new SubscriptionData(n));
     }
 
     private final MutableLiveData<Boolean> isBillingClientConnected  = new MutableLiveData<>();

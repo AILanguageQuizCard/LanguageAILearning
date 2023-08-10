@@ -38,7 +38,7 @@ public class MessageManager {
                 .create();
 
         String json = gson.toJson(messages);
-        KVUtils.get().encode(key, json);
+        KVUtils.get().encodeParcelable(key, json);
     }
 
     public ArrayList<Message> loadMessages(String key) {

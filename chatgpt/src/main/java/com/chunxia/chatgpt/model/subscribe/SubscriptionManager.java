@@ -26,7 +26,7 @@ public class SubscriptionManager {
     }
 
     public void saveSubscription(String subscription) {
-        KVUtils.get().encode(SUBSCRIPTION_KEY, subscription);
+        KVUtils.get().encodeParcelable(SUBSCRIPTION_KEY, subscription);
     }
 
 
