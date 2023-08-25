@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.activity.FirebaseUIActivity;
 import com.chunxia.chatgpt.activity.SubscribeActivity;
 import com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT;
 import com.chunxia.chatgpt.adapter.task.TaskAdapter;
@@ -44,9 +45,22 @@ public class ChatGptTasksFragment extends Fragment {
         initRecyclerView();
         initSubscriptionView();
         initSubscriptionReminderView();
+        initSettingButton();
         return root;
     }
 
+
+    public void initSettingButton() {
+        ImageView settingButton = this.root.findViewById(R.id.chat_task_top_view_setting);
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                XLIntent intent = new XLIntent(getActivity(), FirebaseUIActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
 
     SubscriptionReminderView subscriptionReminderView = null;
 

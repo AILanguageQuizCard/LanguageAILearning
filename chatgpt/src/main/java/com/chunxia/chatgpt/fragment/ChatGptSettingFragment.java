@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 
@@ -23,12 +22,13 @@ import com.chunxia.chatgpt.activity.LearningLanguageSettingActivity;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionManager;
 import com.chunxia.chatgpt.ui.SettingItemView;
+import com.chunxia.chatgpt.ui.SubscriptionSettingReminderView;
 
 public class ChatGptSettingFragment extends Fragment {
 
     private static final String TAG = "ChatGptSettingFragment";
 
-    private RelativeLayout payButton;
+    private SubscriptionSettingReminderView subscriptionButton;
     private SettingItemView learningLanguageButton;
     private SettingItemView motherLanguageButton;
     private SettingItemView languageDifficultyButton;
@@ -46,20 +46,22 @@ public class ChatGptSettingFragment extends Fragment {
     }
 
     private void initSubscription() {
-        payButton = root.findViewById(R.id.setting_pay_button);
+        subscriptionButton = root.findViewById(R.id.subscription_reminder_view);
 
         if (SubscriptionManager.getInstance().isSubscribed()) {
-            payButton.setVisibility(View.GONE);
+            subscriptionButton.setVisibility(View.GONE);
         }
         SubscriptionManager.getInstance().registerSubscriptionListener(new SubscriptionManager.SubscriptionUpdateListener() {
             @Override
             public void onUpdatedSubscription(String sku) {
                 Log.i(TAG, "onUpdatedSubscription: " + sku);
-                payButton.setVisibility(View.GONE);
+                subscriptionButton.setVisibility(View.GONE);
             }
         });
 
-        payButton.setOnClickListener(new View.OnClickListener() {
+        subscriptionButton.setTitle(SubscriptionManager.getInstance().getRemainingTrials());
+
+        subscriptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // todo initSubscription之后，拿到订阅内容后更新

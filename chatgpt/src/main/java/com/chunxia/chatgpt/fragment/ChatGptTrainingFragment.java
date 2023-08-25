@@ -15,6 +15,7 @@ import com.chunxia.chatgpt.adapter.task.TaskRecyclerViewItemDecoration;
 import com.chunxia.chatgpt.adapter.training.TrainingAdapter;
 import com.chunxia.chatgpt.adapter.training.TrainingInfo;
 import com.chunxia.chatgpt.adapter.training.TrainingType;
+import com.chunxia.chatgpt.subscription.SubscriptionManager;
 import com.chunxia.chatgpt.ui.SubscriptionReminderView;
 
 
@@ -42,11 +43,16 @@ public class ChatGptTrainingFragment extends Fragment {
 
 
     SubscriptionReminderView subscriptionReminderView = null;
+
     public void initSubscriptionReminderView() {
         subscriptionReminderView = this.root.findViewById(R.id.subscription_reminder_view);
-        subscriptionReminderView.setTitle(5) ;
+        if (SubscriptionManager.getInstance().isSubscribed()) {
+            subscriptionReminderView.setVisibility(View.GONE);
+        } else {
+            subscriptionReminderView.setTitle(SubscriptionManager.getInstance().getRemainingTrials());
+            subscriptionReminderView.setVisibility(View.VISIBLE);
+        }
     }
-
 
     private List<TrainingInfo> getDatas() {
         List<TrainingInfo> mylist = new ArrayList<>();

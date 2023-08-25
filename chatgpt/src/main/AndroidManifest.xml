@@ -30,6 +30,9 @@
         <activity
             android:name=".voicerecord.VoiceRecordActivity"
             android:exported="false"></activity>
+        <activity android:name=".activity.FirebaseUIActivity"
+            android:exported="false"
+            android:screenOrientation="fullSensor"/>
         <activity
             android:name=".activity.ChatActivity"
             android:screenOrientation="portrait" />

@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -23,7 +24,6 @@ android {
         release {
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
-            buildConfigField "String", "API_KEY", "\"AIzaSyBjq-sz5NWbHW-J9Xq4HLYcu0h0hkANGvs\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             //混淆开关
 //            minifyEnabled true
@@ -40,9 +40,6 @@ android {
         debug{
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
-
-            buildConfigField "String", "API_KEY", "\"AIzaSyBjq-sz5NWbHW-J9Xq4HLYcu0h0hkANGvs\""
-
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            //混淆开关
 //            minifyEnabled true
@@ -104,6 +101,15 @@ dependencies {
         exclude group: 'META-INF', module: 'DEPENDENCIES'
         exclude group: 'META-INF', module: 'INDEX.LIST'
     }
+
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:32.2.2')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    implementation("com.google.firebase:firebase-database")
+//    implementation 'com.facebook.android:facebook-android-sdk:8.x'
+
 
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
