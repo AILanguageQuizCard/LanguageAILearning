@@ -7,6 +7,7 @@ import android.content.Context;
 import androidx.multidex.MultiDex;
 
 import com.chunxia.chatgpt.chatapi.OpenAIServiceManager;
+import com.chunxia.chatgpt.subscription.SubscriptionManager;
 import com.chunxia.deepl.DeepLManager;
 import com.chunxia.mmkv.KVUtils;
 
@@ -37,6 +38,7 @@ public class XLApplication extends Application {
         OpenAIServiceManager.initApiKey();
         GoogleCloudText2VoiceManager.initApiKey();
         DeepLManager.initApiKey();
+        SubscriptionManager.getInstance().initApiKey();
     }
 
 }

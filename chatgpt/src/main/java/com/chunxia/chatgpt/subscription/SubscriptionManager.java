@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.chunxia.firebase.RealtimeDatabase;
 import com.chunxia.mmkv.KVUtils;
 import com.limurse.iap.DataWrappers;
 import com.limurse.iap.IapConnector;
@@ -81,6 +82,7 @@ public class SubscriptionManager {
 
     public static final String SKU_ID_YEARLY = "ai_lingo_master_test_yearly";
 
+    private static volatile String key = "";
 
     private Set<String> validSkus = new HashSet<>();
 
@@ -125,6 +127,29 @@ public class SubscriptionManager {
         iapConnector.addSubscriptionListener(listener);
     }
 
+
+    public void initApiKey() {
+        RealtimeDatabase.getInstance().getSubscriptionKeyOnce(new RealtimeDatabase.onRealtimeDatabaseListener() {
+            @Override
+            public void onDataChange(String apiKey) {
+                setApiKey(apiKey);
+                isKeyInit = true;
+            }
+        });
+    }
+
+    private boolean isKeyInit  = false;
+
+    public boolean isKeyInit() {
+        return isKeyInit;
+    }
+
+
+    public void setApiKey(String apiKey) {
+        key = apiKey;
+    }
+
+
     public void initSubscribe(Context context) {
         isBillingClientConnected.setValue(false);
 
@@ -138,12 +163,7 @@ public class SubscriptionManager {
                 Collections.emptyList(),
                 Collections.emptyList(),
                 subsList,
-                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoDzmho/JeA63fyUxZXR9ZyC" +
-                        "p+UpQnceEpQO6aEFbN9fJjZZNR0+PjYOuPjg1MA6yB43lH1FUOvYgwt1ED71SQaqE1a" +
-                        "3VEOxtR4BSl5IEFh5EjeTFXkIY20xx23Fftk5ia21p3St5BD3VA+kKF/5wfJffx9zcD" +
-                        "0dPj8fsdTc9RR/0Gf8d+h7BZUmsJy+odkVHNjXcaEwvoPUPKGkXksNvImQrGaiBpA7j" +
-                        "4K3L/mygkOb77hJ6q7pQgiFApw4zafoQvoT9fFg8cRm7Ny+8n8KweQnYYP0y8CFeJ+B" +
-                        "How3AgeWYP3h4+JpfP7N2M1UKXZBtBt23XHyp5r0iQBH3RQoGpwIDAQAB",
+                key,
                 true
         );
 

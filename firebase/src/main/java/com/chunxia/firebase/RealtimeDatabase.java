@@ -82,6 +82,28 @@ public class RealtimeDatabase {
         });
     }
 
+    public void getSubscriptionKeyOnce(onRealtimeDatabaseListener listener) {
+
+        // Write a message to the database
+
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance(databaseAddress).getReference();
+        mDatabase.child("subscription_key").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    listener.onDataChange(String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+    }
+
+
     public void getGoogleCloudApiKeyOnce(onRealtimeDatabaseListener listener) {
 
         // Write a message to the database
