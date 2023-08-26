@@ -1,4 +1,4 @@
-package com.chunxia.chatgpt.activity;
+package com.chunxia.firebase.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.chunxia.chatgpt.R;
-import com.chunxia.chatgpt.firebase.safety.SafetyChecker;
+import com.chunxia.firebase.R;
+import com.chunxia.firebase.safety.SafetyChecker;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
@@ -114,8 +114,6 @@ public class FirebaseUIActivity extends AppCompatActivity {
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
-                .setLogo(R.drawable.logo)      // Set logo drawable
-                .setTheme(R.style.AppTheme)      // Set theme
                 .build();
         signInLauncher.launch(signInIntent);
         // [END auth_fui_theme_logo]

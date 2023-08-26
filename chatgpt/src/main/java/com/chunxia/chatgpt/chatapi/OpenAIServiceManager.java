@@ -15,7 +15,6 @@ public class OpenAIServiceManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // todo 这里只支持O以上版本！
             service1 = new OpenAiService(token, Duration.ofSeconds(120));
-            // todo 这里因为token报错应该往外抛
             return service1;
         } else {
             return null;
@@ -24,6 +23,7 @@ public class OpenAIServiceManager {
 
 
     public static void initApiKey() {
+        // todo 没有成功获取api key怎么办？
         RealtimeDatabase.getInstance().getChatGptApiKeyOnce(new RealtimeDatabase.onRealtimeDatabaseListener() {
             @Override
             public void onDataChange(String apiKey) {

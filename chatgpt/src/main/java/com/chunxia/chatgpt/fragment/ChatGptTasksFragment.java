@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chunxia.chatgpt.R;
-import com.chunxia.chatgpt.activity.FirebaseUIActivity;
+import com.chunxia.firebase.activity.FirebaseUIActivity;
 import com.chunxia.chatgpt.activity.SubscribeActivity;
 import com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT;
 import com.chunxia.chatgpt.adapter.task.TaskAdapter;
