@@ -1,11 +1,9 @@
-package com.chunxia.chatgpt.firebase;
-
+package com.chunxia.firebase;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.chunxia.chatgpt.chatapi.PublicMethod;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +16,8 @@ public class RealtimeDatabase {
 
     private static volatile RealtimeDatabase instance;
 
+    private static final String databaseAddress = "https://chatgptprototype-default-rtdb.europe-west1.firebasedatabase.app/";
+
     public static RealtimeDatabase getInstance() {
         if (instance == null) {
             synchronized (RealtimeDatabase.class) {
@@ -29,44 +29,16 @@ public class RealtimeDatabase {
         return instance;
     }
 
-    private boolean isInit = false;
-
-    public boolean isInit() {
-        return isInit;
-    }
 
     private RealtimeDatabase() {
     }
-
-    public void getChatGptApiKeyWhenLaunch() {
-        onRealtimeDatabaseListener listener = new onRealtimeDatabaseListener() {
-            @Override
-            public void onDataChange(String apiKey) {
-                PublicMethod.setApiKey(apiKey);
-                isInit = true;
-            }
-        };
-        getChatGptApiKey(listener);
-    }
-
-    public void getChatGptApiKeyOnceWhenLaunch() {
-        onRealtimeDatabaseListener listener = new onRealtimeDatabaseListener() {
-            @Override
-            public void onDataChange(String apiKey) {
-                PublicMethod.setApiKey(apiKey);
-                isInit = true;
-            }
-        };
-        getChatGptApiKeyOnce(listener);
-    }
-
 
 
     public static interface onRealtimeDatabaseListener {
         public void onDataChange(String apiKey);
     }
 
-    public void getChatGptApiKey(onRealtimeDatabaseListener listener) {
+    public void listenChatGptApiKey(onRealtimeDatabaseListener listener) {
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("chat_gpt_api_key");
@@ -94,7 +66,7 @@ public class RealtimeDatabase {
         // Write a message to the database
 
         DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance("https://chatgptprototype-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+        mDatabase = FirebaseDatabase.getInstance(databaseAddress).getReference();
         mDatabase.child("chat_gpt_api_key").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -108,8 +80,48 @@ public class RealtimeDatabase {
                 }
             }
         });
-
     }
 
+    public void getGoogleCloudApiKeyOnce(onRealtimeDatabaseListener listener) {
+
+        // Write a message to the database
+
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance(databaseAddress).getReference();
+        mDatabase.child("google_cloud_api_key").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    listener.onDataChange(String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+    }
+
+    public void getDeepLApiKeyOnce(onRealtimeDatabaseListener listener) {
+
+        // Write a message to the database
+
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance(databaseAddress).getReference();
+        mDatabase.child("deepl_api_key").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    listener.onDataChange(String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+    }
 
 }

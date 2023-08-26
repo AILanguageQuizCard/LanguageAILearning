@@ -1,4 +1,4 @@
-package com.chunxia.chatgpt.firebase.safety;
+package com.chunxia.firebase.safety;
 
 import android.content.Context;
 

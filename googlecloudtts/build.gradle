@@ -19,16 +19,11 @@ android {
         debug{
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
-
-            buildConfigField "String", "API_KEY", "\"AIzaSyAOJmjZz64zAHrQ1S5QdNbQB5he55StJ9Q\""
         }
         release {
             minifyEnabled false
             buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
-
-            buildConfigField "String", "API_KEY", "\"AIzaSyAOJmjZz64zAHrQ1S5QdNbQB5he55StJ9Q\""
-
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -41,6 +36,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation project(path: ':mmkv')
+    implementation project(path: ':firebase')
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.json:json:20180813'

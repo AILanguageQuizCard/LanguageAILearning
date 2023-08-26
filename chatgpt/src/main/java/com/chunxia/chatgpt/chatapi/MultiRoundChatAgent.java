@@ -104,7 +104,7 @@ public class MultiRoundChatAgent {
                 .maxTokens(maxTokenN)
                 .build();
 
-        List<ChatCompletionChoice> choices = PublicMethod.getOpenAiService()
+        List<ChatCompletionChoice> choices = OpenAIServiceManager.getOpenAiService()
                 .createChatCompletion(chatCompletionRequest).getChoices();
         if (!choices.isEmpty()) {
             String content = choices.get(0).getMessage().getContent();

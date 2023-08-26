@@ -13,7 +13,7 @@ public class DeepLTranslator {
     private Translator translator;
 
     private DeepLTranslator() {
-        String authKey = DeepLAPIKey.getDeepLApiKey();  // Replace with your key
+        String authKey = DeepLManager.getDeepLApiKey();  // Replace with your key
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             translator = new Translator(authKey);
         }

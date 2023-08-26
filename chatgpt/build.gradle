@@ -122,6 +122,8 @@ dependencies {
     implementation project(path: ':deepl')
     implementation project(path: ':cardstackview')
     implementation project(path: ':mmkv')
+    implementation project(path: ':firebase')
+
 
     // 录音功能
     implementation 'com.github.SimpleMobileTools:Simple-Commons:8bcb4d3851'

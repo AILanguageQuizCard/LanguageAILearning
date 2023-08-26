@@ -24,7 +24,7 @@ public class GoogleCloudTTSFactory {
 //                }
 //            }
 //        }
-        GoogleCloudAPIConfig config = new GoogleCloudAPIConfig(GoogleText2VoiceAPIKey.getApiKey());
+        GoogleCloudAPIConfig config = new GoogleCloudAPIConfig(GoogleCloudText2VoiceManager.getApiKey());
         return create(config);
     }
 

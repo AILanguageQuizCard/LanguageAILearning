@@ -6,7 +6,11 @@ import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
+import com.chunxia.chatgpt.chatapi.OpenAIServiceManager;
+import com.chunxia.deepl.DeepLManager;
 import com.chunxia.mmkv.KVUtils;
+
+import darren.googlecloudtts.GoogleCloudText2VoiceManager;
 
 
 public class XLApplication extends Application {
@@ -29,6 +33,10 @@ public class XLApplication extends Application {
         super.onCreate();
         KVUtils.get().init(getApplicationContext());
         context = getApplicationContext();
+
+        OpenAIServiceManager.initApiKey();
+        GoogleCloudText2VoiceManager.initApiKey();
+        DeepLManager.initApiKey();
     }
 
 }
