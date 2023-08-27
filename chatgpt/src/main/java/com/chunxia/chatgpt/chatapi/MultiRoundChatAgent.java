@@ -8,6 +8,7 @@ import com.theokanning.openai.completion.chat.ChatCompletionChoice;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.completion.chat.ChatMessageRole;
+import com.theokanning.openai.service.OpenAiService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,6 @@ public class MultiRoundChatAgent {
         this.systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), this.systemCommand);
         oldMessages.add(systemMessage);
     }
-
 
 
     public MultiRoundChatAgent() {
@@ -78,7 +78,7 @@ public class MultiRoundChatAgent {
         if (oldMessages.size() < 3) {
             return null;
         }
-        SentenceCard sentenceCard = new SentenceCard(oldMessages.get(2).getContent(),oldMessages.get(1).getContent());
+        SentenceCard sentenceCard = new SentenceCard(oldMessages.get(2).getContent(), oldMessages.get(1).getContent());
         return sentenceCard;
     }
 
@@ -104,13 +104,17 @@ public class MultiRoundChatAgent {
                 .maxTokens(maxTokenN)
                 .build();
 
-        List<ChatCompletionChoice> choices = OpenAIServiceManager.getOpenAiService()
-                .createChatCompletion(chatCompletionRequest).getChoices();
-        if (!choices.isEmpty()) {
-            String content = choices.get(0).getMessage().getContent();
-            Log.i(TAG, "ChatGpt: " + content);
-            addChatGptReplyToMessage(choices.get(0).getMessage());
-            return content;
+        OpenAiService openAiService = OpenAIServiceManager.getOpenAiService();
+        if (openAiService == null) {
+            return null;
+        } else {
+            List<ChatCompletionChoice> choices = openAiService.createChatCompletion(chatCompletionRequest).getChoices();
+            if (!choices.isEmpty()) {
+                String content = choices.get(0).getMessage().getContent();
+                Log.i(TAG, "ChatGpt: " + content);
+                addChatGptReplyToMessage(choices.get(0).getMessage());
+                return content;
+            }
         }
 
         return null;

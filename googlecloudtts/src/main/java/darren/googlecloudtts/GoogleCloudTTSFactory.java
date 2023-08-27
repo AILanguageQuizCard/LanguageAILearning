@@ -1,6 +1,5 @@
 package darren.googlecloudtts;
 
-import darren.googlecloudtts.api.GoogleText2VoiceAPIKey;
 import darren.googlecloudtts.api.SynthesizeApi;
 import darren.googlecloudtts.api.SynthesizeApiImpl;
 import darren.googlecloudtts.api.VoicesApi;

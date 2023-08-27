@@ -7,7 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import com.chunxia.firebase.RealtimeDatabase;
+import com.chunxia.firebase.config.RemoteConfig;
 import com.chunxia.mmkv.KVUtils;
 import com.limurse.iap.DataWrappers;
 import com.limurse.iap.IapConnector;
@@ -82,7 +82,6 @@ public class SubscriptionManager {
 
     public static final String SKU_ID_YEARLY = "ai_lingo_master_test_yearly";
 
-    private static volatile String key = "";
 
     private Set<String> validSkus = new HashSet<>();
 
@@ -128,27 +127,9 @@ public class SubscriptionManager {
     }
 
 
-    public void initApiKey() {
-        RealtimeDatabase.getInstance().getSubscriptionKeyOnce(new RealtimeDatabase.onRealtimeDatabaseListener() {
-            @Override
-            public void onDataChange(String apiKey) {
-                setApiKey(apiKey);
-                isKeyInit = true;
-            }
-        });
+    private String getKey() {
+        return RemoteConfig.getInstance().getSubscriptionKey();
     }
-
-    private boolean isKeyInit  = false;
-
-    public boolean isKeyInit() {
-        return isKeyInit;
-    }
-
-
-    public void setApiKey(String apiKey) {
-        key = apiKey;
-    }
-
 
     public void initSubscribe(Context context) {
         isBillingClientConnected.setValue(false);
@@ -163,7 +144,7 @@ public class SubscriptionManager {
                 Collections.emptyList(),
                 Collections.emptyList(),
                 subsList,
-                key,
+                getKey(),
                 true
         );
 

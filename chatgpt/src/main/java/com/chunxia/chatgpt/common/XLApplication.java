@@ -6,12 +6,11 @@ import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
-import com.chunxia.chatgpt.chatapi.OpenAIServiceManager;
 import com.chunxia.chatgpt.subscription.SubscriptionManager;
-import com.chunxia.deepl.DeepLManager;
+import com.chunxia.firebase.config.RemoteConfig;
+import com.chunxia.firebase.id.FirebaseInstanceIDManager;
 import com.chunxia.mmkv.KVUtils;
 
-import darren.googlecloudtts.GoogleCloudText2VoiceManager;
 
 
 public class XLApplication extends Application {
@@ -35,10 +34,15 @@ public class XLApplication extends Application {
         KVUtils.get().init(getApplicationContext());
         context = getApplicationContext();
 
-        OpenAIServiceManager.initApiKey();
-        GoogleCloudText2VoiceManager.initApiKey();
-        DeepLManager.initApiKey();
-        SubscriptionManager.getInstance().initApiKey();
+        RemoteConfig.RemoteConfigUpdateListener listener = new RemoteConfig.RemoteConfigUpdateListener() {
+            @Override
+            public void onRemoteConfigUpdate() {
+                SubscriptionManager.getInstance().initSubscribe(XLApplication.this);
+            }
+        };
+        RemoteConfig.getInstance().init(listener);
+
+        FirebaseInstanceIDManager.getInstance().checkUserStatusWhenLauncher(XLApplication.this);
     }
 
 }

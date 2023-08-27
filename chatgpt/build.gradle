@@ -13,8 +13,8 @@ android {
         applicationId "com.chunxia.chatgpt"
         minSdkVersion 26
         targetSdkVersion 33
-        versionCode 10018
-        versionName "1.0.18.0"
+        versionCode 10019
+        versionName "1.0.19.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
@@ -94,22 +94,21 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
 
     // google text to voice platform
-    implementation platform('com.google.cloud:libraries-bom:26.1.4')
+    implementation platform('com.google.cloud:libraries-bom:26.1.4') {
+//        exclude group: 'com.google.api.grpc', module: 'proto-google-common-protos'
+//        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+    }
 
-    implementation('com.google.cloud:google-cloud-texttospeech') {
+    implementation('com.google.cloud:google-cloud-texttospeech:2.6.0') {
         // exclude the META-INF/DEPENDENCIES file from the library
         exclude group: 'META-INF', module: 'DEPENDENCIES'
         exclude group: 'META-INF', module: 'INDEX.LIST'
+//        exclude group: 'com.google.api.grpc', module: 'proto-google-common-protos'
+//        exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
 
-    // firebase
-    implementation platform('com.google.firebase:firebase-bom:32.2.2')
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
-    implementation("com.google.firebase:firebase-appcheck-playintegrity")
-    implementation("com.google.firebase:firebase-database")
-//    implementation 'com.facebook.android:facebook-android-sdk:8.x'
 
+//    implementation 'com.facebook.android:facebook-android-sdk:8.x'
 
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
@@ -133,7 +132,11 @@ dependencies {
     implementation 'me.grantland:autofittextview:0.2.1'
 
     // google voice to text
-    implementation 'com.google.cloud:google-cloud-speech:4.9.0'
+    implementation ('com.google.cloud:google-cloud-speech:4.9.0') {
+//        exclude group: 'com.google.api.grpc', module: 'proto-google-common-protos'
+//        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+    }
+
     implementation "io.grpc:grpc-okhttp:1.50.1"
 
     // google billing
@@ -158,13 +161,6 @@ dependencies {
     // butterknife 不再维护，当java版本升级到11时，会有问题
 //    implementation 'com.jakewharton:butterknife:10.2.3'
 //    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
-
-    def room_version = "2.5.1"
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-rxjava2:$room_version"
-    implementation "androidx.room:room-testing:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
 
     implementation 'com.balysv:material-ripple:1.0.2'                  // ripple effect
 }
