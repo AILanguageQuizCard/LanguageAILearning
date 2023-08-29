@@ -38,19 +38,16 @@ dependencies {
     implementation("com.google.firebase:firebase-appcheck-playintegrity")   // App Check
     implementation("com.google.firebase:firebase-config")   // Remote Config
 
-//    implementation ('com.google.firebase:firebase-firestore:15.0.3') {
+
+
+    implementation('com.google.firebase:firebase-firestore:24.7.1')
+//    firebase-firestore库与google cloud speech2text库冲突，
+//   {
 //        exclude group: 'com.google.api.grpc', module: 'proto-google-common-protos'
 //        exclude group: "com.google.firebase", module: "protolite-well-known-types"
 //        exclude group: 'com.google.protobuf', module: 'protobuf-java'
 //        exclude group: "com.google.protobuf", module: "protobuf-javalite"
 //    }
-
-    implementation('com.google.firebase:firebase-firestore:21.4.3') {
-        exclude module: 'protolite-well-known-types'
-        exclude module: 'protobuf-javalite'
-        exclude module: 'protobuf-java'
-        exclude module: 'protobuf-java-util'
-    }
 
 
 }

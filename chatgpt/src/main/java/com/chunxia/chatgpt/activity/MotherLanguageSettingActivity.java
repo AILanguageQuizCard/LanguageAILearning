@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -18,7 +17,7 @@ import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.settingItem.RecordingLanguageSettingAdapter;
 import com.chunxia.chatgpt.adapter.settingItem.SettingInfo;
 import com.chunxia.chatgpt.mmkv.MMKVConstant;
-import com.chunxia.chatgpt.voicerecord.voicetotext.GoogleVoiceToTextLanguageTools;
+import com.chunxia.chatgpt.voicetotext.GoogleVoiceToTextLanguageTools;
 import com.chunxia.mmkv.KVUtils;
 
 import java.util.ArrayList;

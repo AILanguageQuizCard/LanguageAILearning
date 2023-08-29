@@ -93,19 +93,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
 
-    // google text to voice platform
-    implementation platform('com.google.cloud:libraries-bom:26.1.4') {
-//        exclude group: 'com.google.api.grpc', module: 'proto-google-common-protos'
-//        exclude group: 'com.google.protobuf', module: 'protobuf-java'
-    }
-
-    implementation('com.google.cloud:google-cloud-texttospeech:2.6.0') {
-        // exclude the META-INF/DEPENDENCIES file from the library
-        exclude group: 'META-INF', module: 'DEPENDENCIES'
-        exclude group: 'META-INF', module: 'INDEX.LIST'
-//        exclude group: 'com.google.api.grpc', module: 'proto-google-common-protos'
-//        exclude group: 'com.google.protobuf', module: 'protobuf-java'
-    }
 
 
 //    implementation 'com.facebook.android:facebook-android-sdk:8.x'
@@ -131,16 +118,24 @@ dependencies {
     implementation 'com.github.naman14:TAndroidLame:1.1'
     implementation 'me.grantland:autofittextview:0.2.1'
 
-    // google voice to text
-    implementation ('com.google.cloud:google-cloud-speech:4.9.0') {
+    // google text to voice platform
+//    implementation platform('com.google.cloud:libraries-bom:26.1.4') {
 //        exclude group: 'com.google.api.grpc', module: 'proto-google-common-protos'
 //        exclude group: 'com.google.protobuf', module: 'protobuf-java'
-    }
+//    }
+
+
+    // google voice to text
+//    implementation ('com.google.cloud:google-cloud-speech:4.9.0') {
+//        exclude group: 'com.google.api.grpc', module: 'proto-google-common-protos'
+//        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+//    }
 
     implementation "io.grpc:grpc-okhttp:1.50.1"
 
     // google billing
     implementation 'com.android.billingclient:billing:5.2.0'
+
     // 引入:iap包会有冲突，通过下面的replaceBy可以解决
     modules {
         module("org.jetbrains.kotlin:kotlin-stdlib-jdk7") {

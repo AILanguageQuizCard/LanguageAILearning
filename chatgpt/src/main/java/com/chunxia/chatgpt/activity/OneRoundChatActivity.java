@@ -47,7 +47,7 @@ import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.voicerecord.VoiceRecordActivity;
 import com.chunxia.chatgpt.voicerecord.models.Events;
-import com.chunxia.chatgpt.voicerecord.voicetotext.VoiceToTextModel;
+//import com.chunxia.chatgpt.voicetotext.VoiceToTextModel;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -213,13 +213,13 @@ public class OneRoundChatActivity extends AppCompatActivity {
         ThreadUtils.getSinglePool().execute(new Runnable() {
             @Override
             public void run() {
-                String v2tResult = VoiceToTextModel.transcribeAudioFile(path, getApplication());
-                ThreadUtils.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        sendChat(v2tResult);
-                    }
-                });
+//                String v2tResult = VoiceToTextModel.transcribeAudioFile(path, getApplication());
+//                ThreadUtils.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        sendChat(v2tResult);
+//                    }
+//                });
             }
         });
     }

@@ -42,4 +42,8 @@ dependencies {
     testImplementation 'org.json:json:20180813'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // 因为google cloud text-to-speech和firebase的库冲突，最后决定用microsoft speech 的库来替换掉google的
+    implementation 'com.microsoft.cognitiveservices.speech:client-sdk:1.31.0'
+
 }

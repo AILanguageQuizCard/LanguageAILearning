@@ -38,7 +38,7 @@ import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.model.message.MessageManager;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.voicerecord.VoiceRecordActivity;
-import com.chunxia.chatgpt.voicerecord.voicetotext.VoiceToTextModel;
+//import com.chunxia.chatgpt.voicetotext.VoiceToTextModel;
 import com.chunxia.chatgpt.model.message.Message;
 import com.chunxia.chatgpt.model.message.TextMessage;
 import com.chunxia.chatgpt.model.message.VoiceMessage;
@@ -170,13 +170,13 @@ public class ChatActivity extends AppCompatActivity {
         ThreadUtils.getSinglePool().execute(new Runnable() {
             @Override
             public void run() {
-                String v2tResult = VoiceToTextModel.transcribeAudioFile(path, getApplication());
-                ThreadUtils.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        sendChat(v2tResult);
-                    }
-                });
+//                String v2tResult = VoiceToTextModel.transcribeAudioFile(path, getApplication());
+//                ThreadUtils.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        sendChat(v2tResult);
+//                    }
+//                });
             }
         });
     }

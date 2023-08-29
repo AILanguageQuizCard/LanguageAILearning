@@ -1,4 +1,4 @@
-package com.chunxia.chatgpt.voicerecord.voicetotext;
+package com.chunxia.chatgpt.voicetotext;
 
 import android.content.Context;
 import android.content.res.Resources;
