@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.chunxia.firebase.model.User;
+import com.chunxia.firebase.model.UserUnInitException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,8 +55,8 @@ public class FirebaseInstanceIDManager {
 
     public void firstInitInDatabase(Context context) {
         Map<String, Object> data = new HashMap<>();
-        Long remainingTrail = 10L;
-        data.put(User.remainingTrailKey, remainingTrail);
+        Long now = System.currentTimeMillis();
+        data.put(User.startTrailTimeKey, now);
         String androidId = getAndroidId(context);
 
         db.collection("User").document(androidId)
@@ -63,9 +64,11 @@ public class FirebaseInstanceIDManager {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        User myUser = new User();
-                        myUser.setAndroidId(androidId);
-                        myUser.setRemainingTrail(remainingTrail);
+                        if (user == null) {
+                            user = new User();
+                        }
+                        user.setAndroidId(androidId);
+                        user.setStartTrailTime(now);
                         setUser(user);
                     }
                 })
@@ -89,6 +92,14 @@ public class FirebaseInstanceIDManager {
 
     private User user;
 
+    public User getUser() throws UserUnInitException {
+        if (isUpdated) {
+            return user;
+        } else {
+            throw new UserUnInitException("User may be not inited, remainingTrail is null");
+        }
+    }
+
     private boolean isUpdated = false;
 
     public Long getRemainingTrail() {
@@ -99,6 +110,13 @@ public class FirebaseInstanceIDManager {
         }
     }
 
+    public String getRemainingTrailTimeString(Context context) throws UserUnInitException {
+        if (isUpdated) {
+            return user.getRemainingTrailTimeString(context);
+        } else {
+            throw new UserUnInitException("User may be not inited, remainingTrail is null");
+        }
+    }
 
     private final List<OnUpdateListener> listenerList = new ArrayList<>();
 
@@ -191,48 +209,6 @@ public class FirebaseInstanceIDManager {
         for(OnUpdateListener listener: listenerList) {
             listener.onUpdateSuccess(user);
         }
-    }
-
-
-    public void decreaseRemainingTrail(Context context) {
-        OnGetUserListener listener = new OnGetUserListener() {
-            @Override
-            public void onGetUserSuccess(Map<String, Object> map) {
-                // 记录用户
-                setUser(map);
-                Long nextTrail = user.getRemainingTrail() - 1;
-                decreaseRemainingTrailHelper(context, nextTrail);
-            }
-
-            @Override
-            public void onGetUserFailed() {
-                Log.i(TAG, "get user from firebase failed");
-            }
-
-            @Override
-            public void onUserNotExist() {
-            }
-        };
-        getUser(context, listener);
-    }
-
-
-    public void decreaseRemainingTrailHelper(Context context, Long trail) {
-        db.collection("User").document(getAndroidId(context))
-                .update(User.remainingTrailKey, trail)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        setRemainingTrail(trail);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-
     }
 
 }

@@ -150,6 +150,7 @@ public class SubscriptionManager {
 
         SubscriptionServiceListener listener = new SubscriptionServiceListener() {
             public void onSubscriptionRestored(@NonNull DataWrappers.PurchaseInfo purchaseInfo) {
+                //todo restore 和purchased 有什么区别？分别是什么时候触发？
                 addValidSubscription(purchaseInfo.getSku());
             }
 

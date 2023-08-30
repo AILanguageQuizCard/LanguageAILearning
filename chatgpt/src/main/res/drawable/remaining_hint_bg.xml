@@ -2,7 +2,7 @@
     <item android:width="171dp" android:height="33dp">
         <shape android:shape="rectangle">
             <gradient android:type="linear" android:useLevel="true" android:startColor="#ff525fff" android:endColor="#ff4355fd" android:angle="149" />
-            <corners android:topLeftRadius="4dp" android:topRightRadius="4dp" android:bottomLeftRadius="4dp" android:bottomRightRadius="4dp" />
+            <corners android:topLeftRadius="12dp" android:topRightRadius="12dp" android:bottomLeftRadius="12dp" android:bottomRightRadius="12dp" />
         </shape>
     </item>
 </selector>

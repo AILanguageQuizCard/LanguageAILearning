@@ -2,7 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/custom_view"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
     android:background="@drawable/remaining_hint_bg"
@@ -14,20 +14,25 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
         android:layout_gravity="center_vertical"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:srcCompat="@drawable/remaining_hint_icon" />
 
     <TextView
         android:id="@+id/subscription_reminder_view_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
         android:text="@string/subscription_reminder_view_text1"
-        android:maxLines="1"
+        android:maxLines="4"
         android:textColor="@android:color/white"
-        android:textSize="17sp" />
+        android:textSize="13sp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

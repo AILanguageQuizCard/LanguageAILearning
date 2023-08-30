@@ -38,13 +38,11 @@ public class SubscriptionReminderView extends LinearLayout {
         titleView = view.findViewById(R.id.subscription_reminder_view_title);
     }
 
-    public void setTitle(int n){
-        String s = getResources().getString(R.string.subscription_reminder_view_text1);
-        s = s + n;
-        s = s + getResources().getString(R.string.subscription_reminder_view_text2);
+    public void setTitle(String s){
         if (titleView != null) {
             titleView.setText(s);
         }
     }
+
 
 }

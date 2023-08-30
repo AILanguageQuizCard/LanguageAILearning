@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.chunxia.chatgpt.R;
-import com.chunxia.firebase.activity.FirebaseUIActivity;
 import com.chunxia.chatgpt.activity.SubscribeActivity;
 import com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT;
 import com.chunxia.chatgpt.adapter.task.TaskAdapter;
@@ -26,6 +25,7 @@ import com.chunxia.chatgpt.subscription.SubscriptionManager;
 import com.chunxia.chatgpt.ui.SubscriptionReminderView;
 import com.chunxia.firebase.id.FirebaseInstanceIDManager;
 import com.chunxia.firebase.model.User;
+import com.chunxia.firebase.model.UserUnInitException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,16 +55,8 @@ public class ChatGptTasksFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
-        initSubscriptionView();
         initSubscriptionReminderView();
         initSettingButton();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        FirebaseInstanceIDManager.getInstance().removeUpdateListener(onFirebaseUserUpdateListener);
-        SubscriptionManager.getInstance().unregisterSubscriptionListener(subscriptionUpdateListener);
     }
 
     public void initSettingButton() {
@@ -72,8 +64,8 @@ public class ChatGptTasksFragment extends Fragment {
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                XLIntent intent = new XLIntent(getActivity(), FirebaseUIActivity.class);
-                startActivity(intent);
+//                XLIntent intent = new XLIntent(getActivity(), FirebaseUIActivity.class);
+//                startActivity(intent);
             }
         });
     }
@@ -87,26 +79,74 @@ public class ChatGptTasksFragment extends Fragment {
                 @Override
                 public void run() {
                     if (subscriptionReminderView == null) return;
-                    subscriptionReminderView.setTitle(user.getRemainingTrail().intValue());
-                    subscriptionReminderView.setVisibility(View.VISIBLE);
+                    try {
+                        subscriptionReminderView.setTitle(getSubscriptionViewTitle(user));
+                        subscriptionReminderView.setVisibility(View.VISIBLE);
+                    } catch (UserUnInitException e) {
+                        Log.i(TAG, "haven't init user, can not init SubscriptionReminderView now");
+                    }
                 }
             });
         }
     };
+
+    public String getSubscriptionViewTitle(User user) throws UserUnInitException {
+        if (user.trailIsOver()) {
+            return getResources().getString(R.string.subscription_reminder_view_trail_over)
+                    + getResources().getString(R.string.subscription_reminder_view_trail_over_subscribe_now);
+        }
+
+        String s = getResources().getString(R.string.subscription_reminder_view_text1);
+        s = s + user.getRemainingTrailTimeString(getContext());
+        s = s + getResources().getString(R.string.subscription_reminder_view_text2);
+        return s;
+    }
+
+
+    SubscriptionManager.SubscriptionUpdateListener subscriptionUpdateListener = new SubscriptionManager.SubscriptionUpdateListener() {
+        @Override
+        public void onUpdatedSubscription(String sku) {
+            Log.i(TAG, "onUpdatedSubscription: " + sku);
+            if (subscriptionReminderView == null) return;
+            subscriptionReminderView.setVisibility(View.GONE);
+        }
+    };
+
 
     public void initSubscriptionReminderView() {
         subscriptionReminderView = this.root.findViewById(R.id.subscription_reminder_view);
         if (SubscriptionManager.getInstance().isSubscribed()) {
             subscriptionReminderView.setVisibility(View.GONE);
         } else {
-            Long remainingTrail = FirebaseInstanceIDManager.getInstance().getRemainingTrail();
-            if (remainingTrail != null) {
-                subscriptionReminderView.setTitle(remainingTrail.intValue());
+            try {
+                User user = FirebaseInstanceIDManager.getInstance().getUser();
+                subscriptionReminderView.setTitle(getSubscriptionViewTitle(user));
                 subscriptionReminderView.setVisibility(View.VISIBLE);
+
+            } catch (UserUnInitException e) {
+                Log.i(TAG, "haven't init user, can not init SubscriptionReminderView now");
             }
             FirebaseInstanceIDManager.getInstance().addUpdataListener(onFirebaseUserUpdateListener);
         }
+
+        SubscriptionManager.getInstance().registerSubscriptionListener(subscriptionUpdateListener);
+
+        subscriptionReminderView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo initSubscription之后，拿到订阅内容后更新
+                startActivity(new XLIntent(getActivity(), SubscribeActivity.class));
+            }
+        });
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        FirebaseInstanceIDManager.getInstance().removeUpdateListener(onFirebaseUserUpdateListener);
+        SubscriptionManager.getInstance().unregisterSubscriptionListener(subscriptionUpdateListener);
+    }
+
 
     private List<TopicInfo> getDatas() {
         List<TopicInfo> mylist = new ArrayList<>();
@@ -137,14 +177,6 @@ public class ChatGptTasksFragment extends Fragment {
     }
 
 
-    SubscriptionManager.SubscriptionUpdateListener subscriptionUpdateListener = new SubscriptionManager.SubscriptionUpdateListener() {
-        @Override
-        public void onUpdatedSubscription(String sku) {
-            Log.i(TAG, "onUpdatedSubscription: " + sku);
-            if (subscriptionReminderView == null) return;
-            subscriptionReminderView.setVisibility(View.GONE);
-        }
-    };
 
 
     // 需要补全的地方
@@ -157,21 +189,6 @@ public class ChatGptTasksFragment extends Fragment {
     // 7. 线程库
     // 8.
 
-    private void initSubscriptionView() {
-        SubscriptionReminderView subscriptionReminderView = root.findViewById(R.id.subscription_reminder_view);
-
-        subscriptionReminderView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new XLIntent(getActivity(), SubscribeActivity.class));
-            }
-        });
-
-        if (SubscriptionManager.getInstance().isSubscribed()) {
-            subscriptionReminderView.setVisibility(View.GONE);
-        }
-        SubscriptionManager.getInstance().registerSubscriptionListener(subscriptionUpdateListener);
-    }
 
     private void initRecyclerView() {
         adapter = new TaskAdapter(getDatas());

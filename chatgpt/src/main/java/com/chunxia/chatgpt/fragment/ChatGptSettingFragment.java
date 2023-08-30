@@ -15,6 +15,7 @@ import android.view.Window;
 import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.activity.MotherLanguageSettingActivity;
 import com.chunxia.chatgpt.activity.SubscribeActivity;
@@ -23,6 +24,9 @@ import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionManager;
 import com.chunxia.chatgpt.ui.SettingItemView;
 import com.chunxia.chatgpt.ui.SubscriptionSettingReminderView;
+import com.chunxia.firebase.id.FirebaseInstanceIDManager;
+import com.chunxia.firebase.model.User;
+import com.chunxia.firebase.model.UserUnInitException;
 
 public class ChatGptSettingFragment extends Fragment {
 
@@ -45,21 +49,73 @@ public class ChatGptSettingFragment extends Fragment {
         return root;
     }
 
+
+    SubscriptionManager.SubscriptionUpdateListener subscriptionUpdateListener = new SubscriptionManager.SubscriptionUpdateListener() {
+        @Override
+        public void onUpdatedSubscription(String sku) {
+            Log.i(TAG, "onUpdatedSubscription: " + sku);
+            if (subscriptionButton == null) return;
+            subscriptionButton.setVisibility(View.GONE);
+        }
+    };
+
+    FirebaseInstanceIDManager.OnUpdateListener onFirebaseUserUpdateListener = new FirebaseInstanceIDManager.OnUpdateListener() {
+        @Override
+        public void onUpdateSuccess(User user) {
+            ThreadUtils.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (subscriptionButton == null) return;
+                    try {
+                        subscriptionButton.setTitle(getSubscriptionViewTitle(user));
+                        subscriptionButton.setVisibility(View.VISIBLE);
+                    } catch (UserUnInitException e) {
+                        Log.i(TAG, "haven't init user, can not init SubscriptionReminderView now");
+                    }
+                }
+            });
+        }
+    };
+
+    public String getSubscriptionViewTitle(User user) throws UserUnInitException {
+        if (user.trailIsOver()) {
+            return getResources().getString(R.string.subscription_reminder_view_trail_over)
+                    + getResources().getString(R.string.subscription_reminder_view_trail_over_subscribe_now);
+        }
+        String s = getResources().getString(R.string.subscription_reminder_view_text1);
+        s = s + user.getRemainingTrailTimeString(getContext());
+        s = s + getResources().getString(R.string.subscription_reminder_view_text2);
+        return s;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        FirebaseInstanceIDManager.getInstance().removeUpdateListener(onFirebaseUserUpdateListener);
+        SubscriptionManager.getInstance().unregisterSubscriptionListener(subscriptionUpdateListener);
+    }
+
+
     private void initSubscription() {
         subscriptionButton = root.findViewById(R.id.subscription_reminder_view);
 
         if (SubscriptionManager.getInstance().isSubscribed()) {
             subscriptionButton.setVisibility(View.GONE);
-        }
-        SubscriptionManager.getInstance().registerSubscriptionListener(new SubscriptionManager.SubscriptionUpdateListener() {
-            @Override
-            public void onUpdatedSubscription(String sku) {
-                Log.i(TAG, "onUpdatedSubscription: " + sku);
-                subscriptionButton.setVisibility(View.GONE);
-            }
-        });
+        } else {
 
-        subscriptionButton.setTitle(SubscriptionManager.getInstance().getRemainingTrials());
+            try {
+                User user = FirebaseInstanceIDManager.getInstance().getUser();
+                subscriptionButton.setTitle(getSubscriptionViewTitle(user));
+                subscriptionButton.setVisibility(View.VISIBLE);
+
+            } catch (UserUnInitException e) {
+                Log.i(TAG, "haven't init user, can not init SubscriptionReminderView now");
+            }
+
+            FirebaseInstanceIDManager.getInstance().addUpdataListener(onFirebaseUserUpdateListener);
+        }
+
+        SubscriptionManager.getInstance().registerSubscriptionListener(subscriptionUpdateListener);
 
         subscriptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +125,6 @@ public class ChatGptSettingFragment extends Fragment {
             }
         });
     }
-
 
     private void initLearningLanguageButton() {
         learningLanguageButton = root.findViewById(R.id.voice_language_setting_view);
@@ -85,6 +140,7 @@ public class ChatGptSettingFragment extends Fragment {
 
 
     private SettingItemView contactUsButton;
+
     private void initContactUsButton() {
         contactUsButton = root.findViewById(R.id.fragment_setting_contact_us);
         contactUsButton.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +200,7 @@ public class ChatGptSettingFragment extends Fragment {
 
     private void showSingleChoiceDialog() {
 
-        final String[] Options = new String[] {
+        final String[] Options = new String[]{
                 getResources().getString(R.string.setting_language_difficulty_option1),
                 getResources().getString(R.string.setting_language_difficulty_option2),
                 getResources().getString(R.string.setting_language_difficulty_option3)

@@ -75,6 +75,7 @@ public class RemoteConfig {
 
 
     public String getGoogleCloudApiKey() {
+        // 这个api key只是google text to speech的api key
         if (isInitialized) {
             return mFirebaseRemoteConfig.getString("google_cloud_api_key");
         } else {
