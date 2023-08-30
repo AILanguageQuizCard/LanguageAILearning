@@ -19,6 +19,7 @@ import com.chunxia.chatgpt.adapter.training.TrainingAdapter;
 import com.chunxia.chatgpt.adapter.training.TrainingInfo;
 import com.chunxia.chatgpt.adapter.training.TrainingType;
 import com.chunxia.chatgpt.common.XLIntent;
+import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
 import com.chunxia.chatgpt.subscription.SubscriptionManager;
 import com.chunxia.chatgpt.ui.SubscriptionReminderView;
 import com.chunxia.firebase.id.FirebaseInstanceIDManager;
@@ -82,9 +83,9 @@ public class ChatGptTrainingFragment extends Fragment {
         return s;
     }
 
-    SubscriptionManager.SubscriptionUpdateListener subscriptionUpdateListener = new SubscriptionManager.SubscriptionUpdateListener() {
+    SubscriptionInfoProvider.SubscriptionUpdatedListener updateValidSubscriptionListener = new  SubscriptionInfoProvider.SubscriptionUpdatedListener() {
         @Override
-        public void onUpdatedSubscription(String sku) {
+        public void onSubscriptionUpdated(String sku) {
             Log.i(TAG, "onUpdatedSubscription: " + sku);
             if (subscriptionReminderView == null) return;
             subscriptionReminderView.setVisibility(View.GONE);
@@ -94,7 +95,8 @@ public class ChatGptTrainingFragment extends Fragment {
 
     public void initSubscriptionReminderView() {
         subscriptionReminderView = this.root.findViewById(R.id.subscription_reminder_view);
-        if (SubscriptionManager.getInstance().isSubscribed()) {
+        SubscriptionInfoProvider.getInstance().addSubscriptionUpdatedListener(updateValidSubscriptionListener);
+        if (SubscriptionInfoProvider.getInstance().isSubscribed()) {
             subscriptionReminderView.setVisibility(View.GONE);
         } else {
             try {
@@ -107,8 +109,6 @@ public class ChatGptTrainingFragment extends Fragment {
             }
             FirebaseInstanceIDManager.getInstance().addUpdataListener(onFirebaseUserUpdateListener);
         }
-
-        SubscriptionManager.getInstance().registerSubscriptionListener(subscriptionUpdateListener);
 
         subscriptionReminderView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +124,7 @@ public class ChatGptTrainingFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         FirebaseInstanceIDManager.getInstance().removeUpdateListener(onFirebaseUserUpdateListener);
-        SubscriptionManager.getInstance().unregisterSubscriptionListener(subscriptionUpdateListener);
+        SubscriptionInfoProvider.getInstance().removeSubscriptionUpdatedListener(updateValidSubscriptionListener);
     }
 
 

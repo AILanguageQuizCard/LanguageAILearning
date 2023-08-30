@@ -21,7 +21,7 @@ import com.chunxia.chatgpt.activity.MotherLanguageSettingActivity;
 import com.chunxia.chatgpt.activity.SubscribeActivity;
 import com.chunxia.chatgpt.activity.LearningLanguageSettingActivity;
 import com.chunxia.chatgpt.common.XLIntent;
-import com.chunxia.chatgpt.subscription.SubscriptionManager;
+import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
 import com.chunxia.chatgpt.ui.SettingItemView;
 import com.chunxia.chatgpt.ui.SubscriptionSettingReminderView;
 import com.chunxia.firebase.id.FirebaseInstanceIDManager;
@@ -50,9 +50,9 @@ public class ChatGptSettingFragment extends Fragment {
     }
 
 
-    SubscriptionManager.SubscriptionUpdateListener subscriptionUpdateListener = new SubscriptionManager.SubscriptionUpdateListener() {
+    SubscriptionInfoProvider.SubscriptionUpdatedListener updateValidSubscriptionListener = new SubscriptionInfoProvider.SubscriptionUpdatedListener() {
         @Override
-        public void onUpdatedSubscription(String sku) {
+        public void onSubscriptionUpdated(String sku) {
             Log.i(TAG, "onUpdatedSubscription: " + sku);
             if (subscriptionButton == null) return;
             subscriptionButton.setVisibility(View.GONE);
@@ -92,14 +92,15 @@ public class ChatGptSettingFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         FirebaseInstanceIDManager.getInstance().removeUpdateListener(onFirebaseUserUpdateListener);
-        SubscriptionManager.getInstance().unregisterSubscriptionListener(subscriptionUpdateListener);
+        SubscriptionInfoProvider.getInstance().removeSubscriptionUpdatedListener(updateValidSubscriptionListener);
     }
 
 
     private void initSubscription() {
         subscriptionButton = root.findViewById(R.id.subscription_reminder_view);
+        SubscriptionInfoProvider.getInstance().addSubscriptionUpdatedListener(updateValidSubscriptionListener);
 
-        if (SubscriptionManager.getInstance().isSubscribed()) {
+        if (SubscriptionInfoProvider.getInstance().isSubscribed()) {
             subscriptionButton.setVisibility(View.GONE);
         } else {
 
@@ -114,8 +115,6 @@ public class ChatGptSettingFragment extends Fragment {
 
             FirebaseInstanceIDManager.getInstance().addUpdataListener(onFirebaseUserUpdateListener);
         }
-
-        SubscriptionManager.getInstance().registerSubscriptionListener(subscriptionUpdateListener);
 
         subscriptionButton.setOnClickListener(new View.OnClickListener() {
             @Override

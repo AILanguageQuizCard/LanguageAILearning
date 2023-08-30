@@ -41,6 +41,7 @@ class BillingService(
                 when {
                     billingResult.isOk() -> {
                         isBillingClientConnected(true, billingResult.responseCode)
+                        // 虽然目前没有inApp的项目，但是还是留着吧，以防未来需要用
 //                        nonConsumableKeys.queryProductDetails(BillingClient.ProductType.INAPP) {
 //                            GlobalScope.launch {
 //                                queryPurchases()
@@ -116,7 +117,8 @@ class BillingService(
                 }
                 productDetailsParamsList.add(builder.build())
                 val billingFlowParams = BillingFlowParams.newBuilder()
-                    .setProductDetailsParamsList(productDetailsParamsList).build()
+                    .setProductDetailsParamsList(
+                        productDetailsParamsList).build()
                 
                 mBillingClient.launchBillingFlow(activity, billingFlowParams)
             }

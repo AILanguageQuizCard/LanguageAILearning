@@ -8,20 +8,16 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.chunxia.firebase.config.RemoteConfig;
-import com.chunxia.mmkv.KVUtils;
 import com.limurse.iap.DataWrappers;
 import com.limurse.iap.IapConnector;
-import com.limurse.iap.PurchaseServiceListener;
 import com.limurse.iap.SubscriptionServiceListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class SubscriptionManager {
 
@@ -41,31 +37,6 @@ public class SubscriptionManager {
         return instance;
     }
 
-    public int getRemainingTrials() {
-        return getSubscriptionData().getRemainingTrials();
-    }
-
-    private static String SUBSCRIPTION_DATA_KEY = "subscription_data_key";
-    private static String SUBSCRIPTION_MMKV_NAME = "subscription";
-    private static int TIMES = 5;
-
-    public SubscriptionData getSubscriptionData() {
-        SubscriptionData result =  KVUtils.get().decodeParcelable(SUBSCRIPTION_MMKV_NAME, SUBSCRIPTION_DATA_KEY, SubscriptionData.class);
-        if (result == null) {
-            return new SubscriptionData(TIMES);
-        } else {
-            return result;
-        }
-    }
-
-    public boolean saveSubscriptionData(SubscriptionData subscriptionData) {
-        return KVUtils.get().encodeParcelable(SUBSCRIPTION_MMKV_NAME, SUBSCRIPTION_DATA_KEY, subscriptionData);
-    }
-
-    public boolean saveRemainingTrails(int n) {
-        return saveSubscriptionData(new SubscriptionData(n));
-    }
-
     private final MutableLiveData<Boolean> isBillingClientConnected  = new MutableLiveData<>();
     private IapConnector iapConnector = null;
 
@@ -73,57 +44,24 @@ public class SubscriptionManager {
         iapConnector.subscribe(activity, sku);
     }
 
-    public void addPurchaseListener(PurchaseServiceListener listener) {
-        iapConnector.addPurchaseListener(listener);
+    public void unsubscribe(Activity activity, String sku) {
+        iapConnector.unsubscribe(activity, sku);
     }
 
     public static final String SKU_ID_MONTHLY = "ai_lingo_master_test_monthly";
     public static final String SKU_ID_SEASONLY = "ai_lingo_master_test_seasonly";
-
     public static final String SKU_ID_YEARLY = "ai_lingo_master_test_yearly";
-
-
-    private Set<String> validSkus = new HashSet<>();
-
-    private List<SubscriptionUpdateListener> listenerList = new ArrayList<>();
-
-    public void registerSubscriptionListener(SubscriptionUpdateListener subscriptionUpdateListener) {
-        listenerList.add(subscriptionUpdateListener);
-    }
-
-    public void unregisterSubscriptionListener(SubscriptionUpdateListener subscriptionUpdateListener) {
-        listenerList.remove(subscriptionUpdateListener);
-    }
-
-    public interface SubscriptionUpdateListener {
-        void onUpdatedSubscription(String sku);
-    }
 
 
     public void addValidSubscription(String s) {
         if (s == null || s.isEmpty()) {
             return;
         }
-        Log.i(TAG, "addValidSubscription: " + s);
-        validSkus.add(s);
-
-        for (SubscriptionUpdateListener listener : listenerList) {
-            listener.onUpdatedSubscription(s);
-        }
+        SubscriptionInfoProvider.getInstance().addValidSubscription(s);
     }
 
-    public boolean isValidSubscription(String s) {
-        return validSkus.contains(s);
-    }
-
-    public boolean isSubscribed() {
-        Log.i(TAG, "isSubscribed, validSkus: " + validSkus.toString());
-        return !validSkus.isEmpty();
-    }
-
-
-    public void addSubscriptionListener(SubscriptionServiceListener listener) {
-        iapConnector.addSubscriptionListener(listener);
+    private void addProductsInfo(Map<String, DataWrappers.ProductDetails> iapKeyPrices) {
+        SubscriptionInfoProvider.getInstance().setSPI(iapKeyPrices);
     }
 
 
@@ -150,7 +88,6 @@ public class SubscriptionManager {
 
         SubscriptionServiceListener listener = new SubscriptionServiceListener() {
             public void onSubscriptionRestored(@NonNull DataWrappers.PurchaseInfo purchaseInfo) {
-                //todo restore 和purchased 有什么区别？分别是什么时候触发？
                 addValidSubscription(purchaseInfo.getSku());
             }
 
@@ -159,9 +96,10 @@ public class SubscriptionManager {
             }
 
             public void onPricesUpdated(@NotNull Map<String, DataWrappers.ProductDetails> iapKeyPrices) {
+                addProductsInfo(iapKeyPrices);
             }
         };
-        addSubscriptionListener(listener);
+        iapConnector.addSubscriptionListener(listener);
 
         iapConnector.addBillingClientConnectionListener((status, billingResponseCode) -> {
             Log.d("KSA", "This is the status: "+status+" and response code is: "+billingResponseCode);

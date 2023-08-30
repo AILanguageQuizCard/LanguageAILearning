@@ -40,9 +40,6 @@
             android:name=".activity.OneRoundChatActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".subscription.SubscriptionActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
             android:name=".activity.MotherLanguageSettingActivity"
             android:screenOrientation="portrait"></activity>
         <activity

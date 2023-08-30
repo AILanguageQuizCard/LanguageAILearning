@@ -13,8 +13,8 @@ android {
         applicationId "com.chunxia.chatgpt"
         minSdkVersion 26
         targetSdkVersion 33
-        versionCode 10019
-        versionName "1.0.19.0"
+        versionCode 10020
+        versionName "1.0.20.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }

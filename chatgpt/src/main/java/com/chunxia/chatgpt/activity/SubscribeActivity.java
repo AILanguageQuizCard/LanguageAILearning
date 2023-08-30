@@ -1,6 +1,5 @@
 package com.chunxia.chatgpt.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -9,13 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
 import com.chunxia.chatgpt.subscription.SubscriptionManager;
 import com.chunxia.chatgpt.ui.SubscriptionDescriptionView;
 import com.chunxia.chatgpt.ui.SubscriptionOptionView;
 import com.limurse.iap.DataWrappers;
-import com.limurse.iap.SubscriptionServiceListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -54,35 +51,35 @@ public class SubscribeActivity extends AppCompatActivity {
         initSubscriptionButton();
     }
 
+    SubscriptionInfoProvider.SPIUpdatedListener listener;
+
     private void initSubscriptionInfo() {
-        SubscriptionServiceListener listener = new SubscriptionServiceListener() {
-            public void onSubscriptionRestored(@NonNull DataWrappers.PurchaseInfo purchaseInfo) {
-                SubscriptionManager.getInstance().addValidSubscription(purchaseInfo.getSku());
-            }
-
-            public void onSubscriptionPurchased(@NonNull DataWrappers.PurchaseInfo purchaseInfo) {
-                SubscriptionManager.getInstance().addValidSubscription(purchaseInfo.getSku());
-            }
-
-            public void onPricesUpdated(@NotNull Map<String, DataWrappers.ProductDetails> iapKeyPrices) {
+        listener = new SubscriptionInfoProvider.SPIUpdatedListener() {
+            @Override
+            public void onSPIUpdated(Map<String, DataWrappers.ProductDetails> subscriptionProductInfo) {
                 // for 循环遍历map，需要遍历key和value
-                DataWrappers.ProductDetails monthlyDetails = iapKeyPrices.get(SubscriptionManager.SKU_ID_MONTHLY);
+                DataWrappers.ProductDetails monthlyDetails = subscriptionProductInfo.get(SubscriptionManager.SKU_ID_MONTHLY);
                 if(monthlyDetails != null) {
                     subcriptionView1.setPrice(monthlyDetails.getPrice());
                 }
-                DataWrappers.ProductDetails seasonlyDetail = iapKeyPrices.get(SubscriptionManager.SKU_ID_SEASONLY);
+                DataWrappers.ProductDetails seasonlyDetail = subscriptionProductInfo.get(SubscriptionManager.SKU_ID_SEASONLY);
                 if(seasonlyDetail != null) {
                     subcriptionView2.setPrice(seasonlyDetail.getPrice());
                 }
-                DataWrappers.ProductDetails yearlyDetail = iapKeyPrices.get(SubscriptionManager.SKU_ID_YEARLY);
+                DataWrappers.ProductDetails yearlyDetail = subscriptionProductInfo.get(SubscriptionManager.SKU_ID_YEARLY);
                 if(yearlyDetail != null) {
                     subcriptionView3.setPrice(yearlyDetail.getPrice());
                 }
-
             }
         };
 
-        SubscriptionManager.getInstance().addSubscriptionListener(listener);
+        SubscriptionInfoProvider.getInstance().addSPIUpdatedListener(listener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SubscriptionInfoProvider.getInstance().removeSPIUpdatedListener(listener);
     }
 
     private void setDescriptionView() {
@@ -120,7 +117,6 @@ public class SubscribeActivity extends AppCompatActivity {
         subscriptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo 根据不同的选中的方案，来订阅不同的套餐
                 subscribe(choosedSkuID);
             }
         });
@@ -161,6 +157,16 @@ public class SubscribeActivity extends AppCompatActivity {
     }
 
     private void subscribe(String sku) {
+        // todo 测试是否会在订阅后立即关闭当前页面
+        SubscriptionInfoProvider.getInstance().addSubscriptionUpdatedListener(new SubscriptionInfoProvider.SubscriptionUpdatedListener() {
+            @Override
+            public void onSubscriptionUpdated(String sku) {
+                finish();
+                SubscriptionInfoProvider.getInstance().removeSubscriptionUpdatedListener(this);
+            }
+        });
+
         SubscriptionManager.getInstance().subscribe(SubscribeActivity.this, sku);
     }
+
 }
