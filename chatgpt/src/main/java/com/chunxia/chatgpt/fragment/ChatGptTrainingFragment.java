@@ -20,7 +20,6 @@ import com.chunxia.chatgpt.adapter.training.TrainingInfo;
 import com.chunxia.chatgpt.adapter.training.TrainingType;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
-import com.chunxia.chatgpt.subscription.SubscriptionManager;
 import com.chunxia.chatgpt.ui.SubscriptionReminderView;
 import com.chunxia.firebase.id.FirebaseInstanceIDManager;
 import com.chunxia.firebase.model.User;

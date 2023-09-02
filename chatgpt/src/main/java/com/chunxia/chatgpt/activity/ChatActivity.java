@@ -36,14 +36,16 @@ import com.chunxia.chatgpt.adapter.chat.ChoosedItem;
 import com.chunxia.chatgpt.chatapi.MultiRoundChatAgent;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.model.message.MessageManager;
+import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.voicerecord.VoiceRecordActivity;
-//import com.chunxia.chatgpt.voicetotext.VoiceToTextModel;
 import com.chunxia.chatgpt.model.message.Message;
 import com.chunxia.chatgpt.model.message.TextMessage;
 import com.chunxia.chatgpt.model.message.VoiceMessage;
 
 import com.chunxia.chatgpt.voicerecord.models.Events;
+import com.chunxia.firebase.id.FirebaseInstanceIDManager;
+import com.chunxia.firebase.model.UserUnInitException;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -255,6 +257,20 @@ public class ChatActivity extends AppCompatActivity {
         adapter.stopAllVoice();
     }
 
+
+    private boolean canAccessVIP() {
+        if (SubscriptionInfoProvider.getInstance().isSubscribed()) {
+            return true;
+        } else {
+            try {
+                return !FirebaseInstanceIDManager.getInstance().trailIsOver();
+            } catch (UserUnInitException e) {
+                Log.i(TAG, "haven't get user data from server");
+                return false;
+            }
+        }
+    }
+
     public void initComponent(String startWords) {
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -271,7 +287,12 @@ public class ChatActivity extends AppCompatActivity {
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendChat();
+                if (canAccessVIP()) {
+                    sendChat();
+                } else {
+                    Intent intent = new XLIntent(ActivityUtils.getTopActivity(), SubscribeActivity.class);
+                    ActivityUtils.getTopActivity().startActivity(intent);
+                }
             }
         });
 

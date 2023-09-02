@@ -26,6 +26,10 @@ public class SubscribeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_subscribe);
         initView();
         initSubscriptionInfo();
+
+        // 这确保内容将延伸到状态栏
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
     private SubscriptionOptionView subcriptionView1;
@@ -54,26 +58,60 @@ public class SubscribeActivity extends AppCompatActivity {
     SubscriptionInfoProvider.SPIUpdatedListener listener;
 
     private void initSubscriptionInfo() {
-        listener = new SubscriptionInfoProvider.SPIUpdatedListener() {
-            @Override
-            public void onSPIUpdated(Map<String, DataWrappers.ProductDetails> subscriptionProductInfo) {
-                // for 循环遍历map，需要遍历key和value
-                DataWrappers.ProductDetails monthlyDetails = subscriptionProductInfo.get(SubscriptionManager.SKU_ID_MONTHLY);
-                if(monthlyDetails != null) {
-                    subcriptionView1.setPrice(monthlyDetails.getPrice());
-                }
-                DataWrappers.ProductDetails seasonlyDetail = subscriptionProductInfo.get(SubscriptionManager.SKU_ID_SEASONLY);
-                if(seasonlyDetail != null) {
-                    subcriptionView2.setPrice(seasonlyDetail.getPrice());
-                }
-                DataWrappers.ProductDetails yearlyDetail = subscriptionProductInfo.get(SubscriptionManager.SKU_ID_YEARLY);
-                if(yearlyDetail != null) {
-                    subcriptionView3.setPrice(yearlyDetail.getPrice());
-                }
-            }
-        };
 
-        SubscriptionInfoProvider.getInstance().addSPIUpdatedListener(listener);
+        Map<String, DataWrappers.ProductDetails> spi = SubscriptionInfoProvider.getInstance().getSPI();
+        if (spi == null
+                || !spi.containsKey(SubscriptionManager.SKU_ID_MONTHLY)
+                || !spi.containsKey(SubscriptionManager.SKU_ID_SEASONLY)
+                || !spi.containsKey(SubscriptionManager.SKU_ID_YEARLY)) {
+            listener = new SubscriptionInfoProvider.SPIUpdatedListener() {
+                @Override
+                public void onSPIUpdated(Map<String, DataWrappers.ProductDetails> subscriptionProductInfo) {
+                    // for 循环遍历map，需要遍历key和value
+                    updatePriceInfo(subscriptionProductInfo);
+                }
+            };
+
+            SubscriptionInfoProvider.getInstance().addSPIUpdatedListener(listener);
+            return;
+        }
+
+        updatePriceInfo(spi);
+    }
+
+    public String computeSavedPercentage(double original, double saved) {
+        double percentage = (saved / original) * 100;
+
+        // 将这个比例转换为只有整数位的字符串
+        return String.valueOf((int) percentage);
+    }
+
+    private void updatePriceInfo(Map<String, DataWrappers.ProductDetails> subscriptionProductInfo) {
+        DataWrappers.ProductDetails monthlyDetails = subscriptionProductInfo.get(SubscriptionManager.SKU_ID_MONTHLY);
+
+        if (monthlyDetails != null) {
+            setOneOptionPrice(subcriptionView1, monthlyDetails, getString(R.string.subscription_option_monthly_month));
+            subcriptionView1.setMostPopularMode();
+        }
+        DataWrappers.ProductDetails seasonlyDetail = subscriptionProductInfo.get(SubscriptionManager.SKU_ID_SEASONLY);
+        if (seasonlyDetail != null && monthlyDetails != null) {
+            setOneOptionPrice(subcriptionView2, seasonlyDetail, getString(R.string.subscription_option_seasonly_season));
+            double original = 50 * 3;
+            double saved = original - seasonlyDetail.getPriceAmount();
+            String result = computeSavedPercentage(original, saved);
+            subcriptionView2.setSaved(result);
+        }
+        DataWrappers.ProductDetails yearlyDetail = subscriptionProductInfo.get(SubscriptionManager.SKU_ID_YEARLY);
+        if (yearlyDetail != null && monthlyDetails != null) {
+            setOneOptionPrice(subcriptionView3, yearlyDetail, getString(R.string.subscription_option_yearly_year));
+            double original = 50 * 12;
+            double saved = original - yearlyDetail.getPriceAmount();
+            subcriptionView3.setSaved(computeSavedPercentage(original, saved) );
+        }
+    }
+
+    private void setOneOptionPrice(SubscriptionOptionView view, DataWrappers.ProductDetails productDetails, String time) {
+        view.setTitle( productDetails.getPrice() + " " + time);
     }
 
     @Override
@@ -99,9 +137,9 @@ public class SubscribeActivity extends AppCompatActivity {
         subcriptionView2 = findViewById(R.id.subscription_option2);
         subcriptionView3 = findViewById(R.id.subscription_option3);
         // todo 验证不同地区的价格，是否正确
-        subcriptionView1.setTitle(getString(R.string.subscription_option_title1));
-        subcriptionView2.setTitle(getString(R.string.subscription_option_title2));
-        subcriptionView3.setTitle(getString(R.string.subscription_option_title3));
+        subcriptionView1.setDescription(getString(R.string.subscription_option_monthly_description));
+        subcriptionView2.setDescription(getString(R.string.subscription_option_seasonly_description));
+        subcriptionView3.setDescription(getString(R.string.subscription_option_yearly_description));
 
         subcriptionView1.choose();
         onSubscriptionOptionClick();

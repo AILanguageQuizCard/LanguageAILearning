@@ -136,6 +136,17 @@
     <string name="subscription_option_title1">月订阅</string>
     <string name="subscription_option_title2">季订阅</string>
     <string name="subscription_option_title3">年订阅</string>
+
+    <string name="subscription_option_monthly_description">最受欢迎，下个月自动续订，免费取消续订</string>
+    <string name="subscription_option_seasonly_description">下个季度自动续订，免费取消续订</string>
+    <string name="subscription_option_yearly_description">最便宜，免费取消修续订</string>
+
+    <string name="subscription_option_monthly_month"> /Month</string>
+
+    <string name="subscription_option_seasonly_season"> /3 Months</string>
+    <string name="subscription_option_yearly_year"> /Year</string>
+
+
     <string name="deck_options">Deck options</string>
     <string name="title_preset_name_input_dialog">重命名</string>
 
@@ -171,6 +182,9 @@
 
     <string name="subscription_reminder_view_trail_over">您的试用时间已结束。您还可以继续访问记忆卡片，但无法和chatGPT对话或生成语料了。</string>
     <string name="subscription_reminder_view_trail_over_subscribe_now">赶快订阅吧!</string>
+    <string name="add_review_card_submit">Submit</string>
+    <string name="subscribe_activity_subscribe_button">立即订阅</string>
+    <string name="most_popular">most popular</string>
 
 
 </resources>

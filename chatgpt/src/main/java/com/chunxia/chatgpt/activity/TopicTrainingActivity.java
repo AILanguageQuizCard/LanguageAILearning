@@ -9,6 +9,7 @@ import static com.chunxia.chatgpt.activity.ActivityIntentKeys.TOPIC_TRAINING_TOP
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +44,9 @@ import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
 import com.chunxia.chatgpt.model.sentence_pattern.SentencePatternManager;
 import com.chunxia.chatgpt.model.topic.TrainingTopicManager;
+import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
+import com.chunxia.firebase.id.FirebaseInstanceIDManager;
+import com.chunxia.firebase.model.UserUnInitException;
 import com.google.android.flexbox.FlexboxLayout;
 import com.material.components.utils.Tools;
 
@@ -195,9 +199,27 @@ public class TopicTrainingActivity extends AppCompatActivity {
         }
     }
 
+    private boolean canAccessVIP() {
+        if (SubscriptionInfoProvider.getInstance().isSubscribed()) {
+            return true;
+        } else {
+            try {
+                return !FirebaseInstanceIDManager.getInstance().trailIsOver();
+            } catch (UserUnInitException e) {
+                Log.i(TAG, "haven't get user data from server");
+                return false;
+            }
+        }
+    }
+
     private void searchAction(String topic) {
-        initPendingView();
-        initTopicChat(topic);
+        if (canAccessVIP()) {
+            initPendingView();
+            initTopicChat(topic);
+        } else {
+            Intent intent = new XLIntent(ActivityUtils.getTopActivity(), SubscribeActivity.class);
+            ActivityUtils.getTopActivity().startActivity(intent);
+        }
     }
 
     @Override

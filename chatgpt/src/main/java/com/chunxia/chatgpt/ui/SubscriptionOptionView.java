@@ -19,7 +19,12 @@ public class SubscriptionOptionView extends RelativeLayout {
 
     private TextView savedView;
 
+    private TextView mostPopularView;
+    private TextView saveTextView;
+
     private RelativeLayout root;
+
+    private RelativeLayout relativeLayout;
 
     public SubscriptionOptionView(Context context) {
         this(context, null);
@@ -36,33 +41,44 @@ public class SubscriptionOptionView extends RelativeLayout {
 
     private void initView(Context context) {
         root = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.subscription_option_view, this, true);
+        relativeLayout = root.findViewById(R.id.subscription_option_view);
         chooseView = root.findViewById(R.id.choose_imageview);
         titleView = root.findViewById(R.id.subscription_option_title_view);
         priceView = root.findViewById(R.id.subscription_option_price_view);
         savedView = root.findViewById(R.id.subscription_option_save_view);
-        savedView.setVisibility(GONE);
+        mostPopularView = root.findViewById(R.id.subscription_option_most_popular);
+        saveTextView = root.findViewById(R.id.subscription_option_save_off_view);
     }
 
     /**
      * 设置价格
      * @param price example: "$9.99/month" 入参三要素：货币符号、价格、周期
      */
-    public void setPrice(String price) {
-        String originalDescription = (String) priceView.getText();
-        priceView.setText(String.format("%s %s", price, originalDescription));
+    public void setDescription(String description) {
+        priceView.setText(description);
     }
 
     public void setTitle(String title) {
         titleView.setText(title);
     }
 
+    public void setSaved(String savedNumber) {
+        savedView.setText(savedNumber + "%");
+    }
+
+    public void setMostPopularMode() {
+        mostPopularView.setVisibility(VISIBLE);
+        savedView.setVisibility(GONE);
+        saveTextView.setVisibility(GONE);
+    }
+
     public void choose() {
         chooseView.setImageResource(R.drawable.subscription_option_choosed);
-        root.setBackgroundResource(R.drawable.subscription_option_bg);
+        relativeLayout.setBackgroundResource(R.drawable.subscription_option_bg);
     }
 
     public void unchoose() {
         chooseView.setImageResource(R.drawable.subscription_option_unchoose);
-        root.setBackgroundResource(R.drawable.subscription_option_bg_unchoose);
+        relativeLayout.setBackgroundResource(R.drawable.subscription_option_bg_unchoose);
     }
 }

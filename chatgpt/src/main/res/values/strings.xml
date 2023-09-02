@@ -139,6 +139,15 @@
     <string name="subscription_option_name1">Yearly Subscription</string>
     <string name="subscription_option_name1_description">Auto-renewal</string>
     <string name="subscription_option_title1">Monthly subscription</string>
+
+    <string name="subscription_option_monthly_description">Most popular option, cancel freely</string>
+    <string name="subscription_option_seasonly_description">Auto-subcribe from next season, cancel freely</string>
+    <string name="subscription_option_yearly_description">Cheapest option per day, cancel freely</string>
+
+    <string name="subscription_option_monthly_month"> /Month</string>
+    <string name="subscription_option_seasonly_season"> /3 Months</string>
+    <string name="subscription_option_yearly_year"> /Year</string>
+
     <string name="subscription_option_title2">Quarterly subscription</string>
     <string name="subscription_option_title3">Annual subscription</string>
     <string name="deck_options">Deck options</string>
@@ -176,6 +185,9 @@
 
     <string name="subscription_reminder_view_trail_over">Your trial period has ended. You can still access flashcards, but can no longer converse with ChatGPT or generate language learning material.</string>
     <string name="subscription_reminder_view_trail_over_subscribe_now">Subscribe now!</string>
+    <string name="add_review_card_submit">Submit</string>
+    <string name="subscribe_activity_subscribe_button">立即订阅</string>
+    <string name="most_popular">most popular</string>
 
 
 </resources>

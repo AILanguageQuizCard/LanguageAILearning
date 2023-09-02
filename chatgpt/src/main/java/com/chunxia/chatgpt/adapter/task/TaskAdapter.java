@@ -12,7 +12,6 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.activity.ActivityIntentKeys;
 import com.chunxia.chatgpt.activity.ChatActivity;
-import com.chunxia.chatgpt.activity.OneRoundChatActivity;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.ui.TopicView2;
 

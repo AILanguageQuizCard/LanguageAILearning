@@ -19,6 +19,7 @@ import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.chat.ChoosedItem;
 import com.chunxia.chatgpt.model.review.ReviewCardManager;
 import com.chunxia.chatgpt.model.review.SentenceCard;
+import com.chunxia.chatgpt.tools.Tools;
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
@@ -49,9 +50,17 @@ public class AddReviewCardActivity extends AppCompatActivity {
         topicEditText = findViewById(R.id.topicEditText);
         submitButton = findViewById(R.id.submitButton);
 
+        initStatusBar();
         initData();
         initAllTopicButtons();
         initSubmitButtonClicked();
+
+    }
+
+
+    private void initStatusBar() {
+        Tools.setSystemBarColor(this, R.color.white);
+        Tools.setSystemBarLight(this);
     }
 
 

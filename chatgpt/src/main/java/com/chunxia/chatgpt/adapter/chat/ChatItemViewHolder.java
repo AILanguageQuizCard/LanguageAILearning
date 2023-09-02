@@ -22,6 +22,8 @@ public class ChatItemViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout lytParentView;
         public ImageView playVoiceButton;
         public ImageView copyContentButton;
+
+        public ImageView addToQuizCardButton;
         public int viewType;
         private Text2VoiceModel text2VoiceModel;
 
@@ -46,6 +48,7 @@ public class ChatItemViewHolder extends RecyclerView.ViewHolder {
             } else if (viewType == CHAT_YOU) {
                 playVoiceButton = v.findViewById(R.id.whatsapp_telegram_you_play_imageview);
                 copyContentButton = v.findViewById(R.id.whatsapp_telegram_you_copy_imageview);
+                addToQuizCardButton = v.findViewById(R.id.whatsapp_telegram_you_add_to_quiz_card);
             }
             this.viewType = viewType;
         }

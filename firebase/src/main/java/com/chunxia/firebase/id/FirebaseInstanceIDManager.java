@@ -100,6 +100,14 @@ public class FirebaseInstanceIDManager {
         }
     }
 
+    public boolean trailIsOver() throws UserUnInitException {
+        if (isUpdated) {
+            return user.trailIsOver();
+        } else {
+            throw new UserUnInitException("User may be not inited, remainingTrail is null");
+        }
+    }
+
     private boolean isUpdated = false;
 
     public Long getRemainingTrail() {

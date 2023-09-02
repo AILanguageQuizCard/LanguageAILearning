@@ -20,7 +20,6 @@ import android.widget.PopupWindow;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.model.message.Message;
@@ -106,9 +105,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                     setOnClickPlayVoiceButton(vItem, m, realPosition);
                     setOnClickCopyContentButton(vItem);
+                    setOnClickAddToQuizCardButton(vItem);
                 }
 
-                setLongClick((ChatItemViewHolder) holder);
+//                setLongClick((ChatItemViewHolder) holder);
                 showChooseView((ChatItemViewHolder) holder, m.isFromMe(), realPosition);
             }
 
@@ -127,6 +127,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return choosedItems;
     }
 
+
+    void addOneItemToChoosedItems(ChatItemViewHolder holder, int position) {
+        holder.chooseButton.setImageResource(R.drawable.ic_selected3);
+        holder.selected = true;
+        ChoosedItem item = new ChoosedItem(position, holder.textContentView.getText().toString());
+        choosedItems.add(item);
+    }
+
+    void removeOneItemFromChoosedItems(ChatItemViewHolder holder, int position) {
+        holder.chooseButton.setImageResource(R.drawable.ic_select3);
+        holder.selected = false;
+        ChoosedItem item = new ChoosedItem(position, holder.textContentView.getText().toString());
+        choosedItems.remove(item);
+    }
+
     void showChooseView(ChatItemViewHolder holder, boolean isFromMe, int position) {
         if (shouldShowHiddenView) {
             holder.chooseButton.setVisibility(View.VISIBLE);
@@ -136,25 +151,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     if(holder.selected) {
-                        holder.chooseButton.setImageResource(R.drawable.ic_select3);
-                        holder.selected = false;
-                        ChoosedItem item = new ChoosedItem(position, holder.textContentView.getText().toString());
-                        choosedItems.remove(item);
+                        removeOneItemFromChoosedItems(holder, position);
                     } else {
-                        holder.chooseButton.setImageResource(R.drawable.ic_selected3);
-                        holder.selected = true;
-                        ChoosedItem item = new ChoosedItem(position, holder.textContentView.getText().toString());
-                        choosedItems.add(item);
+                        addOneItemToChoosedItems(holder, position);
                     }
-
                     choosedItems.sort(Comparator.comparingInt(ChoosedItem::getPosition));
-
                 }
             });
 
         } else {
             holder.chooseButton.setVisibility(View.GONE);
-            holder.selected = false;
+            removeOneItemFromChoosedItems(holder, position);
             setParentViewMargin(holder, isFromMe, 35);
         }
     }
@@ -252,6 +259,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ClipData mClipData = ClipData.newPlainText("Label", text);
                     cm.setPrimaryClip(mClipData);
                     ToastUtils.make().setDurationIsLong(false).show(R.string.chat_copy_successfully);
+                }
+            });
+        }
+    }
+
+    void setOnClickAddToQuizCardButton(ChatItemViewHolder vItem) {
+        if (vItem.addToQuizCardButton != null) {
+            vItem.addToQuizCardButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    chooseQuestionAndAnswer();
                 }
             });
         }
