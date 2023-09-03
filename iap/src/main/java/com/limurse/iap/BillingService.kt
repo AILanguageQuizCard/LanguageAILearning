@@ -58,6 +58,7 @@ class BillingService(
                             }
                         }
                     }
+                    // todo 当
                     else -> {
                         isBillingClientConnected(false, billingResult.responseCode)
                     }

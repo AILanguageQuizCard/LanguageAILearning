@@ -1,7 +1,6 @@
 include ':app'
 include ':googlecloudtts'
 include ':chatgpt'
-include ':pay'
 include ':iap'
 dependencyResolutionManagement {
     repositories {

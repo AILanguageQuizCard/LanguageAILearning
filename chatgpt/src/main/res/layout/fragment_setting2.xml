@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:scrollbars="none"
+    android:scrollingCache="true"
+    android:background="@color/white"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/chat_task_top_view_title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:fontFamily="sans-serif-medium"
+            android:textColor="@color/black"
+            android:text="@string/chat_setting_top_view_title"/>
+
+        <com.chunxia.chatgpt.ui.SubscriptionSettingReminderView
+            android:id="@+id/subscription_reminder_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:layout_marginLeft="@dimen/spacing_large"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="GENERAL SETTING"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/grey_40" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/spacing_middle"
+                    android:paddingTop="@dimen/spacing_middle">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center_vertical"
+                        android:minHeight="@dimen/spacing_xxlarge"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/spacing_medium"
+                        android:paddingRight="@dimen/spacing_medium">
+
+                        <ImageButton
+                            android:layout_width="@dimen/spacing_xmlarge"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/grey_40"
+                            app:srcCompat="@drawable/ic_person" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_small"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Account"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/grey_80" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_large"
+                            android:layout_height="wrap_content" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/spacing_xmlarge"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/grey_40"
+                            app:srcCompat="@drawable/ic_arrow_right" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center_vertical"
+                        android:minHeight="@dimen/spacing_xxlarge"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/spacing_medium"
+                        android:paddingRight="@dimen/spacing_medium">
+
+                        <ImageButton
+                            android:layout_width="@dimen/spacing_xmlarge"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/red_400"
+                            app:srcCompat="@drawable/ic_mail" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_small"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Gmail"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/grey_90" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_large"
+                            android:layout_height="wrap_content" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/spacing_xmlarge"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/grey_40"
+                            app:srcCompat="@drawable/ic_arrow_right" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/fragment_setting_contact_us"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center_vertical"
+                        android:minHeight="@dimen/spacing_xxlarge"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/spacing_medium"
+                        android:paddingRight="@dimen/spacing_medium">
+
+                        <ImageButton
+                            android:layout_width="@dimen/spacing_xmlarge"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/blue_300"
+                            app:srcCompat="@drawable/ic_sync" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_small"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Contact Us"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/grey_80" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_large"
+                            android:layout_height="wrap_content" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/spacing_xmlarge"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/grey_40"
+                            app:srcCompat="@drawable/ic_arrow_right" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:layout_marginLeft="@dimen/spacing_large"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="Language Setting"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/grey_40" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/spacing_middle"
+                    android:paddingTop="@dimen/spacing_middle">
+
+                    <LinearLayout
+                        android:id="@+id/record_language_setting_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center_vertical"
+                        android:minHeight="@dimen/spacing_xxlarge"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/spacing_medium"
+                        android:paddingRight="@dimen/spacing_medium">
+
+                        <ImageButton
+                            android:layout_width="@dimen/spacing_xmlarge"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/grey_40"
+                            app:srcCompat="@drawable/ic_sim_card" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_small"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Mother Tongue"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/grey_80" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_large"
+                            android:layout_height="wrap_content" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/spacing_xmlarge"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/grey_40"
+                            app:srcCompat="@drawable/ic_arrow_right" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/voice_language_setting_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center_vertical"
+                        android:minHeight="@dimen/spacing_xxlarge"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/spacing_medium"
+                        android:paddingRight="@dimen/spacing_medium">
+
+                        <ImageButton
+                            android:layout_width="@dimen/spacing_xmlarge"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/grey_40"
+                            app:srcCompat="@drawable/ic_more_horiz" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_small"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Learning Language"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/grey_80" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_large"
+                            android:layout_height="wrap_content" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/spacing_xmlarge"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/grey_40"
+                            app:srcCompat="@drawable/ic_arrow_right" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/language_difficulty_setting_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center_vertical"
+                        android:minHeight="@dimen/spacing_xxlarge"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/spacing_medium"
+                        android:paddingRight="@dimen/spacing_medium">
+
+                        <ImageButton
+                            android:layout_width="@dimen/spacing_xmlarge"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/grey_40"
+                            app:srcCompat="@drawable/ic_more_horiz" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_small"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Language Difficulity"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/grey_80" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_large"
+                            android:layout_height="wrap_content" />
+
+                        <ImageButton
+                            android:layout_width="@dimen/spacing_xmlarge"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/grey_40"
+                            app:srcCompat="@drawable/ic_arrow_right" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/spacing_large" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

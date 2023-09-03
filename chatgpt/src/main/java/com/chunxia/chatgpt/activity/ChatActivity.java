@@ -84,7 +84,8 @@ public class ChatActivity extends AppCompatActivity {
         initMultiRoundChatAiApi(getIntent().getStringExtra(ActivityIntentKeys.SYSTEM_COMMAND));
         chatMode = getIntent().getStringExtra(ActivityIntentKeys.ACTIVITY_CHAT_MODE);
         initComponent(getIntent().getStringExtra(ActivityIntentKeys.START_WORDS));
-        initVoiceMessageButton();
+        // todo 未来改成用Azure的语音识别
+//        initVoiceMessageButton();
 
         initBottom();
     }
@@ -114,17 +115,17 @@ public class ChatActivity extends AppCompatActivity {
         Tools.setSystemBarColorInt(this, Color.parseColor("#426482"));
     }
 
-    public void initVoiceMessageButton() {
-        voiceMessageButton = findViewById(R.id.voice_message_button);
-        voiceMessageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // todo 添加隐私政策 以满足google play上架要求
-                requestAudio();
-
-            }
-        });
-    }
+//    public void initVoiceMessageButton() {
+//        voiceMessageButton = findViewById(R.id.voice_message_button);
+//        voiceMessageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // todo 添加隐私政策 以满足google play上架要求
+//                requestAudio();
+//
+//            }
+//        });
+//    }
 
     private void jump2AudioRecord() {
         Intent intent = new XLIntent(ActivityUtils.getTopActivity(), VoiceRecordActivity.class);

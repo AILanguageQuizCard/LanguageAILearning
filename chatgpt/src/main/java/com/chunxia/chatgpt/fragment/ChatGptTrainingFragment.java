@@ -20,6 +20,7 @@ import com.chunxia.chatgpt.adapter.training.TrainingInfo;
 import com.chunxia.chatgpt.adapter.training.TrainingType;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
+import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.ui.SubscriptionReminderView;
 import com.chunxia.firebase.id.FirebaseInstanceIDManager;
 import com.chunxia.firebase.model.User;
@@ -45,11 +46,16 @@ public class ChatGptTrainingFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_training_chatgpt, container, false);
         this.root = root;
         initRecyclerView();
+        initStatusBar();
         initSubscriptionReminderView();
         return root;
     }
 
 
+    private void initStatusBar() {
+        Tools.setSystemBarColor(getActivity(), R.color.white);
+        Tools.setSystemBarLight(getActivity());
+    }
     SubscriptionReminderView subscriptionReminderView = null;
 
     FirebaseInstanceIDManager.OnUpdateListener onFirebaseUserUpdateListener = new FirebaseInstanceIDManager.OnUpdateListener() {

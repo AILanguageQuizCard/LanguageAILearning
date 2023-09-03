@@ -58,7 +58,14 @@ public class ChatGptReviewFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_review, container, false);
         this.root = root;
         initView();
+        initStatusBar();
         return root;
+    }
+
+
+    private void initStatusBar() {
+        Tools.setSystemBarColor(getActivity(), R.color.grey_10);
+        Tools.setSystemBarLight(getActivity());
     }
 
 

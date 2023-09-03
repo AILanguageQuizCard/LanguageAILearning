@@ -11,15 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.activity.LearningLanguageSettingActivity;
 import com.chunxia.chatgpt.activity.MotherLanguageSettingActivity;
 import com.chunxia.chatgpt.activity.SubscribeActivity;
-import com.chunxia.chatgpt.activity.LearningLanguageSettingActivity;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
 import com.chunxia.chatgpt.tools.Tools;
@@ -29,27 +30,32 @@ import com.chunxia.firebase.id.FirebaseInstanceIDManager;
 import com.chunxia.firebase.model.User;
 import com.chunxia.firebase.model.UserUnInitException;
 
-public class ChatGptSettingFragment extends Fragment {
+public class ChatGptSettingFragment2 extends Fragment {
 
     private static final String TAG = "ChatGptSettingFragment";
 
     private SubscriptionSettingReminderView subscriptionButton;
-    private SettingItemView learningLanguageButton;
-    private SettingItemView motherLanguageButton;
-    private SettingItemView languageDifficultyButton;
+    private LinearLayout learningLanguageButton;
+    private LinearLayout motherLanguageButton;
+    private LinearLayout languageDifficultyButton;
     private View root;
 
-    public ChatGptSettingFragment() {
+    public ChatGptSettingFragment2() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_setting, container, false);
+        View root = inflater.inflate(R.layout.fragment_setting2, container, false);
         this.root = root;
         initView();
         return root;
     }
 
+
+    private void initStatusBar() {
+        Tools.setSystemBarColor(getActivity(), R.color.white);
+        Tools.setSystemBarLight(getActivity());
+    }
 
     SubscriptionInfoProvider.SubscriptionUpdatedListener updateValidSubscriptionListener = new SubscriptionInfoProvider.SubscriptionUpdatedListener() {
         @Override
@@ -139,7 +145,7 @@ public class ChatGptSettingFragment extends Fragment {
     }
 
 
-    private SettingItemView contactUsButton;
+    private LinearLayout contactUsButton;
 
     private void initContactUsButton() {
         contactUsButton = root.findViewById(R.id.fragment_setting_contact_us);
@@ -186,11 +192,6 @@ public class ChatGptSettingFragment extends Fragment {
         initRecordingLanguageButton();
         initLanguageDifficultyButton();
         initContactUsButton();
-    }
-
-    private void initStatusBar() {
-        Tools.setSystemBarColor(getActivity(), R.color.white);
-        Tools.setSystemBarLight(getActivity());
     }
 
     private void initLanguageDifficultyButton() {

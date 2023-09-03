@@ -22,6 +22,7 @@ import com.chunxia.chatgpt.adapter.task.TaskRecyclerViewItemDecoration;
 import com.chunxia.chatgpt.adapter.task.TopicInfo;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
+import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.ui.SubscriptionReminderView;
 import com.chunxia.firebase.id.FirebaseInstanceIDManager;
 import com.chunxia.firebase.model.User;
@@ -47,9 +48,15 @@ public class ChatGptTasksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_task_chatgpt, container, false);
         this.root = root;
+        initStatusBar();
         return root;
+
     }
 
+    private void initStatusBar() {
+        Tools.setSystemBarColor(getActivity(), R.color.white);
+        Tools.setSystemBarLight(getActivity());
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

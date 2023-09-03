@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_chatgpt_setting"
-        android:name="com.chunxia.chatgpt.fragment.ChatGptSettingFragment"
+        android:name="com.chunxia.chatgpt.fragment.ChatGptSettingFragment2"
         android:label="Setting"
         tools:layout="@layout/fragment_chat_chatgpt" />
 </navigation>
