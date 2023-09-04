@@ -190,10 +190,10 @@
     <string name="most_popular">most popular</string>
 
 
-    <string name="home_nav_index">首页</string>
-    <string name="home_nav_found">发现</string>
-    <string name="home_nav_message">消息</string>
-    <string name="home_nav_me">我的</string>
+    <string name="home_nav_index">chat</string>
+    <string name="home_nav_found">learn</string>
+    <string name="home_nav_message">review</string>
+    <string name="home_nav_me">setting</string>
 
 
 </resources>

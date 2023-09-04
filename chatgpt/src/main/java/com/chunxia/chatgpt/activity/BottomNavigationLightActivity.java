@@ -78,11 +78,11 @@ public class BottomNavigationLightActivity extends BaseActivity implements Navig
 
         mNavigationAdapter = new NavigationAdapter(this);
         mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_nav_index),
-                ContextCompat.getDrawable(this, R.drawable.home_home_selector)));
+                ContextCompat.getDrawable(this, R.drawable.home_message_selector)));
         mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_nav_found),
                 ContextCompat.getDrawable(this, R.drawable.home_found_selector)));
         mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_nav_message),
-                ContextCompat.getDrawable(this, R.drawable.home_message_selector)));
+                ContextCompat.getDrawable(this, R.drawable.home_list_selector)));
         mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_nav_me),
                 ContextCompat.getDrawable(this, R.drawable.home_me_selector)));
         mNavigationAdapter.setOnNavigationListener(this);
