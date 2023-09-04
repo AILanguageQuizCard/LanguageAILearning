@@ -1,23 +1,21 @@
 package com.chunxia.chatgpt.fragment;
 
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.activity.BottomNavigationLightActivity;
 import com.chunxia.chatgpt.activity.SubscribeActivity;
 import com.chunxia.chatgpt.adapter.task.TaskRecyclerViewItemDecoration;
 import com.chunxia.chatgpt.adapter.training.TrainingAdapter;
 import com.chunxia.chatgpt.adapter.training.TrainingInfo;
 import com.chunxia.chatgpt.adapter.training.TrainingType;
+import com.chunxia.chatgpt.base.AppFragment;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
 import com.chunxia.chatgpt.tools.Tools;
@@ -26,15 +24,13 @@ import com.chunxia.firebase.id.FirebaseInstanceIDManager;
 import com.chunxia.firebase.model.User;
 import com.chunxia.firebase.model.UserUnInitException;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatGptTrainingFragment extends Fragment {
+public class ChatGptTrainingFragment extends AppFragment<BottomNavigationLightActivity> {
 
     private static final String TAG = "ChatGptTrainingFragment";
-    private View root;
     private RecyclerView recyclerView;
     private TrainingAdapter adapter;
 
@@ -42,13 +38,25 @@ public class ChatGptTrainingFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_training_chatgpt, container, false);
-        this.root = root;
+    protected int getLayoutId() {
+        return R.layout.fragment_training_chatgpt;
+    }
+
+    @Override
+    protected void initView() {
         initRecyclerView();
         initStatusBar();
         initSubscriptionReminderView();
-        return root;
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+
+    public static ChatGptTrainingFragment newInstance() {
+        return new ChatGptTrainingFragment();
     }
 
 
@@ -99,7 +107,7 @@ public class ChatGptTrainingFragment extends Fragment {
 
 
     public void initSubscriptionReminderView() {
-        subscriptionReminderView = this.root.findViewById(R.id.subscription_reminder_view);
+        subscriptionReminderView = findViewById(R.id.subscription_reminder_view);
         SubscriptionInfoProvider.getInstance().addSubscriptionUpdatedListener(updateValidSubscriptionListener);
         if (SubscriptionInfoProvider.getInstance().isSubscribed()) {
             subscriptionReminderView.setVisibility(View.GONE);
@@ -153,7 +161,7 @@ public class ChatGptTrainingFragment extends Fragment {
 
     private void initRecyclerView() {
         adapter = new TrainingAdapter(getDatas());
-        recyclerView = root.findViewById(R.id.task_fragment_recyclerview);
+        recyclerView = findViewById(R.id.task_fragment_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new TaskRecyclerViewItemDecoration());
@@ -163,7 +171,7 @@ public class ChatGptTrainingFragment extends Fragment {
     }
 
     private void initTopBar(){
-        ImageView imageView = root.findViewById(R.id.chat_task_top_view_search);
+        ImageView imageView = findViewById(R.id.chat_task_top_view_search);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

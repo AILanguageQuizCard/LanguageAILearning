@@ -5,32 +5,28 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
-
-import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.activity.BottomNavigationLightActivity;
 import com.chunxia.chatgpt.activity.LearningLanguageSettingActivity;
 import com.chunxia.chatgpt.activity.MotherLanguageSettingActivity;
 import com.chunxia.chatgpt.activity.SubscribeActivity;
+import com.chunxia.chatgpt.base.AppFragment;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
 import com.chunxia.chatgpt.tools.Tools;
-import com.chunxia.chatgpt.ui.SettingItemView;
 import com.chunxia.chatgpt.ui.SubscriptionSettingReminderView;
 import com.chunxia.firebase.id.FirebaseInstanceIDManager;
 import com.chunxia.firebase.model.User;
 import com.chunxia.firebase.model.UserUnInitException;
 
-public class ChatGptSettingFragment2 extends Fragment {
+public class ChatGptSettingFragment2 extends AppFragment<BottomNavigationLightActivity> {
 
     private static final String TAG = "ChatGptSettingFragment";
 
@@ -38,17 +34,13 @@ public class ChatGptSettingFragment2 extends Fragment {
     private LinearLayout learningLanguageButton;
     private LinearLayout motherLanguageButton;
     private LinearLayout languageDifficultyButton;
-    private View root;
 
     public ChatGptSettingFragment2() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_setting2, container, false);
-        this.root = root;
-        initView();
-        return root;
+    protected int getLayoutId() {
+        return R.layout.fragment_setting2;
     }
 
 
@@ -103,8 +95,9 @@ public class ChatGptSettingFragment2 extends Fragment {
     }
 
 
+
     private void initSubscription() {
-        subscriptionButton = root.findViewById(R.id.subscription_reminder_view);
+        subscriptionButton = findViewById(R.id.subscription_reminder_view);
         SubscriptionInfoProvider.getInstance().addSubscriptionUpdatedListener(updateValidSubscriptionListener);
 
         if (SubscriptionInfoProvider.getInstance().isSubscribed()) {
@@ -133,7 +126,7 @@ public class ChatGptSettingFragment2 extends Fragment {
     }
 
     private void initLearningLanguageButton() {
-        learningLanguageButton = root.findViewById(R.id.voice_language_setting_view);
+        learningLanguageButton = findViewById(R.id.voice_language_setting_view);
         learningLanguageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +141,7 @@ public class ChatGptSettingFragment2 extends Fragment {
     private LinearLayout contactUsButton;
 
     private void initContactUsButton() {
-        contactUsButton = root.findViewById(R.id.fragment_setting_contact_us);
+        contactUsButton = findViewById(R.id.fragment_setting_contact_us);
         contactUsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +167,7 @@ public class ChatGptSettingFragment2 extends Fragment {
 
 
     private void initRecordingLanguageButton() {
-        motherLanguageButton = root.findViewById(R.id.record_language_setting_view);
+        motherLanguageButton = findViewById(R.id.record_language_setting_view);
         motherLanguageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,6 +178,12 @@ public class ChatGptSettingFragment2 extends Fragment {
         });
     }
 
+
+    public static ChatGptSettingFragment2 newInstance() {
+        return new ChatGptSettingFragment2();
+    }
+
+    @Override
     public void initView() {
         initStatusBar();
         initSubscription();
@@ -194,8 +193,13 @@ public class ChatGptSettingFragment2 extends Fragment {
         initContactUsButton();
     }
 
+    @Override
+    protected void initData() {
+
+    }
+
     private void initLanguageDifficultyButton() {
-        languageDifficultyButton = root.findViewById(R.id.language_difficulty_setting_view);
+        languageDifficultyButton = findViewById(R.id.language_difficulty_setting_view);
         languageDifficultyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

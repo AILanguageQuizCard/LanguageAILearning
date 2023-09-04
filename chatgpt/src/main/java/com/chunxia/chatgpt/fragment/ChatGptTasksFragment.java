@@ -2,24 +2,23 @@ package com.chunxia.chatgpt.fragment;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.chunxia.chatgpt.R;
+import com.chunxia.chatgpt.activity.BottomNavigationLightActivity;
 import com.chunxia.chatgpt.activity.SubscribeActivity;
-import com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT;
 import com.chunxia.chatgpt.adapter.task.TaskAdapter;
 import com.chunxia.chatgpt.adapter.task.TaskRecyclerViewItemDecoration;
 import com.chunxia.chatgpt.adapter.task.TopicInfo;
+import com.chunxia.chatgpt.base.AppFragment;
+import com.chunxia.chatgpt.chatapi.StrongCommandToChatGPT;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
 import com.chunxia.chatgpt.tools.Tools;
@@ -32,11 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatGptTasksFragment extends Fragment {
+public class ChatGptTasksFragment extends AppFragment<BottomNavigationLightActivity> {
 
     private static final String TAG = "ChatGptTasksFragment";
 
-    private View root;
     private RecyclerView recyclerView;
     private TaskAdapter adapter;
 
@@ -45,13 +43,21 @@ public class ChatGptTasksFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_task_chatgpt, container, false);
-        this.root = root;
+    protected int getLayoutId() {
+        return R.layout.fragment_task_chatgpt;
+    }
+
+    @Override
+    protected void initView() {
         initStatusBar();
-        return root;
+    }
+
+    @Override
+    protected void initData() {
 
     }
+
+
 
     private void initStatusBar() {
         Tools.setSystemBarColor(getActivity(), R.color.white);
@@ -66,8 +72,13 @@ public class ChatGptTasksFragment extends Fragment {
         initSettingButton();
     }
 
+
+    public static ChatGptTasksFragment newInstance() {
+        return new ChatGptTasksFragment();
+    }
+
     public void initSettingButton() {
-        ImageView settingButton = this.root.findViewById(R.id.chat_task_top_view_setting);
+        ImageView settingButton = findViewById(R.id.chat_task_top_view_setting);
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +132,7 @@ public class ChatGptTasksFragment extends Fragment {
 
 
     public void initSubscriptionReminderView() {
-        subscriptionReminderView = this.root.findViewById(R.id.subscription_reminder_view);
+        subscriptionReminderView = findViewById(R.id.subscription_reminder_view);
         SubscriptionInfoProvider.getInstance().addSubscriptionUpdatedListener(updateValidSubscriptionListener);
 
         if (SubscriptionInfoProvider.getInstance().isSubscribed()) {
@@ -152,6 +163,7 @@ public class ChatGptTasksFragment extends Fragment {
         FirebaseInstanceIDManager.getInstance().removeUpdateListener(onFirebaseUserUpdateListener);
         SubscriptionInfoProvider.getInstance().removeSubscriptionUpdatedListener(updateValidSubscriptionListener);
     }
+
 
 
     private List<TopicInfo> getDatas() {
@@ -198,7 +210,7 @@ public class ChatGptTasksFragment extends Fragment {
 
     private void initRecyclerView() {
         adapter = new TaskAdapter(getDatas());
-        recyclerView = root.findViewById(R.id.task_fragment_recyclerview);
+        recyclerView = findViewById(R.id.task_fragment_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new TaskRecyclerViewItemDecoration());
@@ -209,7 +221,7 @@ public class ChatGptTasksFragment extends Fragment {
 
 
     private void initTopBar(){
-        ImageView imageView = root.findViewById(R.id.chat_task_top_view_search);
+        ImageView imageView = findViewById(R.id.chat_task_top_view_search);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -97,6 +97,12 @@ public class ChatGptSettingFragment extends Fragment {
     }
 
 
+    public static ChatGptSettingFragment newInstance() {
+        return new ChatGptSettingFragment();
+    }
+
+
+
     private void initSubscription() {
         subscriptionButton = root.findViewById(R.id.subscription_reminder_view);
         SubscriptionInfoProvider.getInstance().addSubscriptionUpdatedListener(updateValidSubscriptionListener);
