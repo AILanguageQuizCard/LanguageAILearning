@@ -131,7 +131,7 @@ dependencies {
 //        exclude group: 'com.google.protobuf', module: 'protobuf-java'
 //    }
 
-    implementation "io.grpc:grpc-okhttp:1.50.1"
+    implementation "io.grpc:grpc-okhttp:1.52.1"
 
     // google billing
     implementation 'com.android.billingclient:billing:5.2.0'
@@ -156,7 +156,6 @@ dependencies {
     implementation 'com.github.getActivity:ShapeView:9.0'
     // ShapeDrawable：https://github.com/getActivity/ShapeDrawable
     implementation 'com.github.getActivity:ShapeDrawable:3.0'
-
 
     // butterknife 不再维护，当java版本升级到11时，会有问题
 //    implementation 'com.jakewharton:butterknife:10.2.3'

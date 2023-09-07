@@ -30,7 +30,7 @@ public class RemoteConfig {
     private RemoteConfig() {
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setMinimumFetchIntervalInSeconds(3600)
+                .setMinimumFetchIntervalInSeconds(60)
                 .build();
         mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
     }
@@ -64,6 +64,14 @@ public class RemoteConfig {
     public String getOpenAIApiKey() {
         if (isInitialized) {
             return mFirebaseRemoteConfig.getString("open_ai_api_key");
+        } else {
+            return null;
+        }
+    }
+
+    public String getLatestAppVersion() {
+        if (isInitialized) {
+            return mFirebaseRemoteConfig.getString("latest_app_version");
         } else {
             return null;
         }

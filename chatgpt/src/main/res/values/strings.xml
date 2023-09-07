@@ -194,6 +194,7 @@
     <string name="home_nav_found">learn</string>
     <string name="home_nav_message">review</string>
     <string name="home_nav_me">setting</string>
+    <string name="check_for_updates">Check for updates</string>
 
 
 </resources>

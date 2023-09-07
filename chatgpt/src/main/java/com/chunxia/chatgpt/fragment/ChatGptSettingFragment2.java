@@ -5,10 +5,14 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ThreadUtils;
@@ -22,6 +26,7 @@ import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.ui.SubscriptionSettingReminderView;
+import com.chunxia.firebase.config.RemoteConfig;
 import com.chunxia.firebase.id.FirebaseInstanceIDManager;
 import com.chunxia.firebase.model.User;
 import com.chunxia.firebase.model.UserUnInitException;
@@ -34,6 +39,11 @@ public class ChatGptSettingFragment2 extends AppFragment<BottomNavigationLightAc
     private LinearLayout learningLanguageButton;
     private LinearLayout motherLanguageButton;
     private LinearLayout languageDifficultyButton;
+
+    private LinearLayout contactUsButton;
+
+    private LinearLayout checkUpdateButton;
+
 
     public ChatGptSettingFragment2() {
     }
@@ -95,7 +105,6 @@ public class ChatGptSettingFragment2 extends AppFragment<BottomNavigationLightAc
     }
 
 
-
     private void initSubscription() {
         subscriptionButton = findViewById(R.id.subscription_reminder_view);
         SubscriptionInfoProvider.getInstance().addSubscriptionUpdatedListener(updateValidSubscriptionListener);
@@ -138,7 +147,39 @@ public class ChatGptSettingFragment2 extends AppFragment<BottomNavigationLightAc
     }
 
 
-    private LinearLayout contactUsButton;
+    private void initCheckUpdateButton() {
+        checkUpdateButton = findViewById(R.id.check_update_button);
+        checkUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setCheckUpdateButton();
+            }
+        });
+    }
+
+
+    private void setCheckUpdateButton() {
+        // 本地的版本码和服务器的进行比较
+        if (Tools.getVersionCode(getActivity()) < Integer.parseInt(RemoteConfig.getInstance().getLatestAppVersion())) {
+
+            String appPkg = "com.chunxia.chatgpt";
+
+            String marketPkg = "com.android.vending";
+            Uri uri = Uri.parse("market://details?id=" + appPkg);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+
+            if (!TextUtils.isEmpty(marketPkg)) {
+                intent.setPackage(marketPkg);
+            }
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            Toast.makeText(getActivity(), "已经是最新版本啦！", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void initContactUsButton() {
         contactUsButton = findViewById(R.id.fragment_setting_contact_us);
@@ -191,6 +232,7 @@ public class ChatGptSettingFragment2 extends AppFragment<BottomNavigationLightAc
         initRecordingLanguageButton();
         initLanguageDifficultyButton();
         initContactUsButton();
+        initCheckUpdateButton();
     }
 
     @Override
