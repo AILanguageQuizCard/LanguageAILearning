@@ -63,6 +63,7 @@
                     android:paddingTop="@dimen/spacing_middle">
 
                     <LinearLayout
+                        android:id="@+id/login_with_google_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackground"

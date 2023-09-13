@@ -1,9 +1,11 @@
 package com.chunxia.chatgpt.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -13,6 +15,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.IntentSenderRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ThreadUtils;
@@ -30,6 +39,15 @@ import com.chunxia.firebase.config.RemoteConfig;
 import com.chunxia.firebase.id.FirebaseInstanceIDManager;
 import com.chunxia.firebase.model.User;
 import com.chunxia.firebase.model.UserUnInitException;
+import com.google.android.gms.auth.api.identity.BeginSignInRequest;
+import com.google.android.gms.auth.api.identity.BeginSignInResult;
+import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.auth.api.identity.SignInClient;
+import com.google.android.gms.auth.api.identity.SignInCredential;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import darren.googlecloudtts.exception.ApiException;
 
 public class ChatGptSettingFragment2 extends AppFragment<BottomNavigationLightActivity> {
 
@@ -44,6 +62,7 @@ public class ChatGptSettingFragment2 extends AppFragment<BottomNavigationLightAc
 
     private LinearLayout checkUpdateButton;
 
+    private LinearLayout loginButton;
 
     public ChatGptSettingFragment2() {
     }
@@ -57,6 +76,84 @@ public class ChatGptSettingFragment2 extends AppFragment<BottomNavigationLightAc
     private void initStatusBar() {
         Tools.setSystemBarColor(getActivity(), R.color.white);
         Tools.setSystemBarLight(getActivity());
+    }
+
+    private SignInClient oneTapClient;
+    private BeginSignInRequest signInRequest;
+
+    ActivityResultLauncher<IntentSenderRequest> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartIntentSenderForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        try {
+                            SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(result.getData());
+                            String idToken = credential.getGoogleIdToken();
+                            if (idToken != null) {
+                                // Got an ID token from Google. Use it to authenticate
+                                // with your backend.
+                                Log.d(TAG, "Got ID token." + credential.getDisplayName());
+                                Toast.makeText(getContext(), "Got ID token." + credential.getDisplayName(), Toast.LENGTH_SHORT).show();
+                            }
+                            Log.d(TAG, "Got ID token.");
+
+                        } catch (com.google.android.gms.common.api.ApiException e) {
+                            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+                            // ...
+                        }
+                    } else {
+
+                    }
+                }
+            });
+
+
+    private void initLoginButton() {
+
+        if (initSignIn()) return;
+
+        loginButton = findViewById(R.id.login_with_google_view);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                oneTapClient.beginSignIn(signInRequest)
+                        .addOnSuccessListener(getActivity(), new OnSuccessListener<BeginSignInResult>() {
+                            @Override
+                            public void onSuccess(BeginSignInResult result) {
+                                IntentSenderRequest intentSenderRequest = new IntentSenderRequest.Builder(result.getPendingIntent().getIntentSender())
+                                        .build();
+                                activityResultLauncher.launch(intentSenderRequest);
+                                Log.d(TAG, "beginSignIn onSuccess");
+                            }
+                        })
+                        .addOnFailureListener(getActivity(), new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // No saved credentials found. Launch the One Tap sign-up flow, or
+                                // do nothing and continue presenting the signed-out UI.
+                                Log.d(TAG, "beginSignIn on fail" + e.getLocalizedMessage());
+                            }
+                        });
+            }
+        });
+    }
+
+    private boolean initSignIn() {
+        if (getContext() == null) return true;
+        oneTapClient = Identity.getSignInClient(getContext());
+        signInRequest = BeginSignInRequest.builder()
+                .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
+                        .setSupported(true)
+                        .build())
+                .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                        .setSupported(true)
+                        // Your server's client ID, not your Android client ID.
+                        .setServerClientId(getString(R.string.google_auth_key))
+                        .build())
+                // Automatically sign in when exactly one credential is retrieved.
+                .setAutoSelectEnabled(true)
+                .build();
+        return false;
     }
 
     SubscriptionInfoProvider.SubscriptionUpdatedListener updateValidSubscriptionListener = new SubscriptionInfoProvider.SubscriptionUpdatedListener() {
@@ -233,6 +330,8 @@ public class ChatGptSettingFragment2 extends AppFragment<BottomNavigationLightAc
         initLanguageDifficultyButton();
         initContactUsButton();
         initCheckUpdateButton();
+
+        initLoginButton();
     }
 
     @Override

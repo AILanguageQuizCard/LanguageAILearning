@@ -25,6 +25,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +36,7 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.chat.ChatAdapter;
 import com.chunxia.chatgpt.adapter.chat.ChoosedItem;
+import com.chunxia.chatgpt.base.BaseActivity;
 import com.chunxia.chatgpt.chatapi.MultiRoundChatAgent;
 import com.chunxia.chatgpt.common.XLIntent;
 import com.chunxia.chatgpt.model.message.MessageManager;
@@ -58,7 +62,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends BaseActivity {
 
     private static String TAG = "ChatGptChatActivity";
     private ImageView btn_send;
@@ -72,28 +76,47 @@ public class ChatActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private MultiRoundChatAgent multiRoundChatAgent;
 
+    private Message initialMessage;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_chatgpt);
+    protected int getLayoutId() {
+        return R.layout.activity_chat_chatgpt;
+    }
 
-        initEventBus();
+    @Override
+    protected void initView() {
         initStatusBar();
+        initComponent(getIntent().getStringExtra(ActivityIntentKeys.START_WORDS));
+        initBottom();
+        // todo 未来改成用Azure的语音识别
+        //initVoiceMessageButton();
+    }
 
+    @Override
+    protected void initData() {
         initMultiRoundChatAiApi(getIntent().getStringExtra(ActivityIntentKeys.SYSTEM_COMMAND));
         chatMode = getIntent().getStringExtra(ActivityIntentKeys.ACTIVITY_CHAT_MODE);
-        initComponent(getIntent().getStringExtra(ActivityIntentKeys.START_WORDS));
-        // todo 未来改成用Azure的语音识别
-//        initVoiceMessageButton();
-
-        initBottom();
+        getLifecycle().addObserver(chatObserver);
     }
 
 
-    private void initEventBus() {
-        EventBus.getDefault().register(this);
-    }
+    LifecycleObserver chatObserver = new DefaultLifecycleObserver() {
+        @Override
+        public void onCreate(@NonNull LifecycleOwner owner) {
+            EventBus.getDefault().register(this);
+        }
+
+        @Override
+        public void onStop(@NonNull LifecycleOwner owner) {
+            adapter.stopAllVoice();
+        }
+        @Override
+        public void onDestroy(@NonNull LifecycleOwner owner) {
+            multiRoundChatAgent.cancelAllCurrentThread();
+            MessageManager.getInstance().saveMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode), adapter.getItems());
+            EventBus.getDefault().unregister(this);
+        }
+    };
 
 
     public void initMultiRoundChatAiApi(String systemCommand) {
@@ -239,23 +262,10 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private Message initialMessage;
-
-    private void setAdapterItems(String startWords) {
-        ArrayList<Message> arrayList = MessageManager.getInstance().loadMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode));
-        initialMessage = new TextMessage(adapter.getItemCount(), startWords, false,
-                adapter.getItemCount() % 5 == 0, Tools.getFormattedTimeEvent(System.currentTimeMillis()));
-        if (arrayList == null || arrayList.size() == 0) {
-            adapter.insertItem(initialMessage);
-        } else {
-            adapter.setItems(arrayList);
-        }
-    }
 
     @Override
     protected void onStop() {
         super.onStop();
-        adapter.stopAllVoice();
     }
 
 
@@ -281,7 +291,14 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new ChatAdapter(getApplication());
         recyclerView.setAdapter(adapter);
         // todo 将初始message换成选择要输入的话
-        setAdapterItems(startWords);
+        ArrayList<Message> arrayList = MessageManager.getInstance().loadMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode));
+        initialMessage = new TextMessage(adapter.getItemCount(), startWords, false,
+                adapter.getItemCount() % 5 == 0, Tools.getFormattedTimeEvent(System.currentTimeMillis()));
+        if (arrayList == null || arrayList.size() == 0) {
+            adapter.insertItem(initialMessage);
+        } else {
+            adapter.setItems(arrayList);
+        }
 
         btn_send = findViewById(R.id.send_button);
         inputMessageEditText = findViewById(R.id.input_message_edittext);
@@ -338,14 +355,6 @@ public class ChatActivity extends AppCompatActivity {
     private void sendChat() {
         final String msg = inputMessageEditText.getText().toString();
         sendChat(msg);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-        multiRoundChatAgent.cancelAllCurrentThread();
-        MessageManager.getInstance().saveMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode), adapter.getItems());
     }
 
     @Override
