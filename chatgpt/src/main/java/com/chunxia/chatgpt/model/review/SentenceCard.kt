@@ -6,33 +6,33 @@ import android.os.Parcelable.Creator
 import java.util.Date
 
 class SentenceCard() : Parcelable {
-    var sentence: String? = null
-    var translation: String? = null
+    var question: String? = null
+    var answer: String? = null
     var voicePath: String? = null
     var learnRecord: LearnRecord? = null
     var topic: String? = null
 
     constructor(parcel: Parcel) : this() {
-        sentence = parcel.readString()
-        translation = parcel.readString()
+        question = parcel.readString()
+        answer = parcel.readString()
         voicePath = parcel.readString()
         learnRecord = parcel.readParcelable(LearnRecord::class.java.classLoader)
         topic = parcel.readString()
     }
 
     constructor(sentence: String?) : this() {
-        this.sentence = sentence
+        this.question = sentence
     }
 
     constructor(sentence: String?, translation: String?) : this() {
-        this.sentence = sentence
-        this.translation = translation
+        this.question = sentence
+        this.answer = translation
         this.learnRecord = LearnRecord()
     }
 
     constructor(sentence: String, translation: String, topic: String) : this() {
-        this.sentence = sentence
-        this.translation = translation
+        this.question = sentence
+        this.answer = translation
         this.learnRecord = LearnRecord()
         this.topic = topic
     }
@@ -62,8 +62,8 @@ class SentenceCard() : Parcelable {
 
         other as SentenceCard
 
-        if (sentence != other.sentence) return false
-        if (translation != other.translation) return false
+        if (question != other.question) return false
+        if (answer != other.answer) return false
         if (voicePath != other.voicePath) return false
 //        if (learnRecord != other.learnRecord) return false
         if (topic != other.topic) return false
@@ -72,8 +72,8 @@ class SentenceCard() : Parcelable {
     }
 
     override fun hashCode(): Int {
-        var result = sentence?.hashCode() ?: 0
-        result = 31 * result + (translation?.hashCode() ?: 0)
+        var result = question?.hashCode() ?: 0
+        result = 31 * result + (answer?.hashCode() ?: 0)
         result = 31 * result + (voicePath?.hashCode() ?: 0)
         result = 31 * result + (learnRecord?.hashCode() ?: 0)
         result = 31 * result + (topic?.hashCode() ?: 0)
@@ -82,8 +82,8 @@ class SentenceCard() : Parcelable {
 
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(sentence)
-        parcel.writeString(translation)
+        parcel.writeString(question)
+        parcel.writeString(answer)
         parcel.writeString(voicePath)
         parcel.writeParcelable(learnRecord, flags)
         parcel.writeString(topic)

@@ -5,8 +5,13 @@ import android.util.Pair;
 
 import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChatGptResponseTools {
 
@@ -31,6 +36,30 @@ public class ChatGptResponseTools {
         return sentenceCards;
     }
 
+    public static ArrayList<SentenceCard> extractJSONTopicTrainingSentences(String input, int n) throws ExtractSentencesException {
+
+        int startIndex = input.indexOf("[");
+        int endIndex = input.indexOf("]");
+
+        if (startIndex != -1 && endIndex != -1 && endIndex > startIndex) {
+            // 使用截取方法提取包含方括号的内容
+            String extractedContent = input.substring(startIndex, endIndex + 1);
+            Gson gson = new Gson();
+            SentenceCard[] sentenceCards = gson.fromJson(extractedContent, SentenceCard[].class);
+            if (sentenceCards == null || sentenceCards.length!= n)
+                throw new ExtractSentencesException("extractJSONTopicTrainingSentences failed");
+
+            ArrayList<SentenceCard> sentenceCardList = new ArrayList<>();
+            for (SentenceCard card : sentenceCards) {
+                sentenceCardList.add(card);
+            }
+            return sentenceCardList;
+
+        } else {
+            throw new ExtractSentencesException("extractJSONTopicTrainingSentences failed");
+        }
+
+    }
 
     public static class ExtractSentencesException extends Exception  {
         public ExtractSentencesException(String message) {

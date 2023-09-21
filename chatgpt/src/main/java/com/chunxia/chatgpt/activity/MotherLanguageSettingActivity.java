@@ -17,6 +17,7 @@ import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.adapter.settingItem.RecordingLanguageSettingAdapter;
 import com.chunxia.chatgpt.adapter.settingItem.SettingInfo;
 import com.chunxia.chatgpt.mmkv.MMKVConstant;
+import com.chunxia.chatgpt.texttovoice.LanguageTools;
 import com.chunxia.chatgpt.voicetotext.GoogleVoiceToTextLanguageTools;
 import com.chunxia.mmkv.KVUtils;
 
@@ -70,10 +71,10 @@ public class MotherLanguageSettingActivity extends AppCompatActivity {
         String setLanguage = KVUtils.get().getString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY,
                 MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
-        ArrayList<GoogleVoiceToTextLanguageTools.GoogleVoiceToTextLanguage> googleLanguages =
-                GoogleVoiceToTextLanguageTools.getLanguages(this);
-        for (GoogleVoiceToTextLanguageTools.GoogleVoiceToTextLanguage lang: googleLanguages) {
-            arrayList.add(new SettingInfo(lang.getLanguageName(), lang.getLanguageName().equals(setLanguage)));
+        ArrayList<LanguageTools.MotherLanguage> motherLanguageArrayList =
+                LanguageTools.getMotherLanguageArrayList(this);
+        for (LanguageTools.MotherLanguage lang: motherLanguageArrayList) {
+            arrayList.add(new SettingInfo(lang.getLanguageNameInMotherLanguage(), lang.getLanguageNameInMotherLanguage().equals(setLanguage)));
         }
 
         return arrayList;

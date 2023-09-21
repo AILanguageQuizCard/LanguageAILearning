@@ -289,7 +289,6 @@ public class TopicTrainingActivity extends AppCompatActivity {
                         .putString(ActivityIntentKeys.ACTIVITY_CHAT_MODE, chatMode);
 
                 ActivityUtils.getTopActivity().startActivity(intent);
-
             }
         };
 

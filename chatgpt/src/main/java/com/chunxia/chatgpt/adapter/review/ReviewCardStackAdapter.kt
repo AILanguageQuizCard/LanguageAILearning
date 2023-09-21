@@ -1,6 +1,5 @@
 package com.chunxia.chatgpt.adapter.review
 
-import android.app.Application
 import android.media.MediaPlayer.OnCompletionListener
 import android.util.Log
 import android.view.LayoutInflater
@@ -33,8 +32,8 @@ class ReviewCardStackAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val card = topicReviewSets[position]
-        holder.reviewCardView.sentence = card.sentence
-        holder.reviewCardView.translation = card.translation
+        holder.reviewCardView.sentence = card.question
+        holder.reviewCardView.translation = card.answer
         holder.reviewCardView.setQuizMode()
     }
 

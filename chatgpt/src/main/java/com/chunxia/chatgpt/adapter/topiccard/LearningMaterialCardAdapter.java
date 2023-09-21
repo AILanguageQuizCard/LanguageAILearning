@@ -46,9 +46,9 @@ public class LearningMaterialCardAdapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.item_card_wizard, container, false);
         ((TextView) view.findViewById(R.id.topic_card_title)).setText(learningMaterialCard.getTopic());
         TextView sentenceView = view.findViewById(R.id.topic_card_sentence);
-        sentenceView.setText(learningMaterialCard.getSentenceCards().get(position).getSentence());
+        sentenceView.setText(learningMaterialCard.getSentenceCards().get(position).getQuestion());
         TextView translateView = view.findViewById(R.id.topic_card_translation);
-        String translation = learningMaterialCard.getSentenceCards().get(position).getTranslation();
+        String translation = learningMaterialCard.getSentenceCards().get(position).getAnswer();
         ExpandTextView expandTextView = new ExpandTextView(context);
         expandTextView.setMaxLine(5)
                 .setMargin(R.dimen.training_card_left_right_margin)
@@ -59,7 +59,7 @@ public class LearningMaterialCardAdapter extends PagerAdapter {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text2VoiceModel.onSpeak(learningMaterialCard.getSentenceCards().get(position).getSentence());
+                text2VoiceModel.onSpeak(learningMaterialCard.getSentenceCards().get(position).getQuestion());
             }
         });
 

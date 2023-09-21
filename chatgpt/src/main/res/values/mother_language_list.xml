@@ -1,0 +1,63 @@
+<resources>
+    <string-array name="mother_language_list">
+        <item>普通话;Mandarin</item>
+        <item>粤语;Cantonese</item>
+        <item>English;English</item>
+        <item>Français;French</item>
+        <item>Deutsch;German</item>
+        <item>Italiano;Italian</item>
+        <item>Português;Portuguese</item>
+        <item>日本語;Japanese</item>
+        <item>한국어;Korean</item>
+        <item>Polski;Polish</item>
+        <item>ਪੰਜਾਬੀ;Punjabi</item>
+        <item>Română;Romanian</item>
+        <item>Русский;Russian</item>
+        <item>Afrikaans;Afrikaans</item>
+        <item>Shqip;Albanian</item>
+        <item>Nederlands;Dutch</item>
+        <item>አማርኛ;Amharic</item>
+        <item>العربية;Arabic</item>
+        <item>Հայերեն;Armenian</item>
+        <item>Azərbaycan;Azerbaijani</item>
+        <item>Euskara;Basque</item>
+        <item>বাংলা;Bengali</item>
+        <item>Bosanski;Bosnian</item>
+        <item>Български;Bulgarian</item>
+        <item>မြန်မာ;Burmese</item>
+        <item>Català;Catalan</item>
+        <item>Hrvatski;Croatian</item>
+        <item>Čeština;Czech</item>
+        <item>Dansk;Danish</item>
+        <item>Eesti;Estonian</item>
+        <item>Filipino;Filipino</item>
+        <item>Suomi;Finnish</item>
+        <item>Galego;Galician</item>
+        <item>ქართული;Georgian</item>
+        <item>Ελληνικά;Greek</item>
+        <item>ગુજરાતી;Gujarati</item>
+        <item>हिन्दी;Hindi</item>
+        <item>Magyar;Hungarian</item>
+        <item>Íslenska;Icelandic</item>
+        <item>Bahasa Indonesia;Indonesian</item>
+        <item>Jawa;Javanese</item>
+        <item>ಕನ್ನಡ;Kannada</item>
+        <item>Қазақша;Kazakh</item>
+        <item>ភាសាខ្មែរ;Khmer</item>
+        <item>ພາສາລາວ;Lao</item>
+        <item>Latviešu;Latvian</item>
+        <item>Lietuvių;Lithuanian</item>
+        <item>Македонски;Macedonian</item>
+        <item>Bahasa Melayu;Malay</item>
+        <item>മലയാളം;Malayalam</item>
+        <item>मराठी;Marathi</item>
+        <item>Монгол;Mongolian</item>
+        <item>नेपाली;Nepali</item>
+        <item>Kinyarwanda;Kinyarwanda</item>
+        <item>српски;Serbian</item>
+        <item>සිංහල;Sinhalese</item>
+        <item>Slovenčina;Slovak</item>
+        <item>Slovenščina;Slovenian</item>
+        <item>Siswati;Swazi</item>
+    </string-array>
+</resources>

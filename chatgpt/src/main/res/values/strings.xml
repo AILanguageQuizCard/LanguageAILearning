@@ -197,40 +197,38 @@
     <string name="check_for_updates">Check for updates</string>
 
     <string-array name="learning_language_list">
-        <item>Chinese</item>
-        <item>English</item>
-        <item>Spanish</item>
-        <item>French</item>
-        <item>German</item>
-        <item>Portuguese</item>
-        <item>Italian</item>
-        <item>Japanese</item>
-        <item>Korean</item>
-        <item>Russian</item>
-        <item>Dutch</item>
-        <item>Greek</item>
-        <item>Danish</item>
-        <item>Finnish</item>
-        <item>Hungarian</item>
-        <item>Norwegian</item>
-        <item>Polish</item>
-        <item>Romanian</item>
-        <item>Serbian</item>
-        <item>Slovak</item>
-        <item>Swedish</item>
-        <item>Ukrainian</item>
-        <item>Turkish</item>
-        <item>Icelandic</item>
-        <item>Czech</item>
-        <item>Latvian</item>
-        <item>Lithuanian</item>
-        <item>Bulgarian</item>
-        <item>Filipino</item>
-        <item>Hindi</item>
-        <item>Indonesian</item>
-        <item>Malay</item>
-        <item>Vietnamese</item>
+        <item>Chinese;中文普通话;Chinese</item>
+        <item>English;English(US);English</item>
+        <item>Spanish;Español;Spanish</item>
+        <item>French;français;French</item>
+        <item>German;Deutsch;German</item>
+        <item>Portuguese;Português;Portuguese</item>
+        <item>Italian;Italiano;Italian</item>
+        <item>Japanese;日本語;Japanese</item>
+        <item>Korean;한국어;Korean</item>
+        <item>Russian;Русский;Russian</item>
+        <item>Dutch;Nederlands;Dutch</item>
+        <item>Greek;Ελληνικά;Greek</item>
+        <item>Danish;Dansk;Danish</item>
+        <item>Finnish;Suomi;Finnish</item>
+        <item>Hungarian;Magyar;Hungarian</item>
+        <item>Norwegian;Norsk;Norwegian</item>
+        <item>Polish;Polski;Polish</item>
+        <item>Romanian;Română;Romanian</item>
+        <item>Serbian;Српски;Serbian</item>
+        <item>Slovak;Slovenský;Slovak</item>
+        <item>Swedish;Svenska;Swedish</item>
+        <item>Ukrainian;Українська;Ukrainian</item>
+        <item>Turkish;Türkçe;Turkish</item>
+        <item>Icelandic;Íslenska;Icelandic</item>
+        <item>Czech;Čeština;Czech</item>
+        <item>Latvian;Latviešu;Latvian</item>
+        <item>Lithuanian;Lietuvių;Lithuanian</item>
+        <item>Bulgarian;Български;Bulgarian</item>
+        <item>Filipino;Filipino;Filipino</item>
+        <item>Hindi;हिन्दी;Hindi</item>
+        <item>Indonesian;Bahasa Indonesia;Indonesian</item>
+        <item>Malay;Bahasa Melayu;Malay</item>
+        <item>Vietnamese;Tiếng Việt;Vietnamese</item>
     </string-array>
-
-
 </resources>

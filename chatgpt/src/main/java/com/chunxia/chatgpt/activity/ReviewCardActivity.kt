@@ -260,11 +260,11 @@ class ReviewCardActivity : AppCompatActivity(), CardStackListener {
             XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity::class.java)
                 .putString(
                     ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER,
-                    sentenceCard.sentence
+                    sentenceCard.question
                 )
                 .putString(
                     ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION,
-                    sentenceCard.translation
+                    sentenceCard.answer
                 )
                 .putString(
                     ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_TOPIC,

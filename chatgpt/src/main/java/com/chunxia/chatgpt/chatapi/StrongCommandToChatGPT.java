@@ -38,31 +38,23 @@ public class StrongCommandToChatGPT {
     public static final int STRONG_COMMAND_MODE = 1;
 
 
-    public static final String TOPIC_TRAINING_PROMPT =
-            "I am learning about the topic '%s' in %s. Can you provide me with %d authentic sentences and its %s translation. For every pair of sentence and its translation, start with its count number and end with line break. And using %s %s to label translation. One example: \"1. sentence in %s. [the corresponding %s translation]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program. ";
+    // topic, learning language, mother language, num, mother language, mother language, learning language, mother language, learning language
+    public static final String TOPIC_QUIZCARD_SENTENCE = "I am learning expressions related to \"%s\" in %s," +
+            " and my native language is %s. Could you provide me with %s authentic sentences along with their %s " +
+            "translations? I will use them as quiz cards, where the %s translation will serve as the question and " +
+            "the %s as the answer. Please answer me in JSON format. For example: [{\"question\": \"%s sentence\", " +
+            "\"answer\": \"%s sentence\"}]. Note that there should be multiple JSONs inside [ ]. " +
+            "Just give me the JSON, don't include anything else.";
 
-
-    public static final String TOPIC_TRAINING_PROMPT2 =
-            "provide me with %d authentic sentences about '%s' in %s and its %s translation. For every pair of sentence and its translation, start with its count number and end with line break. ";
-
+    public static String getJSONCompleteTopicQuizcard(String topic, String learningLanguage, String motherLanguage, int num) {
+        String result =  String.format(Locale.getDefault(), TOPIC_QUIZCARD_SENTENCE,
+                topic, learningLanguage, motherLanguage, num, motherLanguage, motherLanguage, motherLanguage,motherLanguage, learningLanguage);
+        Log.i(TAG, result);
+        return result;
+    }
 
     public  static final String LEFT_KUOHAO = "[";
     public  static final String RIGHT_KUOHAO = "]";
-
-    public static String getCompleteTopicTrainingPrompt(String topic, String language, String motherLanguage, int num) {
-        String result =  String.format(Locale.getDefault(), TOPIC_TRAINING_PROMPT,
-                topic, language, num, motherLanguage,
-                LEFT_KUOHAO, RIGHT_KUOHAO, language, motherLanguage);
-        Log.i(TAG, result);
-        return result;
-    }
-
-    public static String getCompleteTopicTrainingPrompt2(String topic, String language, String motherLanguage, int num) {
-        String result =  String.format(Locale.getDefault(), TOPIC_TRAINING_PROMPT2,
-                 num, topic, language, motherLanguage);
-        Log.i(TAG, result);
-        return result;
-    }
 
     // todo 过长文本如何处理，页面设计上，应该要兼容过长文本，直接固定答案字体，如果答案过长，就往下扩展
     // todo 一句一句生成效果会比一起生成五句好？
@@ -76,25 +68,33 @@ public class StrongCommandToChatGPT {
     }
 
 
-    public static final String SENTENCE_PATTERN_TRAINING_PROMPT =
-            "I am learning about the sentence pattern '%s' in %s. Can you provide me with %d authentic sentences of that sentence structure and its %s translation. For every pair of sentence and its translation, start with its count number and end with line break. And using %s %s to label translation. One example: \"1. one sentence of that sentence pattern in %s. [the corresponding %s translation]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program. ";
+    // topic, learning language, mother language, num, mother language, mother language, learning language, mother language, learning language
+    public static final String SENTENCE_PATTERN_TRAINING_PROMPT = "I am learning expressions related to the sentence pattern \"%s\" in %s, " +
+            "and my native language is %s. Could you provide me with %d sentences " +
+            "using this sentence pattern along with their %s translations? I will" +
+            " use them as quiz cards, where the %s translation will serve as the question" +
+            " and the original %s will be the answer. Please answer me in JSON format. " +
+            "For example: {\"question\": \"%s sentence\", \"answer\": \"%s sentence\"}. " +
+            "Just give me the JSON, don't include anything else.";
 
 
     public static String getSentencePatternExamplesPrompt(String sentencePatter, String language, String motherLanguage, int num) {
         String result =  String.format(Locale.getDefault(), SENTENCE_PATTERN_TRAINING_PROMPT,
-                sentencePatter, language, num, motherLanguage,
-                LEFT_KUOHAO, RIGHT_KUOHAO, language, motherLanguage);
+                sentencePatter, language, motherLanguage, num, motherLanguage, motherLanguage, language, motherLanguage, language);
         Log.i(TAG, result);
         return result;
     }
 
-    public static final String GRAMMAR_TRAINING_PROMPT =
-            "I am learning about the grammar '%s' in %s. Can you provide me with %d authentic examples sentences and its %s translation. For every pair of sentence and its translation, start with its count number and end with line break. And using %s %s to label translation. One example: \"1. one sentence of that grammar in %s. [the corresponding %s translation]\". I need to process your response using code, so your reply should only include the answer and should not include any additional introductory text, otherwise it may cause error to my program. ";
+    // topic, learning language, mother language, num, learning language, mother language, mother language, learning language, mother language, learning language
+    public static final String GRAMMAR_TRAINING_PROMPT =  "I am learning about the %s grammar concept of " +
+            "\"%s\", and my native language is %s. Could you provide me with %d authentic %s sentences using this grammar, " +
+            "along with their %s translations? I will use them as quiz cards, where the %s translation will serve as the " +
+            "question and the %s as the answer. Please answer me in JSON format. For example: {\"question\": \"%s sentence\"," +
+            " \"answer\": \"%s sentence\"}. Just give me the JSON, don't include anything else.";
 
     public static String getGrammarExamplesPrompt(String grammar, String language, String motherLanguage, int num) {
         String result =  String.format(Locale.getDefault(), GRAMMAR_TRAINING_PROMPT,
-                grammar, language, num, motherLanguage,
-                LEFT_KUOHAO, RIGHT_KUOHAO, language, motherLanguage);
+                grammar, language, motherLanguage, num, language, motherLanguage, motherLanguage, language, motherLanguage, language);
         Log.i(TAG, result);
         return result;
     }

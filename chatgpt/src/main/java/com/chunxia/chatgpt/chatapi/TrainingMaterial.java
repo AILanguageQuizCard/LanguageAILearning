@@ -2,9 +2,11 @@ package com.chunxia.chatgpt.chatapi;
 
 import android.util.Log;
 
+import com.chunxia.chatgpt.common.XLApplication;
 import com.chunxia.chatgpt.mmkv.MMKVConstant;
 import com.chunxia.chatgpt.model.review.SentenceCard;
 import com.chunxia.chatgpt.model.review.TopicTestCard;
+import com.chunxia.chatgpt.texttovoice.LanguageTools;
 import com.chunxia.mmkv.KVUtils;
 
 import java.util.ArrayList;
@@ -31,25 +33,31 @@ public class TrainingMaterial {
     private ArrayList<TopicTestCard> topicTestCards;
 
 
-
     public TrainingMaterial(int sentenceN, int questionN) {
         this.sentenceN = sentenceN;
         this.questionN = questionN;
         this.motherLanguage = KVUtils.get().getString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY,
                 MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
+        this.motherLanguage = LanguageTools.getEnglishNameForMotherLanguage(XLApplication.getContext(), this.motherLanguage);
+
+
         this.learningLanguage = KVUtils.get().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
                 MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
+        this.learningLanguage = LanguageTools.getEnglishNameForLearningLanguageName(XLApplication.getContext(), this.learningLanguage);
     }
 
     public TrainingMaterial(){
         this.motherLanguage = KVUtils.get().getString(MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_KEY,
                 MMKVConstant.SETTING_RECORDING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
+        this.motherLanguage = LanguageTools.getEnglishNameForMotherLanguage(XLApplication.getContext(), this.motherLanguage);
+
         this.learningLanguage = KVUtils.get().getString(MMKVConstant.SETTING_VOICE_LANGUAGE_KEY,
                 MMKVConstant.SETTING_VOICE_LANGUAGE_DEFAULT_VALUE);
 
+        this.learningLanguage = LanguageTools.getEnglishNameForLearningLanguageName(XLApplication.getContext(), this.learningLanguage);
     }
 
     public static class Result {
@@ -62,58 +70,6 @@ public class TrainingMaterial {
         }
     }
 
-
-    public void prepareData(String topic, ReceiveTrainMaterialCallback callback) {
-        Observable<String> stringObservable = getTrainingSentencesObservable(topic).subscribeOn(Schedulers.io());
-        Observable<String> stringObservable1 = getTrainingQuestionAndAnswerObservable(topic).subscribeOn(Schedulers.io());
-        Observable.zip(stringObservable, stringObservable1, Result::new)
-                .observeOn(AndroidSchedulers.mainThread())  // 在主线程处理请求结果
-                .subscribe(
-                        new DisposableObserver<Result>() {
-                            @Override
-                            public void onNext(@NonNull final Result result) {
-                                boolean b = true;
-
-                                try {
-                                    sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result.s1, sentenceN);
-                                    for (SentenceCard sentenceCard : sentenceCards) {
-                                        sentenceCard.setTopic(topic);
-                                    }
-
-                                } catch (ChatGptResponseTools.ExtractSentencesException e) {
-                                    callback.onExtractSentencesFail(result.s1);
-                                    b = false;
-                                }
-
-
-                                try {
-                                    topicTestCards = ChatGptResponseTools.extractTopicTrainingQuestions(result.s2, questionN);
-                                    for (TopicTestCard topicTestCard : topicTestCards) {
-                                        topicTestCard.setTopic(topic);
-                                    }
-
-                                } catch (ChatGptResponseTools.ExtractSentencesException e) {
-                                    callback.onExtractSentencesFail(result.s1);
-                                    b = false;
-                                }
-
-                                if (b) {
-                                    callback.onReceiveData(sentenceCards, topicTestCards);
-                                }
-                            }
-
-                            @Override
-                            public void onError(@NonNull final Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onComplete() {
-
-                            }
-                        });
-    }
-
     public void prepareSentencePatternExamplesData(String sentencePattern, ReceiveTrainMaterialCallback callback) {
         Observable<String> stringObservable = getSentencesPatternExamplesObservable(sentencePattern).subscribeOn(Schedulers.io());
         stringObservable
@@ -122,7 +78,7 @@ public class TrainingMaterial {
                     @Override
                     public void onNext(@NonNull final String result) {
                         try {
-                            sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result, sentenceN);
+                            sentenceCards = ChatGptResponseTools.extractJSONTopicTrainingSentences(result, sentenceN);
                             for (SentenceCard sentenceCard : sentenceCards) {
                                 sentenceCard.setTopic(sentencePattern);
                             }
@@ -153,7 +109,7 @@ public class TrainingMaterial {
                     @Override
                     public void onNext(@NonNull final String result) {
                         try {
-                            sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result, sentenceN);
+                            sentenceCards = ChatGptResponseTools.extractJSONTopicTrainingSentences(result, sentenceN);
                             for (SentenceCard sentenceCard : sentenceCards) {
                                 sentenceCard.setTopic(grammar);
                             }
@@ -206,7 +162,7 @@ public class TrainingMaterial {
                     @Override
                     public void onNext(@NonNull final String result) {
                         try {
-                            sentenceCards = ChatGptResponseTools.extractTopicTrainingSentences(result, sentenceN);
+                            sentenceCards = ChatGptResponseTools.extractJSONTopicTrainingSentences(result, sentenceN);
                             for (SentenceCard sentenceCard : sentenceCards) {
                                 sentenceCard.setTopic(topic);
                             }
@@ -311,7 +267,8 @@ public class TrainingMaterial {
                 MultiRoundChatAgent agent = new MultiRoundChatAgent();
                 agent.setMaxTokenN(maxTokenN);
                 // todo 获取母语设置
-                String prompt = StrongCommandToChatGPT.getCompleteTopicTrainingPrompt(topic, learningLanguage, motherLanguage, sentenceN);
+                String prompt = StrongCommandToChatGPT.getJSONCompleteTopicQuizcard(topic, learningLanguage, motherLanguage, sentenceN);
+
                 Log.i(TAG, prompt);
                 long start = System.currentTimeMillis();
 

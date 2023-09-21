@@ -1,7 +1,7 @@
 <resources>
-<string-array name="google_api_voice_language_names">
-    <item>中文普通话;标准;cmn-CN;cmn-CN-Standard-A;女</item>
-    <item>English(US);Standard;en-US;en-US-Standard-A;MALE</item>
+<string-array name="voice_learning_language">
+    <item>中文;标准;cmn-CN;cmn-CN-Standard-A;女</item>
+    <item>English;Standard;en-AU;en-AU-Standard-A;FEMALE</item>
     <item>Español;标准;es-ES;es-ES-Standard-A;女</item>
     <item>français;标准;fr-FR;fr-FR-Standard-A;女</item>
     <item>Deutsch;标准;de-DE;de-DE-Standard-A;女</item>

@@ -114,8 +114,8 @@ public class OneRoundChatActivity extends AppCompatActivity {
                     Toast.makeText(OneRoundChatActivity.this, "There must be both your question to GPT and the answer from GPT", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new XLIntent(ActivityUtils.getTopActivity(), AddReviewCardActivity.class)
-                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER, sentenceCard.getSentence())
-                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION, sentenceCard.getTranslation());
+                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_ANSWER, sentenceCard.getQuestion())
+                            .putString(ActivityIntentKeys.ACTIVITY_ADD_REVIEW_SENTENCE_CARD_QUESTION, sentenceCard.getAnswer());
                     ActivityUtils.getTopActivity().startActivity(intent);
 
                 }
