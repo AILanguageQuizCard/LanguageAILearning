@@ -2,6 +2,11 @@
 <resources>
     <color name="timingBGColorWhite">#21FFFFFF</color>
 
+
+    <color name="guide_tour_color">#FEF8F3</color>
+
+
+
     <dimen name="text_size_dialog_ok_button">14sp</dimen>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

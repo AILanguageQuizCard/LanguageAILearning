@@ -23,7 +23,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleObserver;
@@ -39,14 +38,13 @@ import com.chunxia.chatgpt.adapter.chat.ChoosedItem;
 import com.chunxia.chatgpt.base.BaseActivity;
 import com.chunxia.chatgpt.chatapi.MultiRoundChatAgent;
 import com.chunxia.chatgpt.common.XLIntent;
+import com.chunxia.chatgpt.model.message.Message;
 import com.chunxia.chatgpt.model.message.MessageManager;
+import com.chunxia.chatgpt.model.message.TextMessage;
+import com.chunxia.chatgpt.model.message.VoiceMessage;
 import com.chunxia.chatgpt.subscription.SubscriptionInfoProvider;
 import com.chunxia.chatgpt.tools.Tools;
 import com.chunxia.chatgpt.voicerecord.VoiceRecordActivity;
-import com.chunxia.chatgpt.model.message.Message;
-import com.chunxia.chatgpt.model.message.TextMessage;
-import com.chunxia.chatgpt.model.message.VoiceMessage;
-
 import com.chunxia.chatgpt.voicerecord.models.Events;
 import com.chunxia.firebase.id.FirebaseInstanceIDManager;
 import com.chunxia.firebase.model.UserUnInitException;
@@ -103,7 +101,7 @@ public class ChatActivity extends BaseActivity {
     LifecycleObserver chatObserver = new DefaultLifecycleObserver() {
         @Override
         public void onCreate(@NonNull LifecycleOwner owner) {
-            EventBus.getDefault().register(this);
+            EventBus.getDefault().register(ChatActivity.this);
         }
 
         @Override
@@ -114,7 +112,7 @@ public class ChatActivity extends BaseActivity {
         public void onDestroy(@NonNull LifecycleOwner owner) {
             multiRoundChatAgent.cancelAllCurrentThread();
             MessageManager.getInstance().saveMessages(ActivityIntentKeys.getActivityChatModeKey(chatMode), adapter.getItems());
-            EventBus.getDefault().unregister(this);
+            EventBus.getDefault().unregister(ChatActivity.this);
         }
     };
 

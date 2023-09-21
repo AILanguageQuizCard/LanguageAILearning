@@ -234,6 +234,7 @@ public class KVUtils {
         getMMKV(name).putBoolean(key, value);
     }
 
+
     //Int类型-----------------------------------------------------------------------------------------------
     public void putInt(String key, int value) {
         getMMKV().putInt(key, value);

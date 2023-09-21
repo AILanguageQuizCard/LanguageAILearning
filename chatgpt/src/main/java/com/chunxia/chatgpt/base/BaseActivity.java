@@ -9,16 +9,19 @@ import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
+import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.base.action.ActivityAction;
 import com.chunxia.chatgpt.base.action.BundleAction;
 import com.chunxia.chatgpt.base.action.ClickAction;
 import com.chunxia.chatgpt.base.action.HandlerAction;
 import com.chunxia.chatgpt.base.action.KeyboardAction;
+import com.chunxia.chatgpt.tools.Tools;
 
 import java.util.List;
 import java.util.Random;
@@ -49,6 +52,16 @@ public abstract class BaseActivity extends AppCompatActivity
         initLayout();
         initView();
         initData();
+    }
+
+    public void setStatusBarWhite() {
+        Tools.setSystemBarColor(this, R.color.white);
+        Tools.setSystemBarLight(this);
+    }
+
+    public void setStatusBarColor(@ColorRes int color) {
+        Tools.setSystemBarColor(this, color);
+        Tools.setSystemBarLight(this);
     }
 
     /**

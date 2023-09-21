@@ -1,0 +1,17 @@
+<resources>
+    <!-- Titles -->
+    <string-array name="about_title_array">
+        <item>Embark on Your Language Learning Journey</item>
+        <item>Effortlessly Create Quizcards</item>
+        <item>Engage in Real-time Conversations with AI</item>
+        <item>Tailor Your Learning Content</item>
+    </string-array>
+
+    <!-- Descriptions -->
+    <string-array name="about_description_array">
+        <item>Harness cutting-edge AI technology for an authentic conversational experience, helping you master a new language faster.</item>
+        <item>Transform every interaction with the AI into Quizcards, allowing you to review and reinforce your understanding anytime.</item>
+        <item>Whether you\'re practicing everyday conversations or diving deep into specific topics, the AI provides immediate feedback to enhance your learning and practice.</item>
+        <item>Select particular topics or grammatical points and instantly generate multiple Quizcards, catering to your personalized learning needs.</item>
+    </string-array>
+</resources>
