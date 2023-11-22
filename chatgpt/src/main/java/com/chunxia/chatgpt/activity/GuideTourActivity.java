@@ -44,9 +44,6 @@ public class GuideTourActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        if (getGuideTourShowed()) {
-            jumpToMainActivity();
-        }
         setStatusBarColor(R.color.guide_tour_color);
     }
 
@@ -81,6 +78,12 @@ public class GuideTourActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 启动优化1: 如果已经显示过引导页，直接跳转到主页
+        // 原来的位置不对，原来的位置还是会setContentView
+        if (getGuideTourShowed()) {
+            jumpToMainActivity();
+        }
+
         super.onCreate(savedInstanceState);
 
         viewPager = (ViewPager) findViewById(R.id.guide_tour_view_pager);
