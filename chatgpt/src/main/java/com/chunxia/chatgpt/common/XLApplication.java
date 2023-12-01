@@ -7,6 +7,7 @@ import android.content.Context;
 import androidx.multidex.MultiDex;
 
 import com.chunxia.chatgpt.subscription.SubscriptionManager;
+import com.chunxia.chatgpt.timer.LaunchTimer;
 import com.chunxia.firebase.config.RemoteConfig;
 import com.chunxia.firebase.id.FirebaseInstanceIDManager;
 import com.chunxia.mmkv.KVUtils;
@@ -20,6 +21,7 @@ public class XLApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        LaunchTimer.startRecord();
         MultiDex.install(this);
     }
 

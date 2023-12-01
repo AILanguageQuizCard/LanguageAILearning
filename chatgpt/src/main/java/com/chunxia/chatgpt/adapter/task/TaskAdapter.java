@@ -3,6 +3,7 @@ package com.chunxia.chatgpt.adapter.task;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.chunxia.chatgpt.R;
 import com.chunxia.chatgpt.activity.ActivityIntentKeys;
 import com.chunxia.chatgpt.activity.ChatActivity;
 import com.chunxia.chatgpt.common.XLIntent;
+import com.chunxia.chatgpt.timer.LaunchTimer;
 import com.chunxia.chatgpt.ui.TopicView2;
 
 import java.util.ArrayList;
@@ -93,9 +95,24 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return vh;
     }
 
+    boolean mHasRecorded;
+
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(@androidx.annotation.NonNull RecyclerView.ViewHolder holder, final int position) {
+        if (position == 0 && !mHasRecorded) {
+            mHasRecorded = true;
+            TaskItemViewHolder newHolder = (TaskItemViewHolder) holder;
+            newHolder.topicView.getViewTreeObserver()
+                    .addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                        @Override
+                        public boolean onPreDraw() {
+                            newHolder.topicView.getViewTreeObserver().removeOnPreDrawListener(this);
+                            LaunchTimer.endRecord("Task RecyclerView");
+                            return true;
+                        }
+                    });
+        }
         if (holder instanceof TaskItemViewHolder) {
             TopicInfo topicInfo = items.get(position);
             TaskItemViewHolder taskItemViewHolder = (TaskItemViewHolder) holder;
