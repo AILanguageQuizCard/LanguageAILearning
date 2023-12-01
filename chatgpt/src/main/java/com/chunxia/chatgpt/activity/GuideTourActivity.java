@@ -82,6 +82,7 @@ public class GuideTourActivity extends BaseActivity {
         // 原来的位置不对，原来的位置还是会setContentView
         if (getGuideTourShowed()) {
             jumpToMainActivity();
+            return;
         }
 
         super.onCreate(savedInstanceState);
