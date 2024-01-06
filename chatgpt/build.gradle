@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "com.chunxia.chatgpt"
         minSdkVersion 26
-        targetSdkVersion 33
+        targetSdkVersion 30
         versionCode 10021
         versionName "1.0.21.0"
         multiDexEnabled true
@@ -111,6 +111,7 @@ dependencies {
     implementation project(path: ':cardstackview')
     implementation project(path: ':mmkv')
     implementation project(path: ':firebase')
+    implementation project(path: ':start_opt')
 
 
     // 录音功能

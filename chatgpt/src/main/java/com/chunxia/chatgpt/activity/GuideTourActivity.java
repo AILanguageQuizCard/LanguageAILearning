@@ -80,12 +80,11 @@ public class GuideTourActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // 启动优化1: 如果已经显示过引导页，直接跳转到主页
         // 原来的位置不对，原来的位置还是会setContentView
+        super.onCreate(savedInstanceState);
         if (getGuideTourShowed()) {
             jumpToMainActivity();
             return;
         }
-
-        super.onCreate(savedInstanceState);
 
         viewPager = (ViewPager) findViewById(R.id.guide_tour_view_pager);
         btnNext = (Button) findViewById(R.id.guide_tour_btn_next);
