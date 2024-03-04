@@ -29,6 +29,7 @@ public class XLApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        context = base;
         LaunchTimer.startRecord();
         MultiDex.install(this);
     }
@@ -44,9 +45,7 @@ public class XLApplication extends Application {
 
         LaunchTimer.startRecord();
         TaskDispatcher.init(XLApplication.this);
-
         TaskDispatcher dispatcher = TaskDispatcher.createInstance();
-
         dispatcher.addTask(new InitMMKVTask())
                 .addTask(new InitRemoteConfigTask())
                 .addTask(new InitFirebaseTask())
@@ -58,7 +57,6 @@ public class XLApplication extends Application {
                 .start();
 
         dispatcher.await();
-
         LaunchTimer.endRecord("TaskDispatcher");
 
 //        如果不使用TaskDispatcher，可以使用下面的代码

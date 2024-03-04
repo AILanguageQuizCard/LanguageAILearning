@@ -17,6 +17,7 @@ import com.chunxia.learn.start_opt.utils.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -37,10 +38,15 @@ public class TaskDispatcher {
     private List<Class<? extends Task>> mClsAllTasks = new ArrayList<>();
     private volatile List<Task> mMainThreadTasks = new ArrayList<>();
     private CountDownLatch mCountDownLatch;
+    // todo CountDownLatch不需要加volatile么？，并不需要
+    //    CountDownLatch: 这个类是一个同步辅助类，在完成一组正在其他线程中执行的操作之前，它允许一个或多个线程等待。
+    //    CountDownLatch 的内部实现确保了它的操作是线程安全的。
+    //    当你修改 CountDownLatch 的状态时（例如，调用 countDown() 方法），这个状态的改变对其他线程是可见的。因此，通常情况下，
+    //    将 CountDownLatch 实例标记为 volatile 是不必要的。
     private AtomicInteger mNeedWaitCount = new AtomicInteger();//保存需要Wait的Task的数量
-    private List<Task> mNeedWaitTasks = new ArrayList<>();//调用了await的时候还没结束的且需要等待的Task
+    private volatile List<Task> mNeedWaitTasks = new ArrayList<>();//调用了await的时候还没结束的且需要等待的Task
     private volatile List<Class<? extends Task>> mFinishedTasks = new ArrayList<>(100);//已经结束了的Task
-    private HashMap<Class<? extends Task>, ArrayList<Task>> mDependedHashMap = new HashMap<>();
+    private ConcurrentHashMap<Class<? extends Task>, ArrayList<Task>> mDependedHashMap = new ConcurrentHashMap<>();
     private AtomicInteger mAnalyseCount = new AtomicInteger();//启动器分析的次数，统计下分析的耗时；
 
     private TaskDispatcher() {

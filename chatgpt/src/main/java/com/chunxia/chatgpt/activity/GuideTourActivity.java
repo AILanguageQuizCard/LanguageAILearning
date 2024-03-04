@@ -25,7 +25,6 @@ import com.chunxia.mmkv.KVUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
 public class GuideTourActivity extends BaseActivity {
     private static final int MAX_STEP = 4;
 
