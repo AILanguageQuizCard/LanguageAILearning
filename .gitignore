@@ -86,4 +86,4 @@ lint/tmp/
 # lint/reports/
 
 chatgpt/google-services.json
-/chatgpt/google-services.json
+*/google-services.json
