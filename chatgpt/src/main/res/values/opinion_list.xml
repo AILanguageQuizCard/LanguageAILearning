@@ -1,0 +1,54 @@
+<resources>
+    <string-array name="opinion_list">
+        <item>Education is a human right.</item>
+        <item>Organic food is healthier.</item>
+        <item>Climate change is a serious issue.</item>
+        <item>Smoking should be banned in public.</item>
+        <item>Everyone should learn a second language.</item>
+        <item>Online learning is as effective as traditional education.</item>
+        <item>Money can\'t buy happiness.</item>
+        <item>Privacy is more important than security.</item>
+        <item>Junk food should be taxed higher.</item>
+        <item>Public transport should be free.</item>
+        <item>Animal testing is unethical.</item>
+        <item>Working from home is more productive.</item>
+        <item>Physical punishment is not an effective discipline method.</item>
+        <item>Recycling should be mandatory.</item>
+        <item>Vegetarianism is better for the environment.</item>
+        <item>Social media does more harm than good.</item>
+        <item>Children should not use smartphones.</item>
+        <item>Fast fashion contributes to environmental damage.</item>
+        <item>Volunteering should be part of school curriculum.</item>
+        <item>Death penalty should be abolished.</item>
+        <item>Nuclear power is necessary for future energy needs.</item>
+        <item>AI will take over human jobs.</item>
+        <item>Vaccination should be mandatory.</item>
+        <item>Competitive sports are good for children.</item>
+        <item>Renewable energy is worth the cost.</item>
+        <item>Music education is as important as science.</item>
+        <item>Eating meat is unethical.</item>
+        <item>Gaming has more positive effects than negative.</item>
+        <item>We are too dependent on technology.</item>
+        <item>Traditional medicine is underrated.</item>
+        <item>Minimum wage should be increased.</item>
+        <item>Space exploration is a waste of money.</item>
+        <item>We should consume less and recycle more.</item>
+        <item>Homework does not help students.</item>
+        <item>Gender equality has not been achieved yet.</item>
+        <item>Plastic bags should be banned.</item>
+        <item>Animals should not be kept in zoos.</item>
+        <item>Life-skill education is as important as academic education.</item>
+        <item>Governments should invest more in public health.</item>
+        <item>Corporal punishment should be banned in schools.</item>
+        <item>Overpopulation is the root cause of environmental problems.</item>
+        <item>Freedom of speech has its limits.</item>
+        <item>Self-driving cars are the future.</item>
+        <item>Sugar is a major cause of obesity.</item>
+        <item>Artificial sweeteners are harmful.</item>
+        <item>Meditation improves mental health.</item>
+        <item>Immigration boosts the economy.</item>
+        <item>Cyberbullying is a major problem.</item>
+        <item>Online dating is harmful.</item>
+        <item>Sports stars are overpaid.</item>
+    </string-array>
+</resources>

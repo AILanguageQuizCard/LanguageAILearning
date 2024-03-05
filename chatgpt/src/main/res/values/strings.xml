@@ -1,0 +1,234 @@
+<resources>
+    <string name="app_name">AILingoMaster</string>
+
+    <string name="topic_title_1">Simple Chat</string>
+    <string name="topic_title_2">English Only Chat</string>
+    <string name="topic_title_3">English Grammar Correction Chat</string>
+    <string name="topic_title_4">How Do You Say It In English?</string>
+    <string name="topic_title_5">Informal Chat</string>
+    <string name="chat_task_top_view_title">ChatGPT</string>
+    <string name="chat_setting_top_view_title">Settings</string>
+
+    <string name="topic_description_1">Start a simple conversation with ChatGPT and ask it any question.</string>
+    <string name="topic_description_2">Start a English only conversation with ChatGPT, you can use this function to practice your English.</string>
+    <string name="topic_description_3">ChatGPT will correct any English sentences you send to it.</string>
+    <string name="topic_description_4"> If you have any expressions that you don\'t know how to say in English, you can ask ChatGPT in this option. </string>
+    <string name="topic_description_5">ChatGPT will try to chat with you in a colloquial language as much as possible.</string>
+
+    <string name="topic_training_1">Topic training</string>
+    <string name="topic_training_description_1">You need to provide a topic first, and AI will generate authentic phrase and sentence expressions related to the topic, which will be presented to you in the form of cards. You can play the audio and also save this training session.</string>
+
+    <string name="topic_training_2">Opinion training</string>
+    <string name="topic_training_description_2">You first provide a viewpoint, such as \'I believe higher education should be free\', and we will generate examples and related expressions to support your argument for you to learn from.</string>
+
+    <string name="topic_training_3">Sentence Pattern Training</string>
+    <string name="topic_training_description_3">You provide a sentence pattern, such as "I would like…", and we will provide examples for you to learn from.</string>
+
+    <string name="topic_training_4">Grammar Training</string>
+    <string name="topic_training_description_4">Provide us with a grammar topic, such as subjunctive mood, and we will give you examples for your study.</string>
+
+
+    <string name="sentence_pattern_hint_question">Please enter the sentence pattern</string>
+    <string name="grammar_hint_question">Please enter the grammar</string>
+
+    <string name="opinion_training_hint_question">Please enter your opinion</string>
+
+    <string name="sentence_pattern_training_hint_question">Please enter the sentence pattern</string>
+
+    <string name="setting_item_voice_language_name">Mother Language</string>
+
+    <string name="topic_training_hint_question">Hello, What topic would you like to search?</string>
+
+    <string name="chat_copy_successfully">copy successfully!</string>
+    <string name="setting_item_learning_language">Learning language</string>
+    <string name="setting_item_native_language">Your native language</string>
+
+    <string name="setting_item_3">Difficulty of generating text</string>
+    <string name="setting_item_4">Contact us</string>
+    <string name="setting_item_5">Voice</string>
+    <string name="setting_item_6">Voice</string>
+    <string name="cDescription" />
+    <string name="strZeroTimer">00:00:00 / 00:00:00</string>
+
+    <string name="review_item_start_review">Start Review</string>
+    <string name="review_add_your_own_review_card">Add Your Own Cards</string>
+
+    <string name="app_launcher_name">Voice Recorder</string>
+    <string name="recording_saved_successfully">Recording saved successfully</string>
+    <string name="recording">Recording</string>
+    <string name="no_recordings_found">No recordings created by this app\nhave been found</string>
+    <string name="no_recordings_in_folder_found">No recordings have been found\nin the selected folder</string>
+    <string name="paused">Paused</string>
+    <string name="recorder">Recorder</string>
+    <string name="player">Player</string>
+    <!-- Confirmation dialog -->
+    <!-- Are you sure you want to delete 5 recordings? -->
+    <string name="delete_recordings_confirmation">Delete %s\?</string>
+    <plurals name="delete_recordings">
+        <item quantity="one">%d recording</item>
+        <item quantity="other">%d recordings</item>
+    </plurals>
+    <!-- Settings -->
+    <string name="try_hiding_notification">Try hiding the recording notification</string>
+    <string name="save_recordings_in">Save recordings in</string>
+    <string name="audio_source">Audio source</string>
+    <string name="bitrate">Bitrate</string>
+    <string name="record_after_launch">Start recording automatically after launching the app</string>
+    <!-- Settings Audio source selection -->
+    <string name="audio_source_camcorder">Camera</string>
+    <string name="audio_source_default">Android default</string>
+    <string name="audio_source_unprocessed">Unprocessed</string>
+    <string name="audio_source_microphone">Microphone</string>
+    <string name="audio_source_voice_recognition">Voice recognition</string>
+    <string name="audio_source_voice_communication">Voice communication</string>
+    <string name="audio_source_voice_performance">Voice performance</string>
+    <!-- FAQ -->
+    <string name="faq_1_title">Can I hide the notification icon during recording?</string>
+    <string name="faq_1_text">Well, it depends. While you use your device it is no longer possible to fully hide the notifications of apps like this.
+        If you check the proper setting item, the app will do its best to hide it. You can hide it on the lockscreen though, if you disable the displaying of sensitive notifications in your device settings.</string>
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+    <string name="version_unknown">Unknown</string>
+
+    <string name="subscribe">Subscribe</string>
+    <string name="basic">Basic</string>
+    <string name="moderate">Moderate</string>
+    <string name="quite">Quite</string>
+    <string name="ultimate">Ultimate</string>
+    <string name="github">Github</string>
+    <string name="home">Home</string>
+    <string name="achievements">Achievements</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
+    <string name="topic_card_voice_play_text">Play</string>
+    <string name="topic_card_favorite_text">Add to Review List</string>
+
+
+    <!-- NavigationView -->
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
+    <string name="edit_current_card">edit current card</string>
+    <string name="add_quiz_cards">add cards</string>
+    <string name="delete_current_card">delete current card</string>
+    <string name="remove_spot_from_first">Remove spot from first</string>
+    <string name="remove_spot_from_last">Remove spot from last</string>
+    <string name="replace_first_spot">Replace first spot</string>
+    <string name="swap_first_for_last">Swap first for last</string>
+
+
+    <string name="chat_activity_add_quiz_cardlayout_text"> Add to Quiz Cards</string>
+
+    <string name="chat_review_top_view_title"> Quiz Card Lists</string>
+
+    <string name="train_card_add_to_review_set_successfully"> Add successfully! </string>
+
+    <string name="expand_text_view_expandStr">Unfold</string>
+    <string name="expand_text_view_foldStr">Fold</string>
+
+    <string name="subscription_description_title1">Unlimited</string>
+    <string name="subscription_description_detail1">Countless conversations</string>
+    <string name="subscription_description_title2">Ad-free</string>
+    <string name="subscription_description_detail2">Not disturbed by advertisements</string>
+    <string name="subscription_description_title3">Voice playback</string>
+    <string name="subscription_description_detail3">Hear the pronunciation of the text anytime, anywhere</string>
+    <string name="subscription_description_title4">Voice input</string>
+    <string name="subscription_description_detail4">No need to type, you can input your question via voice</string>
+    <string name="subscription_option_name1">Yearly Subscription</string>
+    <string name="subscription_option_name1_description">Auto-renewal</string>
+    <string name="subscription_option_title1">Monthly subscription</string>
+
+    <string name="subscription_option_monthly_description">Most popular option, cancel freely</string>
+    <string name="subscription_option_seasonly_description">Auto-subcribe from next season, cancel freely</string>
+    <string name="subscription_option_yearly_description">Cheapest option per day, cancel freely</string>
+
+    <string name="subscription_option_monthly_month"> /Month</string>
+    <string name="subscription_option_seasonly_season"> /3 Months</string>
+    <string name="subscription_option_yearly_year"> /Year</string>
+
+    <string name="subscription_option_title2">Quarterly subscription</string>
+    <string name="subscription_option_title3">Annual subscription</string>
+    <string name="deck_options">Deck options</string>
+    <string name="title_preset_name_input_dialog">Preset name</string>
+
+    <string name="title_new_card_list_input_dialog_title">Input Set Name</string>
+    <string name="review_card_already_review">reviewed</string>
+    <string name="review_card_reviewing">reviewing</string>
+    <string name="review_card_unreview">unreviewed</string>
+    <string name="review_card_last_review_time">last review</string>
+    <string name="fragment_review_add_new_list">Add Card List</string>
+    <string name="review_bottom_list_add_new_card">Add Card</string>
+    <string name="review_bottom_list_favorite">Save</string>
+    <string name="review_bottom_list_delete_card_list">Delete Card List</string>
+    <string name="review_bottom_list_rename">Rename Card List</string>
+    <string name="fragment_start_button">Start Review</string>
+    <string name="title_new_card_list_empty_input_toast">Please enter the name of the card set.</string>
+    <string name="title_new_card_list_input_already_toast">The card set already exists.</string>
+    <string name="title_new_card_list_rename_already_exist_toast">The card set already exists.</string>
+    <string name="review_fragment_empty_card_list_hint">The card set is empty</string>
+    <string name="setting_language_difficulty_option1">Easy</string>
+    <string name="setting_language_difficulty_option2">Medium</string>
+    <string name="setting_language_difficulty_option3">Advanced</string>
+    <string name="setting_language_difficulty_title">Text Generation Difficulty</string>
+    <string name="setting_language_difficulty_cancel">Cancel</string>
+    <string name="setting_language_difficulty_ok">Select</string>
+    <string name="activity_add_review_card_question_title">Question</string>
+    <string name="activity_add_review_card_answer_title">Answer</string>
+    <string name="activity_add_review_card_topic_title">Topic</string>
+    <string name="setting_item_email_address">englishchatai@gmail.com</string>
+    <string name="activity_review_title">Review</string>
+
+    <string name="subscription_reminder_view_text1">Remaining trial time  is </string>
+    <string name="subscription_reminder_view_text2">, Subscribe now!</string>
+
+    <string name="subscription_reminder_view_trail_over">Your trial period has ended. You can still access flashcards, but can no longer converse with ChatGPT or generate language learning material.</string>
+    <string name="subscription_reminder_view_trail_over_subscribe_now">Subscribe now!</string>
+    <string name="add_review_card_submit">Submit</string>
+    <string name="subscribe_activity_subscribe_button">立即订阅</string>
+    <string name="most_popular">most popular</string>
+
+
+    <string name="home_nav_index">chat</string>
+    <string name="home_nav_found">learn</string>
+    <string name="home_nav_message">review</string>
+    <string name="home_nav_me">setting</string>
+    <string name="check_for_updates">Check for updates</string>
+
+    <string-array name="learning_language_list">
+        <item>Chinese;中文普通话;Chinese</item>
+        <item>English;English(US);English</item>
+        <item>Spanish;Español;Spanish</item>
+        <item>French;français;French</item>
+        <item>German;Deutsch;German</item>
+        <item>Portuguese;Português;Portuguese</item>
+        <item>Italian;Italiano;Italian</item>
+        <item>Japanese;日本語;Japanese</item>
+        <item>Korean;한국어;Korean</item>
+        <item>Russian;Русский;Russian</item>
+        <item>Dutch;Nederlands;Dutch</item>
+        <item>Greek;Ελληνικά;Greek</item>
+        <item>Danish;Dansk;Danish</item>
+        <item>Finnish;Suomi;Finnish</item>
+        <item>Hungarian;Magyar;Hungarian</item>
+        <item>Norwegian;Norsk;Norwegian</item>
+        <item>Polish;Polski;Polish</item>
+        <item>Romanian;Română;Romanian</item>
+        <item>Serbian;Српски;Serbian</item>
+        <item>Slovak;Slovenský;Slovak</item>
+        <item>Swedish;Svenska;Swedish</item>
+        <item>Ukrainian;Українська;Ukrainian</item>
+        <item>Turkish;Türkçe;Turkish</item>
+        <item>Icelandic;Íslenska;Icelandic</item>
+        <item>Czech;Čeština;Czech</item>
+        <item>Latvian;Latviešu;Latvian</item>
+        <item>Lithuanian;Lietuvių;Lithuanian</item>
+        <item>Bulgarian;Български;Bulgarian</item>
+        <item>Filipino;Filipino;Filipino</item>
+        <item>Hindi;हिन्दी;Hindi</item>
+        <item>Indonesian;Bahasa Indonesia;Indonesian</item>
+        <item>Malay;Bahasa Melayu;Malay</item>
+        <item>Vietnamese;Tiếng Việt;Vietnamese</item>
+    </string-array>
+</resources>

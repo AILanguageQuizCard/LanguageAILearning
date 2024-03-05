@@ -1,0 +1,41 @@
+<resources>
+<string-array name="voice_learning_language">
+    <item>中文;标准;cmn-CN;cmn-CN-Standard-A;女</item>
+    <item>English;Standard;en-AU;en-AU-Standard-A;FEMALE</item>
+    <item>Español;标准;es-ES;es-ES-Standard-A;女</item>
+    <item>français;标准;fr-FR;fr-FR-Standard-A;女</item>
+    <item>Deutsch;标准;de-DE;de-DE-Standard-A;女</item>
+    <item>Português;标准;pt-PT;pt-PT-Standard-A;女</item>
+    <item>Italiano;标准;it-IT;it-IT-Standard-A;女</item>
+    <item>日本語;标准;ja-JP;ja-JP-Standard-A;女</item>
+    <item>한국어;标准;ko-KR;ko-KR-Standard-A;女</item>
+    <item>Русский;标准;ru-RU;ru-RU-Standard-A;女</item>
+    <item>Nederlands;标准;nl-NL;nl-NL-Standard-A;女</item>
+    <item>Ελληνικά;标准;el-GR;el-GR-Standard-A;女</item>
+    <item>Dansk;标准;da-DK;da-DK-Standard-A;女</item>
+    <item>Suomi;标准;fi-FI;fi-FI-Standard-A;女</item>
+    <item>Magyar;标准;hu-HU;hu-HU-Standard-A;女</item>
+    <item>Norsk;标准;nb-NO;nb-NO-Standard-A;女</item>
+    <item>Polski;标准;pl-PL;pl-PL-Standard-A;女</item>
+    <item>Română;标准;ro-RO;ro-RO-Standard-A;女</item>
+    <item>Српски;标准;sr-RS;sr-RS-Standard-A;女</item>
+    <item>Slovenský;标准;sk-SK;sk-SK-Standard-A;女</item>
+    <item>Svenska;标准;sv-SE;sv-SE-Standard-A;女</item>
+    <item>Українська;标准;uk-UA;uk-UA-Standard-A;女</item>
+    <item>Türkçe;标准;tr-TR;tr-TR-Standard-A;女</item>
+    <item>Íslenska;标准;is-IS;is-IS-Standard-A;女</item>
+    <item>Čeština;标准;cs-CZ;cs-CZ-Standard-A;女</item>
+    <item>Latviešu;标准;lv-LV;lv-LV-Standard-A;男</item>
+    <item>Lietuvių;标准版;lt-LT;lt-LT-Standard-A;男</item>
+    <item>Български;标准;bg-BG;bg-BG-Standard-A;女</item>
+    <item>Filipino;标准;fil-PH;fil-PH-Standard-A;女</item>
+    <!--印地语（印度）-->
+    <item>हिन्दी;标准;hi-IN;hi-IN-Standard-A;女</item>
+    <!--印度尼西亚语-->
+    <item>Bahasa Indonesia;标准;id-ID;id-ID-Standard-A;女</item>
+    <!--马来语-->
+    <item>Bahasa Melayu;标准;ms-MY;ms-MY-Standard-A;女</item>
+    <!--越南语-->
+    <item>Tiếng Việt;标准;vi-VN;vi-VN-Standard-A;女</item>
+</string-array>
+</resources>

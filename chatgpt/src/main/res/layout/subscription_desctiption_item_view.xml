@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+        
+    <ImageView
+        android:id="@+id/subscription_description_icon"
+        android:src="@drawable/subscription_description1"
+        android:layout_centerVertical="true"
+        android:layout_width="32dp"
+        android:layout_height="32dp"/>
+    
+    <TextView
+        android:id="@+id/subscription_option_title_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/subscription_description_icon"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="0dp"
+        android:text="无限制"
+        android:maxLines="1"
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/subscription_description_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/subscription_description_icon"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="18dp"
+        android:text="进行无数次对话"
+        android:maxLines="2"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+</RelativeLayout>

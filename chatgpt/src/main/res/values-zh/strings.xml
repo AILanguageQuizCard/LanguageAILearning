@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AILingoMaster</string>
+
+    <string name="topic_title_1">简单对话</string>
+    <string name="topic_title_2">英文对话</string>
+    <string name="topic_title_3">英语语法改错</string>
+    <string name="topic_title_4">英文表达怎么说？</string>
+    <string name="topic_title_5">口语聊天</string>
+    <string name="chat_task_top_view_title">ChatGPT</string>
+    <string name="chat_setting_top_view_title">设置</string>
+
+    <string name="topic_description_1">开始一个和Chatgpt的简单对话，你可以问它任何问题。</string>
+    <string name="topic_description_2">开始一个只用英文和ChatGPT聊天的对话，您可以利用这个功能来练习您的英语。</string>
+    <string name="topic_description_3">ChatGPT会纠正您发送给它的任何英语句子。</string>
+    <string name="topic_description_4">如果你有任何表达不知道改怎么用英文说，你可以在这个选项中询问Chatgpt。</string>
+    <string name="topic_description_5"> ChatGPT会尽量用口语化的语言来跟你聊天。</string>
+
+    <string name="topic_training_1">话题训练</string>
+    <string name="topic_training_description_1"> 您需要首先提供一个话题，AI会为您生成围绕该话题的地道的短语表达和句子表达，并以卡片的形式一一呈现给您，您可以播放语音，最后也可以收藏这次训练。</string>
+
+    <string name="topic_training_2"> 观点训练 </string>
+    <string name="topic_training_description_2">您首先提供一个观点，比如“我认为高等教育应该是免费的”，我们将为您生成论证的例子和相关表达，以供您学习。</string>
+
+    <string name="topic_training_3"> 句型训练 </string>
+    <string name="topic_training_description_3">您提供一个句型，比如"I would like ..."，我们将为您举例，供您学习</string>
+
+    <string name="topic_training_4">语法训练</string>
+    <string name="topic_training_description_4">您提供一个语法知识点，比如虚拟语气，我们将为您举例，供您学习</string>
+
+    <string name = "sentence_pattern_hint_question"> 请输入句型</string>
+    <string name = "grammar_hint_question">请输入语法知识点</string>
+
+    <string name = "opinion_training_hint_question"> 请输入您的观点</string>
+
+
+    <string name="setting_item_voice_language_name">母语</string>
+
+    <string name = "sentence_pattern_training_hint_question"> 请输入句型 </string>
+
+    <string name="topic_training_hint_question">
+        你好！你想知道关于什么的表达呢？
+    </string>
+
+
+    <string name="chat_copy_successfully">成功复制</string>
+    <string name="setting_item_learning_language">学习语言</string>
+    <string name="setting_item_native_language">母语</string>
+    <string name="setting_item_3">生成文本难度</string>
+    <string name="setting_item_4">联系我们</string>
+    <string name="setting_item_5">语音</string>
+    <string name="setting_item_6">语音</string>
+    <string name="cDescription" />
+    <string name="strZeroTimer">00:00:00 / 00:00:00</string>
+
+    <string name="review_item_start_review">开始复习</string>
+    <string name="review_add_your_own_review_card">添加卡片</string>
+
+
+    <string name="app_launcher_name">录音机</string>
+    <string name="recording_saved_successfully">已成功保存录音</string>
+    <string name="recording">录音中</string>
+    <string name="no_recordings_found">未找到由此应用
+\n创建的录音</string>
+    <string name="no_recordings_in_folder_found">未在所选的文件夹中找到
+\n录音</string>
+    <string name="paused">暂停</string>
+    <string name="recorder">录音机</string>
+    <string name="player">播放器</string>
+    <!-- Confirmation dialog -->
+    <string name="delete_recordings_confirmation">删除 %s？</string>
+    <!-- Are you sure you want to delete 5 recordings? -->
+    <plurals name="delete_recordings">
+        <item quantity="other">%d 个录音</item>
+    </plurals>
+    <!-- Settings -->
+    <string name="try_hiding_notification">尝试隐藏录音通知提示</string>
+    <string name="save_recordings_in">保存录音至</string>
+    <string name="audio_source">音频来源</string>
+    <string name="bitrate">比特率</string>
+    <string name="record_after_launch">启动应用程序后自动开始录制</string>
+    <!-- Settings Audio source selection -->
+    <string name="audio_source_camcorder">相机</string>
+    <string name="audio_source_default">安卓默认</string>
+    <string name="audio_source_unprocessed">未处理的</string>
+    <string name="audio_source_microphone">麦克风</string>
+    <string name="audio_source_voice_recognition">语音识别</string>
+    <string name="audio_source_voice_communication">语音通讯</string>
+    <string name="audio_source_voice_performance">语音性能</string>
+    <!-- FAQ -->
+    <string name="faq_1_title">在录音过程中我可以隐藏通知提示图标么？</string>
+    <string name="faq_1_text">这个，视情况而定。当您正在使用设备的时候，现在已经不可能完全隐藏像此类应用程序的通知图标了。 如果您勾选恰当的设定条目，应用程序将秦可能的隐藏自身。您仍可以在锁屏界面隐藏它，如果您在您设备设定中禁用显示敏感内容的通知提示的话。</string>
+    <string name="version_unknown">Unknown</string>
+
+    <string name="subscribe">Subscribe</string>
+    <string name="basic">Basic</string>
+    <string name="moderate">Moderate</string>
+    <string name="quite">Quite</string>
+    <string name="ultimate">Ultimate</string>
+    <string name="github">Github</string>
+    <string name="home">Home</string>
+    <string name="achievements">Achievements</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
+    <string name="topic_card_voice_play_text">播放</string>
+    <string name="topic_card_favorite_text">添加到复习列表</string>
+
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
+    <string name="edit_current_card">编辑卡片</string>
+    <string name="add_quiz_cards">添加卡片</string>
+    <string name="delete_current_card">删除卡片</string>
+    <string name="remove_spot_from_first">Remove spot from first</string>
+    <string name="remove_spot_from_last">Remove spot from last</string>
+    <string name="replace_first_spot">Replace first spot</string>
+    <string name="swap_first_for_last">Swap first for last</string>
+
+
+    <string name="chat_activity_add_quiz_cardlayout_text"> 添加卡片 </string>
+    <string name="chat_review_top_view_title"> 记忆卡片 </string>
+
+    <string name="train_card_add_to_review_set_successfully"> 成功添加 </string>
+    <string name="expand_text_view_expandStr">展开</string>
+    <string name="expand_text_view_foldStr">收起</string>
+    <string name="subscription_description_title1">无限制</string>
+    <string name="subscription_description_detail1">进行无数次对话</string>
+    <string name="subscription_description_title2">无广告</string>
+    <string name="subscription_description_detail2">不被广告打扰</string>
+    <string name="subscription_description_title3">语音播放</string>
+    <string name="subscription_description_detail3">随时随地可听到文本的读音</string>
+    <string name="subscription_description_title4">语音输入</string>
+    <string name="subscription_description_detail4">无需打字语音即可输入您的问题</string>
+    <string name="subscription_option_name1">年订阅</string>
+    <string name="subscription_option_name1_description">自动续订</string>
+    <string name="subscription_option_title1">月订阅</string>
+    <string name="subscription_option_title2">季订阅</string>
+    <string name="subscription_option_title3">年订阅</string>
+
+    <string name="subscription_option_monthly_description">最受欢迎，下个月自动续订，免费取消续订</string>
+    <string name="subscription_option_seasonly_description">下个季度自动续订，免费取消续订</string>
+    <string name="subscription_option_yearly_description">最便宜，免费取消修续订</string>
+
+    <string name="subscription_option_monthly_month"> /Month</string>
+
+    <string name="subscription_option_seasonly_season"> /3 Months</string>
+    <string name="subscription_option_yearly_year"> /Year</string>
+
+
+    <string name="deck_options">Deck options</string>
+    <string name="title_preset_name_input_dialog">重命名</string>
+
+    <string name="title_new_card_list_input_dialog_title">输入新列表名</string>
+    <string name="review_card_already_review">已复习</string>
+    <string name="review_card_reviewing">复习中</string>
+    <string name="review_card_unreview">未复习</string>
+    <string name="review_card_last_review_time">上次复习</string>
+    <string name="fragment_review_add_new_list">新增列表</string>
+    <string name="review_bottom_list_add_new_card">添加卡片</string>
+    <string name="review_bottom_list_favorite">收藏</string>
+    <string name="review_bottom_list_delete_card_list">删除卡片组</string>
+    <string name="review_bottom_list_rename">修改标题</string>
+    <string name="fragment_start_button">开始复习</string>
+    <string name="title_new_card_list_empty_input_toast">请输入卡片集名称</string>
+    <string name="title_new_card_list_input_already_toast">卡片组已经存在了</string>
+    <string name="title_new_card_list_rename_already_exist_toast">该主题已存在</string>
+    <string name="review_fragment_empty_card_list_hint">该卡片集为空</string>
+    <string name="setting_language_difficulty_option1">简单</string>
+    <string name="setting_language_difficulty_option2">中等</string>
+    <string name="setting_language_difficulty_option3">高级</string>
+    <string name="setting_language_difficulty_title">生成文本难度</string>
+    <string name="setting_language_difficulty_cancel">取消</string>
+    <string name="setting_language_difficulty_ok">选择</string>
+    <string name="activity_add_review_card_question_title">Question</string>
+    <string name="activity_add_review_card_answer_title">Answer</string>
+    <string name="activity_add_review_card_topic_title">Topic</string>
+    <string name="setting_item_email_address">englishchatai@gmail.com</string>
+    <string name="activity_review_title">Review</string>
+
+    <string name="subscription_reminder_view_text1">试用时间还剩</string>
+    <string name="subscription_reminder_view_text2">, 赶紧订阅吧!</string>
+
+    <string name="subscription_reminder_view_trail_over">您的试用时间已结束。您还可以继续访问记忆卡片，但无法和chatGPT对话或生成语料了。</string>
+    <string name="subscription_reminder_view_trail_over_subscribe_now">赶快订阅吧!</string>
+    <string name="add_review_card_submit">Submit</string>
+    <string name="subscribe_activity_subscribe_button">立即订阅</string>
+    <string name="most_popular">most popular</string>
+
+
+    <string name="home_nav_index">对话</string>
+    <string name="home_nav_found">发现</string>
+    <string name="home_nav_message">复习</string>
+    <string name="home_nav_me">设置</string>
+    <string name="check_for_updates">Check for updates</string>
+
+    <string-array name="learning_language_list">
+        <item>中文;中文普通话;Chinese</item>
+        <item>英语;English(US);English</item>
+        <item>西班牙语;Español;Spanish</item>
+        <item>法语;français;French</item>
+        <item>德语;Deutsch;German</item>
+        <item>葡萄牙语;Português;Portuguese</item>
+        <item>意大利语;Italiano;Italian</item>
+        <item>日语;日本語;Japanese</item>
+        <item>韩语;한국어;Korean</item>
+        <item>俄语;Русский;Russian</item>
+        <item>荷兰语;Nederlands;Dutch</item>
+        <item>希腊语;Ελληνικά;Greek</item>
+        <item>丹麦语;Dansk;Danish</item>
+        <item>芬兰语;Suomi;Finnish</item>
+        <item>匈牙利语;Magyar;Hungarian</item>
+        <item>挪威语;Norsk;Norwegian</item>
+        <item>波兰语;Polski;Polish</item>
+        <item>罗马尼亚语;Română;Romanian</item>
+        <item>塞尔维亚语;Српски;Serbian</item>
+        <item>斯洛伐克语;Slovenský;Slovak</item>
+        <item>瑞典语;Svenska;Swedish</item>
+        <item>乌克兰语;Українська;Ukrainian</item>
+        <item>土耳其语;Türkçe;Turkish</item>
+        <item>冰岛语;Íslenska;Icelandic</item>
+        <item>捷克语;Čeština;Czech</item>
+        <item>拉脱维亚语;Latviešu;Latvian</item>
+        <item>立陶宛语;Lietuvių;Lithuanian</item>
+        <item>保加利亚语;Български;Bulgarian</item>
+        <item>菲律宾语;Filipino;Filipino</item>
+        <item>印地语;हिन्दी;Hindi</item>
+        <item>印尼语;Bahasa Indonesia;Indonesian</item>
+        <item>马来语;Bahasa Melayu;Malay</item>
+        <item>越南语;Tiếng Việt;Vietnamese</item>
+    </string-array>
+
+
+</resources>

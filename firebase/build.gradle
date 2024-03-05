@@ -1,0 +1,53 @@
+plugins {
+
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.chunxia.firebase'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 26
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:32.2.2')
+    implementation 'com.google.firebase:firebase-analytics' // Analytics
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.2' // Auth
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")   // App Check
+    implementation("com.google.firebase:firebase-config")   // Remote Config
+
+
+
+    implementation('com.google.firebase:firebase-firestore:24.7.1')
+//    firebase-firestore库与google cloud speech2text库冲突，
+//   {
+//        exclude group: 'com.google.api.grpc', module: 'proto-google-common-protos'
+//        exclude group: "com.google.firebase", module: "protolite-well-known-types"
+//        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+//        exclude group: "com.google.protobuf", module: "protobuf-javalite"
+//    }
+
+
+}

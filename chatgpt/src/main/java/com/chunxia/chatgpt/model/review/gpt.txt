@@ -1,0 +1,30 @@
+我在写一个android app，有以下两个数据类：
+public class LearnCard {
+    private String sentence;
+    private String translate;
+    private String voicePath;
+    private LearnRecord learnRecord;
+}
+
+public class LearnRecord {
+    private List<ReviewRecord> reviewRecordList;
+
+    public static class ReviewRecord{
+        private Date time;
+        private ReviewGrade lastReviewedGrade;
+    }
+
+    public enum ReviewGrade {
+        GOOD,
+        BAD
+    }
+}
+
+现在我希望写一个类ReviewCardManager来管理一个List<LearnCard>的持久化储存。我使用MMKV来存储这个List<LearnCard>
+在整个应用第一次使用到这给管理类时，初始化持久化储存。请把初始化方法写在initReviewCardsList()方法中
+同时，帮我实现一下方法：
+    public static List<LearnCard> getAllLearnCards() {    }
+    public static boolean saveLearnCards(List<LearnCard> learnCards) {  }
+    public static boolean addOneLearnCard(LearnCard learnCard) { }
+    public static boolean removeOneLearnCard(LearnCard learnCard) { }
+你能从函数方法名猜出这个方法需要干什么。

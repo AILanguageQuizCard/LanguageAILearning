@@ -1,0 +1,171 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
+}
+
+android {
+    compileSdkVersion 33
+    namespace 'com.chunxia.chatgpt'
+    defaultConfig {
+        applicationId "com.chunxia.chatgpt"
+        minSdkVersion 26
+        targetSdkVersion 30
+        versionCode 10021
+        versionName "1.0.21.0"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+
+        release {
+            buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //混淆开关
+//            minifyEnabled true
+//            // 是否zip对齐
+//            zipAlignEnabled true
+//            // 移除无用的resource文件
+//            shrinkResources false
+//            // 是否打开debuggable开关
+//            debuggable false
+//            // 是否打开jniDebuggable开关
+//            jniDebuggable false
+        }
+
+        debug{
+            buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            //混淆开关
+//            minifyEnabled true
+//            // 是否zip对齐
+//            zipAlignEnabled true
+//            // 移除无用的resource文件
+//            shrinkResources false
+//            // 是否打开debuggable开关
+//            debuggable false
+//            // 是否打开jniDebuggable开关
+//            jniDebuggable false
+
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/INDEX.LIST'
+    }
+
+}
+
+dependencies {
+//    implementation "com.imooc.router:router-annotations:1.0.1"
+//    kapt "com.imooc.router:router-processor:1.0.1"
+//    implementation "com.imooc.router:router-runtime:1.0.1"
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    // google support library ---------------------------------------------------------------------
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // 用于设置状态栏
+    implementation "androidx.core:core-ktx:1.10.0"
+
+    implementation 'com.mikhaellopez:circularimageview:3.2.0'          // circle image view
+
+    // openai api java version
+    implementation 'com.theokanning.openai-gpt3-java:api:0.11.0'
+    implementation 'com.theokanning.openai-gpt3-java:client:0.11.0'
+    implementation 'com.theokanning.openai-gpt3-java:service:0.11.0'
+
+    // android util library
+    implementation 'com.blankj:utilcodex:1.31.1'
+
+    // android navigation library
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+
+
+    // google Auth
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
+
+//    implementation 'com.facebook.android:facebook-android-sdk:8.x'
+
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+
+    implementation "com.airbnb.android:lottie:6.0.0"
+
+    implementation project(path: ':googlecloudtts')
+    implementation project(path: ':iap')
+    implementation project(path: ':app')
+    implementation project(path: ':deepl')
+    implementation project(path: ':cardstackview')
+    implementation project(path: ':mmkv')
+    implementation project(path: ':firebase')
+    implementation project(path: ':start_opt')
+
+
+    // 录音功能
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:8bcb4d3851'
+    implementation 'org.greenrobot:eventbus:3.3.1'
+    implementation 'com.github.Armen101:AudioRecordView:1.0.4'
+    implementation 'com.github.naman14:TAndroidLame:1.1'
+    implementation 'me.grantland:autofittextview:0.2.1'
+
+    // google text to voice platform
+//    implementation platform('com.google.cloud:libraries-bom:26.1.4') {
+//        exclude group: 'com.google.api.grpc', module: 'proto-google-common-protos'
+//        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+//    }
+
+
+    // google voice to text
+//    implementation ('com.google.cloud:google-cloud-speech:4.9.0') {
+//        exclude group: 'com.google.api.grpc', module: 'proto-google-common-protos'
+//        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+//    }
+
+    implementation "io.grpc:grpc-okhttp:1.52.1"
+
+    // google billing
+    implementation 'com.android.billingclient:billing:5.2.0'
+
+    // 引入:iap包会有冲突，通过下面的replaceBy可以解决
+    modules {
+        module("org.jetbrains.kotlin:kotlin-stdlib-jdk7") {
+            replacedBy("org.jetbrains.kotlin:kotlin-stdlib", "kotlin-stdlib-jdk7 is now part of kotlin-stdlib")
+        }
+        module("org.jetbrains.kotlin:kotlin-stdlib-jdk8") {
+            replacedBy("org.jetbrains.kotlin:kotlin-stdlib", "kotlin-stdlib-jdk8 is now part of kotlin-stdlib")
+        }
+    }
+    // :iap包
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
+    // google flexible box 用于Topic Train中选择潜在的话题
+    implementation 'com.google.android:flexbox:0.3.2'
+
+    // 轮子哥 权限库
+    implementation 'com.github.getActivity:XXPermissions:18.0'
+    // Shape 框架：https://github.com/getActivity/ShapeView
+    implementation 'com.github.getActivity:ShapeView:9.0'
+    // ShapeDrawable：https://github.com/getActivity/ShapeDrawable
+    implementation 'com.github.getActivity:ShapeDrawable:3.0'
+
+    // butterknife 不再维护，当java版本升级到11时，会有问题
+//    implementation 'com.jakewharton:butterknife:10.2.3'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+
+    implementation 'com.balysv:material-ripple:1.0.2'                  // ripple effect
+}
